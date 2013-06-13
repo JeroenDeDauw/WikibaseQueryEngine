@@ -6,21 +6,16 @@ php:
   - 5.5
 
 env:
-  - DBTYPE=mysql
-  - DBTYPE=sqlite
-  - DBTYPE=postgres
-  - STANDALONE=yes
-  - STANDALONE=no
+  matrix:
+    - DBTYPE=mysql
+    - DBTYPE=sqlite
+    - DBTYPE=postgres
+    - STANDALONE=yes
+    - STANDALONE=no
 
 matrix:
   allow_failures:
     - env: DBTYPE=postgres
-  include:
-    - env: DBTYPE=mysql
-    - env: DBTYPE=sqlite
-    - env: DBTYPE=postgres
-    - env: STANDALONE=yes
-    - env: STANDALONE=no
 
 before_script:
   - bash .travis.sh
