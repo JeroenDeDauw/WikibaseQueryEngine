@@ -23,6 +23,7 @@ use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\Store;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
+use Wikibase\Statement;
 use Wikibase\Test\ClaimListAccessTest;
 
 /**
@@ -122,8 +123,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( 8888 );
 
-		$claim = $item->newClaim( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) );
-		$item->addClaim( $claim );
+		$item->addClaim( new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) ) );
 
 		$this->store->getUpdater()->insertEntity( $item );
 
@@ -164,13 +164,12 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( 4444 );
 
-		$claim = $item->newClaim( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) );
-		$item->addClaim( $claim );
+		$item->addClaim( new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) ) );
 
 		$this->store->getUpdater()->insertEntity( $item );
 
 		$item->setClaims( new Claims( array(
-			$item->newClaim( new PropertyValueSnak( 42, new StringValue( 'Foo' ) ) )
+			new Statement( new PropertyValueSnak( 42, new StringValue( 'Foo' ) ) )
 		) ) );
 
 		$this->store->getUpdater()->updateEntity( $item );

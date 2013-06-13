@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use MessageReporter;
+use Wikibase\Database\MessageReporter;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\QueryInterface;
 use Wikibase\Database\QueryInterfaceException;

@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine;
 
-use MessageReporter;
+use Wikibase\Database\MessageReporter;
 
 /**
  * Interface for query stores providing access to all needed sub components

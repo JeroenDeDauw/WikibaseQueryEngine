@@ -6,11 +6,11 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
-use NullMessageReporter;
 use Wikibase\Claim;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\LazyDBConnectionProvider;
 use Wikibase\Database\MediaWikiQueryInterface;
+use Wikibase\Database\MessageReporter;
 use Wikibase\Database\MWDB\ExtendedMySQLAbstraction;
 use Wikibase\Database\TableDefinition;
 use Wikibase\EntityId;
@@ -20,6 +20,7 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\Store;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
+use Wikibase\Statement;
 
 /**
  * This program is free software; you can redistribute it and/or modify
@@ -118,7 +119,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( 1112 );
 
-		$claim = $item->newClaim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
+		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
@@ -127,7 +128,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( 1113 );
 
-		$claim = $item->newClaim( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) );
+		$claim = new Statement( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
@@ -136,7 +137,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( 1114 );
 
-		$claim = $item->newClaim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
+		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
@@ -145,10 +146,10 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( 1115 );
 
-		$claim = $item->newClaim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
+		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
 		$item->addClaim( $claim );
 
-		$claim = $item->newClaim( new PropertyValueSnak( 43, new NumberValue( 1 ) ) );
+		$claim = new Statement( new PropertyValueSnak( 43, new NumberValue( 1 ) ) );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
@@ -211,5 +212,19 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		return $argLists;
 	}
 
+}
+
+class NullMessageReporter implements MessageReporter {
+
+	/**
+	 * @see MessageReporter::reportMessage
+	 *
+	 * @since 1.21
+	 *
+	 * @param string $message
+	 */
+	public function reportMessage( $message ) {
+		// no-op
+	}
 
 }
