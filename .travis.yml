@@ -8,7 +8,7 @@ php:
 before_script:
   - cd ..
   - pwd
-  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git phase3
+  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git phase3 --depth 1
   - cd phase3
   - php maintenance/install.php --dbtype sqlite --dbuser foo --dbpass bar --pass nyan --dbpath . TravisWiki admin
   - cd extensions
@@ -29,4 +29,4 @@ notifications:
     channels:
       - "chat.freenode.net#wikimedia-wikidata"
     on_success: change
-    on_failure: change
+    on_failure: always
