@@ -16,14 +16,6 @@ if ( !in_array( '--testsuite=QueryEngine', $GLOBALS['argv'] ) ) {
 	require_once( __DIR__ . '/evilMediaWikiBootstrap.php' );
 }
 
-require_once( __DIR__ . '/../../DataValues/DataValues/DataValues.php' );
-
-require_once( __DIR__ . '/../../Ask/Ask.php' );
-
-require_once( __DIR__ . '/../../Wikibase/DataModel/DataModel.php' );
-
-require_once( __DIR__ . '/../../Wikibase/Database/Database.php' );
-
 require_once( __DIR__ . '/../QueryEngine.php' );
 
 require_once( __DIR__ . '/testLoader.php' );
