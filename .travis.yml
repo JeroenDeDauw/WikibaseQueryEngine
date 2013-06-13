@@ -6,12 +6,12 @@ php:
   - 5.5
 
 env:
-  matrix:
-    - DBTYPE=mysql
-    - DBTYPE=sqlite
-    - DBTYPE=postgres
-    - STANDALONE=yes
-    - STANDALONE=no
+  - DBTYPE=mysql STANDALONE=yes
+  - DBTYPE=sqlite STANDALONE=yes
+  - DBTYPE=postgres STANDALONE=yes
+  - DBTYPE=mysql STANDALONE=no
+  - DBTYPE=sqlite STANDALONE=no
+  - DBTYPE=postgres STANDALONE=no
 
 matrix:
   allow_failures:
