@@ -29,6 +29,7 @@
 		"ask/ask": "dev-master",
 		"wikibase/data-model": "dev-master"
 	},
+	"minimum-stability" : "dev",
 	"autoload": {
 		"files" : [
 			"QueryEngine.php"
