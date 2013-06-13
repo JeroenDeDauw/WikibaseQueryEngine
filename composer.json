@@ -25,7 +25,7 @@
 	},
 	"require": {
 		"php": ">=5.3.0",
-		"mediawiki-datavalues": "dev-master",
+		"data-values/data-values": "dev-master",
 		"ask/ask": "dev-master",
 		"wikibase/data-model": "dev-master"
 	},
