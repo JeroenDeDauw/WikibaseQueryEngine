@@ -12,13 +12,13 @@
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 
-require_once( __DIR__ . '/../../../DataValues/DataValues/DataValues.php' );
+require_once( __DIR__ . '/../../DataValues/DataValues/DataValues.php' );
 
-require_once( __DIR__ . '/../../../Ask/Ask.php' );
+require_once( __DIR__ . '/../../Ask/Ask.php' );
 
-require_once( __DIR__ . '/../../DataModel/DataModel.php' );
+require_once( __DIR__ . '/../../Wikibase/DataModel/DataModel.php' );
 
-require_once( __DIR__ . '/../../Database/Database.php' );
+require_once( __DIR__ . '/../../Wikibase/Database/Database.php' );
 
 require_once( __DIR__ . '/../QueryEngine.php' );
 
