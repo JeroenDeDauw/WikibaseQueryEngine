@@ -2,7 +2,7 @@
 
 set -x
 
-if ["$STANALONE" -eq "yes"]
+if [ "$STANALONE" == "yes" ]
 then
 	composer install
 	phpunit --testsuite=QueryEngine
