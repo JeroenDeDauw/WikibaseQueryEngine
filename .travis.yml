@@ -9,6 +9,10 @@ env:
   - DBTYPE=mysql
   - DBTYPE=sqlite
 
+matrix:
+  allow_failures:
+    - env: DBTYPE=sqlite
+
 before_script:
   - cd ..
   - pwd
