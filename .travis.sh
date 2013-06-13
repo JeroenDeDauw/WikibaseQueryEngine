@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -x
+
 cd ..
 pwd
 git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git phase3 --depth 1
