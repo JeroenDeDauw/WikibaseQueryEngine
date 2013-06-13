@@ -6,11 +6,18 @@ php:
   - 5.5
 
 before_script:
-  - pwd
-  - ls -lap
   - cd ..
   - pwd
-  - ls -lap
+  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git phase3
+  - cd phase3
+  - php maintenance/install.php --dbtype sqlite --dbuser foo --dbpass bar --pass nyan --dbpath . TravisWiki admin
+  - cd extensions
+  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/Diff.git
+  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/DataValues.git
+  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/Ask.git
+  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/Wikibase.git
+  - git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/WikibaseQueryEngine.git
+  - cd WikibaseQueryEngine
 
 notifications:
   email:
