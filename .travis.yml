@@ -5,6 +5,13 @@ php:
   - 5.4
   - 5.5
 
+before_script:
+  - pwd
+  - ls -lap
+  - cd ..
+  - pwd
+  - ls -lap
+
 notifications:
   email:
     recipients:
