@@ -6,6 +6,7 @@
 !.gitreview
 
 !.travis.yml
+!.travis.sh
 
 composer.phar
 vendor/
