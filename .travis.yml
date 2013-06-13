@@ -15,6 +15,12 @@ env:
 matrix:
   allow_failures:
     - env: DBTYPE=postgres
+  include:
+    - env: DBTYPE=mysql
+    - env: DBTYPE=sqlite
+    - env: DBTYPE=postgres
+    - env: STANDALONE=yes
+    - env: STANDALONE=no
 
 before_script:
   - bash .travis.sh
