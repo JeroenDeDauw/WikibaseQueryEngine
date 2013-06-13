@@ -24,7 +24,7 @@ matrix:
 
 
 before_script:
-  - bash ./.travis.sh
+  - bash .travis.sh $STANDALONE
 
 script: true
 
