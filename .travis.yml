@@ -10,7 +10,8 @@ before_script:
   - pwd
   - git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git phase3 --depth 1
   - cd phase3
-  - php maintenance/install.php --dbtype sqlite --dbuser foo --dbpass bar --pass nyan --dbpath . TravisWiki admin
+  - mysql -e 'create database its_a_mw;'
+  - php maintenance/install.php --dbtype mysql --dbuser root --dbname its_a_mw --pass nyan TravisWiki admin
   - cd extensions
   - git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/Diff.git
   - git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/DataValues.git
