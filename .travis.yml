@@ -5,27 +5,26 @@ php:
   - 5.5
 
 env:
-  - DBTYPE=mysql STANDALONE=yes
-  - DBTYPE=sqlite STANDALONE=yes
-  - DBTYPE=postgres STANDALONE=yes
+  - DBTYPE=mysql STANDALONE=yeah
+  - DBTYPE=sqlite STANDALONE=yeah
+  - DBTYPE=postgres STANDALONE=yeah
   - DBTYPE=mysql STANDALONE=no
   - DBTYPE=sqlite STANDALONE=no
   - DBTYPE=postgres STANDALONE=no
 
 matrix:
   allow_failures:
-    - env: DBTYPE=postgres STANDALONE=yes
+    - env: DBTYPE=postgres STANDALONE=yeah
     - env: DBTYPE=postgres STANDALONE=no
   exclude:
     - php: 5.3
-      env: DBTYPE=postgres STANDALONE=yes
+      env: DBTYPE=postgres STANDALONE=yeah
     - php: 5.3
       env: DBTYPE=postgres STANDALONE=no
 
 
 before_script:
-  - bash .travis.sh
-  - cd ../phase3/extensions/WikibaseQueryEngine
+  - bash ./.travis.sh
 
 script: true
 
