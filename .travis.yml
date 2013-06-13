@@ -19,13 +19,13 @@ matrix:
     - env: DBTYPE=postgres STANDALONE=no
   exclude:
     - php: 5.3
-      DBTYPE=postgres STANDALONE=yes
+      env: DBTYPE=postgres STANDALONE=yes
     - php: 5.4
-      DBTYPE=postgres STANDALONE=yes
+      env: DBTYPE=postgres STANDALONE=yes
     - php: 5.3
-      DBTYPE=postgres STANDALONE=no
+      env: DBTYPE=postgres STANDALONE=no
     - php: 5.4
-      DBTYPE=postgres STANDALONE=no
+      env: DBTYPE=postgres STANDALONE=no
 
 
 before_script:
