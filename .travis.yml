@@ -8,12 +8,14 @@ php:
 env:
   - DBTYPE=mysql STANDALONE=yes
   - DBTYPE=sqlite STANDALONE=yes
+  - DBTYPE=postgres STANDALONE=yes
   - DBTYPE=mysql STANDALONE=no
   - DBTYPE=sqlite STANDALONE=no
   - DBTYPE=postgres STANDALONE=no
 
 matrix:
   allow_failures:
+    - env: DBTYPE=postgres STANDALONE=yes
     - env: DBTYPE=postgres STANDALONE=no
 
 before_script:
