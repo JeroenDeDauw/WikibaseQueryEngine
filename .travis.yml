@@ -27,7 +27,7 @@ before_script:
   - bash .travis.sh
   - cd ../phase3/extensions/WikibaseQueryEngine
 
-script:
+script: true
 
 notifications:
   email:
