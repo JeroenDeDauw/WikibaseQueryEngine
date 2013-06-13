@@ -120,7 +120,9 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( 8888 );
 
-		$item->addClaim( new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) ) );
+		$claim = new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) );
+		$claim->setGuid( 'a claim' );
+		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
 
@@ -161,12 +163,17 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( 4444 );
 
-		$item->addClaim( new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) ) );
+		$claim = new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) );
+		$claim->setGuid( 'foo claim' );
+		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
 
+		$claim = new Statement( new PropertyValueSnak( 42, new StringValue( 'Foo' ) ) );
+		$claim->setGuid( 'bar claim' );
+
 		$item->setClaims( new Claims( array(
-			new Statement( new PropertyValueSnak( 42, new StringValue( 'Foo' ) ) )
+			$claim
 		) ) );
 
 		$this->store->getUpdater()->updateEntity( $item );

@@ -119,6 +119,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->setId( 1112 );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
+		$claim->setGuid( 'claim0' );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
@@ -128,6 +129,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->setId( 1113 );
 
 		$claim = new Statement( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) );
+		$claim->setGuid( 'claim1' );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
@@ -137,6 +139,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->setId( 1114 );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
+		$claim->setGuid( 'claim2' );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
@@ -146,9 +149,11 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->setId( 1115 );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
+		$claim->setGuid( 'claim3' );
 		$item->addClaim( $claim );
 
 		$claim = new Statement( new PropertyValueSnak( 43, new NumberValue( 1 ) ) );
+		$claim->setGuid( 'claim4' );
 		$item->addClaim( $claim );
 
 		$this->store->getUpdater()->insertEntity( $item );
