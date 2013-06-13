@@ -2,7 +2,6 @@ language: php
 
 php:
   - 5.3
-  - 5.4
   - 5.5
 
 env:
@@ -20,11 +19,7 @@ matrix:
   exclude:
     - php: 5.3
       env: DBTYPE=postgres STANDALONE=yes
-    - php: 5.4
-      env: DBTYPE=postgres STANDALONE=yes
     - php: 5.3
-      env: DBTYPE=postgres STANDALONE=no
-    - php: 5.4
       env: DBTYPE=postgres STANDALONE=no
 
 
