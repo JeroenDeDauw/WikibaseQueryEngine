@@ -6,7 +6,6 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
-use Wikibase\Claim;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\LazyDBConnectionProvider;
 use Wikibase\Database\MediaWikiQueryInterface;

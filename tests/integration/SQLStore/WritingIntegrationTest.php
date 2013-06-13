@@ -6,25 +6,22 @@ use Ask\Language\Description\Description;
 use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
-use DataValues\NumberValue;
 use DataValues\StringValue;
-use NullMessageReporter;
 use Wikibase\Claims;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\LazyDBConnectionProvider;
 use Wikibase\Database\MediaWikiQueryInterface;
+use Wikibase\Database\MessageReporter;
 use Wikibase\Database\MWDB\ExtendedMySQLAbstraction;
 use Wikibase\Database\TableDefinition;
 use Wikibase\EntityId;
 use Wikibase\Item;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\Store;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\Statement;
-use Wikibase\Test\ClaimListAccessTest;
 
 /**
  * Tests the write operations (those exposed by Wikibase\QueryEngine\SQLStore\Writer)
@@ -193,6 +190,21 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 			array(),
 			$this->findMatchingEntities( $propertyDescription )
 		);
+	}
+
+}
+
+class NullMessageReporter implements MessageReporter {
+
+	/**
+	 * @see MessageReporter::reportMessage
+	 *
+	 * @since 1.21
+	 *
+	 * @param string $message
+	 */
+	public function reportMessage( $message ) {
+		// no-op
 	}
 
 }
