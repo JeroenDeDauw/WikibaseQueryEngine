@@ -9,6 +9,8 @@ env:
   - DBTYPE=mysql
   - DBTYPE=sqlite
   - DBTYPE=postgres
+  - STANDALONE=yes
+  - STANDALONE=no
 
 matrix:
   allow_failures:
@@ -17,6 +19,8 @@ matrix:
 before_script:
   - bash .travis.sh
   - cd ../phase3/extensions/WikibaseQueryEngine
+
+script:
 
 notifications:
   email:
