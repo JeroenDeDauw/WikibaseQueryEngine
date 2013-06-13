@@ -12,4 +12,3 @@ git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/DataValues.git
 git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/Ask.git
 git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/Wikibase.git
 git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/WikibaseQueryEngine.git
-cd WikibaseQueryEngine
