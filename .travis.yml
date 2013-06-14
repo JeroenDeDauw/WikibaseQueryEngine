@@ -21,6 +21,10 @@ matrix:
       env: DBTYPE=postgres STANDALONE=yeah
     - php: 5.3
       env: DBTYPE=postgres STANDALONE=no
+    - php: 5.3
+      env: DBTYPE=mysql STANDALONE=yeah
+    - php: 5.3
+      env: DBTYPE=sqlite STANDALONE=yeah
 
 
 before_script:
