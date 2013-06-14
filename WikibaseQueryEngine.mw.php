@@ -41,7 +41,7 @@ $wgExtensionCredits['wikibase'][] = array(
 	'descriptionmsg' => 'wikibasequeryegnine-desc'
 );
 
-$wgExtensionMessagesFiles['WikibaseQueryEngine'] = __DIR__ . '/QueryEngine.i18n.php';
+$wgExtensionMessagesFiles['WikibaseQueryEngine'] = __DIR__ . '/WikibaseQueryEngine.i18n.php';
 
 if ( defined( 'MW_PHPUNIT_TEST' ) ) {
 	require_once __DIR__ . '/tests/testLoader.php';

@@ -16,7 +16,7 @@ if ( !in_array( '--testsuite=QueryEngine', $GLOBALS['argv'] ) ) {
 	require_once( __DIR__ . '/evilMediaWikiBootstrap.php' );
 }
 
-require_once( __DIR__ . '/../QueryEngine.php' );
+require_once( __DIR__ . '/../WikibaseQueryEngine.php' );
 
 require_once( __DIR__ . '/testLoader.php' );
 

@@ -97,7 +97,7 @@ spl_autoload_register( function ( $className ) {
 // @codeCoverageIgnoreStart
 if ( defined( 'MEDIAWIKI' ) ) {
 	call_user_func( function() {
-		require_once __DIR__ . '/QueryEngine.mw.php';
+		require_once __DIR__ . '/WikibaseQueryEngine.mw.php';
 	} );
 }
 // @codeCoverageIgnoreEnd
