@@ -33,12 +33,12 @@ $messages = array();
  * @author Jeroen De Dauw
  */
 $messages['en'] = array(
-	'wikibasequeryegnine-desc' => 'Component containing query answering code for Ask queries against a collection of Wikibase entities',
+	'wikibasequeryengine-desc' => 'Component containing query answering code for Ask queries against a collection of Wikibase entities',
 );
 
 /** Message documentation (Message documentation)
  * @author Jeroen De Dauw
  */
 $messages['qqq'] = array(
-	'wikibasequeryegnine-desc' => '{{desc|name=Wikibase QueryEngine|url=http://www.mediawiki.org/wiki/Extension:Wikibase}}',
+	'wikibasequeryengine-desc' => '{{desc|name=Wikibase QueryEngine|url=http://www.mediawiki.org/wiki/Extension:Wikibase}}',
 );

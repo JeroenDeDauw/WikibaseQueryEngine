@@ -38,7 +38,7 @@ $wgExtensionCredits['wikibase'][] = array(
 		'[https://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]',
 	),
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Wikibase_QueryEngine',
-	'descriptionmsg' => 'wikibasequeryegnine-desc'
+	'descriptionmsg' => 'wikibasequeryengine-desc'
 );
 
 $wgExtensionMessagesFiles['WikibaseQueryEngine'] = __DIR__ . '/WikibaseQueryEngine.i18n.php';
