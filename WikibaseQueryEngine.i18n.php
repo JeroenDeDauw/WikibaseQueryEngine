@@ -38,7 +38,30 @@ $messages['en'] = array(
 
 /** Message documentation (Message documentation)
  * @author Jeroen De Dauw
+ * @author Shirayuki
  */
 $messages['qqq'] = array(
-	'wikibasequeryengine-desc' => '{{desc|name=Wikibase QueryEngine|url=http://www.mediawiki.org/wiki/Extension:Wikibase}}',
+	'wikibasequeryengine-desc' => '{{desc|name=Wikibase QueryEngine|url=http://www.mediawiki.org/wiki/Extension:Wikibase}}
+"Ask" refers the feature or the special page [[Special:Ask]].',
+);
+
+/** German (Deutsch)
+ * @author Metalhead64
+ */
+$messages['de'] = array(
+	'wikibasequeryengine-desc' => 'Komponente, die einen Abfragenantwortcode für Ask-Abfragen gegen eine Sammlung von Wikibase-Entitäten beinhaltet',
+);
+
+/** Hebrew (עברית)
+ * @author Amire80
+ */
+$messages['he'] = array(
+	'wikibasequeryengine-desc' => 'רכיב שמכיל קוד למענה לשאילתות Ask אל מול ישויות ויקיבייס',
+);
+
+/** Japanese (日本語)
+ * @author Shirayuki
+ */
+$messages['ja'] = array(
+	'wikibasequeryengine-desc' => 'ウィキベース項目の集合内を検索する Ask クエリに対するクエリ応答のコードを含むコンポーネント',
 );
