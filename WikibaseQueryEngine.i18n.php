@@ -45,6 +45,13 @@ $messages['qqq'] = array(
 "Ask" refers the feature or the special page [[Special:Ask]].',
 );
 
+/** Asturian (asturianu)
+ * @author Xuacu
+ */
+$messages['ast'] = array(
+	'wikibasequeryengine-desc' => "Componente que contién códigu de respuesta a consultes pa les consultes a Ask escontra una coleición Wikibase d'entidaes",
+);
+
 /** German (Deutsch)
  * @author Metalhead64
  */
@@ -64,4 +71,18 @@ $messages['he'] = array(
  */
 $messages['ja'] = array(
 	'wikibasequeryengine-desc' => 'ウィキベース項目の集合内を検索する Ask クエリに対するクエリ応答のコードを含むコンポーネント',
+);
+
+/** Macedonian (македонски)
+ * @author Bjankuloski06
+ */
+$messages['mk'] = array(
+	'wikibasequeryengine-desc' => 'Компонента што содржи код за одговарање на Ask-барања во склад со со збир од предмети на Викибазата',
+);
+
+/** Vietnamese (Tiếng Việt)
+ * @author Minh Nguyen
+ */
+$messages['vi'] = array(
+	'wikibasequeryengine-desc' => 'Bộ phận chứa mã nguồn đáp lại những truy vấn Ask đối với tập hợp thực thể Wikibase',
 );
