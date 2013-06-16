@@ -58,7 +58,7 @@ if ( !defined( 'WIKIBASE_DATAMODEL_VERSION' ) && file_exists( __DIR__ . '/../Wik
 
 // Attempt to include the Ask lib if that hasn't been done yet.
 if ( !defined( 'WIKIBASE_DATABASE_VERSION' ) && file_exists( __DIR__ . '/../Wikibase/Database/Database.php' ) ) {
-	include_once( __DIR__ . '/../Wikibase/Database/Database.php' );
+	include_once( __DIR__ . '/../WikibaseDatabase/WikibaseDatabase.php' );
 }
 
 spl_autoload_register( function ( $className ) {
