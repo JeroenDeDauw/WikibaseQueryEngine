@@ -59,11 +59,32 @@ $messages['de'] = array(
 	'wikibasequeryengine-desc' => 'Komponente, die einen Abfragenantwortcode für Ask-Abfragen gegen eine Sammlung von Wikibase-Entitäten beinhaltet',
 );
 
+/** French (français)
+ * @author Gomoko
+ */
+$messages['fr'] = array(
+	'wikibasequeryengine-desc' => 'Composant contenant un code de question-réponse pour les requêtes Ask portant sur une collection d’entités de Wikibase',
+);
+
+/** Galician (galego)
+ * @author Toliño
+ */
+$messages['gl'] = array(
+	'wikibasequeryengine-desc' => 'Compoñente que contén un código de resposta a preguntas para as pescudas Ask nunha colección de entidades de Wikibase',
+);
+
 /** Hebrew (עברית)
  * @author Amire80
  */
 $messages['he'] = array(
 	'wikibasequeryengine-desc' => 'רכיב שמכיל קוד למענה לשאילתות Ask אל מול ישויות ויקיבייס',
+);
+
+/** Italian (italiano)
+ * @author Beta16
+ */
+$messages['it'] = array(
+	'wikibasequeryengine-desc' => 'Componente contenente codice per rispondere ad interrogazioni Ask su una raccolta di entità Wikibase',
 );
 
 /** Japanese (日本語)
@@ -80,9 +101,23 @@ $messages['mk'] = array(
 	'wikibasequeryengine-desc' => 'Компонента што содржи код за одговарање на Ask-барања во склад со со збир од предмети на Викибазата',
 );
 
+/** tarandíne (tarandíne)
+ * @author Joetaras
+ */
+$messages['roa-tara'] = array(
+	'wikibasequeryengine-desc' => "Combonende ca tène 'u codece de resposte a le 'nderrogaziune cercate condre a 'na collezzione de entità de UicchiBase",
+);
+
 /** Vietnamese (Tiếng Việt)
  * @author Minh Nguyen
  */
 $messages['vi'] = array(
 	'wikibasequeryengine-desc' => 'Bộ phận chứa mã nguồn đáp lại những truy vấn Ask đối với tập hợp thực thể Wikibase',
+);
+
+/** Traditional Chinese (中文（繁體）‎)
+ * @author Justincheng12345
+ */
+$messages['zh-hant'] = array(
+	'wikibasequeryengine-desc' => '對維基基礎實體集合ASK查詢的應答代碼之元件',
 );
