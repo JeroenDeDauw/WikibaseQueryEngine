@@ -13,12 +13,15 @@
          strict="true"
          verbose="true">
     <testsuites>
-        <testsuite name="QueryEngine">
+        <testsuite name="QueryEngineStandalone">
             <directory>tests/phpunit</directory>
             <exclude>tests/integration</exclude>
         </testsuite>
         <testsuite name="QueryEngineIntegration">
-          <directory>tests/integration</directory>
+            <directory>tests/integration</directory>
+        </testsuite>
+        <testsuite name="QueryEngine">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
