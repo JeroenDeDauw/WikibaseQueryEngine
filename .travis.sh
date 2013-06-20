@@ -7,7 +7,7 @@ cd ..
 if [ "$1" == "QueryEngineStandalone" ]
 then
 	mkdir phase3
-	cd phase 3
+	cd phase3
 
 	mkdir extensions
 	cd extensions
