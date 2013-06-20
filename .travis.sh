@@ -6,8 +6,11 @@ cd ..
 
 if [ "$1" == "QueryEngineStandalone" ]
 then
-	mkdir phase3/extensions
-	cd phase3/extensions
+	mkdir phase3
+	cd phase 3
+
+	mkdir extensions
+	cd extensions
 else
 	git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git phase3 --depth 1
 	cd phase3
