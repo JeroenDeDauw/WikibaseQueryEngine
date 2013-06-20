@@ -12,7 +12,7 @@
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 
-if ( !in_array( '--testsuite=QueryEngine', $GLOBALS['argv'] ) ) {
+if ( !in_array( '--testsuite=QueryEngineStandalone', $GLOBALS['argv'] ) ) {
 	require_once( __DIR__ . '/evilMediaWikiBootstrap.php' );
 }
 
