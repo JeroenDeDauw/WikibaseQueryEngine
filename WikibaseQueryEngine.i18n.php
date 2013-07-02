@@ -80,6 +80,13 @@ $messages['he'] = array(
 	'wikibasequeryengine-desc' => 'רכיב שמכיל קוד למענה לשאילתות Ask אל מול ישויות ויקיבייס',
 );
 
+/** Indonesian (Bahasa Indonesia)
+ * @author Iwan Novirion
+ */
+$messages['id'] = array(
+	'wikibasequeryengine-desc' => 'Komponen yang mengandung permintaan kode jawaban untuk pertanyaan perrmintaan terhadap kumpulan entitas Wikibase',
+);
+
 /** Italian (italiano)
  * @author Beta16
  */
