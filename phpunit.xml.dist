@@ -13,9 +13,6 @@
          strict="true"
          verbose="true">
     <testsuites>
-        <testsuite name="QueryEngine">
-            <directory>tests</directory>
-        </testsuite>
         <testsuite name="QueryEngineStandalone">
             <directory>tests/phpunit</directory>
             <exclude>tests/integration</exclude>
