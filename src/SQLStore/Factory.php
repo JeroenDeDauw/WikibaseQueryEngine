@@ -170,7 +170,7 @@ final class Factory {
 	public function newDescriptionMatchFinder() {
 		return new DescriptionMatchFinder(
 			$this->queryInterface,
-			$this->schema,
+			$this->getSchema(),
 			$this->config->getPropertyDataValueTypeLookup(),
 			$this->getInternalEntityIdFinder()
 		);

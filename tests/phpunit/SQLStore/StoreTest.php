@@ -37,24 +37,48 @@ use Wikibase\QueryEngine\Tests\QueryStoreTest;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class StoreTest extends QueryStoreTest {
+class StoreTest extends \PHPUnit_Framework_TestCase {
 
-	/**
-	 * @see QueryStoreTest::getInstances
-	 */
-	protected function getInstances() {
-		$instances = array();
-
+	protected function newInstance() {
 		$connectionProvider = $this->getMock( 'Wikibase\Repo\DBConnectionProvider' );
+
 		$storeConfig = new StoreConfig( 'foo', 'bar', array() );
+
+		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\SQLStore\PropertyDataValueTypeLookup' );
+
+		$dvTypeLookup->expects( $this->any() )
+			->method( 'getDataValueTypeForProperty' )
+			->will( $this->returnValue( 'string' ) );
+
+		$storeConfig->setPropertyDataValueTypeLookup( $dvTypeLookup );
+
 		$queryInterface = new MediaWikiQueryInterface(
 			$connectionProvider,
 			new ExtendedMySQLAbstraction( $connectionProvider )
 		);
 
-		$instances[] = new Store( $storeConfig, $queryInterface );
+		return new Store( $storeConfig, $queryInterface );
+	}
 
-		return $instances;
+	public function testGetNameReturnType() {
+		$this->assertInternalType(
+			'string',
+			$this->newInstance()->getName()
+		);
+	}
+
+	public function testGetUpdaterReturnType() {
+		$this->assertInstanceOf(
+			'Wikibase\QueryEngine\QueryStoreWriter',
+			$this->newInstance()->getUpdater()
+		);
+	}
+
+	public function testGetQueryEngineReturnType() {
+		$this->assertInstanceOf(
+			'Wikibase\QueryEngine\QueryEngine',
+			$this->newInstance()->getQueryEngine()
+		);
 	}
 
 }

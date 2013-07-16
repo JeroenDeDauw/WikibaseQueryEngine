@@ -89,8 +89,7 @@ class Store implements QueryStore {
 	 */
 	public function getQueryEngine() {
 		return new Engine(
-			$this->config,
-			$this->queryInterface
+			$this->factory->newDescriptionMatchFinder()
 		);
 	}
 
@@ -122,15 +121,6 @@ class Store implements QueryStore {
 			$this->factory->getTableBuilder(),
 			$messageReporter
 		);
-	}
-
-	/**
-	 * TODO: figure out how to merge this into the QueryEngine interface
-	 *
-	 * @return DescriptionMatchFinder
-	 */
-	public function getDescriptionMatchFinder() {
-		return $this->factory->newDescriptionMatchFinder();
 	}
 
 }

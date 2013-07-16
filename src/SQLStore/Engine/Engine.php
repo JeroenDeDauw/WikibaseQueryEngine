@@ -9,24 +9,10 @@ use Wikibase\Database\QueryInterface;
 use Wikibase\QueryEngine\QueryEngine;
 use Wikibase\QueryEngine\QueryEngineResult;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
+use Wikibase\EntityId;
 
 /**
  * Simple query engine that works on top of the SQLStore.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * http://www.gnu.org/copyleft/gpl.html
  *
  * @since 0.1
  *
@@ -38,42 +24,24 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
  */
 class Engine implements QueryEngine {
 
-	/**
-	 * @since 0.1
-	 *
-	 * @var StoreConfig
-	 */
-	private $config;
+	private $matchFinder;
 
-	/**
-	 * @since 0.1
-	 *
-	 * @var QueryInterface
-	 */
-	private $queryInterface;
-
-	/**
-	 * @since 0.1
-	 *
-	 * @param StoreConfig $storeConfig
-	 * @param QueryInterface $queryInterface
-	 */
-	public function __construct( StoreConfig $storeConfig, QueryInterface $queryInterface ) {
-		$this->config = $storeConfig;
-		$this->queryInterface = $queryInterface;
+	public function __construct( DescriptionMatchFinder $matchFinder ) {
+		$this->matchFinder = $matchFinder;
 	}
 
 	/**
-	 * @see QueryEngine::runQuery
+	 * @see QueryEngine::getMatchingEntities
 	 *
 	 * @since 0.1
 	 *
-	 * @param Query $query
+	 * @param Description $description
+	 * @param QueryOptions $options
 	 *
-	 * @return QueryEngineResult
+	 * @return EntityId[]
 	 */
-	public function runQuery( Query $query ) {
-		// TODO
+	public function getMatchingEntities( Description $description, QueryOptions $options ) {
+		return $this->matchFinder->findMatchingEntities( $description, $options );
 	}
 
 }
