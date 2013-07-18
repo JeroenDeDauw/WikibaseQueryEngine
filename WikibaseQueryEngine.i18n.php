@@ -100,6 +100,13 @@ $messages['roa-tara'] = array(
 	'wikibasequeryengine-desc' => "Combonende ca tène 'u codece de resposte a le 'nderrogaziune cercate condre a 'na collezzione de entità de UicchiBase",
 );
 
+/** Russian (русский)
+ * @author Kaganer
+ */
+$messages['ru'] = array(
+	'wikibasequeryengine-desc' => 'Компонент содержит код ответа на запросы для запросов «Ask» (Ask queries) к коллекции сущностей Wikibase',
+);
+
 /** Vietnamese (Tiếng Việt)
  * @author Minh Nguyen
  */
