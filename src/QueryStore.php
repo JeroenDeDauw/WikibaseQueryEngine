@@ -62,10 +62,8 @@ interface QueryStore {
 	 *
 	 * @since 0.1
 	 *
-	 * @param MessageReporter $messageReporter
-	 *
-	 * @return boolean Success indicator
+	 * @return QueryStoreSetup
 	 */
-	public function getSetup( MessageReporter $messageReporter );
+	public function newSetup();
 
 }

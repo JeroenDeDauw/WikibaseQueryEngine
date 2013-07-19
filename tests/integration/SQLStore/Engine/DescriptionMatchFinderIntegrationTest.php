@@ -50,14 +50,14 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 		$this->store = $this->newStore();
 
-		$this->store->getSetup( new NullMessageReporter() )->install();
+		$this->store->newSetup( new NullMessageReporter() )->install();
 
 		$this->insertEntities();
 	}
 
 	public function tearDown() {
 		if ( isset( $this->store ) ) {
-			$this->store->getSetup( new NullMessageReporter() )->uninstall();
+			$this->store->newSetup( new NullMessageReporter() )->uninstall();
 		}
 	}
 

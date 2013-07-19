@@ -64,4 +64,31 @@ class SetupTest extends \PHPUnit_Framework_TestCase {
 		$storeSetup->uninstall();
 	}
 
+	public function testSetMessageReporter() {
+		$defaultHandlers = new DataValueHandlers();
+		$storeConfig = new StoreConfig( 'foo', 'wbsql_', $defaultHandlers->getHandlers() );
+		$schema = new Schema( $storeConfig );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+
+		$queryInterface->expects( $this->atLeastOnce() )
+			->method( 'dropTable' )
+			->will( $this->returnValue( true ) );
+
+		$storeSetup = new Setup(
+			$storeConfig,
+			$schema,
+			$queryInterface,
+			new TableBuilder( $queryInterface )
+		);
+
+		$messageReporter = $this->getMock( 'Wikibase\Database\MessageReporter' );
+
+		$messageReporter->expects( $this->atLeastOnce() )
+			->method( 'reportMessage' );
+
+		$storeSetup->setMessageReporter( $messageReporter );
+
+		$storeSetup->uninstall();
+	}
+
 }
