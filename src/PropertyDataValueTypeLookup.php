@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\SQLStore;
+namespace Wikibase\QueryEngine;
 
 use DataValues\DataValue;
 
@@ -18,6 +18,13 @@ use DataValues\DataValue;
  */
 interface PropertyDataValueTypeLookup {
 
+	/**
+	 * @param DataValue $propertyId
+	 *
+	 * @return string The type of the data values has values of
+	 *
+	 * TODO: provide exception type and document
+	 */
 	public function getDataValueTypeForProperty( DataValue $propertyId );
 
 }

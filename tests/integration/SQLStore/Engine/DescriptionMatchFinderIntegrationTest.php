@@ -88,7 +88,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 			)
 		);
 
-		$propertyDvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\SQLStore\PropertyDataValueTypeLookup' );
+		$propertyDvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
 
 		$propertyDvTypeLookup->expects( $this->any() )
 			->method( 'getDataValueTypeForProperty' )

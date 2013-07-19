@@ -10,10 +10,10 @@ use InvalidArgumentException;
 use Wikibase\Database\QueryInterface;
 use Wikibase\EntityId;
 use Wikibase\Lib\EntityIdParser;
+use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder;
-use Wikibase\QueryEngine\SQLStore\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\SnakRole;
 

@@ -54,7 +54,7 @@ class StoreConfigTest extends \PHPUnit_Framework_TestCase {
 	public function testSetPropertyDataValueTypeLookup() {
 		$instance = new StoreConfig( 'foo', 'bar', array() );
 
-		$lookup = $this->getMock( 'Wikibase\QueryEngine\SQLStore\PropertyDataValueTypeLookup' );
+		$lookup = $this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
 
 		$instance->setPropertyDataValueTypeLookup( $lookup );
 
