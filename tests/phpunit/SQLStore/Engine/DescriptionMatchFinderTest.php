@@ -40,7 +40,7 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 			$this->getMock( 'Wikibase\Database\QueryInterface' ),
 			$this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\Schema' )
 				->disableOriginalConstructor()->getMock(),
-			$this->getMock( 'Wikibase\QueryEngine\SQLStore\PropertyDataValueTypeLookup' ),
+			$this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' ),
 			$this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' )
 		);
 	}
@@ -85,7 +85,7 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'getDataValueHandler' )
 			->will( $this->returnValue( $dvHandler ) );
 
-		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\SQLStore\PropertyDataValueTypeLookup' );
+		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
 
 		$idTransformer = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
 

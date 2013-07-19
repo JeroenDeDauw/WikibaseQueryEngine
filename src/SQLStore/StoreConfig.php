@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use Wikibase\Database\TableDefinition;
+use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 
 /**
  * Configuration for the SQL Store.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\SQLStore;
+namespace Wikibase\QueryEngine;
 
 use DataValues\DataValue;
 

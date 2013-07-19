@@ -29,7 +29,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase {
 
 		$storeConfig = new StoreConfig( 'foo', 'bar', array() );
 
-		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\SQLStore\PropertyDataValueTypeLookup' );
+		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
 
 		$dvTypeLookup->expects( $this->any() )
 			->method( 'getDataValueTypeForProperty' )
