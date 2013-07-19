@@ -18,6 +18,13 @@ use DataValues\DataValue;
  */
 interface PropertyDataValueTypeLookup {
 
+	/**
+	 * @param DataValue $propertyId
+	 *
+	 * @return string The type of the data values has values of
+	 *
+	 * TODO: provide exception type and document
+	 */
 	public function getDataValueTypeForProperty( DataValue $propertyId );
 
 }
