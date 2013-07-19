@@ -8,6 +8,7 @@ use Wikibase\Database\QueryInterface;
 use Wikibase\Database\QueryInterfaceException;
 use Wikibase\Database\TableBuilder;
 use Wikibase\Database\TableDefinition;
+use Wikibase\QueryEngine\QueryStoreSetup;
 
 /**
  * Setup for the SQLStore.
@@ -20,7 +21,7 @@ use Wikibase\Database\TableDefinition;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class Setup {
+class Setup implements QueryStoreSetup {
 
 	/**
 	 * @since 0.1
@@ -76,6 +77,17 @@ class Setup {
 	}
 
 	/**
+	 * @see QueryStoreSetup::setMessageReporter
+	 *
+	 * @since 0.1
+	 *
+	 * @param MessageReporter $reporter
+	 */
+	public function setMessageReporter( MessageReporter $reporter ) {
+		$this->messageReporter = $reporter;
+	}
+
+	/**
 	 * @since 0.1
 	 *
 	 * @param string $message
@@ -87,7 +99,7 @@ class Setup {
 	}
 
 	/**
-	 * Install the store.
+	 * @see QueryStoreSetup::install
 	 *
 	 * @since 0.1
 	 */
@@ -118,11 +130,9 @@ class Setup {
 	}
 
 	/**
-	 * Uninstall the store.
+	 * @see QueryStoreSetup::uninstall
 	 *
 	 * @since 0.1
-	 *
-	 * @return boolean Success indicator
 	 */
 	public function uninstall() {
 		$this->report( 'Starting uninstall of ' . $this->config->getStoreName() );
@@ -131,7 +141,7 @@ class Setup {
 
 		$this->report( 'Finished uninstall of ' . $this->config->getStoreName() );
 
-		return $success;
+		// TODO: thow exception on failure
 	}
 
 	/**

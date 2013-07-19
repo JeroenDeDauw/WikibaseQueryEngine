@@ -90,21 +90,18 @@ class Store implements QueryStore {
 	}
 
 	/**
-	 * @see QueryStore::getSetup
+	 * @see QueryStore::newSetup
 	 *
 	 * @since 0.1
 	 *
-	 * @param MessageReporter $messageReporter
-	 *
 	 * @return Setup
 	 */
-	public function getSetup( MessageReporter $messageReporter ) {
+	public function newSetup() {
 		return new Setup(
 			$this->config,
 			$this->factory->getSchema(),
 			$this->queryInterface,
-			$this->factory->getTableBuilder(),
-			$messageReporter
+			$this->factory->getTableBuilder()
 		);
 	}
 
