@@ -14,6 +14,7 @@ use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder;
+use Wikibase\QueryEngine\SQLStore\InternalEntityIdInterpreter;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\SnakRole;
 
@@ -34,29 +35,31 @@ class DescriptionMatchFinder {
 	protected $schema;
 	protected $propertyDataValueTypeLookup;
 	protected $idFinder;
+	protected $idInterpreter;
 
 	public function __construct( QueryInterface $queryInterface,
 			Schema $schema,
 			PropertyDataValueTypeLookup $propertyDataValueTypeLookup,
-			InternalEntityIdFinder $idFinder ) {
+			InternalEntityIdFinder $idFinder,
+			InternalEntityIdInterpreter $idInterpreter ) {
+
 		$this->queryInterface = $queryInterface;
 		$this->schema = $schema;
 		$this->propertyDataValueTypeLookup = $propertyDataValueTypeLookup;
 		$this->idFinder = $idFinder;
+		$this->idInterpreter = $idInterpreter;
 	}
 
 	/**
 	 * Finds all entities that match the selection criteria.
 	 * The matching entities are returned as an array of internal entity ids.
 	 *
-	 * TODO: return array of EntityId
-	 *
 	 * @since 0.1
 	 *
 	 * @param Description $description
 	 * @param QueryOptions $options
 	 *
-	 * @return int[]
+	 * @return EntityId[]
 	 * @throws QueryNotSupportedException
 	 */
 	public function findMatchingEntities( Description $description, QueryOptions $options ) {
@@ -95,7 +98,7 @@ class DescriptionMatchFinder {
 		$entityIds = array();
 
 		foreach ( $selectionResult as $resultRow ) {
-			$entityIds[] = (int)$resultRow->subject_id;
+			$entityIds[] = $this->idInterpreter->getExternalIdForEntity( (int)$resultRow->subject_id );
 		}
 
 		return $entityIds;

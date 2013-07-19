@@ -13,6 +13,7 @@ use Wikibase\Database\LazyDBConnectionProvider;
 use Wikibase\Database\MediaWikiQueryInterface;
 use Wikibase\Database\MessageReporter;
 use Wikibase\Database\MWDB\ExtendedMySQLAbstraction;
+use Wikibase\Database\MWDB\ExtendedSQLiteAbstraction;
 use Wikibase\Database\TableDefinition;
 use Wikibase\EntityId;
 use Wikibase\Item;
@@ -67,6 +68,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	protected function newStore() {
 		$dbConnectionProvider = new LazyDBConnectionProvider( DB_MASTER );
 
+		// TODO: use factory in DB component
 		$queryInterface = new MediaWikiQueryInterface(
 			$dbConnectionProvider,
 			new ExtendedMySQLAbstraction( $dbConnectionProvider )
@@ -117,7 +119,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertEquals(
-			array( 88880 ),
+			array( new EntityId( 'item', 8888 ) ),
 			$this->findMatchingEntities( $propertyDescription )
 		);
 
@@ -169,7 +171,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertEquals(
-			array( 44440 ),
+			array( new EntityId( 'item', 4444 ) ),
 			$this->findMatchingEntities( $propertyDescription )
 		);
 

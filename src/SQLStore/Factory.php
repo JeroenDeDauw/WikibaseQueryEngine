@@ -141,6 +141,13 @@ final class Factory {
 		return new EntityIdTransformer( $this->config->getEntityTypeMap() );
 	}
 
+	/**
+	 * @return InternalEntityIdInterpreter
+	 */
+	protected function getInternalEntityIdInterpreter() {
+		return new EntityIdTransformer( $this->config->getEntityTypeMap() );
+	}
+
 	public function newWriter() {
 		return new Writer(
 			$this->newEntityInserter(),
@@ -157,7 +164,8 @@ final class Factory {
 			$this->queryInterface,
 			$this->getSchema(),
 			$this->config->getPropertyDataValueTypeLookup(),
-			$this->getInternalEntityIdFinder()
+			$this->getInternalEntityIdFinder(),
+			$this->getInternalEntityIdInterpreter()
 		);
 	}
 

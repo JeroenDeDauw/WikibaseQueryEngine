@@ -11,6 +11,7 @@ use Wikibase\Database\LazyDBConnectionProvider;
 use Wikibase\Database\MediaWikiQueryInterface;
 use Wikibase\Database\MessageReporter;
 use Wikibase\Database\MWDB\ExtendedMySQLAbstraction;
+use Wikibase\Database\MWDB\ExtendedSQLiteAbstraction;
 use Wikibase\Database\TableDefinition;
 use Wikibase\EntityId;
 use Wikibase\Item;
@@ -64,6 +65,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 	protected function newStore() {
 		$dbConnectionProvider = new LazyDBConnectionProvider( DB_MASTER );
 
+		// TODO: use factory in DB component
 		$queryInterface = new MediaWikiQueryInterface(
 			$dbConnectionProvider,
 			new ExtendedMySQLAbstraction( $dbConnectionProvider )
@@ -158,7 +160,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$matchingEntityIds = $matchFinder->getMatchingEntities( $description, $queryOptions );
 
 		$this->assertInternalType( 'array', $matchingEntityIds );
-		$this->assertContainsOnly( 'int', $matchingEntityIds );
+		$this->assertContainsOnlyInstancesOf( 'Wikibase\EntityId', $matchingEntityIds );
 
 		$this->assertEquals( $expectedIds, $matchingEntityIds );
 	}
@@ -171,7 +173,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 				new EntityId( 'property', 42 ),
 				new ValueDescription( new NumberValue( 1337 ) )
 			),
-			array( 11120, 11150 )
+			array( new EntityId( 'item', 1112 ), new EntityId( 'item', 1115 ) )
 		);
 
 		$argLists[] = array(
@@ -187,7 +189,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 				new EntityId( 'property', 43 ),
 				new ValueDescription( new NumberValue( 1337 ) )
 			),
-			array( 11130 )
+			array( new EntityId( 'item', 1113 ) )
 		);
 
 		$argLists[] = array(
@@ -195,7 +197,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 				new EntityId( 'property', 42 ),
 				new ValueDescription( new NumberValue( 72010 ) )
 			),
-			array( 11140 )
+			array( new EntityId( 'item', 1114 ) )
 		);
 
 		return $argLists;

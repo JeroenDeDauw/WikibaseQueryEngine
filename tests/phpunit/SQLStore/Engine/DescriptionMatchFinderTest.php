@@ -41,7 +41,8 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 			$this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\Schema' )
 				->disableOriginalConstructor()->getMock(),
 			$this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' ),
-			$this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' )
+			$this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' ),
+			$this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdInterpreter' )
 		);
 	}
 
@@ -89,18 +90,26 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 
 		$idTransformer = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
 
+		$idInterpreter = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdInterpreter' );
+
+		$idInterpreter->expects( $this->atLeastOnce() )
+			->method( 'getExternalIdForEntity' )
+			->with( $this->equalTo( 10 ) )
+			->will( $this->returnValue( new EntityId( 'item', 1 ) ) );
+
 		$matchFinder = new DescriptionMatchFinder(
 			$queryEngine,
 			$schema,
 			$dvTypeLookup,
-			$idTransformer
+			$idTransformer,
+			$idInterpreter
 		);
 
-		$matchingInternalIds = $matchFinder->findMatchingEntities( $description, $queryOptions );
+		$matchingIds = $matchFinder->findMatchingEntities( $description, $queryOptions );
 
-		$this->assertInternalType( 'array', $matchingInternalIds );
-		$this->assertContainsOnly( 'int', $matchingInternalIds );
-		$this->assertEquals( array( 10 ), $matchingInternalIds );
+		$this->assertInternalType( 'array', $matchingIds );
+		$this->assertContainsOnlyInstancesOf( 'Wikibase\EntityId', $matchingIds );
+		$this->assertEquals( array( new EntityId( 'item', 1 ) ), $matchingIds );
 	}
 
 	public function testFindMatchingEntitiesWithInvalidPropertyId() {
