@@ -294,7 +294,7 @@ class Schema {
 					 FieldDefinition::NOT_NULL,
 					 FieldDefinition::NO_DEFAULT,
 					 FieldDefinition::ATTRIB_UNSIGNED,
-					 FieldDefinition::INDEX
+					 FieldDefinition::INDEX_PRIMARY
 				 ),
 
 				 // External id
