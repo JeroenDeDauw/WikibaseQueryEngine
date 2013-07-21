@@ -2,28 +2,40 @@
 
 set -x
 
-cd ..
-
-if [ "$1" == "QueryEngineStandalone" ]
+if [ "$1" == "Standalone" ]
 then
-	mkdir phase3
-	cd phase3
-
-	mkdir extensions
-	cd extensions
+	composer require satooshi/php-coveralls:dev-master
+	composer install
 else
+	cd ..
+
 	git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git phase3 --depth 1
-	cd phase3
+
+	cd -
+	cd ../phase3/extensions
+
+	mkdir WikibaseQueryEngine
+
+	cd -
+	cp -r * ../phase3/extensions/WikibaseQueryEngine
+
+	cd ../phase3
 
 	mysql -e 'create database its_a_mw;'
 	php maintenance/install.php --dbtype $DBTYPE --dbuser root --dbname its_a_mw --dbpath $(pwd) --pass nyan TravisWiki admin
 
-	cd extensions
-fi
+	cd extensions/WikibaseQueryEngine
+	composer require satooshi/php-coveralls:dev-master
+	composer install
 
-composer create-project wikibase/query-engine:dev-master WikibaseQueryEngine --keep-vcs
+	cd ../..
+	echo 'require_once( __DIR__ . "/extensions/WikibaseQueryEngine/WikibaseQueryEngine.php" );' >> LocalSettings.php
 
-if [ "$1" != "QueryEngineStandalone" ]
-then
-	php ../maintenance/update.php --quick
+	echo 'error_reporting(E_ALL| E_STRICT);' >> LocalSettings.php
+	echo 'ini_set("display_errors", 1);' >> LocalSettings.php
+	echo '$wgShowExceptionDetails = true;' >> LocalSettings.php
+	echo '$wgDevelopmentWarnings = true;' >> LocalSettings.php
+
+	php maintenance/update.php --quick
+
 fi

@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/version.png)](https://packagist.org/packages/wikibase/query-engine)
 [![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/d/total.png)](https://packagist.org/packages/wikibase/query-engine)
 [![Build Status](https://secure.travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine)
+[![Coverage Status](https://coveralls.io/repos/wikimedia/mediawiki-extensions-WikibaseQueryEngine/badge.png?branch=master)](https://coveralls.io/r/wikimedia/mediawiki-extensions-WikibaseQueryEngine?branch=master)
 
 Component containing query answering code for
 [Ask](https://www.mediawiki.org/wiki/Extension:Ask)
