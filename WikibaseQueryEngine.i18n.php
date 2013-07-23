@@ -86,6 +86,13 @@ $messages['ja'] = array(
 	'wikibasequeryengine-desc' => 'ウィキベース項目の集合内を検索する Ask クエリに対するクエリ応答のコードを含むコンポーネント',
 );
 
+/** Korean (한국어)
+ * @author 아라
+ */
+$messages['ko'] = array(
+	'wikibasequeryengine-desc' => '위키베이스 개체의 모음집에서 Ask 쿼리 요청에 대한 쿼리 응답 코드를 포함하는 구성 요소',
+);
+
 /** Macedonian (македонски)
  * @author Bjankuloski06
  */
