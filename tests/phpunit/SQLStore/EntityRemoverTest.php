@@ -34,15 +34,6 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 	public function testRemoveEntity( Entity $entity ) {
 		$internalSubjectId = 9001;
 
-		$claimTable = $this
-			->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimsTable' )
-			->disableOriginalConstructor()
-			->getMock();
-
-		$claimTable->expects( $this->once() )
-			->method( 'removeClaimsOfSubject' )
-			->with( $this->equalTo( $internalSubjectId ) );
-
 		$snakRemover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -60,7 +51,7 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 			)
 			->will( $this->returnValue( $internalSubjectId ) );
 
-		$remover = new EntityRemover( $claimTable, $snakRemover, $idFinder );
+		$remover = new EntityRemover( $snakRemover, $idFinder );
 
 		$remover->removeEntity( $entity );
 	}

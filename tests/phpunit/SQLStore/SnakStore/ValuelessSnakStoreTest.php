@@ -43,14 +43,12 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			1,
-			1,
 			SnakRole::QUALIFIER,
 			1
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
-			1,
 			1,
 			SnakRole::MAIN_SNAK,
 			1
@@ -59,14 +57,12 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			1,
-			1,
 			SnakRole::QUALIFIER,
 			1
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
-			1,
 			1,
 			SnakRole::MAIN_SNAK,
 			1
@@ -81,14 +77,12 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
 			1,
-			1,
 			SnakRole::QUALIFIER,
 			0
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
-			1,
 			1,
 			SnakRole::MAIN_SNAK,
 			0
@@ -109,7 +103,6 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 				$this->equalTo( 'snaks_of_doom' ),
 				$this->equalTo(
 					array(
-						'claim_id' => $snakRow->getInternalClaimId(),
 						'property_id' => $snakRow->getInternalPropertyId(),
 						'subject_id' => $snakRow->getInternalSubjectId(),
 						'snak_type' => $snakRow->getInternalSnakType(),

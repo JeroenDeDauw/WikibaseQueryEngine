@@ -6,7 +6,6 @@ use Wikibase\Database\QueryInterface;
 use Wikibase\Database\TableBuilder;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimsTable;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover;
@@ -73,7 +72,6 @@ final class Factory {
 
 	public function newEntityRemover() {
 		return new EntityRemover(
-			$this->newClaimsTable(),
 			$this->newSnakRemover(),
 			$this->getInternalEntityIdFinder()
 		);
@@ -92,16 +90,8 @@ final class Factory {
 
 	public function newClaimInserter() {
 		return new ClaimInserter(
-			$this->newClaimsTable(),
 			$this->newSnakInserter(),
 			new ClaimRowBuilder( $this->getInternalEntityIdFinder() )
-		);
-	}
-
-	public function newClaimsTable() {
-		return new ClaimsTable(
-			$this->queryInterface,
-			$this->getSchema()->getClaimsTable()->getName()
 		);
 	}
 

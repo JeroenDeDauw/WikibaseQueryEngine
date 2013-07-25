@@ -38,11 +38,10 @@ class SnakInserter {
 	 *
 	 * @param Snak $snak
 	 * @param int $snakRole
-	 * @param int $internalClaimId
 	 * @param int $internalSubjectId
 	 */
-	public function insertSnak( Snak $snak, $snakRole, $internalClaimId, $internalSubjectId ) {
-		$snakRow = $this->snakRowBuilder->newSnakRow( $snak, $snakRole, $internalClaimId, $internalSubjectId );
+	public function insertSnak( Snak $snak, $snakRole, $internalSubjectId ) {
+		$snakRow = $this->snakRowBuilder->newSnakRow( $snak, $snakRole, $internalSubjectId );
 		$this->insertSnakRow( $snakRow );
 	}
 

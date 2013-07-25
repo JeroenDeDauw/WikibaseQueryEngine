@@ -16,19 +16,16 @@ namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 abstract class SnakRow {
 
 	protected $internalPropertyId;
-	protected $internalClaimId;
 	protected $snakRole;
 	protected $internalSubjectId;
 
 	/**
 	 * @param int $internalPropertyId
-	 * @param int $internalClaimId
 	 * @param int $snakRole
 	 * @param int $internalSubjectId
 	 */
-	public function __construct( $internalPropertyId, $internalClaimId, $snakRole, $internalSubjectId ) {
+	public function __construct( $internalPropertyId, $snakRole, $internalSubjectId ) {
 		$this->internalPropertyId = $internalPropertyId;
-		$this->internalClaimId = $internalClaimId;
 		$this->snakRole = $snakRole;
 		$this->internalSubjectId = $internalSubjectId;
 	}
@@ -38,13 +35,6 @@ abstract class SnakRow {
 	 */
 	public function getInternalPropertyId() {
 		return $this->internalPropertyId;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getInternalClaimId() {
-		return $this->internalClaimId;
 	}
 
 	/**

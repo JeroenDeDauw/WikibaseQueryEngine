@@ -21,12 +21,10 @@ use Wikibase\SnakRole;
  */
 class ClaimInserter {
 
-	protected $claimsTable;
 	protected $snakInserter;
 	protected $claimRowBuilder;
 
-	public function __construct( ClaimsTable $claimsTable, SnakInserter $snakInserter, ClaimRowBuilder $claimRowBuilder ) {
-		$this->claimsTable = $claimsTable;
+	public function __construct( SnakInserter $snakInserter, ClaimRowBuilder $claimRowBuilder ) {
 		$this->snakInserter = $snakInserter;
 		$this->claimRowBuilder = $claimRowBuilder;
 	}
@@ -36,25 +34,19 @@ class ClaimInserter {
 	 * @param int $internalSubjectId
 	 */
 	public function insertClaim( Claim $claim, $internalSubjectId ) {
-		$internalClaimId = $this->insertIntoClaimsTable( $claim, $internalSubjectId );
-		$this->insertSnaks( $claim, $internalClaimId, $internalSubjectId );
+		$this->insertSnaks( $claim, $internalSubjectId );
 	}
 
-	protected function insertIntoClaimsTable( Claim $claim, $internalSubjectId ) {
-		$claimRow = $this->claimRowBuilder->newClaimRow( $claim, $internalSubjectId );
-		return $this->claimsTable->insertClaimRow( $claimRow );
-	}
-
-	protected function insertSnaks( Claim $claim, $internalClaimId, $internalSubjectId ) {
-		$this->insertSnak( $claim->getMainSnak(), SnakRole::MAIN_SNAK, $internalClaimId, $internalSubjectId );
+	protected function insertSnaks( Claim $claim, $internalSubjectId ) {
+		$this->insertSnak( $claim->getMainSnak(), SnakRole::MAIN_SNAK, $internalSubjectId );
 
 		foreach ( $claim->getQualifiers() as $qualifier ) {
-			$this->insertSnak( $qualifier, SnakRole::QUALIFIER, $internalClaimId, $internalSubjectId );
+			$this->insertSnak( $qualifier, SnakRole::QUALIFIER, $internalSubjectId );
 		}
 	}
 
-	protected function insertSnak( Snak $snak, $snakRole, $internalClaimId, $internalSubjectId ) {
-		$this->snakInserter->insertSnak( $snak, $snakRole, $internalClaimId, $internalSubjectId );
+	protected function insertSnak( Snak $snak, $snakRole, $internalSubjectId ) {
+		$this->snakInserter->insertSnak( $snak, $snakRole, $internalSubjectId );
 	}
 
 }

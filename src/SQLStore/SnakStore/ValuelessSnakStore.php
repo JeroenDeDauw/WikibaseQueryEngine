@@ -55,7 +55,6 @@ class ValuelessSnakStore extends SnakStore {
 		$this->queryInterface->insert(
 			$this->tableName,
 			array(
-				'claim_id' => $snakRow->getInternalClaimId(),
 				'property_id' => $snakRow->getInternalPropertyId(),
 				'subject_id' => $snakRow->getInternalSubjectId(),
 				'snak_type' => $snakRow->getInternalSnakType(),

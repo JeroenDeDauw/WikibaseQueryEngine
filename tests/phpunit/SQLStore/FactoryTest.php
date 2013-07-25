@@ -63,13 +63,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testNewClaimsTableReturnType() {
-		$this->assertInstanceOf(
-			'Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimsTable',
-			$this->newInstance()->newClaimsTable()
-		);
-	}
-
 	public function testGetTableBuilderReturnType() {
 		$this->assertInstanceOf(
 			'Wikibase\Database\TableBuilder',

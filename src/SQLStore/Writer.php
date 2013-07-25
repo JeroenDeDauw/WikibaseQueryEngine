@@ -3,20 +3,9 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use Wikibase\Claim;
-use Wikibase\Database\QueryInterface;
 use Wikibase\Entity;
-use Wikibase\EntityId;
 use Wikibase\QueryEngine\QueryStoreWriter;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimsTable;
-use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
-use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
-use Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
-use Wikibase\SnakRole;
 
 /**
  * Class responsible for writing information to the SQLStore.

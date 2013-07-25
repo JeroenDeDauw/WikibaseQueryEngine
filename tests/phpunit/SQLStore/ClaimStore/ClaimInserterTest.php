@@ -79,11 +79,6 @@ class ClaimInserterTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider claimProvider
 	 */
 	public function testInsertClaim( Claim $claim ) {
-		$claimTable = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimsTable' )
-			->disableOriginalConstructor()->getMock();
-
-		$claimTable->expects( $this->once() )->method( 'insertClaimRow' );
-
 		$snakInserter = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter' )
 			->disableOriginalConstructor()->getMock();
 
@@ -96,7 +91,7 @@ class ClaimInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$claimRowBuilder = new ClaimRowBuilder( $idFinder );
 
-		$claimInserter = new ClaimInserter( $claimTable, $snakInserter, $claimRowBuilder );
+		$claimInserter = new ClaimInserter( $snakInserter, $claimRowBuilder );
 
 		$claimInserter->insertClaim( $claim, new EntityId( 'item', 1 ) );
 	}

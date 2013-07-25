@@ -182,16 +182,6 @@ class Schema {
 	 */
 	private function getPropertySnakFields() {
 		return array(
-			// Internal claim id
-			new FieldDefinition(
-				'claim_id',
-				FieldDefinition::TYPE_INTEGER,
-				FieldDefinition::NOT_NULL,
-				FieldDefinition::NO_DEFAULT,
-				FieldDefinition::ATTRIB_UNSIGNED,
-				FieldDefinition::NO_INDEX
-			),
-
 			// Internal subject id
 			new FieldDefinition(
 				'subject_id',
@@ -283,78 +273,6 @@ class Schema {
 	 *
 	 * @return TableDefinition
 	 */
-	public function getClaimsTable() {
-		return new TableDefinition(
-			$this->config->getTablePrefix() . 'claims',
-			array(
-				 // Internal id
-				 new FieldDefinition(
-					 'id',
-					 FieldDefinition::TYPE_INTEGER,
-					 FieldDefinition::NOT_NULL,
-					 FieldDefinition::NO_DEFAULT,
-					 FieldDefinition::ATTRIB_UNSIGNED,
-					 FieldDefinition::INDEX_PRIMARY
-				 ),
-
-				 // External id
-				 new FieldDefinition(
-					 'guid',
-					 FieldDefinition::TYPE_TEXT,
-					 FieldDefinition::NOT_NULL,
-					 FieldDefinition::NO_DEFAULT,
-					 FieldDefinition::ATTRIB_UNSIGNED,
-					 FieldDefinition::INDEX
-				 ),
-
-				 // Internal id of the claims subject
-				 new FieldDefinition(
-					 'subject_id',
-					 FieldDefinition::TYPE_INTEGER,
-					 FieldDefinition::NOT_NULL,
-					 FieldDefinition::NO_DEFAULT,
-					 FieldDefinition::ATTRIB_UNSIGNED,
-					 FieldDefinition::INDEX
-				 ),
-
-				 // Internal id of the property of the main snak
-				 new FieldDefinition(
-					 'property_id',
-					 FieldDefinition::TYPE_INTEGER,
-					 FieldDefinition::NOT_NULL,
-					 FieldDefinition::NO_DEFAULT,
-					 FieldDefinition::ATTRIB_UNSIGNED,
-					 FieldDefinition::INDEX
-				 ),
-
-				 // Rank
-				 new FieldDefinition(
-					 'rank',
-					 FieldDefinition::TYPE_INTEGER,
-					 FieldDefinition::NOT_NULL,
-					 FieldDefinition::NO_DEFAULT,
-					 FieldDefinition::ATTRIB_UNSIGNED,
-					 FieldDefinition::INDEX
-				 ),
-
-				 // Hash
-				 new FieldDefinition(
-					 'hash',
-					 FieldDefinition::TYPE_TEXT,
-					 FieldDefinition::NOT_NULL,
-					 FieldDefinition::NO_DEFAULT,
-					 FieldDefinition::NO_ATTRIB,
-					 FieldDefinition::INDEX
-				 ),
-			)
-		);
-	}
-
-	/**
-	 * @since 0.1
-	 *
-	 * @return TableDefinition
-	 */
 	public function getValuelessSnaksTable() {
 		return new TableDefinition(
 			$this->config->getTablePrefix() . 'valueless_snaks',
@@ -398,9 +316,6 @@ class Schema {
 
 		// Id map with Wikibase EntityId to internal SQL store id
 		$tables[] = $this->getEntitiesTable();
-
-		// Claim id table
-		$tables[] = $this->getClaimsTable();
 
 		// Table for snaks without a value
 		$tables[] = $this->getValuelessSnaksTable();

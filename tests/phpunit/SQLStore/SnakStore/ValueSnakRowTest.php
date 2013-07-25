@@ -30,7 +30,6 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 		$argLists[] = array(
 			new StringValue( 'foobar baz' ),
 			2,
-			3,
 			SnakRole::QUALIFIER,
 			4
 		);
@@ -38,7 +37,6 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 		$argLists[] = array(
 			new MonolingualTextValue( 'en', 'foobar baz' ),
 			9001,
-			9002,
 			SnakRole::QUALIFIER,
 			9003
 		);
@@ -49,12 +47,11 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider constructorProvider
 	 */
-	public function testConstructor( DataValue $value, $internalPropertyId, $internalClaimId, $snakRole, $internalSubjectId ) {
-		$snakRow = new ValueSnakRow( $value, $internalPropertyId, $internalClaimId, $snakRole, $internalSubjectId );
+	public function testConstructor( DataValue $value, $internalPropertyId, $snakRole, $internalSubjectId ) {
+		$snakRow = new ValueSnakRow( $value, $internalPropertyId, $snakRole, $internalSubjectId );
 
 		$this->assertTrue( $value->equals( $snakRow->getValue() ) );
 		$this->assertEquals( $internalPropertyId, $snakRow->getInternalPropertyId() );
-		$this->assertEquals( $internalClaimId, $snakRow->getInternalClaimId() );
 		$this->assertEquals( $snakRole, $snakRow->getSnakRole() );
 		$this->assertEquals( $internalSubjectId, $snakRow->getInternalSubjectId() );
 	}

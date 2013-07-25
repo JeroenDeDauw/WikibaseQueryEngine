@@ -84,7 +84,6 @@ class ValueSnakStore extends SnakStore {
 
 		$insertValues = array_merge(
 			array(
-				'claim_id' => $snakRow->getInternalClaimId(),
 				'property_id' => $snakRow->getInternalPropertyId(),
 				'subject_id' => $snakRow->getInternalSubjectId(),
 			),
