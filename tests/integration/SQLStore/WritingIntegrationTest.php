@@ -47,7 +47,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		if ( !defined( 'MEDIAWIKI' ) || !in_array( wfGetDB( DB_MASTER )->getType(), array( 'mysql', 'sqlite' ) ) ) {
-			$this->markTestSkipped( 'Can only run DescriptionMatchFinderIntegrationTest on MySQL' );
+			$this->markTestSkipped( 'Can only run DescriptionMatchFinderIntegrationTest on MySQL or SQLite' );
 		}
 
 		parent::setUp();
