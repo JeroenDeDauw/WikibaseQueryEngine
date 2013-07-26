@@ -5,14 +5,12 @@ namespace Wikibase\QueryEngine\Tests\SQLStore;
 use Ask\Language\Description\AnyValue;
 use Ask\Language\Description\SomeProperty;
 use Ask\Language\Option\QueryOptions;
-use DataValues\PropertyValue;
 use DataValues\StringValue;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\TableDefinition;
 use Wikibase\EntityId;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
-use Wikibase\QueryEngine\SQLStore\EntityIdTransformer;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder

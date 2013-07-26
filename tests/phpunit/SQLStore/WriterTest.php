@@ -4,16 +4,10 @@ namespace Wikibase\QueryEngine\Tests\SQLStore;
 
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\TableDefinition;
-use Wikibase\Entity;
 use Wikibase\Item;
 use Wikibase\Property;
-use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\Schema;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\QueryEngine\SQLStore\Writer;
-use Wikibase\QueryEngine\Tests\QueryStoreUpdaterTest;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\Writer

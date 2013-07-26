@@ -2,11 +2,8 @@
 
 namespace Wikibase\QueryEngine\Tests\SQLStore;
 
-use Wikibase\Database\MWDB\ExtendedMySQLAbstraction;
-use Wikibase\Database\MediaWikiQueryInterface;
 use Wikibase\QueryEngine\SQLStore\Store;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
-use Wikibase\QueryEngine\Tests\QueryStoreTest;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\Store
@@ -25,8 +22,6 @@ use Wikibase\QueryEngine\Tests\QueryStoreTest;
 class StoreTest extends \PHPUnit_Framework_TestCase {
 
 	protected function newInstance() {
-		$connectionProvider = $this->getMock( 'Wikibase\Repo\DBConnectionProvider' );
-
 		$storeConfig = new StoreConfig( 'foo', 'bar', array() );
 
 		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
@@ -37,10 +32,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase {
 
 		$storeConfig->setPropertyDataValueTypeLookup( $dvTypeLookup );
 
-		$queryInterface = new MediaWikiQueryInterface(
-			$connectionProvider,
-			new ExtendedMySQLAbstraction( $connectionProvider )
-		);
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
 
 		return new Store( $storeConfig, $queryInterface );
 	}

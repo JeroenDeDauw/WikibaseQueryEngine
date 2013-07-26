@@ -8,10 +8,9 @@ use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\LazyDBConnectionProvider;
-use Wikibase\Database\MediaWikiQueryInterface;
+use Wikibase\Database\MediaWiki\MediaWikiQueryInterface;
+use Wikibase\Database\MediaWiki\MWQueryInterfaceBuilder;
 use Wikibase\Database\MessageReporter;
-use Wikibase\Database\MWDB\ExtendedMySQLAbstraction;
-use Wikibase\Database\MWDB\ExtendedSQLiteAbstraction;
 use Wikibase\Database\TableDefinition;
 use Wikibase\EntityId;
 use Wikibase\Item;
@@ -43,8 +42,8 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 	protected $store;
 
 	public function setUp() {
-		if ( !defined( 'MEDIAWIKI' ) || wfGetDB( DB_MASTER )->getType() !== 'mysql' ) {
-			$this->markTestSkipped( 'Can only run DescriptionMatchFinderIntegrationTest on MySQL' );
+		if ( !defined( 'MEDIAWIKI' ) || !in_array( wfGetDB( DB_MASTER )->getType(), array( 'mysql', 'sqlite' ) ) ) {
+			$this->markTestSkipped( 'Can only run DescriptionMatchFinderIntegrationTest on MySQL and SQLite' );
 		}
 
 		parent::setUp();
@@ -65,11 +64,8 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 	protected function newStore() {
 		$dbConnectionProvider = new LazyDBConnectionProvider( DB_MASTER );
 
-		// TODO: use factory in DB component
-		$queryInterface = new MediaWikiQueryInterface(
-			$dbConnectionProvider,
-			new ExtendedMySQLAbstraction( $dbConnectionProvider )
-		);
+		$qiBuilder = new MWQueryInterfaceBuilder();
+		$queryInterface = $qiBuilder->setConnection( $dbConnectionProvider )->getQueryInterface();
 
 		$config = new StoreConfig(
 			'test_store',
