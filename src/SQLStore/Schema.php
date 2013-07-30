@@ -174,13 +174,13 @@ class Schema {
 	}
 
 	/**
-	 * TODO
-	 *
 	 * @since 0.1
 	 *
 	 * @return FieldDefinition[]
 	 */
 	private function getPropertySnakFields() {
+		// TODO: indexes
+
 		return array(
 			// Internal subject id
 			new FieldDefinition(
@@ -188,8 +188,7 @@ class Schema {
 				FieldDefinition::TYPE_INTEGER,
 				FieldDefinition::NOT_NULL,
 				FieldDefinition::NO_DEFAULT,
-				FieldDefinition::ATTRIB_UNSIGNED,
-				FieldDefinition::NO_INDEX
+				FieldDefinition::ATTRIB_UNSIGNED
 			),
 
 			// Internal property id
@@ -198,15 +197,12 @@ class Schema {
 				FieldDefinition::TYPE_INTEGER,
 				FieldDefinition::NOT_NULL,
 				FieldDefinition::NO_DEFAULT,
-				FieldDefinition::ATTRIB_UNSIGNED,
-				FieldDefinition::INDEX
+				FieldDefinition::ATTRIB_UNSIGNED
 			),
 		);
 	}
 
 	/**
-	 * TODO
-	 *
 	 * @since 0.1
 	 *
 	 * @return TableDefinition[]
@@ -232,6 +228,7 @@ class Schema {
 	 * @return TableDefinition
 	 */
 	public function getEntitiesTable() {
+		// TODO: indexes
 		return new TableDefinition(
 			$this->config->getTablePrefix() . 'entities',
 			array(
@@ -241,8 +238,7 @@ class Schema {
 					FieldDefinition::TYPE_INTEGER,
 					FieldDefinition::NOT_NULL,
 					FieldDefinition::NO_DEFAULT,
-					FieldDefinition::ATTRIB_UNSIGNED,
-					FieldDefinition::INDEX
+					FieldDefinition::ATTRIB_UNSIGNED
 				),
 
 				// EntityId type part
@@ -251,8 +247,7 @@ class Schema {
 					FieldDefinition::TYPE_TEXT,
 					FieldDefinition::NOT_NULL,
 					FieldDefinition::NO_DEFAULT,
-					FieldDefinition::NO_ATTRIB,
-					FieldDefinition::INDEX
+					FieldDefinition::NO_ATTRIB
 				),
 
 				// EntityId numerical part
@@ -261,8 +256,7 @@ class Schema {
 					FieldDefinition::TYPE_INTEGER,
 					FieldDefinition::NOT_NULL,
 					FieldDefinition::NO_DEFAULT,
-					FieldDefinition::ATTRIB_UNSIGNED,
-					FieldDefinition::INDEX
+					FieldDefinition::ATTRIB_UNSIGNED
 				),
 			)
 		);
@@ -274,6 +268,7 @@ class Schema {
 	 * @return TableDefinition
 	 */
 	public function getValuelessSnaksTable() {
+		// TODO: indexes
 		return new TableDefinition(
 			$this->config->getTablePrefix() . 'valueless_snaks',
 			array_merge(
@@ -285,8 +280,7 @@ class Schema {
 						 FieldDefinition::TYPE_INTEGER,
 						 FieldDefinition::NOT_NULL,
 						 FieldDefinition::NO_DEFAULT,
-						 FieldDefinition::ATTRIB_UNSIGNED,
-						 FieldDefinition::INDEX
+						 FieldDefinition::ATTRIB_UNSIGNED
 					 ),
 
 					 // Role of the snak (ie "main snak" or "qualifier")
@@ -295,8 +289,7 @@ class Schema {
 						 FieldDefinition::TYPE_INTEGER,
 						 FieldDefinition::NOT_NULL,
 						 FieldDefinition::NO_DEFAULT,
-						 FieldDefinition::ATTRIB_UNSIGNED,
-						 FieldDefinition::INDEX
+						 FieldDefinition::ATTRIB_UNSIGNED
 					 ),
 				)
 			)
