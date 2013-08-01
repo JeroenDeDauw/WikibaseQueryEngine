@@ -27,6 +27,7 @@ class SnakInserter {
 
 	/**
 	 * @param SnakStore[] $snakStores
+	 * @param SnakRowBuilder $snakRowBuilder
 	 */
 	public function __construct( array $snakStores, SnakRowBuilder $snakRowBuilder ) {
 		$this->snakStores = $snakStores;

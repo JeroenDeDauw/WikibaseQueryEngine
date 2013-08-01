@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
+use Exception;
 use Wikibase\Database\TableDefinition;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 
@@ -71,10 +72,12 @@ class StoreConfig {
 
 	/**
 	 * @return PropertyDataValueTypeLookup
+	 *
+	 * @throws Exception
 	 */
 	public function getPropertyDataValueTypeLookup() {
 		if ( $this->propertyDataValueTypeLookup === null ) {
-			throw new \Exception( 'setPropertyDataValueTypeLookup has not been called yet' );
+			throw new Exception( 'setPropertyDataValueTypeLookup has not been called yet' );
 		}
 
 		return $this->propertyDataValueTypeLookup;
