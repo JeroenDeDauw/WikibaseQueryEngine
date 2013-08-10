@@ -114,6 +114,13 @@ $messages['ru'] = array(
 	'wikibasequeryengine-desc' => 'Компонент содержит код ответа на запросы для запросов «Ask» (Ask queries) к коллекции сущностей Wikibase',
 );
 
+/** Ukrainian (українська)
+ * @author Andriykopanytsia
+ */
+$messages['uk'] = array(
+	'wikibasequeryengine-desc' => 'Компонент містить код відповіді на запити для запитів „Ask“ до колекції сутностей Wikibase',
+);
+
 /** Vietnamese (Tiếng Việt)
  * @author Minh Nguyen
  */
