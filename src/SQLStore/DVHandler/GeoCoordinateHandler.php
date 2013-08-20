@@ -3,14 +3,14 @@
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
-use DataValues\GeoCoordinateValue;
+use DataValues\GlobeCoordinateValue;
 use InvalidArgumentException;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\TableDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
- * Represents the mapping between DataValues\GeoCoordinateValue and
+ * Represents the mapping between DataValues\GlobeCoordinateValue and
  * the corresponding table in the store.
  *
  * @since 0.1
@@ -33,7 +33,7 @@ class GeoCoordinateHandler extends DataValueHandler {
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
-		return GeoCoordinateValue::newFromArray( json_decode( $valueFieldValue, true ) );
+		return GlobeCoordinateValue::newFromArray( json_decode( $valueFieldValue, true ) );
 	}
 
 	/**
@@ -47,8 +47,8 @@ class GeoCoordinateHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof GeoCoordinateValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a GeoCoordinateValue' );
+		if ( !( $value instanceof GlobeCoordinateValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a GlobeCoordinateValue' );
 		}
 
 		return array(
@@ -69,26 +69,21 @@ class GeoCoordinateHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getInsertValues( DataValue $value ) {
-		if ( !( $value instanceof GeoCoordinateValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a GeoCoordinateValue' );
+		if ( !( $value instanceof GlobeCoordinateValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a GlobeCoordinateValue' );
 		}
 
 		$values = array(
 			'lat' => $value->getLatitude(),
 			'lon' => $value->getLongitude(),
 
+			'precision' => $value->getPrecision(),
+			'globe' => $value->getGlobe(),
+
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.
 			'json' => json_encode( $value->getArrayValue() ),
 		);
-
-		if ( $value->getAltitude() !== null ) {
-			$values['alt'] = $value->getAltitude();
-		}
-
-		if ( $value->getGlobe() !== null ) {
-			$values['globe'] = $value->getGlobe();
-		}
 
 		return $values;
 	}

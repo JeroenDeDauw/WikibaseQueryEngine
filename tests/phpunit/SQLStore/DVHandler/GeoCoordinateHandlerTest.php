@@ -2,7 +2,8 @@
 
 namespace Wikibase\QueryEngine\Tests\SQLStore\DVHandler;
 
-use DataValues\GeoCoordinateValue;
+use DataValues\GlobeCoordinateValue;
+use DataValues\LatLongValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\Tests\SQLStore\DataValueHandlerTest;
@@ -44,15 +45,15 @@ class GeoCoordinateHandlerTest extends DataValueHandlerTest {
 	 *
 	 * @since 0.1
 	 *
-	 * @return GeoCoordinateValue[]
+	 * @return GlobeCoordinateValue[]
 	 */
 	protected function getValues() {
 		$values = array();
 
-		$values[] = new GeoCoordinateValue( 0, 0 );
-		$values[] = new GeoCoordinateValue( 23, 42 );
-		$values[] = new GeoCoordinateValue( 2.3, 4.2, 9000.1 );
-		$values[] = new GeoCoordinateValue( -2.3, -4.2, -9000.1, null, 'mars' );
+		$values[] = new GlobeCoordinateValue( new LatLongValue( 0, 0 ), 1 );
+		$values[] = new GlobeCoordinateValue( new LatLongValue( 23, 42 ), 0.1 );
+		$values[] = new GlobeCoordinateValue( new LatLongValue( 2.3, 4.2 ), 10 );
+		$values[] = new GlobeCoordinateValue( new LatLongValue( -2.3, -4.2 ), 1, 'mars' );
 
 		return $values;
 	}
