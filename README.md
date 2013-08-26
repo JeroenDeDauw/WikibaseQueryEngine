@@ -1,9 +1,12 @@
 # Wikibase QueryEngine
 
-[![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/version.png)](https://packagist.org/packages/wikibase/query-engine)
-[![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/d/total.png)](https://packagist.org/packages/wikibase/query-engine)
 [![Build Status](https://secure.travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine)
 [![Coverage Status](https://coveralls.io/repos/wikimedia/mediawiki-extensions-WikibaseQueryEngine/badge.png?branch=master)](https://coveralls.io/r/wikimedia/mediawiki-extensions-WikibaseQueryEngine?branch=master)
+[![Dependency Status](https://www.versioneye.com/package/php--wikibase--query-engine/badge.png)](https://www.versioneye.com/package/php--wikibase--query-engine)
+
+On [Packagist](https://packagist.org/packages/wikibase/query-engine):
+[![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/version.png)](https://packagist.org/packages/wikibase/query-engine)
+[![Download count](https://poser.pugx.org/wikibase/query-engine/d/total.png)](https://packagist.org/packages/wikibase/query-engine)
 
 Component containing query answering code for
 [Ask](https://www.mediawiki.org/wiki/Extension:Ask)
@@ -87,3 +90,9 @@ as [Wikimedia Germany](https://wikimedia.de) employee for the [Wikidata project]
 * [Wikibase QueryEngine on MediaWiki.org](https://www.mediawiki.org/wiki/Extension:Wikibase_QueryEngine)
 * [TravisCI build status](https://travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine)
 * [Latest version of the readme file](https://github.com/wikimedia/mediawiki-extensions-WikibaseQueryEngine/blob/master/README.md)
+
+## Related projects
+
+* [Ask JavaScript implementation](https://github.com/JeroenDeDauw/AskJS)
+* [Wikibase](https://www.mediawiki.org/wiki/Wikibase)
+* [Semantic MediaWiki](https://semantic-mediawiki.org/)
