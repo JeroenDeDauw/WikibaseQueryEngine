@@ -100,6 +100,13 @@ $messages['mk'] = array(
 	'wikibasequeryengine-desc' => 'Компонента што содржи код за одговарање на Ask-барања во склад со со збир од предмети на Викибазата',
 );
 
+/** Occitan (occitan)
+ * @author Cedric31
+ */
+$messages['oc'] = array(
+	'wikibasequeryengine-desc' => 'Component que conten un còde de question-responsa per las requèstas Ask que pòrtan sus una colleccion d’entitats de Wikibase',
+);
+
 /** tarandíne (tarandíne)
  * @author Joetaras
  */
