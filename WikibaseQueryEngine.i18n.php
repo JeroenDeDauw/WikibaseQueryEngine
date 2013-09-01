@@ -44,6 +44,13 @@ $messages['de'] = array(
 	'wikibasequeryengine-desc' => 'Komponente, die einen Abfragenantwortcode für Ask-Abfragen gegen eine Sammlung von Wikibase-Entitäten beinhaltet',
 );
 
+/** Spanish (español)
+ * @author Fitoschido
+ */
+$messages['es'] = array(
+	'wikibasequeryengine-desc' => 'Componente que contiene código para responder consultas de Ask hacia una colección de entidades de Wikibase',
+);
+
 /** French (français)
  * @author Gomoko
  */
