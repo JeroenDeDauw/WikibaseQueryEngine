@@ -4,7 +4,8 @@ namespace Wikibase\QueryEngine\Tests\SQLStore\ClaimStore;
 
 use DataValues\StringValue;
 use Wikibase\Claim;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
@@ -93,7 +94,7 @@ class ClaimInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$claimInserter = new ClaimInserter( $snakInserter, $claimRowBuilder );
 
-		$claimInserter->insertClaim( $claim, new EntityId( 'item', 1 ) );
+		$claimInserter->insertClaim( $claim, new ItemId( 'Q1' ) );
 	}
 
 	private function countClaimSnaks( Claim $claim ) {

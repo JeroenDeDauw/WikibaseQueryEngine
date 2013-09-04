@@ -4,7 +4,7 @@ namespace Wikibase\QueryEngine\Tests\SQLStore\ClaimStore;
 
 use DataValues\StringValue;
 use Wikibase\Claim;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;

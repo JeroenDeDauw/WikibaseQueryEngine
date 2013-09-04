@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * Finds the internal entity id for the given external entity id.

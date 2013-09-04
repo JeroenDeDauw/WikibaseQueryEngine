@@ -6,7 +6,8 @@ use DataValues\DataValue;
 use InvalidArgumentException;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\TableDefinition;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
@@ -33,7 +34,7 @@ class EntityIdHandler extends DataValueHandler {
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
-		return EntityId::newFromArray( json_decode( $valueFieldValue, true ) );
+		return EntityIdValue::newFromArray( json_decode( $valueFieldValue, true ) );
 	}
 
 	/**
@@ -47,8 +48,8 @@ class EntityIdHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof EntityId ) ) {
-			throw new InvalidArgumentException( 'Value is not a EntityId' );
+		if ( !( $value instanceof EntityIdValue ) ) {
+			throw new InvalidArgumentException( '$value is not a EntityIdValue' );
 		}
 
 		return array(
@@ -69,13 +70,13 @@ class EntityIdHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getInsertValues( DataValue $value ) {
-		if ( !( $value instanceof EntityId ) ) {
-			throw new InvalidArgumentException( 'Value is not a EntityId' );
+		if ( !( $value instanceof EntityIdValue ) ) {
+			throw new InvalidArgumentException( '$value is not a EntityIdValue' );
 		}
 
 		$values = array(
-			'type' => $value->getEntityType(),
-			'number' => $value->getNumericId(),
+			'type' => $value->getEntityId()->getEntityType(),
+			'number' => $value->getEntityId()->getNumericId(),
 
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.

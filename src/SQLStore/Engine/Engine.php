@@ -9,7 +9,7 @@ use Wikibase\Database\QueryInterface;
 use Wikibase\QueryEngine\QueryEngine;
 use Wikibase\QueryEngine\QueryEngineResult;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * Simple query engine that works on top of the SQLStore.

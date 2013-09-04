@@ -12,7 +12,10 @@ use Wikibase\Database\MediaWiki\MediaWikiQueryInterface;
 use Wikibase\Database\MediaWiki\MWQueryInterfaceBuilder;
 use Wikibase\Database\MessageReporter;
 use Wikibase\Database\TableDefinition;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Item;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
@@ -156,7 +159,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$matchingEntityIds = $matchFinder->getMatchingEntities( $description, $queryOptions );
 
 		$this->assertInternalType( 'array', $matchingEntityIds );
-		$this->assertContainsOnlyInstancesOf( 'Wikibase\EntityId', $matchingEntityIds );
+		$this->assertContainsOnlyInstancesOf( 'Wikibase\DataModel\Entity\EntityId', $matchingEntityIds );
 
 		$this->assertEquals( $expectedIds, $matchingEntityIds );
 	}
@@ -166,15 +169,15 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 		$argLists[] = array(
 			new SomeProperty(
-				new EntityId( 'property', 42 ),
+				new EntityIdValue( new PropertyId( 'P42' ) ),
 				new ValueDescription( new NumberValue( 1337 ) )
 			),
-			array( new EntityId( 'item', 1112 ), new EntityId( 'item', 1115 ) )
+			array( new ItemId( 'Q1112' ), new ItemId( 'Q1115' ) )
 		);
 
 		$argLists[] = array(
 			new SomeProperty(
-				new EntityId( 'property', 1 ),
+				new EntityIdValue( new PropertyId( 'P1' ) ),
 				new ValueDescription( new NumberValue( 1337 ) )
 			),
 			array()
@@ -182,18 +185,18 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 		$argLists[] = array(
 			new SomeProperty(
-				new EntityId( 'property', 43 ),
+				new EntityIdValue( new PropertyId( 'P43' ) ),
 				new ValueDescription( new NumberValue( 1337 ) )
 			),
-			array( new EntityId( 'item', 1113 ) )
+			array( new ItemId( 'Q1113' ) )
 		);
 
 		$argLists[] = array(
 			new SomeProperty(
-				new EntityId( 'property', 42 ),
+				new EntityIdValue( new PropertyId( 'P42' ) ),
 				new ValueDescription( new NumberValue( 72010 ) )
 			),
-			array( new EntityId( 'item', 1114 ) )
+			array( new ItemId( 'Q1114' ) )
 		);
 
 		return $argLists;

@@ -2,7 +2,10 @@
 
 namespace Wikibase\QueryEngine\Tests\SQLStore\DVHandler;
 
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\Tests\SQLStore\DataValueHandlerTest;
@@ -49,10 +52,9 @@ class EntityIdHandlerTest extends DataValueHandlerTest {
 	protected function getValues() {
 		$values = array();
 
-		$values[] = new EntityId( 'item', 42 );
-		$values[] = new EntityId( 'item', 9001 );
-		$values[] = new EntityId( 'property', 23 );
-		$values[] = new EntityId( 'query', 7201010 );
+		$values[] = new EntityIdValue( new ItemId( 'Q42' ) );
+		$values[] = new EntityIdValue( new ItemId( 'Q9001' ) );
+		$values[] = new EntityIdValue( new PropertyId( 'P23' ) );
 
 		return $values;
 	}

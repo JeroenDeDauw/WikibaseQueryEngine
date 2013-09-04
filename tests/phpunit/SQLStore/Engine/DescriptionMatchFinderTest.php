@@ -8,7 +8,10 @@ use Ask\Language\Option\QueryOptions;
 use DataValues\StringValue;
 use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\TableDefinition;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
 
@@ -45,7 +48,11 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testFindMatchingEntitiesWithSomePropertyAnyValue() {
-		$description = new SomeProperty( new EntityId( 'item', 42 ), new AnyValue() );
+		$description = new SomeProperty(
+			new EntityIdValue( new PropertyId( 'P42' ) ),
+			new AnyValue()
+		);
+
 		$queryOptions = new QueryOptions( 100, 0 );
 
 		$queryEngine = $this->getMock( 'Wikibase\Database\QueryInterface' );
@@ -93,7 +100,7 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 		$idInterpreter->expects( $this->atLeastOnce() )
 			->method( 'getExternalIdForEntity' )
 			->with( $this->equalTo( 10 ) )
-			->will( $this->returnValue( new EntityId( 'item', 1 ) ) );
+			->will( $this->returnValue( new ItemId( 'Q1' ) ) );
 
 		$matchFinder = new DescriptionMatchFinder(
 			$queryEngine,
@@ -106,8 +113,8 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 		$matchingIds = $matchFinder->findMatchingEntities( $description, $queryOptions );
 
 		$this->assertInternalType( 'array', $matchingIds );
-		$this->assertContainsOnlyInstancesOf( 'Wikibase\EntityId', $matchingIds );
-		$this->assertEquals( array( new EntityId( 'item', 1 ) ), $matchingIds );
+		$this->assertContainsOnlyInstancesOf( 'Wikibase\DataModel\Entity\EntityId', $matchingIds );
+		$this->assertEquals( array( new ItemId( 'Q1' ) ), $matchingIds );
 	}
 
 	public function testFindMatchingEntitiesWithInvalidPropertyId() {

@@ -2,8 +2,11 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
+use Exception;
 use OutOfBoundsException;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 
 /**
  * Transforms entity types and numbers into internal store ids.
@@ -68,7 +71,20 @@ class EntityIdTransformer implements InternalEntityIdFinder, InternalEntityIdInt
 		$this->ensureEntityIntTypeIsKnown( $typeId );
 		$typeId = $this->intTypeToString[$typeId];
 
-		return new EntityId( $typeId, $numericId );
+		return $this->getReconstructedId( $typeId, $numericId );
+	}
+
+	protected function getReconstructedId( $typeId, $numericId ) {
+		if ( $typeId ==='item'  ) {
+			return ItemId::newFromNumber( $numericId );
+		}
+
+		if ( $typeId ==='property'  ) {
+			return PropertyId::newFromNumber( $numericId );
+		}
+
+		// TODO
+		throw new Exception( 'TODO: implement proper id handling' );
 	}
 
 	protected function buildIntToStringMap() {

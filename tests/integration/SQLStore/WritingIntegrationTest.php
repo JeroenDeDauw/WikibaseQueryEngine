@@ -13,7 +13,10 @@ use Wikibase\Database\LazyDBConnectionProvider;
 use Wikibase\Database\MediaWiki\MWQueryInterfaceBuilder;
 use Wikibase\Database\MessageReporter;
 use Wikibase\Database\TableDefinition;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Item;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
@@ -109,12 +112,12 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->store->getUpdater()->insertEntity( $item );
 
 		$propertyDescription = new SomeProperty(
-			new EntityId( 'property', 42 ),
+			new EntityIdValue( new PropertyId( 'P42' ) ),
 			new ValueDescription( new StringValue( 'Awesome' ) )
 		);
 
 		$this->assertEquals(
-			array( new EntityId( 'item', 8888 ) ),
+			array( new ItemId( 'Q8888' ) ),
 			$this->findMatchingEntities( $propertyDescription )
 		);
 
@@ -128,7 +131,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @param Description $description
-	 * @return int[]
+	 * @return EntityId[]
 	 */
 	protected function findMatchingEntities( Description $description ) {
 		$matchFinder = $this->store->getQueryEngine();
@@ -161,17 +164,17 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->store->getUpdater()->updateEntity( $item );
 
 		$propertyDescription = new SomeProperty(
-			new EntityId( 'property', 42 ),
+			new EntityIdValue( new PropertyId( 'P42' ) ),
 			new ValueDescription( new StringValue( 'Foo' ) )
 		);
 
 		$this->assertEquals(
-			array( new EntityId( 'item', 4444 ) ),
+			array( new ItemId( 'Q4444' ) ),
 			$this->findMatchingEntities( $propertyDescription )
 		);
 
 		$propertyDescription = new SomeProperty(
-			new EntityId( 'property', 42 ),
+			new EntityIdValue( new PropertyId( 'P42' ) ),
 			new ValueDescription( new StringValue( 'Awesome' ) )
 		);
 

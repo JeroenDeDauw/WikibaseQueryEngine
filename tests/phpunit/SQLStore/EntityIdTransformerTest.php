@@ -2,8 +2,10 @@
 
 namespace Wikibase\QueryEngine\Tests\SQLStore;
 
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\SQLStore\EntityIdTransformer;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\EntityIdTransformer
@@ -34,30 +36,29 @@ class EntityIdTransformerTest extends \PHPUnit_Framework_TestCase {
 			'item' => 0,
 			'property' => 1,
 			'query' => 2,
-			'foobar' => 9,
 		);
 	}
 
 	/**
 	 * @dataProvider idProvider
 	 */
-	public function testGetInternalIdForEntity( $entityType, $numericId ) {
+	public function testGetInternalIdForEntity( EntityId $id ) {
 		$idMap = $this->getIdMap();
 
 		$transformer = new EntityIdTransformer( $idMap );
 
-		$internalId = $transformer->getInternalIdForEntity( new EntityId( $entityType, $numericId ) );
+		$internalId = $transformer->getInternalIdForEntity( $id );
 
 		$this->assertInternalType( 'int', $internalId );
 
 		$this->assertEquals(
-			$numericId,
+			$id->getNumericId(),
 			floor( $internalId / 10 ),
 			'Internal id divided by 10 should result in the numeric id'
 		);
 
 		$this->assertEquals(
-			$idMap[$entityType],
+			$idMap[$id->getEntityType()],
 			$internalId % 10,
 			'The last diget of the internal id should be the number for the entity type'
 		);
@@ -66,11 +67,10 @@ class EntityIdTransformerTest extends \PHPUnit_Framework_TestCase {
 	public function idProvider() {
 		$argLists = array();
 
-		$argLists[] = array( 'item', 1 );
-		$argLists[] = array( 'item', 4 );
-		$argLists[] = array( 'item', 9001 );
-		$argLists[] = array( 'property', 42 );
-		$argLists[] = array( 'foobar', 500 );
+		$argLists[] = array( new ItemId( 'Q1' ) );
+		$argLists[] = array( new ItemId( 'Q4' ) );
+		$argLists[] = array( new ItemId( 'Q9001' ) );
+		$argLists[] = array( new PropertyId( 'P42' ) );
 
 		return $argLists;
 	}
@@ -78,25 +78,24 @@ class EntityIdTransformerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider idProvider
 	 */
-	public function testGetInternalIdForNotSetType( $entityType, $numericId ) {
+	public function testGetInternalIdForNotSetType( EntityId $id ) {
 		$transformer = new EntityIdTransformer( array() );
 
 		$this->setExpectedException( 'OutOfBoundsException' );
 
-		$transformer->getInternalIdForEntity( new EntityId( $entityType, $numericId ) );
+		$transformer->getInternalIdForEntity( $id );
 	}
 
 	/**
 	 * @dataProvider idProvider
 	 */
-	public function testGetExternalIdForEntity( $entityType, $numericId ) {
+	public function testGetExternalIdForEntity( EntityId $id ) {
 		$transformer = new EntityIdTransformer( $this->getIdMap() );
-		$expected = new EntityId( $entityType, $numericId );
 
-		$internalId = $transformer->getInternalIdForEntity( $expected );
+		$internalId = $transformer->getInternalIdForEntity( $id );
 		$actual = $transformer->getExternalIdForEntity( $internalId );
 
-		$this->assertEquals( $expected, $actual );
+		$this->assertEquals( $id, $actual );
 	}
 
 	/**

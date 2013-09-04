@@ -8,7 +8,8 @@ use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use InvalidArgumentException;
 use Wikibase\Database\QueryInterface;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\Lib\EntityIdParser;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryNotSupportedException;
@@ -74,9 +75,11 @@ class DescriptionMatchFinder {
 	protected function findMatchingSomeProperty( SomeProperty $description, QueryOptions $options ) {
 		$propertyId = $description->getPropertyId();
 
-		if ( !( $propertyId instanceof EntityId ) ) {
-			throw new InvalidArgumentException( 'All property ids provided to the SQLStore should be EntityId objects' );
+		if ( !( $propertyId instanceof EntityIdValue ) ) {
+			throw new InvalidArgumentException( 'All property ids provided to the SQLStore should be EntityIdValue objects' );
 		}
+
+		$propertyId = $propertyId->getEntityId();
 
 		$dvHandler = $this->schema->getDataValueHandler(
 			$this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId ),

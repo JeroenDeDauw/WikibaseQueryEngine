@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine;
 
-use DataValues\DataValue;
+use Wikibase\DataModel\Entity\PropertyId;
 
 /**
  * Interface for objects that can find the type of the DataValue that
@@ -19,12 +19,12 @@ use DataValues\DataValue;
 interface PropertyDataValueTypeLookup {
 
 	/**
-	 * @param DataValue $propertyId
+	 * @param PropertyId $propertyId
 	 *
 	 * @return string The type of the data values has values of
 	 *
 	 * TODO: provide exception type and document
 	 */
-	public function getDataValueTypeForProperty( DataValue $propertyId );
+	public function getDataValueTypeForProperty( PropertyId $propertyId );
 
 }

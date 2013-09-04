@@ -3,7 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use InvalidArgumentException;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertySomeValueSnak;
 use Wikibase\PropertyValueSnak;

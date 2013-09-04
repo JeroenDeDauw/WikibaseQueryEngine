@@ -4,7 +4,7 @@ namespace Wikibase\QueryEngine;
 
 use Ask\Language\Description\Description;
 use Ask\Language\Option\QueryOptions;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * Interface for objects that can act as a query engine.

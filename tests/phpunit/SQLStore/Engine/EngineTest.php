@@ -4,7 +4,9 @@ namespace Wikibase\QueryEngine\Tests\SQLStore;
 
 use Ask\Language\Description\AnyValue;
 use Ask\Language\Option\QueryOptions;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 
 /**
@@ -26,9 +28,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
 		$description = new AnyValue();
 		$options = new QueryOptions( 42, 10 );
 		$expectedIds = array(
-			new EntityId( 'item', 1 ),
-			new EntityId( 'property', 2 ),
-			new EntityId( 'foo', 123 ),
+			new ItemId( 'Q1' ),
+			new PropertyId( 'P2' ),
 		);
 
 		$matchFinder = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder' )
@@ -47,7 +48,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
 		$entityIds = $engine->getMatchingEntities( $description, $options );
 
 		$this->assertInternalType( 'array', $entityIds );
-		$this->assertContainsOnlyInstancesOf( 'Wikibase\EntityId', $entityIds );
+		$this->assertContainsOnlyInstancesOf( 'Wikibase\DataModel\Entity\EntityId', $entityIds );
 		$this->assertEquals( $expectedIds, $entityIds );
 	}
 

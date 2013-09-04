@@ -3,7 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
 use Wikibase\Claim;
-use Wikibase\EntityId;
+use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\Snak;
 use Wikibase\SnakRole;
