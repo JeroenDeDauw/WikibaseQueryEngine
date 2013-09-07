@@ -100,6 +100,15 @@ $messages['ko'] = array(
 	'wikibasequeryengine-desc' => '위키베이스 개체의 모음집에서 Ask 쿼리 요청에 대한 쿼리 응답 코드를 포함하는 구성 요소',
 );
 
+/** Colognian (Ripoarisch)
+ * @author Purodha
+ */
+$messages['ksh'] = array(
+	'wikibasequeryengine-desc' => 'Ene Projrammzohsaz, dä för de Daatesammlonge vun de Endrääsch en de 
+<code lang="en" xml:lang="en">WikiBase</code> doför zohschtändesch es,
+de Daate för <code lang="en" xml:lang="en">ask</code>-Froore ze livvere.',
+);
+
 /** Macedonian (македонски)
  * @author Bjankuloski06
  */
