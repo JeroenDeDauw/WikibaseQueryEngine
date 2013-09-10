@@ -2,10 +2,12 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\Database\MessageReporter;
-use Wikibase\Database\QueryInterface;
+use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\Database\Schema\TableBuilder;
+use Wikibase\QueryEngine\QueryEngine;
 use Wikibase\QueryEngine\QueryStore;
-use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
+use Wikibase\QueryEngine\QueryStoreSetup;
+use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 
 /**
@@ -22,35 +24,37 @@ use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 class Store implements QueryStore {
 
 	/**
-	 * @since 0.1
-	 *
 	 * @var StoreConfig
 	 */
 	private $config;
 
 	/**
-	 * @since 0.1
-	 *
 	 * @var QueryInterface
 	 */
 	private $queryInterface;
 
 	/**
-	 * @since 0.1
-	 *
 	 * @var Factory
 	 */
 	private $factory;
+
+	/**
+	 * @var TableBuilder
+	 */
+	private $tableBuilder;
 
 	/**
 	 * @since 0.1
 	 *
 	 * @param StoreConfig $config
 	 * @param QueryInterface $queryInterface
+	 * @param TableBuilder $tableBuilder
 	 */
-	public function __construct( StoreConfig $config, QueryInterface $queryInterface ) {
+	public function __construct( StoreConfig $config, QueryInterface $queryInterface, TableBuilder $tableBuilder ) {
 		$this->config = $config;
 		$this->queryInterface = $queryInterface;
+		$this->tableBuilder = $tableBuilder;
+
 		$this->factory = new Factory( $config, $queryInterface );
 	}
 
@@ -70,7 +74,7 @@ class Store implements QueryStore {
 	 *
 	 * @since 0.1
 	 *
-	 * @return \Wikibase\QueryEngine\QueryEngine
+	 * @return QueryEngine
 	 */
 	public function getQueryEngine() {
 		return new Engine(
@@ -83,7 +87,7 @@ class Store implements QueryStore {
 	 *
 	 * @since 0.1
 	 *
-	 * @return \Wikibase\QueryEngine\QueryStoreWriter
+	 * @return QueryStoreWriter
 	 */
 	public function getUpdater() {
 		return $this->factory->newWriter();
@@ -94,14 +98,14 @@ class Store implements QueryStore {
 	 *
 	 * @since 0.1
 	 *
-	 * @return Setup
+	 * @return QueryStoreSetup
 	 */
 	public function newSetup() {
 		return new Setup(
 			$this->config,
 			$this->factory->getSchema(),
-			$this->queryInterface,
-			$this->factory->getTableBuilder()
+			$this->tableBuilder
+			// TODO: add message reporter
 		);
 	}
 

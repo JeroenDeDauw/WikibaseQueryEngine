@@ -2,9 +2,6 @@
 
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
-use RuntimeException;
-use Wikibase\Snak;
-
 /**
  * Use case for removing snaks from the store.
  *

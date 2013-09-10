@@ -3,9 +3,10 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use OutOfBoundsException;
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\FieldDefinition as FD;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\FieldDefinition as FD;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\GeoCoordinateHandler;
@@ -13,7 +14,6 @@ use Wikibase\QueryEngine\SQLStore\DVHandler\IriHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * A collection of DataValueHandler objects to be used by the store.

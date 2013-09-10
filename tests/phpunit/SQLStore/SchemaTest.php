@@ -30,7 +30,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 		$tables = $schema->getTables();
 
 		$this->assertInternalType( 'array', $tables );
-		$this->assertContainsOnlyInstancesOf( 'Wikibase\Database\TableDefinition', $tables );
+		$this->assertContainsOnlyInstancesOf( 'Wikibase\Database\Schema\Definitions\TableDefinition', $tables );
 
 		$tableCount = count( $tables );
 
@@ -40,7 +40,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase {
 		$tables = $schema->getTables();
 
 		$this->assertInternalType( 'array', $tables );
-		$this->assertContainsOnlyInstancesOf( 'Wikibase\Database\TableDefinition', $tables );
+		$this->assertContainsOnlyInstancesOf( 'Wikibase\Database\Schema\Definitions\TableDefinition', $tables );
 
 		$this->assertEquals(
 			$tableCount + count( $defaultHandlers->getHandlers() ) * 2,

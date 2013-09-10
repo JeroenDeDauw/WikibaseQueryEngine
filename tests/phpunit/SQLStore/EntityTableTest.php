@@ -29,7 +29,7 @@ class EntityTableTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider entityProvider
 	 */
 	public function testInsertEntity( Entity $entity ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		$queryInterface->expects( $this->once() )
 			->method( 'insert' )

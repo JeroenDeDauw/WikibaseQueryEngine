@@ -2,8 +2,8 @@
 
 namespace Wikibase\QueryEngine\Tests\SQLStore;
 
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover;
 

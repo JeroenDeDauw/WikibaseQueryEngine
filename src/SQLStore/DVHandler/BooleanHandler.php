@@ -5,8 +5,6 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 use DataValues\BooleanValue;
 use DataValues\DataValue;
 use InvalidArgumentException;
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\TableDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**

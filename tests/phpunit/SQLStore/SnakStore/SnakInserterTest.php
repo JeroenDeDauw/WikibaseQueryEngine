@@ -3,18 +3,18 @@
 namespace Wikibase\QueryEngine\Tests\SQLStore;
 
 use DataValues\StringValue;
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\QueryInterface;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertySomeValueSnak;
 use Wikibase\PropertyValueSnak;
-use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
+use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
+use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
 use Wikibase\Snak;
 use Wikibase\SnakRole;
 
@@ -52,7 +52,7 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider snakProvider
 	 */
 	public function testInsertSnak( Snak $snak ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		$queryInterface
 			->expects( $this->once() )

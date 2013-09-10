@@ -2,10 +2,10 @@
 
 namespace Wikibase\QueryEngine\Tests\SQLStore;
 
+use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\SQLStore\EntityIdTransformer;
-use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\EntityIdTransformer

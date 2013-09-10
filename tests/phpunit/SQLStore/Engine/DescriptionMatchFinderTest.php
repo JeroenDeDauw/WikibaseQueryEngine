@@ -6,8 +6,8 @@ use Ask\Language\Description\AnyValue;
 use Ask\Language\Description\SomeProperty;
 use Ask\Language\Option\QueryOptions;
 use DataValues\StringValue;
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
@@ -38,7 +38,7 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 
 	protected function newInstanceWithMocks() {
 		return new DescriptionMatchFinder(
-			$this->getMock( 'Wikibase\Database\QueryInterface' ),
+			$this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' ),
 			$this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\Schema' )
 				->disableOriginalConstructor()->getMock(),
 			$this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' ),
@@ -55,7 +55,7 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 
 		$queryOptions = new QueryOptions( 100, 0 );
 
-		$queryEngine = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryEngine = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		$queryEngine->expects( $this->once() )
 			->method( 'select' )

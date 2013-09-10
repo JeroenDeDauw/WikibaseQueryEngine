@@ -3,10 +3,10 @@
 namespace Wikibase\QueryEngine\Tests\SQLStore\SnakStore;
 
 use DataValues\StringValue;
-use Wikibase\Database\QueryInterface;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
+use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
+use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 use Wikibase\SnakRole;
 
 /**
@@ -27,7 +27,7 @@ use Wikibase\SnakRole;
 class ValuelessSnakStoreTest extends SnakStoreTest {
 
 	protected function getInstance() {
-		return $this->newInstanceWithQueryInterface( $this->getMock( 'Wikibase\Database\QueryInterface' ) );
+		return $this->newInstanceWithQueryInterface( $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' ) );
 	}
 
 	protected function newInstanceWithQueryInterface( QueryInterface $queryInterface ) {
@@ -95,7 +95,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 	 * @dataProvider canStoreProvider
 	 */
 	public function testStoreSnak( ValuelessSnakRow $snakRow ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		$queryInterface->expects( $this->once() )
 			->method( 'insert' )
@@ -120,7 +120,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 		$internalSubjectId = 4242;
 		$tableName = 'test_snaks_nyan';
 
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		$queryInterface->expects( $this->once() )
 			->method( 'delete' )

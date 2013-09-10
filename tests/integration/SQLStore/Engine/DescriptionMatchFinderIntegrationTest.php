@@ -6,12 +6,12 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
-use Wikibase\Database\FieldDefinition;
 use Wikibase\Database\LazyDBConnectionProvider;
 use Wikibase\Database\MediaWiki\MediaWikiQueryInterface;
-use Wikibase\Database\MediaWiki\MWQueryInterfaceBuilder;
+use Wikibase\Database\MediaWiki\MWTableBuilderBuilder;
 use Wikibase\Database\MessageReporter;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
@@ -25,11 +25,6 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\Statement;
 
 /**
- * @file
- * @since 0.1
- *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  * @group WikibaseQueryEngineIntegration
@@ -67,8 +62,10 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 	protected function newStore() {
 		$dbConnectionProvider = new LazyDBConnectionProvider( DB_MASTER );
 
-		$qiBuilder = new MWQueryInterfaceBuilder();
-		$queryInterface = $qiBuilder->setConnection( $dbConnectionProvider )->getQueryInterface();
+		$tbBuilder = new MWTableBuilderBuilder();
+		$tableBuilder = $tbBuilder->setConnection( $dbConnectionProvider )->getTableBuilder();
+
+		$queryInterface = new MediaWikiQueryInterface( $dbConnectionProvider );
 
 		$config = new StoreConfig(
 			'test_store',
@@ -97,7 +94,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 		$config->setPropertyDataValueTypeLookup( $propertyDvTypeLookup );
 
-		return new Store( $config, $queryInterface );
+		return new Store( $config, $queryInterface, $tableBuilder );
 	}
 
 	protected function insertEntities() {

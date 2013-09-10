@@ -3,8 +3,8 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use InvalidArgumentException;
-use Wikibase\Database\QueryInterface;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
 
 /**
  * @since 0.1

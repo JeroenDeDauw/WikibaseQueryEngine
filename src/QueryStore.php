@@ -2,8 +2,6 @@
 
 namespace Wikibase\QueryEngine;
 
-use Wikibase\Database\MessageReporter;
-
 /**
  * Interface for query stores providing access to all needed sub components
  * such as updaters, query engines and setup/teardown operations.

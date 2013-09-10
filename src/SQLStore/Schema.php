@@ -4,8 +4,8 @@ namespace Wikibase\QueryEngine\SQLStore;
 
 use OutOfBoundsException;
 use OutOfRangeException;
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\SnakRole;
 
 /**

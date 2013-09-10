@@ -4,7 +4,7 @@ namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use InvalidArgumentException;
 use OutOfBoundsException;
-use Wikibase\Database\QueryInterface;
+use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**

@@ -3,11 +3,10 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use Wikibase\Database\MessageReporter;
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\QueryInterface;
-use Wikibase\Database\QueryInterfaceException;
-use Wikibase\Database\TableBuilder;
-use Wikibase\Database\TableDefinition;
+use Wikibase\Database\QueryInterface\QueryInterfaceException;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\TableBuilder;
 use Wikibase\QueryEngine\QueryStoreSetup;
 
 /**
@@ -29,13 +28,6 @@ class Setup implements QueryStoreSetup {
 	 * @var StoreConfig
 	 */
 	private $config;
-
-	/**
-	 * @since 0.1
-	 *
-	 * @var QueryInterface
-	 */
-	private $queryInterface;
 
 	/**
 	 * @since 0.1
@@ -63,16 +55,14 @@ class Setup implements QueryStoreSetup {
 	 *
 	 * @param StoreConfig $storeConfig
 	 * @param Schema $storeSchema
-	 * @param QueryInterface $queryInterface
 	 * @param TableBuilder $tableBuilder
 	 * @param MessageReporter|null $messageReporter
 	 */
-	public function __construct( StoreConfig $storeConfig, Schema $storeSchema, QueryInterface $queryInterface,
+	public function __construct( StoreConfig $storeConfig, Schema $storeSchema,
 								 TableBuilder $tableBuilder, MessageReporter $messageReporter = null ) {
 		$this->config = $storeConfig;
 		$this->storeSchema = $storeSchema;
 		$this->tableBuilder = $tableBuilder;
-		$this->queryInterface = $queryInterface;
 		$this->messageReporter = $messageReporter;
 	}
 
@@ -137,7 +127,7 @@ class Setup implements QueryStoreSetup {
 	public function uninstall() {
 		$this->report( 'Starting uninstall of ' . $this->config->getStoreName() );
 
-		$success = $this->dropTables();
+		$this->dropTables();
 
 		$this->report( 'Finished uninstall of ' . $this->config->getStoreName() );
 
@@ -155,10 +145,10 @@ class Setup implements QueryStoreSetup {
 		$success = true;
 
 		foreach ( $this->storeSchema->getTables() as $table ) {
-			$success = $this->queryInterface->dropTable( $table->getName() ) && $success;
+			$this->tableBuilder->dropTable( $table->getName() );
 		}
 
-		return $success;
+		return $success; // TODO: remove, or switch to using a try catch
 	}
 
 }

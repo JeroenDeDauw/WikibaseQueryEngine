@@ -3,13 +3,13 @@
 namespace Wikibase\QueryEngine\Tests\SQLStore\SnakStore;
 
 use DataValues\StringValue;
-use Wikibase\Database\FieldDefinition;
-use Wikibase\Database\TableDefinition;
-use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
+use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
+use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\SnakRole;
 
 /**
@@ -31,7 +31,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 
 	protected function getInstance() {
 		return new ValueSnakStore(
-			$this->getMock( 'Wikibase\Database\QueryInterface' ),
+			$this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' ),
 			array(
 				'string' => $this->newStringHandler()
 			),
@@ -112,7 +112,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	 * @dataProvider canStoreProvider
 	 */
 	public function testStoreSnak( ValueSnakRow $snakRow ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		$stringHandler = $this->newStringHandler();
 
@@ -149,7 +149,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 		$this->setExpectedException( 'OutOfBoundsException' );
 
 		$store = new ValueSnakStore(
-			$this->getMock( 'Wikibase\Database\QueryInterface' ),
+			$this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' ),
 			array(),
 			SnakRole::MAIN_SNAK
 		);
@@ -162,7 +162,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 
 		$stringHandler = $this->newStringHandler();
 
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		$queryInterface->expects( $this->atLeastOnce() )
 			->method( 'delete' )

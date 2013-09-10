@@ -2,7 +2,6 @@
 
 namespace Wikibase\QueryEngine\Tests\SQLStore;
 
-use Wikibase\Database\TableBuilder;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\QueryEngine\SQLStore\Setup;
@@ -28,17 +27,16 @@ class SetupTest extends \PHPUnit_Framework_TestCase {
 		$defaultHandlers = new DataValueHandlers();
 		$storeConfig = new StoreConfig( 'foo', 'wbsql_', $defaultHandlers->getHandlers() );
 		$schema = new Schema( $storeConfig );
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$tableBuilder = $this->getMock( 'Wikibase\Database\Schema\TableBuilder' );
 
-		$queryInterface->expects( $this->atLeastOnce() )
+		$tableBuilder->expects( $this->atLeastOnce() )
 			->method( 'createTable' )
 			->will( $this->returnValue( true ) );
 
 		$storeSetup = new Setup(
 			$storeConfig,
 			$schema,
-			$queryInterface,
-			new TableBuilder( $queryInterface )
+			$tableBuilder
 		);
 
 		$storeSetup->install();
@@ -48,17 +46,16 @@ class SetupTest extends \PHPUnit_Framework_TestCase {
 		$defaultHandlers = new DataValueHandlers();
 		$storeConfig = new StoreConfig( 'foo', 'wbsql_', $defaultHandlers->getHandlers() );
 		$schema = new Schema( $storeConfig );
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$tableBuilder = $this->getMock( 'Wikibase\Database\Schema\TableBuilder' );
 
-		$queryInterface->expects( $this->atLeastOnce() )
+		$tableBuilder->expects( $this->atLeastOnce() )
 			->method( 'dropTable' )
 			->will( $this->returnValue( true ) );
 
 		$storeSetup = new Setup(
 			$storeConfig,
 			$schema,
-			$queryInterface,
-			new TableBuilder( $queryInterface )
+			$tableBuilder
 		);
 
 		$storeSetup->uninstall();
@@ -68,17 +65,16 @@ class SetupTest extends \PHPUnit_Framework_TestCase {
 		$defaultHandlers = new DataValueHandlers();
 		$storeConfig = new StoreConfig( 'foo', 'wbsql_', $defaultHandlers->getHandlers() );
 		$schema = new Schema( $storeConfig );
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$tableBuilder = $this->getMock( 'Wikibase\Database\Schema\TableBuilder' );
 
-		$queryInterface->expects( $this->atLeastOnce() )
+		$tableBuilder->expects( $this->atLeastOnce() )
 			->method( 'dropTable' )
 			->will( $this->returnValue( true ) );
 
 		$storeSetup = new Setup(
 			$storeConfig,
 			$schema,
-			$queryInterface,
-			new TableBuilder( $queryInterface )
+			$tableBuilder
 		);
 
 		$messageReporter = $this->getMock( 'Wikibase\Database\MessageReporter' );

@@ -23,7 +23,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
 	private function newInstance() {
 		$storeConfig = new StoreConfig( 'foo', 'bar', array() );
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 
 		return new Factory( $storeConfig, $queryInterface );
 	}
@@ -60,13 +60,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf(
 			'Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter',
 			$this->newInstance()->newSnakInserter()
-		);
-	}
-
-	public function testGetTableBuilderReturnType() {
-		$this->assertInstanceOf(
-			'Wikibase\Database\TableBuilder',
-			$this->newInstance()->getTableBuilder()
 		);
 	}
 

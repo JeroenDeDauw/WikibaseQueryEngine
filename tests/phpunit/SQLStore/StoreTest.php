@@ -32,9 +32,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase {
 
 		$storeConfig->setPropertyDataValueTypeLookup( $dvTypeLookup );
 
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+		$tableBuilder = $this->getMock( 'Wikibase\Database\Schema\TableBuilder' );
 
-		return new Store( $storeConfig, $queryInterface );
+		return new Store( $storeConfig, $queryInterface, $tableBuilder );
 	}
 
 	public function testGetNameReturnType() {

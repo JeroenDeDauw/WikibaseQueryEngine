@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\Database\QueryInterface;
+use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\Entity;
 
 /**
