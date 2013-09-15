@@ -79,6 +79,13 @@ $messages['id'] = array(
 	'wikibasequeryengine-desc' => 'Komponen yang mengandung permintaan kode jawaban untuk pertanyaan perrmintaan terhadap kumpulan entitas Wikibase',
 );
 
+/** Iloko (Ilokano)
+ * @author Lam-ang
+ */
+$messages['ilo'] = array(
+	'wikibasequeryengine-desc' => 'Komponente nga aglaon ti usisa a panagsungbat ti kodigo para kadagiti usisa ti Ask a maigiddiat ti urnong dagiti entidad ti Wikibase',
+);
+
 /** Italian (italiano)
  * @author Beta16
  */
