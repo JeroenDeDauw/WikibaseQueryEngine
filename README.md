@@ -59,18 +59,64 @@ classes.
 
 Public classes of the SQLStore:
 
+Needed for construction:
+
 * SQLStore\Store
 * SQLStore\StoreConfig
+* SQLStore\DataValueHandlers
 
+Needed for extension:
 
+* SQLStore\DataValueTable
+* SQLStore\DataValueHandler
 
 Constructing an SQLStore:
 
+```php
+use Wikibase\QueryEngine\SQLStore\Store;
+use Wikibase\QueryEngine\SQLStore\StoreConfig;
+use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 
+$dvHandlers = new DataValueHandlers();
 
-## SQLstore internal structure
+$config = new StoreConfig(
+	'My awesome query store',
+	'nyan_',
+	$dvHandlers->getHandlers()
+);
 
+$store = new Store( $config, $queryInterface, $tableBuilder );
+```
 
+Where
+
+* $queryInterface is a Wikibase\Database\QueryInterface\QueryInterface
+* $tableBuilder is a Wikibase\Database\Schema\TableBuilder
+
+## SQLStore internal structure
+
+### Table: entities
+
+* id, string: serialization of the entities id
+* type, string: type of the entity
+
+### Table: valueless_snaks
+
+* snak_type, int: type of the snak, ie "no value"
+* snak_role, int: role of the snak, ie "qualifier" or "main snak"
+
+### Data value tables
+
+There is a data value table per type of data value the store is configured to support.
+Each such table has the following fields:
+
+* subject_id, string
+* property_id, string
+
+All data value tables have a set of additional fields that are specific to the type of
+data value they store. For the types of data value natively supported by the store,
+you can find the table definitions (without the common fields) in the
+Wikibase\QueryEngine\SQLStore\DataValueHandlers class.
 
 ## Tests
 
