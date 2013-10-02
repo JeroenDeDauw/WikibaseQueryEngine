@@ -126,7 +126,7 @@ via TravisCI, as a TravisCI configuration file is also provided in the root dire
 
 ## Authors
 
-Ask has been written by [Jeroen De Dauw](https://www.mediawiki.org/wiki/User:Jeroen_De_Dauw)
+Wikibase QueryEngine has been written by [Jeroen De Dauw](https://www.mediawiki.org/wiki/User:Jeroen_De_Dauw)
 as [Wikimedia Germany](https://wikimedia.de) employee for the [Wikidata project](https://wikidata.org/).
 
 ## Links
