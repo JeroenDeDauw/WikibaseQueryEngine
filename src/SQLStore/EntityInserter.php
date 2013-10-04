@@ -11,9 +11,6 @@ use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
  *
  * @since 0.1
  *
- * @file
- * @ingroup WikibaseSQLStore
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
