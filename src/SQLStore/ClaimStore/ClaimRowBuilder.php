@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
 use Wikibase\Claim;
 use Wikibase\DataModel\Entity\EntityId;
-use Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder;
 use Wikibase\Statement;
 
 /**
@@ -17,25 +16,15 @@ use Wikibase\Statement;
  */
 class ClaimRowBuilder {
 
-	protected $idFinder;
-
-	public function __construct( InternalEntityIdFinder $idFinder ) {
-		$this->idFinder = $idFinder;
-	}
-
-	public function newClaimRow( Claim $claim, $internalSubjectId ) {
+	public function newClaimRow( Claim $claim, EntityId $subjectId ) {
 		return new ClaimRow(
 			null,
 			$claim->getGuid(),
-			$internalSubjectId,
-			$this->getInternalIdFor( $claim->getPropertyId() ),
-			$claim instanceof Statement ? $claim->getRank() : 3, // TODO
+			$subjectId->getSerialization(),
+			$claim->getPropertyId()->getSerialization(),
+			$claim instanceof Statement ? $claim->getRank() : Claim::RANK_TRUTH,
 			$claim->getHash()
 		);
-	}
-
-	protected function getInternalIdFor( EntityId $entityId ) {
-		return $this->idFinder->getInternalIdForEntity( $entityId );
 	}
 
 }

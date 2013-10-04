@@ -7,7 +7,6 @@ use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertySomeValueSnak;
 use Wikibase\PropertyValueSnak;
-use Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder;
 use Wikibase\Snak;
 
 /**
@@ -20,57 +19,47 @@ use Wikibase\Snak;
  */
 class SnakRowBuilder {
 
-	protected $idFinder;
-
-	public function __construct( InternalEntityIdFinder $idFinder ) {
-		$this->idFinder = $idFinder;
-	}
-
 	/**
 	 * @since 0.1
 	 *
 	 * @param Snak $snak
 	 * @param int $snakRole
-	 * @param int $internalSubjectId
+	 * @param EntityId $subjectId
 	 *
 	 * @return SnakRow
 	 * @throws InvalidArgumentException
 	 */
-	public function newSnakRow( Snak $snak, $snakRole, $internalSubjectId ) {
+	public function newSnakRow( Snak $snak, $snakRole, EntityId $subjectId ) {
 		if ( $snak instanceof PropertyValueSnak ) {
-			return $this->newValueSnakRow( $snak, $snakRole, $internalSubjectId );
+			return $this->newValueSnakRow( $snak, $snakRole, $subjectId );
 		}
 
 		if ( $snak instanceof PropertySomeValueSnak || $snak instanceof PropertyNoValueSnak ) {
-			return $this->newValuelessSnakRow( $snak, $snakRole, $internalSubjectId );
+			return $this->newValuelessSnakRow( $snak, $snakRole, $subjectId );
 		}
 
 		throw new InvalidArgumentException( 'Got a snak type no supported by the SnakRowBuilder' );
 	}
 
-	protected function newValueSnakRow( PropertyValueSnak $snak, $snakRole, $internalSubjectId ) {
+	protected function newValueSnakRow( PropertyValueSnak $snak, $snakRole, EntityId $subjectId ) {
 		return new ValueSnakRow(
 			$snak->getDataValue(),
-			$this->getInternalIdFor( $snak->getPropertyId() ),
+			$snak->getPropertyId()->getSerialization(),
 			$snakRole,
-			$internalSubjectId
+			$subjectId->getSerialization()
 		);
 	}
 
-	protected function newValuelessSnakRow( Snak $snak, $snakRole, $internalSubjectId ) {
+	protected function newValuelessSnakRow( Snak $snak, $snakRole, EntityId $subjectId ) {
 		$internalSnakType = $snak instanceof PropertySomeValueSnak
 			? ValuelessSnakRow::TYPE_SOME_VALUE : ValuelessSnakRow::TYPE_NO_VALUE;
 
 		return new ValuelessSnakRow(
 			$internalSnakType,
-			$this->getInternalIdFor( $snak->getPropertyId() ),
+			$snak->getPropertyId()->getSerialization(),
 			$snakRole,
-			$internalSubjectId
+			$subjectId->getSerialization()
 		);
-	}
-
-	protected function getInternalIdFor( EntityId $entityId ) {
-		return $this->idFinder->getInternalIdForEntity( $entityId );
 	}
 
 }

@@ -40,8 +40,8 @@ class EntityTable {
 		$this->queryInterface->insert(
 			$this->entityTableName,
 			array(
+				'id' => $entity->getId()->getSerialization(),
 				'type' => $entity->getType(),
-				'number' => $entity->getId()->getNumericId(),
 			)
 		);
 	}

@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use RuntimeException;
+use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\Snak;
 
 /**
@@ -36,10 +37,10 @@ class SnakInserter {
 	 *
 	 * @param Snak $snak
 	 * @param int $snakRole
-	 * @param int $internalSubjectId
+	 * @param EntityId $subjectId
 	 */
-	public function insertSnak( Snak $snak, $snakRole, $internalSubjectId ) {
-		$snakRow = $this->snakRowBuilder->newSnakRow( $snak, $snakRole, $internalSubjectId );
+	public function insertSnak( Snak $snak, $snakRole, EntityId $subjectId ) {
+		$snakRow = $this->snakRowBuilder->newSnakRow( $snak, $snakRole, $subjectId );
 		$this->insertSnakRow( $snakRow );
 	}
 

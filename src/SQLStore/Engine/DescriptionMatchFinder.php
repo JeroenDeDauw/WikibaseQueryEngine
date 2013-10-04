@@ -9,12 +9,11 @@ use Ask\Language\Option\QueryOptions;
 use InvalidArgumentException;
 use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder;
-use Wikibase\QueryEngine\SQLStore\InternalEntityIdInterpreter;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\SnakRole;
 
@@ -31,20 +30,16 @@ class DescriptionMatchFinder {
 	protected $queryInterface;
 	protected $schema;
 	protected $propertyDataValueTypeLookup;
-	protected $idFinder;
-	protected $idInterpreter;
+	protected $idParser;
 
 	public function __construct( QueryInterface $queryInterface,
 			Schema $schema,
-			PropertyDataValueTypeLookup $propertyDataValueTypeLookup,
-			InternalEntityIdFinder $idFinder,
-			InternalEntityIdInterpreter $idInterpreter ) {
+			PropertyDataValueTypeLookup $propertyDataValueTypeLookup, EntityIdParser $idParser ) {
 
 		$this->queryInterface = $queryInterface;
 		$this->schema = $schema;
 		$this->propertyDataValueTypeLookup = $propertyDataValueTypeLookup;
-		$this->idFinder = $idFinder;
-		$this->idInterpreter = $idInterpreter;
+		$this->idParser = $idParser;
 	}
 
 	/**
@@ -84,7 +79,7 @@ class DescriptionMatchFinder {
 
 		$conditions = $this->getExtraConditions( $description, $dvHandler );
 
-		$conditions['property_id'] = $this->getInternalId( $propertyId );
+		$conditions['property_id'] = $propertyId->getSerialization();
 
 		$selectionResult = $this->queryInterface->select(
 			$dvHandler->getDataValueTable()->getTableDefinition()->getName(),
@@ -97,14 +92,11 @@ class DescriptionMatchFinder {
 		$entityIds = array();
 
 		foreach ( $selectionResult as $resultRow ) {
-			$entityIds[] = $this->idInterpreter->getExternalIdForEntity( (int)$resultRow->subject_id );
+			// TODO: handle parse exception
+			$entityIds[] = $this->idParser->parse( $resultRow->subject_id );
 		}
 
 		return $entityIds;
-	}
-
-	protected function getInternalId( EntityId $id ) {
-		return $this->idFinder->getInternalIdForEntity( $id );
 	}
 
 	protected function getExtraConditions( SomeProperty $description, DataValueHandler $dvHandler ) {

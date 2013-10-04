@@ -42,12 +42,13 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 			$this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\Schema' )
 				->disableOriginalConstructor()->getMock(),
 			$this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' ),
-			$this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' ),
-			$this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdInterpreter' )
+			$this->getMock( 'Wikibase\DataModel\Entity\EntityIdParser' )
 		);
 	}
 
 	public function testFindMatchingEntitiesWithSomePropertyAnyValue() {
+		$subjectId = 'Q10';
+
 		$description = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P42' ) ),
 			new AnyValue()
@@ -64,7 +65,7 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( array( 'subject_id' ) )
 			)
 			->will( $this->returnValue( array(
-				(object)array( 'subject_id' => 10 )
+				(object)array( 'subject_id' => $subjectId )
 			) ) );
 
 		$schema = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\Schema' )
@@ -93,28 +94,25 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 
 		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
 
-		$idTransformer = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
+		$idParser = $this->getMock( 'Wikibase\DataModel\Entity\EntityIdParser' );
 
-		$idInterpreter = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdInterpreter' );
-
-		$idInterpreter->expects( $this->atLeastOnce() )
-			->method( 'getExternalIdForEntity' )
-			->with( $this->equalTo( 10 ) )
-			->will( $this->returnValue( new ItemId( 'Q1' ) ) );
+		$idParser->expects( $this->atLeastOnce() )
+			->method( 'parse' )
+			->with( $this->equalTo( $subjectId ) )
+			->will( $this->returnValue( new ItemId( $subjectId ) ) );
 
 		$matchFinder = new DescriptionMatchFinder(
 			$queryEngine,
 			$schema,
 			$dvTypeLookup,
-			$idTransformer,
-			$idInterpreter
+			$idParser
 		);
 
 		$matchingIds = $matchFinder->findMatchingEntities( $description, $queryOptions );
 
 		$this->assertInternalType( 'array', $matchingIds );
 		$this->assertContainsOnlyInstancesOf( 'Wikibase\DataModel\Entity\EntityId', $matchingIds );
-		$this->assertEquals( array( new ItemId( 'Q1' ) ), $matchingIds );
+		$this->assertEquals( array( new ItemId( 'Q10' ) ), $matchingIds );
 	}
 
 	public function testFindMatchingEntitiesWithInvalidPropertyId() {

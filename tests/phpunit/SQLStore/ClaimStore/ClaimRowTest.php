@@ -24,8 +24,8 @@ class ClaimRowTest extends \PHPUnit_Framework_TestCase {
 	public function constructorProvider() {
 		$argLists = array();
 
-		$argLists[] = array( 1, 'foo-bar-baz-guid', 2, 3, Statement::RANK_NORMAL, sha1( 'danweeds' ) );
-		$argLists[] = array( 2, 'foo-bar-guid', 2, 2, Statement::RANK_DEPRECATED, sha1( 'NyanData' ) );
+		$argLists[] = array( 1, 'foo-bar-baz-guid', 'Q2', 'P3', Statement::RANK_NORMAL, sha1( 'danweeds' ) );
+		$argLists[] = array( 2, 'foo-bar-guid', 'Q2', 'P2', Statement::RANK_DEPRECATED, sha1( 'NyanData' ) );
 
 		return $argLists;
 	}
@@ -33,13 +33,13 @@ class ClaimRowTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider constructorProvider
 	 */
-	public function testConstruct( $internalId, $externalGuid, $internalSubjectId, $internalPropertyId, $rank, $hash ) {
-		$claim = new ClaimRow( $internalId, $externalGuid, $internalSubjectId, $internalPropertyId, $rank, $hash );
+	public function testConstruct( $internalId, $externalGuid, $subjectId, $propertyId, $rank, $hash ) {
+		$claim = new ClaimRow( $internalId, $externalGuid, $subjectId, $propertyId, $rank, $hash );
 
 		$this->assertEquals( $internalId, $claim->getInternalId() );
 		$this->assertEquals( $externalGuid, $claim->getExternalGuid() );
-		$this->assertEquals( $internalSubjectId, $claim->getInternalSubjectId() );
-		$this->assertEquals( $internalPropertyId, $claim->getInternalPropertyId() );
+		$this->assertEquals( $subjectId, $claim->getSubjectId() );
+		$this->assertEquals( $propertyId, $claim->getPropertyId() );
 		$this->assertEquals( $rank, $claim->getRank() );
 		$this->assertEquals( $hash, $claim->getHash() );
 	}

@@ -2,6 +2,8 @@
 
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
+use Wikibase\DataModel\Entity\EntityId;
+
 /**
  * Use case for removing snaks from the store.
  *
@@ -31,11 +33,11 @@ class SnakRemover {
 	/**
 	 * @since 0.1
 	 *
-	 * @param int $internalSubjectId
+	 * @param EntityId $subjectId
 	 */
-	public function removeSnaksOfSubject( $internalSubjectId ) {
+	public function removeSnaksOfSubject( EntityId $subjectId ) {
 		foreach ( $this->snakStores as $snakStore ) {
-			$snakStore->removeSnaksOfSubject( $internalSubjectId );
+			$snakStore->removeSnaksOfSubject( $subjectId );
 		}
 	}
 

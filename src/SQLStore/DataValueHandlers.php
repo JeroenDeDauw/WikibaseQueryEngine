@@ -188,13 +188,12 @@ final class DataValueHandlers {
 			new TableDefinition(
 				'entityid',
 				array(
+					new FieldDefinition( 'id', FD::TYPE_TEXT, false ),
 					new FieldDefinition( 'type', FD::TYPE_TEXT, false ),
-					new FieldDefinition( 'number', FD::TYPE_INTEGER, false ),
-					new FieldDefinition( 'json', FD::TYPE_TEXT, false ),
 				)
 			),
-			'json',
-			'number'
+			'id',
+			'id'
 		) );
 
 		return $tables;

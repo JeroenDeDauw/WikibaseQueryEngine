@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use DataValues\DataValue;
+use InvalidArgumentException;
 
 /**
  * @since 0.1
@@ -16,21 +17,16 @@ class ValueSnakRow extends SnakRow {
 
 	/**
 	 * @param DataValue $value
-	 * @param int $internalPropertyId
+	 * @param string $propertyId
 	 * @param int $snakRole
-	 * @param $internalSubjectId
+	 * @param string $subjectId
+	 *
+	 * @throws InvalidArgumentException
 	 */
-	public function __construct( DataValue $value, $internalPropertyId, $snakRole, $internalSubjectId ) {
-		parent::__construct( $internalPropertyId, $snakRole, $internalSubjectId );
+	public function __construct( DataValue $value, $propertyId, $snakRole, $subjectId ) {
+		parent::__construct( $propertyId, $snakRole, $subjectId );
 
 		$this->value = $value;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getInternalPropertyId() {
-		return $this->internalPropertyId;
 	}
 
 	/**

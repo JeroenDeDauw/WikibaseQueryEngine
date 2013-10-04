@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\Tests\SQLStore\SnakStore;
 
 use DataValues\StringValue;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertySomeValueSnak;
 use Wikibase\PropertyValueSnak;
@@ -12,11 +13,6 @@ use Wikibase\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder
- *
- * @file
- * @since 0.1
- *
- * @ingroup WikibaseQueryEngineTest
  *
  * @group Wikibase
  * @group WikibaseQueryEngine
@@ -56,14 +52,9 @@ class SnakRowBuilderTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider newSnakRowProvider
 	 */
 	public function testNewSnakRow( Snak $snak, $snakRole ) {
-		$idFinder = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
-		$idFinder->expects( $this->any() )
-			->method( 'getInternalIdForEntity' )
-			->will( $this->returnValue( 42 ) );
+		$builder = new SnakRowBuilder();
 
-		$builder = new SnakRowBuilder( $idFinder );
-
-		$snakRow = $builder->newSnakRow( $snak, $snakRole, 1337, 123 );
+		$snakRow = $builder->newSnakRow( $snak, $snakRole, new ItemId( 'Q1337' ) );
 
 		$this->assertInstanceOf( 'Wikibase\QueryEngine\SQLStore\SnakStore\SnakRow', $snakRow );
 

@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\SQLStore\ClaimStore;
 use DataValues\StringValue;
 use Wikibase\Claim;
 use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
@@ -13,9 +14,6 @@ use Wikibase\Statement;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder
- *
- * @file
- * @since 0.1
  *
  * @ingroup WikibaseQueryEngineTest
  *
@@ -59,17 +57,12 @@ class ClaimRowBuilderTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider claimProvider
 	 */
 	public function testNewClaimRow( Claim $claim ) {
-		$idFinder = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
-		$idFinder->expects( $this->any() )
-			->method( 'getInternalIdForEntity' )
-			->will( $this->returnValue( 42 ) );
+		$builder = new ClaimRowBuilder();
 
-		$builder = new ClaimRowBuilder( $idFinder );
+		$claimRow = $builder->newClaimRow( $claim, new ItemId( 'Q1337' ) );
 
-		$claimRow = $builder->newClaimRow( $claim, 1337 );
-
-		$this->assertEquals( 42, $claimRow->getInternalPropertyId() );
-		$this->assertEquals( 1337, $claimRow->getInternalSubjectId() );
+		$this->assertEquals( $claim->getPropertyId(), $claimRow->getPropertyId() );
+		$this->assertEquals( 'Q1337', $claimRow->getSubjectId() );
 		$this->assertEquals( 'some-claim-guid', $claimRow->getExternalGuid() );
 		$this->assertEquals( $claim->getHash(), $claimRow->getHash() );
 		$this->assertInternalType( 'int', $claimRow->getRank() );

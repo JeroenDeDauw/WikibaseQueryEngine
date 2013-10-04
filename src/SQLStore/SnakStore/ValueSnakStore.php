@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 use InvalidArgumentException;
 use OutOfBoundsException;
 use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
@@ -66,8 +67,8 @@ class ValueSnakStore extends SnakStore {
 
 		$insertValues = array_merge(
 			array(
-				'property_id' => $snakRow->getInternalPropertyId(),
-				'subject_id' => $snakRow->getInternalSubjectId(),
+				'property_id' => $snakRow->getPropertyId(),
+				'subject_id' => $snakRow->getSubjectId(),
 			),
 			$dataValueHandler->getInsertValues( $snakRow->getValue() )
 		);
@@ -78,11 +79,11 @@ class ValueSnakStore extends SnakStore {
 		);
 	}
 
-	public function removeSnaksOfSubject( $internalSubjectId ) {
+	public function removeSnaksOfSubject( EntityId $subjectId ) {
 		foreach ( $this->dataValueHandlers as $dvHandler ) {
 			$this->queryInterface->delete(
 				$dvHandler->getDataValueTable()->getTableDefinition()->getName(),
-				array( 'subject_id' => $internalSubjectId )
+				array( 'subject_id' => $subjectId->getSerialization() )
 			);
 		}
 	}

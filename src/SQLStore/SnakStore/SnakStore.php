@@ -2,6 +2,8 @@
 
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
+use Wikibase\DataModel\Entity\EntityId;
+
 /**
  * @since 0.1
  *
@@ -29,8 +31,8 @@ abstract class SnakStore {
 	/**
 	 * @since 0.1
 	 *
-	 * @param int $internalSubjectId
+	 * @param EntityId $subjectId
 	 */
-	public abstract function removeSnaksOfSubject( $internalSubjectId );
+	public abstract function removeSnaksOfSubject( EntityId $subjectId );
 
 }

@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use InvalidArgumentException;
+use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
@@ -24,12 +25,13 @@ class EntityIdHandler extends DataValueHandler {
 	 *
 	 * @since 0.1
 	 *
-	 * @param $valueFieldValue // TODO: mixed or string?
+	 * @param string $valueFieldValue
 	 *
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
-		return EntityIdValue::newFromArray( json_decode( $valueFieldValue, true ) );
+		$parser = new BasicEntityIdParser(); // TODO: inject
+		return new EntityIdValue( $parser->parse( $valueFieldValue ) ); // TODO: handle parse exception
 	}
 
 	/**
@@ -48,9 +50,7 @@ class EntityIdHandler extends DataValueHandler {
 		}
 
 		return array(
-			// Note: the code in this package is not dependent on MW.
-			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
+			'id' => json_encode( $value->getEntityId()->getSerialization() ),
 		);
 	}
 
@@ -70,12 +70,8 @@ class EntityIdHandler extends DataValueHandler {
 		}
 
 		$values = array(
+			'id' => $value->getEntityId()->getSerialization(),
 			'type' => $value->getEntityId()->getEntityType(),
-			'number' => $value->getEntityId()->getNumericId(),
-
-			// Note: the code in this package is not dependent on MW.
-			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
 		);
 
 		return $values;

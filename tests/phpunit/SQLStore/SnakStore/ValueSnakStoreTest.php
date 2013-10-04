@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\SQLStore\SnakStore;
 use DataValues\StringValue;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
@@ -14,11 +15,6 @@ use Wikibase\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore
- *
- * @file
- * @since 0.1
- *
- * @ingroup WikibaseQueryEngineTest
  *
  * @group Wikibase
  * @group WikibaseQueryEngine
@@ -58,9 +54,9 @@ class ValueSnakStoreTest extends SnakStoreTest {
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
-			1,
+			'P1',
 			SnakRole::MAIN_SNAK,
-			0
+			'Q100'
 		) );
 
 
@@ -72,37 +68,37 @@ class ValueSnakStoreTest extends SnakStoreTest {
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
-			1,
+			'P1',
 			SnakRole::QUALIFIER,
-			1
+			'Q1'
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
-			1,
+			'P1',
 			SnakRole::MAIN_SNAK,
-			1
+			'Q1'
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
-			1,
+			'P1',
 			SnakRole::QUALIFIER,
-			1
+			'Q1'
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
-			1,
+			'P1',
 			SnakRole::MAIN_SNAK,
-			1
+			'Q1'
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
-			1,
+			'P1',
 			SnakRole::QUALIFIER,
-			0
+			'Q100'
 		) );
 
 		return $argLists;
@@ -123,8 +119,8 @@ class ValueSnakStoreTest extends SnakStoreTest {
 				$this->equalTo(
 					array_merge(
 						array(
-							'property_id' => $snakRow->getInternalPropertyId(),
-							'subject_id' => $snakRow->getInternalSubjectId(),
+							'property_id' => $snakRow->getPropertyId(),
+							'subject_id' => $snakRow->getSubjectId(),
 						),
 						$stringHandler->getInsertValues( $snakRow->getValue() )
 					)
@@ -158,7 +154,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	}
 
 	public function testRemoveSnaksOfSubject() {
-		$internalSubjectId = 4242;
+		$subjectId = 'Q4242';
 
 		$stringHandler = $this->newStringHandler();
 
@@ -168,7 +164,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			->method( 'delete' )
 			->with(
 				$this->equalTo( $stringHandler->getDataValueTable()->getTableDefinition()->getName() ),
-				$this->equalTo( array( 'subject_id' => $internalSubjectId ) )
+				$this->equalTo( array( 'subject_id' => $subjectId ) )
 			);
 
 		$store = new ValueSnakStore(
@@ -179,7 +175,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			SnakRole::MAIN_SNAK
 		);
 
-		$store->removeSnaksOfSubject( $internalSubjectId );
+		$store->removeSnaksOfSubject( new ItemId( $subjectId ) );
 	}
 
 }

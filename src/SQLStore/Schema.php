@@ -179,22 +179,16 @@ class Schema {
 		// TODO: indexes
 
 		return array(
-			// Internal subject id
 			new FieldDefinition(
 				'subject_id',
-				FieldDefinition::TYPE_INTEGER,
-				FieldDefinition::NOT_NULL,
-				FieldDefinition::NO_DEFAULT,
-				FieldDefinition::ATTRIB_UNSIGNED
+				FieldDefinition::TYPE_TEXT,
+				FieldDefinition::NOT_NULL
 			),
 
-			// Internal property id
 			new FieldDefinition(
 				'property_id',
-				FieldDefinition::TYPE_INTEGER,
-				FieldDefinition::NOT_NULL,
-				FieldDefinition::NO_DEFAULT,
-				FieldDefinition::ATTRIB_UNSIGNED
+				FieldDefinition::TYPE_TEXT,
+				FieldDefinition::NOT_NULL
 			),
 		);
 	}
@@ -229,31 +223,17 @@ class Schema {
 		return new TableDefinition(
 			$this->config->getTablePrefix() . 'entities',
 			array(
-				// Internal id
 				new FieldDefinition(
 					'id',
-					FieldDefinition::TYPE_INTEGER,
-					FieldDefinition::NOT_NULL,
-					FieldDefinition::NO_DEFAULT,
-					FieldDefinition::ATTRIB_UNSIGNED
+					FieldDefinition::TYPE_TEXT,
+					FieldDefinition::NOT_NULL
 				),
 
-				// EntityId type part
+				// Entity type
 				new FieldDefinition(
 					'type',
 					FieldDefinition::TYPE_TEXT,
-					FieldDefinition::NOT_NULL,
-					FieldDefinition::NO_DEFAULT,
-					FieldDefinition::NO_ATTRIB
-				),
-
-				// EntityId numerical part
-				new FieldDefinition(
-					'number',
-					FieldDefinition::TYPE_INTEGER,
-					FieldDefinition::NOT_NULL,
-					FieldDefinition::NO_DEFAULT,
-					FieldDefinition::ATTRIB_UNSIGNED
+					FieldDefinition::NOT_NULL
 				),
 			)
 		);

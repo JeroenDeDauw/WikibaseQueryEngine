@@ -5,6 +5,8 @@ namespace Wikibase\QueryEngine\Tests\SQLStore;
 use Wikibase\Claim;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Entity;
 use Wikibase\Item;
 use Wikibase\Property;
@@ -14,11 +16,6 @@ use Wikibase\QueryEngine\SQLStore\EntityInserter;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\EntityInserter
- *
- * @file
- * @since 0.1
- *
- * @ingroup WikibaseQueryEngineTest
  *
  * @group Wikibase
  * @group WikibaseQueryEngine
@@ -43,22 +40,14 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		// The 'with' constraints fail if the method is not invoked,
 		// so we can only add them when there are claims.
 		if ( count( $entity->getClaims() ) > 0 ) {
-			$invocationMocker->with(
-				$this->anything(),
-				$this->equalTo( 1234 )
-			);
+			// TODO
+//			$invocationMocker->with(
+//				$this->anything(),
+//				$this->equalTo( new PropertyId( 'P12' ) )
+//			);
 		}
 
-		$idFinder = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
-
-		$idFinder->expects( $this->any() )
-			->method( 'getInternalIdForEntity' )
-			->with(
-				$entity->getId()
-			)
-			->will( $this->returnValue( 1234 ) );
-
-		$inserter = new EntityInserter( $claimInserter, $idFinder );
+		$inserter = new EntityInserter( $claimInserter );
 
 		$inserter->insertEntity( $entity );
 	}
@@ -67,27 +56,27 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$argLists = array();
 
 		$item = Item::newEmpty();
-		$item->setId( 42 );
+		$item->setId( new ItemId( 'Q42' ) );
 
 		$argLists[] = array( $item );
 
 
 		$item = Item::newEmpty();
-		$item->setId( 31337 );
+		$item->setId( new ItemId( 'Q31337' ) );
 
 		$argLists[] = array( $item );
 
 
 		$property = Property::newEmpty();
 		$property->setDataTypeId( 'string' );
-		$property->setId( 9001 );
+		$property->setId( new PropertyId( 'P9001' ) );
 
 		$argLists[] = array( $property );
 
 
 		$property = Property::newEmpty();
 		$property->setDataTypeId( 'string' );
-		$property->setId( 1 );
+		$property->setId( new PropertyId( 'P1' ) );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
 		$property->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
 
@@ -95,7 +84,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 
 
 		$item = Item::newEmpty();
-		$item->setId( 2 );
+		$item->setId( new ItemId( 'Q2' ) );
 		$item->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
 		$item->addClaim( new Claim( new PropertyNoValueSnak( 43 ) ) );
 		$item->addClaim( new Claim( new PropertyNoValueSnak( 44 ) ) );

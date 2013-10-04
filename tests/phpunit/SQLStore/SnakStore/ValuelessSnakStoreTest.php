@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\Tests\SQLStore\SnakStore;
 
 use DataValues\StringValue;
 use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
@@ -11,11 +12,6 @@ use Wikibase\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore
- *
- * @file
- * @since 0.1
- *
- * @ingroup WikibaseQueryEngineTest
  *
  * @group Wikibase
  * @group WikibaseQueryEngine
@@ -42,30 +38,30 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
-			1,
+			'P1',
 			SnakRole::QUALIFIER,
-			1
+			'Q1'
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
-			1,
+			'P1',
 			SnakRole::MAIN_SNAK,
-			1
+			'Q1'
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
-			1,
+			'P1',
 			SnakRole::QUALIFIER,
-			1
+			'Q1'
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
-			1,
+			'P1',
 			SnakRole::MAIN_SNAK,
-			1
+			'Q1'
 		) );
 
 		return $argLists;
@@ -76,16 +72,16 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
-			1,
+			'P1',
 			SnakRole::QUALIFIER,
-			0
+			'Q100'
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
-			1,
+			'P1',
 			SnakRole::MAIN_SNAK,
-			0
+			'Q100'
 		) );
 
 		return $argLists;
@@ -103,8 +99,8 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 				$this->equalTo( 'snaks_of_doom' ),
 				$this->equalTo(
 					array(
-						'property_id' => $snakRow->getInternalPropertyId(),
-						'subject_id' => $snakRow->getInternalSubjectId(),
+						'property_id' => $snakRow->getPropertyId(),
+						'subject_id' => $snakRow->getSubjectId(),
 						'snak_type' => $snakRow->getInternalSnakType(),
 						'snak_role' => $snakRow->getSnakRole(),
 					)
@@ -117,7 +113,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 	}
 
 	public function testRemoveSnaksOfSubject() {
-		$internalSubjectId = 4242;
+		$subjectId = 'Q4242';
 		$tableName = 'test_snaks_nyan';
 
 		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
@@ -126,7 +122,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			->method( 'delete' )
 			->with(
 				$this->equalTo( $tableName ),
-				$this->equalTo( array( 'subject_id' => $internalSubjectId ) )
+				$this->equalTo( array( 'subject_id' => $subjectId ) )
 			);
 
 		$store = new ValuelessSnakStore(
@@ -134,7 +130,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			$tableName
 		);
 
-		$store->removeSnaksOfSubject( $internalSubjectId );
+		$store->removeSnaksOfSubject( new ItemId( $subjectId ) );
 	}
 
 }

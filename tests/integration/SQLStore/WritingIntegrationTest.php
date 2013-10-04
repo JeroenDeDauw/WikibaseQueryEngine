@@ -106,7 +106,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	public function testInsertAndRemoveItem() {
 		$item = Item::newEmpty();
-		$item->setId( 8888 );
+		$item->setId( new ItemId( 'Q8888' ) );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) );
 		$claim->setGuid( 'a claim' );
@@ -149,7 +149,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	public function testUpdateItem() {
 		$item = Item::newEmpty();
-		$item->setId( 4444 );
+		$item->setId( new ItemId( 'Q4444' ) );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new StringValue( 'Awesome' ) ) );
 		$claim->setGuid( 'foo claim' );

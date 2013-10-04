@@ -99,7 +99,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 	protected function insertEntities() {
 		$item = Item::newEmpty();
-		$item->setId( 1112 );
+		$item->setId( new ItemId( 'Q1112' ) );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
 		$claim->setGuid( 'claim0' );
@@ -109,7 +109,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 
 		$item = Item::newEmpty();
-		$item->setId( 1113 );
+		$item->setId( new ItemId( 'Q1113' ) );
 
 		$claim = new Statement( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) );
 		$claim->setGuid( 'claim1' );
@@ -119,7 +119,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 
 		$item = Item::newEmpty();
-		$item->setId( 1114 );
+		$item->setId( new ItemId( 'Q1114' ) );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
 		$claim->setGuid( 'claim2' );
@@ -129,7 +129,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 
 		$item = Item::newEmpty();
-		$item->setId( 1115 );
+		$item->setId( new ItemId( 'Q1115' ) );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
 		$claim->setGuid( 'claim3' );

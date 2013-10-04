@@ -3,6 +3,8 @@
 namespace Wikibase\QueryEngine\Tests\SQLStore;
 
 use Wikibase\Claim;
+use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Entity;
 use Wikibase\Item;
 use Wikibase\Property;
@@ -37,8 +39,8 @@ class EntityTableTest extends \PHPUnit_Framework_TestCase {
 				$this->equalTo( 'nyan_entities' ),
 				$this->equalTo(
 					array(
+						'id' => $entity->getId()->getSerialization(),
 						'type' => $entity->getType(),
-						'number' => $entity->getId()->getNumericId(),
 					)
 				)
 			);
@@ -52,27 +54,27 @@ class EntityTableTest extends \PHPUnit_Framework_TestCase {
 		$argLists = array();
 
 		$item = Item::newEmpty();
-		$item->setId( 42 );
+		$item->setId( new ItemId( 'Q42' ) );
 
 		$argLists[] = array( $item );
 
 
 		$item = Item::newEmpty();
-		$item->setId( 31337 );
+		$item->setId( new ItemId( 'Q31337' ) );
 
 		$argLists[] = array( $item );
 
 
 		$property = Property::newEmpty();
 		$property->setDataTypeId( 'string' );
-		$property->setId( 9001 );
+		$property->setId( new PropertyId( 'P9001' ) );
 
 		$argLists[] = array( $property );
 
 
 		$property = Property::newEmpty();
 		$property->setDataTypeId( 'string' );
-		$property->setId( 1 );
+		$property->setId( new PropertyId( 'P1' ) );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
 		$property->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
 

@@ -28,22 +28,22 @@ class ClaimInserter {
 
 	/**
 	 * @param Claim $claim
-	 * @param int $internalSubjectId
+	 * @param EntityId $subjectId
 	 */
-	public function insertClaim( Claim $claim, $internalSubjectId ) {
-		$this->insertSnaks( $claim, $internalSubjectId );
+	public function insertClaim( Claim $claim, EntityId $subjectId ) {
+		$this->insertSnaks( $claim, $subjectId );
 	}
 
-	protected function insertSnaks( Claim $claim, $internalSubjectId ) {
-		$this->insertSnak( $claim->getMainSnak(), SnakRole::MAIN_SNAK, $internalSubjectId );
+	protected function insertSnaks( Claim $claim, EntityId $subjectId ) {
+		$this->insertSnak( $claim->getMainSnak(), SnakRole::MAIN_SNAK, $subjectId );
 
 		foreach ( $claim->getQualifiers() as $qualifier ) {
-			$this->insertSnak( $qualifier, SnakRole::QUALIFIER, $internalSubjectId );
+			$this->insertSnak( $qualifier, SnakRole::QUALIFIER, $subjectId );
 		}
 	}
 
-	protected function insertSnak( Snak $snak, $snakRole, $internalSubjectId ) {
-		$this->snakInserter->insertSnak( $snak, $snakRole, $internalSubjectId );
+	protected function insertSnak( Snak $snak, $snakRole, EntityId $subjectId ) {
+		$this->snakInserter->insertSnak( $snak, $snakRole, $subjectId );
 	}
 
 }

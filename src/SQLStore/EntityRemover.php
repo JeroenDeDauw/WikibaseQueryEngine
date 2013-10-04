@@ -16,17 +16,14 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover;
  */
 class EntityRemover {
 
-	private $idFinder;
 	private $snakRemover;
 
 	/**
 	 * @since 0.1
 	 *
 	 * @param SnakRemover $snakRemover
-	 * @param InternalEntityIdFinder $idFinder
 	 */
-	public function __construct( SnakRemover $snakRemover, InternalEntityIdFinder $idFinder ) {
-		$this->idFinder = $idFinder;
+	public function __construct( SnakRemover $snakRemover ) {
 		$this->snakRemover = $snakRemover;
 	}
 
@@ -36,15 +33,9 @@ class EntityRemover {
 	 * @param Entity $entity
 	 */
 	public function removeEntity( Entity $entity ) {
-		$internalSubjectId = $this->getInternalId( $entity->getId() );
-
-		$this->snakRemover->removeSnaksOfSubject( $internalSubjectId );
+		$this->snakRemover->removeSnaksOfSubject( $entity->getId() );
 
 		// TODO: obtain and remove virtual claims
-	}
-
-	protected function getInternalId( EntityId $entityId ) {
-		return $this->idFinder->getInternalIdForEntity( $entityId );
 	}
 
 }

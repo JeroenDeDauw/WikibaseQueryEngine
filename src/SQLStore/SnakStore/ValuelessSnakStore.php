@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 use InvalidArgumentException;
 use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * @since 0.1
@@ -37,18 +38,18 @@ class ValuelessSnakStore extends SnakStore {
 		$this->queryInterface->insert(
 			$this->tableName,
 			array(
-				'property_id' => $snakRow->getInternalPropertyId(),
-				'subject_id' => $snakRow->getInternalSubjectId(),
+				'property_id' => $snakRow->getPropertyId(),
+				'subject_id' => $snakRow->getSubjectId(),
 				'snak_type' => $snakRow->getInternalSnakType(),
 				'snak_role' => $snakRow->getSnakRole(),
 			)
 		);
 	}
 
-	public function removeSnaksOfSubject( $internalSubjectId ) {
+	public function removeSnaksOfSubject( EntityId $subjectId ) {
 		$this->queryInterface->delete(
 			$this->tableName,
-			array( 'subject_id' => $internalSubjectId )
+			array( 'subject_id' => $subjectId->getSerialization() )
 		);
 	}
 

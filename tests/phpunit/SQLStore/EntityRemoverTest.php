@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\SQLStore;
 use Wikibase\Claim;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Entity;
 use Wikibase\Item;
 use Wikibase\Property;
@@ -32,26 +33,15 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider entityProvider
 	 */
 	public function testRemoveEntity( Entity $entity ) {
-		$internalSubjectId = 9001;
-
 		$snakRemover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$snakRemover->expects( $this->once() )
 			->method( 'removeSnaksOfSubject' )
-			->with( $this->equalTo( $internalSubjectId ) );
+			->with( $this->equalTo( $entity->getId() ) );
 
-		$idFinder = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
-
-		$idFinder->expects( $this->any() )
-			->method( 'getInternalIdForEntity' )
-			->with(
-				$entity->getId()
-			)
-			->will( $this->returnValue( $internalSubjectId ) );
-
-		$remover = new EntityRemover( $snakRemover, $idFinder );
+		$remover = new EntityRemover( $snakRemover );
 
 		$remover->removeEntity( $entity );
 	}

@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
@@ -54,8 +55,7 @@ final class Factory {
 
 	public function newEntityInserter() {
 		return new EntityInserter(
-			$this->newClaimInserter(),
-			$this->getInternalEntityIdFinder()
+			$this->newClaimInserter()
 		);
 	}
 
@@ -68,8 +68,7 @@ final class Factory {
 
 	public function newEntityRemover() {
 		return new EntityRemover(
-			$this->newSnakRemover(),
-			$this->getInternalEntityIdFinder()
+			$this->newSnakRemover()
 		);
 	}
 
@@ -87,14 +86,14 @@ final class Factory {
 	public function newClaimInserter() {
 		return new ClaimInserter(
 			$this->newSnakInserter(),
-			new ClaimRowBuilder( $this->getInternalEntityIdFinder() )
+			new ClaimRowBuilder()
 		);
 	}
 
 	public function newSnakInserter() {
 		return new SnakInserter(
 			$this->getSnakStores(),
-			new SnakRowBuilder( $this->getInternalEntityIdFinder() )
+			new SnakRowBuilder()
 		);
 	}
 
@@ -120,20 +119,6 @@ final class Factory {
 		);
 	}
 
-	/**
-	 * @return InternalEntityIdFinder
-	 */
-	protected function getInternalEntityIdFinder() {
-		return new EntityIdTransformer( $this->config->getEntityTypeMap() );
-	}
-
-	/**
-	 * @return InternalEntityIdInterpreter
-	 */
-	protected function getInternalEntityIdInterpreter() {
-		return new EntityIdTransformer( $this->config->getEntityTypeMap() );
-	}
-
 	public function newWriter() {
 		return new Writer(
 			$this->newEntityInserter(),
@@ -150,8 +135,7 @@ final class Factory {
 			$this->queryInterface,
 			$this->getSchema(),
 			$this->config->getPropertyDataValueTypeLookup(),
-			$this->getInternalEntityIdFinder(),
-			$this->getInternalEntityIdInterpreter()
+			new BasicEntityIdParser() // TODO: inject
 		);
 	}
 

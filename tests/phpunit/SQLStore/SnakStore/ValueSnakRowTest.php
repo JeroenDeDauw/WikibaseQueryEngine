@@ -11,11 +11,6 @@ use Wikibase\SnakRole;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow
  *
- * @file
- * @since 0.1
- *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *
@@ -29,16 +24,16 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 
 		$argLists[] = array(
 			new StringValue( 'foobar baz' ),
-			2,
+			'P2',
 			SnakRole::QUALIFIER,
-			4
+			'Q4'
 		);
 
 		$argLists[] = array(
 			new MonolingualTextValue( 'en', 'foobar baz' ),
-			9001,
+			'P9001',
 			SnakRole::QUALIFIER,
-			9003
+			'Q9003'
 		);
 
 		return $argLists;
@@ -47,13 +42,13 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider constructorProvider
 	 */
-	public function testConstructor( DataValue $value, $internalPropertyId, $snakRole, $internalSubjectId ) {
-		$snakRow = new ValueSnakRow( $value, $internalPropertyId, $snakRole, $internalSubjectId );
+	public function testConstructor( DataValue $value, $propertyId, $snakRole, $subjectId ) {
+		$snakRow = new ValueSnakRow( $value, $propertyId, $snakRole, $subjectId );
 
 		$this->assertTrue( $value->equals( $snakRow->getValue() ) );
-		$this->assertEquals( $internalPropertyId, $snakRow->getInternalPropertyId() );
+		$this->assertEquals( $propertyId, $snakRow->getPropertyId() );
 		$this->assertEquals( $snakRole, $snakRow->getSnakRole() );
-		$this->assertEquals( $internalSubjectId, $snakRow->getInternalSubjectId() );
+		$this->assertEquals( $subjectId, $snakRow->getSubjectId() );
 	}
 
 }

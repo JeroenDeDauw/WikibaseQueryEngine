@@ -6,6 +6,7 @@ use DataValues\StringValue;
 use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertySomeValueSnak;
 use Wikibase\PropertyValueSnak;
@@ -61,18 +62,13 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$snakInserter = $this->newInstance( $queryInterface );
 
-		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, 9001, 123 );
+		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ) );
 	}
 
 	protected function newInstance( QueryInterface $queryInterface ) {
-		$idFinder = $this->getMock( 'Wikibase\QueryEngine\SQLStore\InternalEntityIdFinder' );
-		$idFinder->expects( $this->any() )
-			->method( 'getInternalIdForEntity' )
-			->will( $this->returnValue( 42 ) );
-
 		return new SnakInserter(
 			$this->getSnakStores( $queryInterface ),
-			new SnakRowBuilder( $idFinder )
+			new SnakRowBuilder()
 		);
 	}
 

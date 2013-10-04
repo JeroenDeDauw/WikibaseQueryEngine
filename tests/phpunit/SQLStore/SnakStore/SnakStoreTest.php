@@ -14,11 +14,6 @@ use Wikibase\SnakRole;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore
  *
- * @file
- * @since 0.1
- *
- * @ingroup WikibaseQueryEngineTest
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
@@ -38,26 +33,23 @@ abstract class SnakStoreTest extends \PHPUnit_Framework_TestCase {
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
-			1,
-			2,
+			'P2',
 			SnakRole::QUALIFIER,
-			3
+			'Q3'
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
-			3,
-			4,
+			'P4',
 			SnakRole::MAIN_SNAK,
-			5
+			'Q5'
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( '~=[,,_,,]:3' ),
-			42,
-			31337,
+			'P31337',
 			SnakRole::MAIN_SNAK,
-			9001
+			'Q9001'
 		) );
 
 		return $argLists;

@@ -2,6 +2,8 @@
 
 namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
+use InvalidArgumentException;
+
 /**
  * Represents a row in the claims table.
  *
@@ -14,24 +16,34 @@ class ClaimRow {
 
 	protected $internalId;
 	protected $externalGuid;
-	protected $internalSubjectId;
-	protected $internalPropertyId;
+	protected $subjectId;
+	protected $propertyId;
 	protected $rank;
 	protected $hash;
 
 	/**
 	 * @param int|null $internalId
 	 * @param string $externalGuid
-	 * @param int $internalSubjectId
-	 * @param int $internalPropertyId
+	 * @param string $subjectId
+	 * @param string $propertyId
 	 * @param int $rank
 	 * @param string $hash
+	 *
+	 * @throws InvalidArgumentException
 	 */
-	public function __construct( $internalId, $externalGuid, $internalSubjectId, $internalPropertyId, $rank, $hash ) {
+	public function __construct( $internalId, $externalGuid, $subjectId, $propertyId, $rank, $hash ) {
+		if ( !is_string( $propertyId ) ) {
+			throw new InvalidArgumentException( '$propertyId needs to be a string' );
+		}
+
+		if ( !is_string( $subjectId ) ) {
+			throw new InvalidArgumentException( '$subjectId needs to be a string' );
+		}
+
 		$this->internalId = $internalId;
 		$this->externalGuid = $externalGuid;
-		$this->internalSubjectId = $internalSubjectId;
-		$this->internalPropertyId = $internalPropertyId;
+		$this->subjectId = $subjectId;
+		$this->propertyId = $propertyId;
 		$this->rank = $rank;
 		$this->hash = $hash;
 	}
@@ -51,17 +63,17 @@ class ClaimRow {
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getInternalSubjectId() {
-		return $this->internalSubjectId;
+	public function getSubjectId() {
+		return $this->subjectId;
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getInternalPropertyId() {
-		return $this->internalPropertyId;
+	public function getPropertyId() {
+		return $this->propertyId;
 	}
 
 	/**
