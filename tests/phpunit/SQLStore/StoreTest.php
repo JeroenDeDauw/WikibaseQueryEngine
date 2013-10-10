@@ -48,7 +48,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase {
 	public function testGetUpdaterReturnType() {
 		$this->assertInstanceOf(
 			'Wikibase\QueryEngine\QueryStoreWriter',
-			$this->newInstance()->getUpdater()
+			$this->newInstance()->getWriter()
 		);
 	}
 

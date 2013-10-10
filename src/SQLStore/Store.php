@@ -80,13 +80,13 @@ class Store implements QueryStore {
 	}
 
 	/**
-	 * @see QueryStore::getUpdater
+	 * @see QueryStore::getWriter
 	 *
 	 * @since 0.1
 	 *
 	 * @return QueryStoreWriter
 	 */
-	public function getUpdater() {
+	public function getWriter() {
 		return $this->factory->newWriter();
 	}
 

@@ -51,7 +51,7 @@ interface QueryStore {
 	 *
 	 * @return QueryStoreWriter
 	 */
-	public function getUpdater();
+	public function getWriter();
 
 	/**
 	 * Sets up the store.

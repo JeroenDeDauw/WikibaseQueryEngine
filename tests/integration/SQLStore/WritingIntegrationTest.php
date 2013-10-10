@@ -112,7 +112,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$claim->setGuid( 'a claim' );
 		$item->addClaim( $claim );
 
-		$this->store->getUpdater()->insertEntity( $item );
+		$this->store->getWriter()->insertEntity( $item );
 
 		$propertyDescription = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P42' ) ),
@@ -124,7 +124,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 			$this->findMatchingEntities( $propertyDescription )
 		);
 
-		$this->store->getUpdater()->deleteEntity( $item );
+		$this->store->getWriter()->deleteEntity( $item );
 
 		$this->assertEquals(
 			array(),
@@ -155,7 +155,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$claim->setGuid( 'foo claim' );
 		$item->addClaim( $claim );
 
-		$this->store->getUpdater()->insertEntity( $item );
+		$this->store->getWriter()->insertEntity( $item );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new StringValue( 'Foo' ) ) );
 		$claim->setGuid( 'bar claim' );
@@ -164,7 +164,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 			$claim
 		) ) );
 
-		$this->store->getUpdater()->updateEntity( $item );
+		$this->store->getWriter()->updateEntity( $item );
 
 		$propertyDescription = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P42' ) ),

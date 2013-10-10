@@ -105,7 +105,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim0' );
 		$item->addClaim( $claim );
 
-		$this->store->getUpdater()->insertEntity( $item );
+		$this->store->getWriter()->insertEntity( $item );
 
 
 		$item = Item::newEmpty();
@@ -115,7 +115,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim1' );
 		$item->addClaim( $claim );
 
-		$this->store->getUpdater()->insertEntity( $item );
+		$this->store->getWriter()->insertEntity( $item );
 
 
 		$item = Item::newEmpty();
@@ -125,7 +125,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim2' );
 		$item->addClaim( $claim );
 
-		$this->store->getUpdater()->insertEntity( $item );
+		$this->store->getWriter()->insertEntity( $item );
 
 
 		$item = Item::newEmpty();
@@ -139,7 +139,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim4' );
 		$item->addClaim( $claim );
 
-		$this->store->getUpdater()->insertEntity( $item );
+		$this->store->getWriter()->insertEntity( $item );
 	}
 
 	/**
