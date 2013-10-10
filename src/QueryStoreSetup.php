@@ -2,8 +2,6 @@
 
 namespace Wikibase\QueryEngine;
 
-use Wikibase\Database\MessageReporter;
-
 /**
  * @since 0.1
  *
@@ -47,14 +45,5 @@ interface QueryStoreSetup {
 	 * TODO: document throws
 	 */
 	public function update();
-
-	/**
-	 * Sets the MessageReporter to report messages with.
-	 *
-	 * @since 0.1
-	 *
-	 * @param MessageReporter $reporter
-	 */
-	public function setMessageReporter( MessageReporter $reporter );
 
 }

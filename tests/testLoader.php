@@ -1,13 +1,6 @@
 <?php
 
 /**
- * Test class autoloader for the Wikibase QueryEngine component.
- *
- * @since 0.1
- *
- * @file
- * @ingroup QueryEngine
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
@@ -39,6 +32,6 @@ spl_autoload_register( function ( $className ) {
 		array_shift( $pathParts );
 		$fileName = implode( '/', $pathParts );
 
-		require_once __DIR__ . '/phpunit/' . $fileName;
+		require_once __DIR__ . '/' . $fileName;
 	}
 } );

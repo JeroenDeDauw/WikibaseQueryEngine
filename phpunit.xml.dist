@@ -14,11 +14,11 @@
          verbose="true">
     <testsuites>
         <testsuite name="QueryEngineStandalone">
-            <directory>tests/phpunit</directory>
-            <exclude>tests/integration</exclude>
+            <directory>tests/Phpunit</directory>
+            <exclude>tests/Integration</exclude>
         </testsuite>
         <testsuite name="QueryEngineIntegration">
-            <directory>tests/integration</directory>
+            <directory>tests/Integration</directory>
         </testsuite>
     </testsuites>
     <filter>

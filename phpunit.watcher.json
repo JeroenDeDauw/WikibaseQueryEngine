@@ -1,0 +1,11 @@
+{
+	"rootPath": ".",
+	"fileOrDirectoriesToWatch": [
+		"src",
+		"tests"
+	],
+	"commandArguments": [
+		"-c",
+		"phpunit.xml.dist"
+	]
+}
