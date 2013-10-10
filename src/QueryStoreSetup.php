@@ -38,6 +38,17 @@ interface QueryStoreSetup {
 	public function uninstall();
 
 	/**
+	 * Updates the store schema to the latest version.
+	 * This includes schema modifications, rebuilding of data where needed
+	 * and doing initial population where needed.
+	 *
+	 * @since 0.1
+	 *
+	 * TODO: document throws
+	 */
+	public function update();
+
+	/**
 	 * Sets the MessageReporter to report messages with.
 	 *
 	 * @since 0.1

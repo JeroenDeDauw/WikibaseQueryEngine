@@ -89,6 +89,8 @@ class Setup implements QueryStoreSetup {
 	 * @see QueryStoreSetup::install
 	 *
 	 * @since 0.1
+	 *
+	 * TODO: document throws
 	 */
 	public function install() {
 		$this->report( 'Starting install of ' . $this->config->getStoreName() );
@@ -120,6 +122,8 @@ class Setup implements QueryStoreSetup {
 	 * @see QueryStoreSetup::uninstall
 	 *
 	 * @since 0.1
+	 *
+	 * TODO: document throws
 	 */
 	public function uninstall() {
 		$this->report( 'Starting uninstall of ' . $this->config->getStoreName() );
@@ -146,6 +150,17 @@ class Setup implements QueryStoreSetup {
 		}
 
 		return $success; // TODO: remove, or switch to using a try catch
+	}
+
+	/**
+	 * @see QueryStoreSetup::update
+	 *
+	 * @since 0.1
+	 *
+	 * TODO: document throws
+	 */
+	public function update() {
+		// TODO: implement
 	}
 
 }
