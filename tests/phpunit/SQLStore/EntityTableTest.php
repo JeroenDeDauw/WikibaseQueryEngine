@@ -76,11 +76,17 @@ class EntityTableTest extends \PHPUnit_Framework_TestCase {
 		$property->setDataTypeId( 'string' );
 		$property->setId( new PropertyId( 'P1' ) );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
-		$property->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
+		$property->addClaim( $this->newClaim( 42 ) );
 
 		$argLists[] = array( $property );
 
 		return $argLists;
+	}
+
+	protected function newClaim( $propertyNumber ) {
+		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
+		$claim->setGuid( 'guid' . $propertyNumber );
+		return $claim;
 	}
 
 }

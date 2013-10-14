@@ -72,20 +72,26 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$property->setDataTypeId( 'string' );
 		$property->setId( 1 );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
-		$property->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
+		$property->addClaim( $this->newClaim( 42 ) );
 
 		$argLists[] = array( $property );
 
 
 		$item = Item::newEmpty();
 		$item->setId( 2 );
-		$item->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
-		$item->addClaim( new Claim( new PropertyNoValueSnak( 43 ) ) );
-		$item->addClaim( new Claim( new PropertyNoValueSnak( 44 ) ) );
+		$item->addClaim( $this->newClaim( 42 ) );
+		$item->addClaim( $this->newClaim( 43 ) );
+		$item->addClaim( $this->newClaim( 44 ) );
 
 		$argLists[] = array( $item );
 
 		return $argLists;
+	}
+
+	protected function newClaim( $propertyNumber ) {
+		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
+		$claim->setGuid( 'guid' . $propertyNumber );
+		return $claim;
 	}
 
 }

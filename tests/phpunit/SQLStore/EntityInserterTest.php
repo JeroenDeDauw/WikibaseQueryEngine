@@ -34,19 +34,6 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$invocationMocker = $claimInserter->expects( $this->exactly( count( $entity->getClaims() ) ) )
-			->method( 'insertClaim' );
-
-		// The 'with' constraints fail if the method is not invoked,
-		// so we can only add them when there are claims.
-		if ( count( $entity->getClaims() ) > 0 ) {
-			// TODO
-//			$invocationMocker->with(
-//				$this->anything(),
-//				$this->equalTo( new PropertyId( 'P12' ) )
-//			);
-		}
-
 		$inserter = new EntityInserter( $claimInserter );
 
 		$inserter->insertEntity( $entity );
@@ -78,20 +65,27 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$property->setDataTypeId( 'string' );
 		$property->setId( new PropertyId( 'P1' ) );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
-		$property->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
+		$property->addClaim( $this->newClaim( 42 ) );
 
 		$argLists[] = array( $property );
 
 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q2' ) );
-		$item->addClaim( new Claim( new PropertyNoValueSnak( 42 ) ) );
-		$item->addClaim( new Claim( new PropertyNoValueSnak( 43 ) ) );
-		$item->addClaim( new Claim( new PropertyNoValueSnak( 44 ) ) );
+
+		$item->addClaim( $this->newClaim( 42 ) );
+		$item->addClaim( $this->newClaim( 43 ) );
+		$item->addClaim( $this->newClaim( 44 ) );
 
 		$argLists[] = array( $item );
 
 		return $argLists;
+	}
+
+	protected function newClaim( $propertyNumber ) {
+		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
+		$claim->setGuid( 'guid' . $propertyNumber );
+		return $claim;
 	}
 
 }
