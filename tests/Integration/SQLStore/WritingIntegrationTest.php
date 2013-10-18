@@ -7,15 +7,7 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
-use DataValues\StringValue;
 use Wikibase\Claims;
-use Wikibase\Database\LazyDBConnectionProvider;
-use Wikibase\Database\MediaWiki\MediaWikiQueryInterface;
-use Wikibase\Database\MediaWiki\MediaWikiSchemaModifier;
-use Wikibase\Database\MediaWiki\MediaWikiSchemaModifierBuilder;
-use Wikibase\Database\MediaWiki\MWTableBuilderBuilder;
-use Wikibase\Database\MediaWiki\MWTableDefinitionReaderBuilder;
-use Wikibase\Database\MessageReporter;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\DataModel\Entity\EntityId;
@@ -26,9 +18,7 @@ use Wikibase\Item;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\Store;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\Statement;
 
 /**
