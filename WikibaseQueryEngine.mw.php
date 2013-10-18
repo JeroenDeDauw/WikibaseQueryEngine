@@ -44,18 +44,7 @@ if ( defined( 'MW_PHPUNIT_TEST' ) ) {
  */
 $wgHooks['UnitTestsList'][]	= function( array &$files ) {
 	// @codeCoverageIgnoreStart
-	$directoryIterator = new RecursiveDirectoryIterator( __DIR__ . '/tests/phpunit/' );
-
-	/**
-	 * @var SplFileInfo $fileInfo
-	 */
-	foreach ( new RecursiveIteratorIterator( $directoryIterator ) as $fileInfo ) {
-		if ( substr( $fileInfo->getFilename(), -8 ) === 'Test.php' ) {
-			$files[] = $fileInfo->getPathname();
-		}
-	}
-
-	$directoryIterator = new RecursiveDirectoryIterator( __DIR__ . '/tests/integration/' );
+	$directoryIterator = new RecursiveDirectoryIterator( __DIR__ . '/tests/' );
 
 	/**
 	 * @var SplFileInfo $fileInfo
