@@ -139,6 +139,8 @@ class SQLStore {
 		return new SnakRemover( $this->getSnakStores( $queryInterface ) );
 	}
 
+	// This table is not yet needed.
+	// Later one it will be a dependency of the EntityInserter/Remover/Updater
 	private function newEntityTable( QueryInterface $queryInterface ) {
 		return new EntityTable(
 			$queryInterface,
