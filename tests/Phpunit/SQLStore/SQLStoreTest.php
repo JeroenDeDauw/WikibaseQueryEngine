@@ -2,13 +2,11 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
-use Wikibase\QueryEngine\SQLStore\Store;
+use Wikibase\QueryEngine\SQLStore\SQLStore;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
 /**
- * @covers Wikibase\QueryEngine\SQLStore\Store
- *
- * @ingroup WikibaseQueryEngineTest
+ * @covers Wikibase\QueryEngine\SQLStore\SQLStore
  *
  * @group Wikibase
  * @group WikibaseQueryEngine
@@ -16,7 +14,7 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class StoreTest extends \PHPUnit_Framework_TestCase {
+class SQLStoreTest extends \PHPUnit_Framework_TestCase {
 
 	protected function newInstance() {
 		$storeConfig = new StoreConfig( 'foo', 'bar', array() );
@@ -34,27 +32,24 @@ class StoreTest extends \PHPUnit_Framework_TestCase {
 		$definitionReader = $this->getMock( 'Wikibase\Database\Schema\TableDefinitionReader' );
 		$schemaModifier = $this->getMock( 'Wikibase\Database\Schema\SchemaModifier' );
 
-		return new Store( $storeConfig, $queryInterface, $tableBuilder, $definitionReader, $schemaModifier );
-	}
-
-	public function testGetNameReturnType() {
-		$this->assertInternalType(
-			'string',
-			$this->newInstance()->getName()
-		);
+		return new SQLStore( $storeConfig, $queryInterface, $tableBuilder, $definitionReader, $schemaModifier );
 	}
 
 	public function testGetUpdaterReturnType() {
 		$this->assertInstanceOf(
 			'Wikibase\QueryEngine\QueryStoreWriter',
-			$this->newInstance()->getWriter()
+			$this->newInstance()->newWriter( $this->newMockQueryInterface() )
 		);
+	}
+
+	protected function newMockQueryInterface() {
+		return $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
 	}
 
 	public function testGetQueryEngineReturnType() {
 		$this->assertInstanceOf(
 			'Wikibase\QueryEngine\QueryEngine',
-			$this->newInstance()->getQueryEngine()
+			$this->newInstance()->newQueryEngine( $this->newMockQueryInterface() )
 		);
 	}
 

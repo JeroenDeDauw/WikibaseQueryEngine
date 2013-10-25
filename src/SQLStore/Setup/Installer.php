@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\SQLStore\Setup;
 
 use Wikibase\Database\QueryInterface\QueryInterfaceException;
 use Wikibase\Database\Schema\TableBuilder;
+use Wikibase\QueryEngine\QueryStoreInstaller;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
@@ -11,7 +12,7 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class Installer {
+class Installer implements QueryStoreInstaller {
 
 	/**
 	 * @var StoreConfig
@@ -47,7 +48,7 @@ class Installer {
 	}
 
 	/**
-	 * @see QueryStoreSetup::install
+	 * @see QueryStoreInstaller::install
 	 *
 	 * TODO: document throws
 	 */

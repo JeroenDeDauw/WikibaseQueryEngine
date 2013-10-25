@@ -16,7 +16,8 @@ use Wikibase\Item;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\Store;
+use Wikibase\QueryEngine\SQLStore\SQLStore;
+use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\QueryEngine\Tests\Integration\SQLStore\IntegrationStoreBuilder;
 use Wikibase\Statement;
 
@@ -33,7 +34,7 @@ use Wikibase\Statement;
 class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var Store
+	 * @var SQLStoreWithDependencies
 	 */
 	protected $store;
 
@@ -46,14 +47,14 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 		$this->store = $this->newStore();
 
-		$this->store->newSetup( new NullMessageReporter() )->install();
+		$this->store->newInstaller()->install();
 
 		$this->insertEntities();
 	}
 
 	public function tearDown() {
 		if ( isset( $this->store ) ) {
-			$this->store->newSetup( new NullMessageReporter() )->uninstall();
+			$this->store->newUninstaller()->uninstall();
 		}
 	}
 
@@ -69,7 +70,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim0' );
 		$item->addClaim( $claim );
 
-		$this->store->getWriter()->insertEntity( $item );
+		$this->store->newWriter()->insertEntity( $item );
 
 
 		$item = Item::newEmpty();
@@ -79,7 +80,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim1' );
 		$item->addClaim( $claim );
 
-		$this->store->getWriter()->insertEntity( $item );
+		$this->store->newWriter()->insertEntity( $item );
 
 
 		$item = Item::newEmpty();
@@ -89,7 +90,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim2' );
 		$item->addClaim( $claim );
 
-		$this->store->getWriter()->insertEntity( $item );
+		$this->store->newWriter()->insertEntity( $item );
 
 
 		$item = Item::newEmpty();
@@ -103,14 +104,14 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$claim->setGuid( 'claim4' );
 		$item->addClaim( $claim );
 
-		$this->store->getWriter()->insertEntity( $item );
+		$this->store->newWriter()->insertEntity( $item );
 	}
 
 	/**
 	 * @dataProvider somePropertyProvider
 	 */
 	public function testFindMatchingEntitiesWithSomeProperty( SomeProperty $description, array $expectedIds ) {
-		$matchFinder = $this->store->getQueryEngine();
+		$matchFinder = $this->store->newQueryEngine();
 
 		$queryOptions = new QueryOptions(
 			100,

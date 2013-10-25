@@ -18,7 +18,8 @@ use Wikibase\Item;
 use Wikibase\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\Store;
+use Wikibase\QueryEngine\SQLStore\SQLStore;
+use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\Statement;
 
 /**
@@ -37,7 +38,7 @@ use Wikibase\Statement;
 class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var Store
+	 * @var SQLStoreWithDependencies
 	 */
 	protected $store;
 
@@ -50,12 +51,12 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 		$this->store = $this->newStore();
 
-		$this->store->newSetup( new NullMessageReporter() )->install();
+		$this->store->newInstaller()->install();
 	}
 
 	public function tearDown() {
 		if ( isset( $this->store ) ) {
-			$this->store->newSetup( new NullMessageReporter() )->uninstall();
+			$this->store->newUninstaller( new NullMessageReporter() )->uninstall();
 		}
 	}
 
@@ -71,7 +72,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$claim->setGuid( 'a claim' );
 		$item->addClaim( $claim );
 
-		$this->store->getWriter()->insertEntity( $item );
+		$this->store->newWriter()->insertEntity( $item );
 
 		$propertyDescription = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P42' ) ),
@@ -83,7 +84,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 			$this->findMatchingEntities( $propertyDescription )
 		);
 
-		$this->store->getWriter()->deleteEntity( $item );
+		$this->store->newWriter()->deleteEntity( $item );
 
 		$this->assertEquals(
 			array(),
@@ -96,7 +97,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	 * @return EntityId[]
 	 */
 	protected function findMatchingEntities( Description $description ) {
-		$matchFinder = $this->store->getQueryEngine();
+		$matchFinder = $this->store->newQueryEngine();
 
 		$queryOptions = new QueryOptions(
 			100,
@@ -114,7 +115,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$claim->setGuid( 'foo claim' );
 		$item->addClaim( $claim );
 
-		$this->store->getWriter()->insertEntity( $item );
+		$this->store->newWriter()->insertEntity( $item );
 
 		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 9000 ) ) );
 		$claim->setGuid( 'bar claim' );
@@ -123,7 +124,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 			$claim
 		) ) );
 
-		$this->store->getWriter()->updateEntity( $item );
+		$this->store->newWriter()->updateEntity( $item );
 
 		$propertyDescription = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P42' ) ),

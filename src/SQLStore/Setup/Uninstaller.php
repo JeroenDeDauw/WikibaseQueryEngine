@@ -3,6 +3,8 @@
 namespace Wikibase\QueryEngine\SQLStore\Setup;
 
 use Wikibase\Database\Schema\TableBuilder;
+use Wikibase\QueryEngine\QueryStoreUninstaller;
+use Wikibase\QueryEngine\QueryStoreUpdater;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
@@ -10,7 +12,7 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class Uninstaller {
+class Uninstaller implements QueryStoreUninstaller {
 
 	/**
 	 * @var StoreConfig
@@ -46,7 +48,7 @@ class Uninstaller {
 	}
 
 	/**
-	 * @see QueryStoreSetup::uninstall
+	 * @see QueryStoreUninstaller::uninstall
 	 *
 	 * TODO: document throws
 	 */

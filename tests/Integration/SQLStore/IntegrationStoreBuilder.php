@@ -12,7 +12,8 @@ use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
-use Wikibase\QueryEngine\SQLStore\Store;
+use Wikibase\QueryEngine\SQLStore\SQLStore;
+use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
 /**
@@ -22,6 +23,11 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
  */
 class IntegrationStoreBuilder {
 
+	/**
+	 * @param PHPUnit_Framework_TestCase $testCase
+	 *
+	 * @return SQLStoreWithDependencies
+	 */
 	public static function newStore( PHPUnit_Framework_TestCase $testCase ) {
 		$dbConnectionProvider = new LazyDBConnectionProvider( DB_MASTER );
 
@@ -65,7 +71,13 @@ class IntegrationStoreBuilder {
 
 		$config->setPropertyDataValueTypeLookup( $propertyDvTypeLookup );
 
-		return new Store( $config, $queryInterface, $tableBuilder, $definitionReader, $schemaModifier );
+		return new SQLStoreWithDependencies(
+			new SQLStore( $config ),
+			$queryInterface,
+			$tableBuilder,
+			$definitionReader,
+			$schemaModifier
+		);
 	}
 
 }

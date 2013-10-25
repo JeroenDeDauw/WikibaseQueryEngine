@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\SQLStore\Setup;
 use Wikibase\Database\Schema\TableBuilder;
 use Wikibase\Database\Schema\TableDefinitionReader;
 use Wikibase\Database\Schema\TableSchemaUpdater;
+use Wikibase\QueryEngine\QueryStoreUpdater;
 use Wikibase\QueryEngine\SQLStore\Schema;
 
 /**
@@ -13,7 +14,7 @@ use Wikibase\QueryEngine\SQLStore\Schema;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class Updater {
+class Updater implements QueryStoreUpdater {
 
 	protected $storeSchema;
 	protected $schemaUpdater;
@@ -30,7 +31,7 @@ class Updater {
 	}
 
 	/**
-	 * @see QueryStoreSetup::update
+	 * @see QueryStoreUpdater::update
 	 *
 	 * TODO: document throws
 	 */
