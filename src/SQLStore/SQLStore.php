@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\SQLStore;
 
 use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\Database\Schema\SchemaModifier;
+use Wikibase\Database\Schema\SimpleTableSchemaUpdater;
 use Wikibase\Database\Schema\TableBuilder;
 use Wikibase\Database\Schema\TableDefinitionReader;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
@@ -110,7 +111,7 @@ class SQLStore {
 	public function newUpdater( TableBuilder $tableBuilder, TableDefinitionReader $tableDefinitionReader, SchemaModifier $schemaModifier ) {
 		return new Updater(
 			$this->getSchema(),
-			$schemaModifier,
+			new SimpleTableSchemaUpdater( $schemaModifier ),
 			$tableDefinitionReader,
 			$tableBuilder
 		);
