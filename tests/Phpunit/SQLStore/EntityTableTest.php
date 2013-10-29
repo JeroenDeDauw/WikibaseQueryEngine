@@ -42,9 +42,9 @@ class EntityTableTest extends \PHPUnit_Framework_TestCase {
 				)
 			);
 
-		$inserter = new EntityTable( $queryInterface, 'nyan_entities' );
+		$table = new EntityTable( $queryInterface, 'nyan_entities' );
 
-		$inserter->insertEntity( $entity );
+		$table->insertEntity( $entity );
 	}
 
 	public function entityProvider() {
@@ -84,6 +84,28 @@ class EntityTableTest extends \PHPUnit_Framework_TestCase {
 		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;
+	}
+
+	/**
+	 * @dataProvider entityProvider
+	 */
+	public function testRemoveEntity( Entity $entity ) {
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+
+		$queryInterface->expects( $this->once() )
+			->method( 'delete' )
+			->with(
+				$this->equalTo( 'nyan_entities' ),
+				$this->equalTo(
+					array(
+						'id' => $entity->getId()->getSerialization()
+					)
+				)
+			);
+
+		$table = new EntityTable( $queryInterface, 'nyan_entities' );
+
+		$table->removeEntity( $entity );
 	}
 
 }

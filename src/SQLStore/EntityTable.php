@@ -46,14 +46,18 @@ class EntityTable {
 		);
 	}
 
-
 	/**
 	 * @since 0.1
 	 *
 	 * @param Entity $entity
 	 */
 	public function removeEntity( Entity $entity ) {
-
+		$this->queryInterface->delete(
+			$this->entityTableName,
+			array(
+				'id' => $entity->getId()->getSerialization()
+			)
+		);
 	}
 
 }
