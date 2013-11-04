@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
+namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
 use Wikibase\Claim;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
@@ -12,10 +12,10 @@ use Wikibase\Item;
 use Wikibase\Property;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\EntityInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 
 /**
- * @covers Wikibase\QueryEngine\SQLStore\EntityInserter
+ * @covers Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter
  *
  * @group Wikibase
  * @group WikibaseQueryEngine

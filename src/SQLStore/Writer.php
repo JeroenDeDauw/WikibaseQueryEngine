@@ -2,10 +2,11 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\Claim;
 use Wikibase\Entity;
 use Wikibase\QueryEngine\QueryStoreWriter;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
 
 /**
  * Class responsible for writing information to the SQLStore.

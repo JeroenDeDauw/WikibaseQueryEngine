@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\SQLStore;
+namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
 use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\Entity;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
+namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
 use Wikibase\Claim;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
@@ -12,10 +12,10 @@ use Wikibase\Item;
 use Wikibase\Property;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\EntityUpdater;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
 
 /**
- * @covers Wikibase\QueryEngine\SQLStore\EntityUpdater
+ * @covers Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater
  *
  * @group Wikibase
  * @group WikibaseQueryEngine
@@ -29,7 +29,7 @@ class EntityUpdaterTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider entityProvider
 	 */
 	public function testUpdateEntity( Entity $entity ) {
-		$remover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityRemover' )
+		$remover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -37,7 +37,7 @@ class EntityUpdaterTest extends \PHPUnit_Framework_TestCase {
 			->method( 'removeEntity' )
 			->with( $this->equalTo( $entity ) );
 
-		$inserter = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityInserter' )
+		$inserter = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter' )
 			->disableOriginalConstructor()
 			->getMock();
 

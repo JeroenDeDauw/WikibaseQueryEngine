@@ -1,8 +1,7 @@
 <?php
 
-namespace Wikibase\QueryEngine\SQLStore;
+namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
-use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\Entity;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 

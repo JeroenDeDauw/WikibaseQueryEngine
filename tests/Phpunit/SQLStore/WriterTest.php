@@ -23,13 +23,13 @@ use Wikibase\QueryEngine\SQLStore\Writer;
 class WriterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFacadeForwardsCalls() {
-		$entityInserter = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityInserter' )
+		$entityInserter = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter' )
 			->disableOriginalConstructor()->getMock();
 
-		$entityUpdater = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityUpdater' )
+		$entityUpdater = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater' )
 			->disableOriginalConstructor()->getMock();
 
-		$entityRemover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityRemover' )
+		$entityRemover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover' )
 			->disableOriginalConstructor()->getMock();
 
 		$writer = new Writer( $entityInserter, $entityUpdater, $entityRemover );

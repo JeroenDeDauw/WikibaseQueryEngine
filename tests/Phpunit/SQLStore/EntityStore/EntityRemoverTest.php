@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
+namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
 use Wikibase\Claim;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
@@ -11,10 +11,10 @@ use Wikibase\Item;
 use Wikibase\Property;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\EntityRemover;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
 
 /**
- * @covers Wikibase\QueryEngine\SQLStore\EntityRemover
+ * @covers Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover
  *
  * @ingroup WikibaseQueryEngineTest
  *
