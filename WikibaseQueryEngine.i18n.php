@@ -123,6 +123,13 @@ $messages['mk'] = array(
 	'wikibasequeryengine-desc' => 'Компонента што содржи код за одговарање на Ask-барања во склад со со збир од предмети на Викибазата',
 );
 
+/** Dutch (Nederlands)
+ * @author Siebrand
+ */
+$messages['nl'] = array(
+	'wikibasequeryengine-desc' => 'Component dat de code bevat voor het beantwoorden van vragen vanuit <i lang="en">Ask</i> tegen een verzameling van entiteiten in Wikibase',
+);
+
 /** Occitan (occitan)
  * @author Cedric31
  */
