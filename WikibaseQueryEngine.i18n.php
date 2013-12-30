@@ -44,6 +44,13 @@ $messages['de'] = array(
 	'wikibasequeryengine-desc' => 'Komponente, die einen Abfragenantwortcode für Ask-Abfragen gegen eine Sammlung von Wikibase-Entitäten beinhaltet',
 );
 
+/** Lower Sorbian (dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'wikibasequeryengine-desc' => 'Komponenta, kótaraž wopśimujo napšašowański wótegronowy kode za Ask-napšašowanja pśeśiwo zběrce entitow Wikibase',
+);
+
 /** Spanish (español)
  * @author Fitoschido
  */
@@ -70,6 +77,13 @@ $messages['gl'] = array(
  */
 $messages['he'] = array(
 	'wikibasequeryengine-desc' => 'רכיב שמכיל קוד למענה לשאילתות Ask אל מול ישויות ויקיבייס',
+);
+
+/** Upper Sorbian (hornjoserbsce)
+ * @author Michawiki
+ */
+$messages['hsb'] = array(
+	'wikibasequeryengine-desc' => 'Komponenta, kotraž naprašowanski wotmołwny kod za Ask-naprašowanja přećiwo zběrce entitow Wikibase wobsahuje',
 );
 
 /** Indonesian (Bahasa Indonesia)
