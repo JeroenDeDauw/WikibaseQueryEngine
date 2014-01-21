@@ -3,18 +3,13 @@
 /**
  * Entry point for the Query component of Wikibase.
  *
- * @since 0.1
- *
- * @file
- * @ingroup WikibaseQueryEngine
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 
 if ( defined( 'WIKIBASE_QUERYENGINE_VERSION' ) ) {
-	// Do not initialize more then once.
-	return;
+	// Do not initialize more than once.
+	return 1;
 }
 
 define( 'WIKIBASE_QUERYENGINE_VERSION', '0.1 alpha' );
@@ -25,59 +20,6 @@ if ( ( !defined( 'Ask_VERSION' ) || !defined( 'DataValues_VERSION' ) || !defined
 	&& is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
 	include_once( __DIR__ . '/vendor/autoload.php' );
 }
-
-// Attempt to include the DataValues lib if that hasn't been done yet.
-if ( !defined( 'DataValues_VERSION' ) && file_exists( __DIR__ . '/../DataValues/DataValues.php' ) ) {
-	include_once( __DIR__ . '/../DataValues/DataValues.php' );
-}
-
-// Attempt to include the Ask lib if that hasn't been done yet.
-if ( !defined( 'Ask_VERSION' ) && file_exists( __DIR__ . '/../Ask/Ask.php' ) ) {
-	include_once( __DIR__ . '/../Ask/Ask.php' );
-}
-
-// Attempt to include the DataModel lib if that hasn't been done yet.
-if ( !defined( 'WIKIBASE_DATAMODEL_VERSION' ) && file_exists( __DIR__ . '/../WikibaseDataModel/WikibaseDataModel.php' ) ) {
-	include_once( __DIR__ . '/../WikibaseDataModel/WikibaseDataModel.php' );
-}
-
-// Attempt to include the Ask lib if that hasn't been done yet.
-if ( !defined( 'WIKIBASE_DATABASE_VERSION' ) && file_exists( __DIR__ . '/../WikibaseDatabase/WikibaseDatabase.php' ) ) {
-	include_once( __DIR__ . '/../WikibaseDatabase/WikibaseDatabase.php' );
-}
-
-spl_autoload_register( function ( $className ) {
-	$className = ltrim( $className, '\\' );
-	$fileName = '';
-	$namespace = '';
-
-	if ( $lastNsPos = strripos( $className, '\\') ) {
-		$namespace = substr( $className, 0, $lastNsPos );
-		$className = substr( $className, $lastNsPos + 1 );
-		$fileName  = str_replace( '\\', '/', $namespace ) . '/';
-	}
-
-	$fileName .= str_replace( '_', '/', $className ) . '.php';
-
-	$namespaceSegments = explode( '\\', $namespace );
-
-	$inQueryEngineNamespace = count( $namespaceSegments ) > 1
-		&& $namespaceSegments[0] === 'Wikibase'
-		&& $namespaceSegments[1] === 'QueryEngine';
-
-	if ( $inQueryEngineNamespace ) {
-		$inTestNamespace = count( $namespaceSegments ) > 2 && $namespaceSegments[2] === 'Tests';
-
-		if ( !$inTestNamespace ) {
-			$pathParts = explode( '/', $fileName );
-			array_shift( $pathParts );
-			array_shift( $pathParts );
-			$fileName = implode( '/', $pathParts );
-
-			require_once __DIR__ . '/src/' . $fileName;
-		}
-	}
-} );
 
 // @codeCoverageIgnoreStart
 if ( defined( 'MEDIAWIKI' ) ) {

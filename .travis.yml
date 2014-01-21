@@ -11,21 +11,17 @@ matrix:
       php: 5.4
     - env: DBTYPE=sqlite TESTSUITE=Integration
       php: 5.5
-    - env: DBTYPE=postgres TESTSUITE=Integration
-      php: 5.5
   exclude:
     - env: THENEEDFORTHIS=FAIL
-  allow_failures:
-    - env: DBTYPE=postgres TESTSUITE=Integration
 
-before_script: bash .travis.sh $TESTSUITE
+before_script:
+  - composer self-update
+  - bash .travis.sh $TESTSUITE
 
 script:
   - if [ "$TESTSUITE" == "Integration" ] ; then cd ../phase3/extensions/WikibaseQueryEngine ; fi
   - phpunit --testsuite=QueryEngine$TESTSUITE --coverage-clover build/logs/clover.xml
 
-after_script:
-  - php vendor/bin/coveralls -v
 
 notifications:
   irc:
