@@ -1,7 +1,7 @@
 # Wikibase QueryEngine
 
-[![Build Status](https://secure.travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine)
-[![Coverage Status](https://coveralls.io/repos/wikimedia/mediawiki-extensions-WikibaseQueryEngine/badge.png?branch=master)](https://coveralls.io/r/wikimedia/mediawiki-extensions-WikibaseQueryEngine?branch=master)
+[![Build Status](https://secure.travis-ci.org/wmde/WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/wmde/WikibaseQueryEngine)
+[![Coverage Status](https://coveralls.io/repos/wmde/WikibaseQueryEngine/badge.png?branch=master)](https://coveralls.io/r/wmde/WikibaseQueryEngine?branch=master)
 [![Dependency Status](https://www.versioneye.com/package/php--wikibase--query-engine/badge.png)](https://www.versioneye.com/package/php--wikibase--query-engine)
 
 On [Packagist](https://packagist.org/packages/wikibase/query-engine):
@@ -13,14 +13,6 @@ Component containing query answering code for
 queries against a collection of
 [Wikibase](https://www.mediawiki.org/wiki/Wikibase)
 entities.
-
-## Requirements
-
-* PHP 5.3 or later
-* [DataValues](https://www.mediawiki.org/wiki/Extension:DataValues) 0.1 or later
-* [Ask](https://github.com/wikimedia/mediawiki-extensions-Ask/blob/master/README.md) 0.1 or later
-* [Wikibase DataModel](https://www.mediawiki.org/wiki/Extension:Wikibase_DataModel) 0.4 or later
-* [Wikibase Database](https://www.mediawiki.org/wiki/Extension:WikibaseDatabase) 0.1 or later
 
 ## Installation
 
@@ -136,8 +128,8 @@ as [Wikimedia Germany](https://wikimedia.de) employee for the [Wikidata project]
 * [Wikibase QueryEngine on Packagist](https://packagist.org/packages/wikibase/query-engine)
 * [Wikibase QueryEngine on Ohloh](https://www.ohloh.net/p/wikibasequeryengine/)
 * [Wikibase QueryEngine on MediaWiki.org](https://www.mediawiki.org/wiki/Extension:Wikibase_QueryEngine)
-* [TravisCI build status](https://travis-ci.org/wikimedia/mediawiki-extensions-WikibaseQueryEngine)
-* [Latest version of the readme file](https://github.com/wikimedia/mediawiki-extensions-WikibaseQueryEngine/blob/master/README.md)
+* [TravisCI build status](https://travis-ci.org/wmde/WikibaseQueryEngine)
+* [Latest version of the readme file](https://github.com/wmde/WikibaseQueryEngine/blob/master/README.md)
 
 ## Related projects
 
