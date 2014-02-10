@@ -14,7 +14,7 @@ if ( !in_array( '--testsuite=QueryEngineStandalone', $GLOBALS['argv'] ) ) {
 	require_once( __DIR__ . '/evilMediaWikiBootstrap.php' );
 }
 
-$pwd = exec( 'pwd' );
+$pwd = getcwd();
 chdir( __DIR__ . '/..' );
 passthru( 'composer update' );
 chdir( $pwd );
