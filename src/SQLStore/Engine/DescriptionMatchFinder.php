@@ -84,7 +84,7 @@ class DescriptionMatchFinder {
 		$selectionResult = $this->queryInterface->select(
 			$dvHandler->getDataValueTable()->getTableDefinition()->getName(),
 			array(
-				'subject_id',
+				'entity_id',
 			),
 			$conditions
 		);
@@ -93,7 +93,7 @@ class DescriptionMatchFinder {
 
 		foreach ( $selectionResult as $resultRow ) {
 			// TODO: handle parse exception
-			$entityIds[] = $this->idParser->parse( $resultRow->subject_id );
+			$entityIds[] = $this->idParser->parse( $resultRow->entity_id );
 		}
 
 		return $entityIds;

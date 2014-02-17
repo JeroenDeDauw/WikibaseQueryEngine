@@ -39,7 +39,7 @@ class ValuelessSnakStore extends SnakStore {
 			$this->tableName,
 			array(
 				'property_id' => $snakRow->getPropertyId(),
-				'subject_id' => $snakRow->getSubjectId(),
+				'entity_id' => $snakRow->getSubjectId(),
 				'snak_type' => $snakRow->getInternalSnakType(),
 				'snak_role' => $snakRow->getSnakRole(),
 			)
@@ -49,7 +49,7 @@ class ValuelessSnakStore extends SnakStore {
 	public function removeSnaksOfSubject( EntityId $subjectId ) {
 		$this->queryInterface->delete(
 			$this->tableName,
-			array( 'subject_id' => $subjectId->getSerialization() )
+			array( 'entity_id' => $subjectId->getSerialization() )
 		);
 	}
 

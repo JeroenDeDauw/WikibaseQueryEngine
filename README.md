@@ -94,7 +94,7 @@ Where
 
 ### Table: valueless_snaks
 
-* subject_id, string
+* entity_id, string
 * property_id, string
 * snak_type, int: type of the snak, ie "no value"
 * snak_role, int: role of the snak, ie "qualifier" or "main snak"
@@ -104,7 +104,7 @@ Where
 There is a data value table per type of data value the store is configured to support.
 Each such table has the following fields:
 
-* subject_id, string
+* entity_id, string
 * property_id, string
 
 All data value tables have a set of additional fields that are specific to the type of

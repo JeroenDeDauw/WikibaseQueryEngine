@@ -100,7 +100,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 				$this->equalTo(
 					array(
 						'property_id' => $snakRow->getPropertyId(),
-						'subject_id' => $snakRow->getSubjectId(),
+						'entity_id' => $snakRow->getSubjectId(),
 						'snak_type' => $snakRow->getInternalSnakType(),
 						'snak_role' => $snakRow->getSnakRole(),
 					)
@@ -122,7 +122,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			->method( 'delete' )
 			->with(
 				$this->equalTo( $tableName ),
-				$this->equalTo( array( 'subject_id' => $subjectId ) )
+				$this->equalTo( array( 'entity_id' => $subjectId ) )
 			);
 
 		$store = new ValuelessSnakStore(

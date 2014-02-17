@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\SQLStore;
 use OutOfBoundsException;
 use OutOfRangeException;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\IndexDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\SnakRole;
@@ -160,6 +161,13 @@ class Schema {
 						$table->getFields()
 					)
 				);
+				/** @var TableDefinition $table */
+				$table = $table->mutateIndexes(
+					array_merge(
+						$this->getPropertySnakIndexes(),
+						$table->getIndexes()
+					)
+				);
 
 				$dvTable = $dvTable->mutateTableDefinition( $table );
 				$dataValueHandler = $dataValueHandler->mutateDataValueTable( $dvTable );
@@ -177,19 +185,96 @@ class Schema {
 	 * @return FieldDefinition[]
 	 */
 	private function getPropertySnakFields() {
-		// TODO: indexes
-
 		return array(
 			new FieldDefinition(
-				'subject_id',
-				new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+				'row_id',
+				new TypeDefinition(
+					TypeDefinition::TYPE_BIGINT
+				),
+				FieldDefinition::NOT_NULL,
+				FieldDefinition::NO_DEFAULT,
+				FieldDefinition::AUTOINCREMENT
+			),
+
+			new FieldDefinition(
+				'entity_type',
+				new TypeDefinition(
+					TypeDefinition::TYPE_VARCHAR,
+					8
+				),
+				FieldDefinition::NOT_NULL
+			),
+
+			new FieldDefinition(
+				'entity_id',
+				new TypeDefinition(
+					TypeDefinition::TYPE_VARCHAR,
+					16
+				),
 				FieldDefinition::NOT_NULL
 			),
 
 			new FieldDefinition(
 				'property_id',
-				new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+				new TypeDefinition(
+					TypeDefinition::TYPE_VARCHAR,
+					16
+				),
 				FieldDefinition::NOT_NULL
+			),
+
+			new FieldDefinition(
+				'statement_rank',
+				new TypeDefinition(
+					TypeDefinition::TYPE_TINYINT
+				),
+				FieldDefinition::NOT_NULL
+			),
+
+			new FieldDefinition(
+				'value_identity',
+				new TypeDefinition(
+					TypeDefinition::TYPE_VARCHAR,
+					255
+				),
+				FieldDefinition::NOT_NULL
+			),
+		);
+	}
+
+	/**
+	 * @since 0.1
+	 *
+	 * @return IndexDefinition[]
+	 */
+	private function getPropertySnakIndexes() {
+		return array(
+			new IndexDefinition(
+				'PRIMARY',
+				array( 'row_id' => 0 ),
+				IndexDefinition::TYPE_PRIMARY
+			),
+
+			new IndexDefinition(
+				'value_property',
+				array(
+					'value_identity' => 255,
+					'property_id' => 16,
+					'entity_id' => 16,
+				),
+				IndexDefinition::TYPE_UNIQUE
+			),
+
+			new IndexDefinition(
+				'entity_id',
+				array( 'entity_id' => 16, ),
+				IndexDefinition::TYPE_INDEX
+			),
+
+			new IndexDefinition(
+				'property_id',
+				array( 'property_id' => 16, ),
+				IndexDefinition::TYPE_INDEX
 			),
 		);
 	}
@@ -220,21 +305,38 @@ class Schema {
 	 * @return TableDefinition
 	 */
 	public function getEntitiesTable() {
-		// TODO: indexes
 		return new TableDefinition(
 			$this->config->getTablePrefix() . 'entities',
 			array(
 				new FieldDefinition(
 					'id',
-					new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+					new TypeDefinition(
+						TypeDefinition::TYPE_VARCHAR,
+						16
+					),
 					FieldDefinition::NOT_NULL
 				),
 
 				// Entity type
 				new FieldDefinition(
 					'type',
-					new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+					new TypeDefinition(
+						TypeDefinition::TYPE_VARCHAR,
+						16
+					),
 					FieldDefinition::NOT_NULL
+				),
+			),
+			array(
+				new IndexDefinition(
+					'PRIMARY',
+					array( 'id' => 16 ),
+					IndexDefinition::TYPE_PRIMARY
+				),
+				new IndexDefinition(
+					'type',
+					array( 'type' => 16 ),
+					IndexDefinition::TYPE_INDEX
 				),
 			)
 		);
@@ -246,7 +348,6 @@ class Schema {
 	 * @return TableDefinition
 	 */
 	public function getValuelessSnaksTable() {
-		// TODO: indexes
 		return new TableDefinition(
 			$this->config->getTablePrefix() . 'valueless_snaks',
 			array_merge(
@@ -276,7 +377,8 @@ class Schema {
 						FieldDefinition::NO_DEFAULT
 					 ),
 				)
-			)
+			),
+			$this->getPropertySnakIndexes()
 		);
 	}
 

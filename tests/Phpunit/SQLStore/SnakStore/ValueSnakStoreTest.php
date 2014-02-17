@@ -125,7 +125,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 					array_merge(
 						array(
 							'property_id' => $snakRow->getPropertyId(),
-							'subject_id' => $snakRow->getSubjectId(),
+							'entity_id' => $snakRow->getSubjectId(),
 						),
 						$stringHandler->getInsertValues( $snakRow->getValue() )
 					)
@@ -169,7 +169,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			->method( 'delete' )
 			->with(
 				$this->equalTo( $stringHandler->getDataValueTable()->getTableDefinition()->getName() ),
-				$this->equalTo( array( 'subject_id' => $subjectId ) )
+				$this->equalTo( array( 'entity_id' => $subjectId ) )
 			);
 
 		$store = new ValueSnakStore(
