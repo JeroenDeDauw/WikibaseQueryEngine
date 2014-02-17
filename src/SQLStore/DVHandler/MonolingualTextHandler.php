@@ -49,7 +49,7 @@ class MonolingualTextHandler extends DataValueHandler {
 		return array(
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
+			'value_json' => json_encode( $value->getArrayValue() ),
 		);
 	}
 
@@ -69,12 +69,12 @@ class MonolingualTextHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'text' => $value->getText(),
-			'language' => $value->getLanguageCode(),
+			'value_text' => $value->getText(),
+			'value_language' => $value->getLanguageCode(),
 
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
+			'value_json' => json_encode( $value->getArrayValue() ),
 		);
 
 		return $values;

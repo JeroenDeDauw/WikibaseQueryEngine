@@ -49,7 +49,7 @@ class IriHandler extends DataValueHandler {
 		return array(
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
+			'value_json' => json_encode( $value->getArrayValue() ),
 		);
 	}
 
@@ -69,16 +69,16 @@ class IriHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'scheme' => $value->getScheme(),
-			'fragment' => $value->getFragment(),
-			'query' => $value->getQuery(),
-			'hierp' => $value->getHierarchicalPart(),
+			'value_scheme' => $value->getScheme(),
+			'value_fragment' => $value->getFragment(),
+			'value_query' => $value->getQuery(),
+			'value_hierp' => $value->getHierarchicalPart(),
 
-			'iri' => $value->getValue(),
+			'value_iri' => $value->getValue(),
 
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
+			'value_json' => json_encode( $value->getArrayValue() ),
 		);
 
 		return $values;

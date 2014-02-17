@@ -59,13 +59,13 @@ class IntegrationStoreBuilder {
 								false
 							),
 							new FieldDefinition(
-								'json',
+								'value_json',
 								new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 								false
 							),
 						)
 					),
-					'json',
+					'value_json',
 					'value',
 					'value'
 				) )

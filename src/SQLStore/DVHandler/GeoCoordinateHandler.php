@@ -49,7 +49,7 @@ class GeoCoordinateHandler extends DataValueHandler {
 		return array(
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
+			'value_json' => json_encode( $value->getArrayValue() ),
 		);
 	}
 
@@ -69,15 +69,16 @@ class GeoCoordinateHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'lat' => $value->getLatitude(),
-			'lon' => $value->getLongitude(),
+			'value_lat' => $value->getLatitude(),
+			'value_lon' => $value->getLongitude(),
 
-			'precision' => $value->getPrecision(),
-			'globe' => $value->getGlobe(),
+			'value_precision' => $value->getPrecision(),
+
+			//TODO do max lat, max lon, min lat, min lon
 
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.
-			'json' => json_encode( $value->getArrayValue() ),
+			'value_json' => json_encode( $value->getArrayValue() ),
 		);
 
 		return $values;

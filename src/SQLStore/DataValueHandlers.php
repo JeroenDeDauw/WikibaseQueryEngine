@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\SQLStore;
 
 use OutOfBoundsException;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\IndexDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
@@ -21,6 +22,7 @@ use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Adam Shorland
  */
 final class DataValueHandlers {
 
@@ -106,7 +108,7 @@ final class DataValueHandlers {
 					new FieldDefinition(
 						'value',
 						new TypeDefinition( TypeDefinition::TYPE_TINYINT ),
-						false
+						FieldDefinition::NOT_NULL
 					),
 				)
 			),
@@ -120,7 +122,7 @@ final class DataValueHandlers {
 				array(
 					new FieldDefinition( 'value',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+						FieldDefinition::NOT_NULL
 					),
 				)
 			),
@@ -133,25 +135,25 @@ final class DataValueHandlers {
 			new TableDefinition(
 				'mono_text',
 				array(
-					new FieldDefinition( 'text',
+					new FieldDefinition( 'value_text',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'language',
+						'value_language',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'json',
+						'value_json',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+						FieldDefinition::NOT_NULL
 					),
 				)
 			),
-			'json',
-			'text',
-			'text'
+			'value_json',
+			'value_text',
+			'value_text'
 		) );
 
 		$tables['globecoordinate'] = new GeoCoordinateHandler( new DataValueTable(
@@ -159,34 +161,75 @@ final class DataValueHandlers {
 				'geo',
 				array(
 					new FieldDefinition(
-						'lat',
-						new TypeDefinition( TypeDefinition::TYPE_FLOAT ),
-						false
+						'value_globe',
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 255 ),
+						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'lon',
-						new TypeDefinition( TypeDefinition::TYPE_FLOAT ),
-						false
+						'value_lat',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'alt',
-						new TypeDefinition( TypeDefinition::TYPE_FLOAT ),
-						true
+						'value_lon',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'globe',
+						'value_max_lat',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_min_lat',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_max_lon',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_min_lon',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_json',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						true
+						FieldDefinition::NOT_NULL
 					),
-					new FieldDefinition(
-						'json',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+				),
+				array(
+					new IndexDefinition(
+						'value_lat',
+						array( 'value_lat' => 0 )
+					),
+					new IndexDefinition(
+						'value_lon',
+						array( 'value_lon' => 0 )
+					),
+					new IndexDefinition(
+						'value_min_lat',
+						array( 'value_min_lat' => 0 )
+					),
+					new IndexDefinition(
+						'value_max_lat',
+						array( 'value_max_lat' => 0 )
+					),
+					new IndexDefinition(
+						'value_min_lon',
+						array( 'value_min_lon' => 0 )
+					),
+					new IndexDefinition(
+						'value_max_lon',
+						array( 'value_max_lon' => 0 )
 					),
 				)
 			),
-			'json',
-			'lat'
+			'value_json',
+			'value_lat'
 		) );
 
 		$tables['number'] = new NumberHandler( new DataValueTable(
@@ -195,17 +238,41 @@ final class DataValueHandlers {
 				array(
 					new FieldDefinition(
 						'value',
-						new TypeDefinition( TypeDefinition::TYPE_FLOAT ),
-						false
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'json',
+						'value_lower_bound',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_upper_bound',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_json',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+						FieldDefinition::NOT_NULL
+					),
+				),
+				array(
+					new IndexDefinition(
+						'value',
+						array( 'value' => 0 )
+					),
+					new IndexDefinition(
+						'value_lower_bound',
+						array( 'value_lower_bound' => 0 )
+					),
+					new IndexDefinition(
+						'value_upper_bound',
+						array( 'value_upper_bound' => 0 )
 					),
 				)
 			),
-			'json',
+			'value_json',
 			'value',
 			'value'
 		) );
@@ -215,41 +282,41 @@ final class DataValueHandlers {
 				'iri',
 				array(
 					new FieldDefinition(
-						'scheme',
+						'value_scheme',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'fragment',
+						'value_fragment',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'query',
+						'value_query',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'hierp',
+						'value_hierp',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 
 					new FieldDefinition(
-						'iri',
+						'value_iri',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'json',
+						'value_json',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 				)
 			),
-			'json',
-			'iri',
-			'iri'
+			'value_json',
+			'value_iri',
+			'value_iri'
 		) );
 
 		// TODO: register via hook
@@ -260,18 +327,20 @@ final class DataValueHandlers {
 					new FieldDefinition(
 						'id',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'type',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
+						FieldDefinition::NOT_NULL
 					),
 				)
 			),
 			'id',
 			'id'
 		) );
+
+		//TODO wbq_<role>_time table
 
 		return $tables;
 	}

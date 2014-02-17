@@ -67,7 +67,7 @@ class NumberHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'json' => $value->getArrayValue(),
+			'value_json' => $value->getArrayValue(),
 			'value' => $value->getValue(),
 		);
 
