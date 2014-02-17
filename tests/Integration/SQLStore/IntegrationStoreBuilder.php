@@ -10,6 +10,7 @@ use Wikibase\Database\MediaWiki\MWTableBuilderBuilder;
 use Wikibase\Database\MediaWiki\MWTableDefinitionReaderBuilder;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\SQLStore;
@@ -52,8 +53,16 @@ class IntegrationStoreBuilder {
 					new TableDefinition(
 						'number_table',
 						array(
-							new FieldDefinition( 'value', FieldDefinition::TYPE_FLOAT, false ),
-							new FieldDefinition( 'json', FieldDefinition::TYPE_TEXT, false ),
+							new FieldDefinition(
+								'value',
+								new TypeDefinition( TypeDefinition::TYPE_FLOAT ),
+								false
+							),
+							new FieldDefinition(
+								'json',
+								new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+								false
+							),
 						)
 					),
 					'json',

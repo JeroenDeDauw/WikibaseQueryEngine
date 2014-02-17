@@ -3,15 +3,12 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
 use Wikibase\Claim;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\Entity;
 use Wikibase\Item;
 use Wikibase\Property;
 use Wikibase\PropertyNoValueSnak;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
 
 /**

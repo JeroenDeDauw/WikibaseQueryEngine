@@ -6,6 +6,7 @@ use DataValues\StringValue;
 use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\PropertyNoValueSnak;
 use Wikibase\PropertySomeValueSnak;
@@ -90,7 +91,11 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 			new TableDefinition(
 				'test_table',
 				array(
-					new FieldDefinition( 'value', FieldDefinition::TYPE_TEXT, false ),
+					new FieldDefinition(
+						'value',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						false
+					),
 				)
 			),
 			'value',

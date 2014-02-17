@@ -6,6 +6,7 @@ use OutOfBoundsException;
 use OutOfRangeException;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\SnakRole;
 
 /**
@@ -181,13 +182,13 @@ class Schema {
 		return array(
 			new FieldDefinition(
 				'subject_id',
-				FieldDefinition::TYPE_TEXT,
+				new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 				FieldDefinition::NOT_NULL
 			),
 
 			new FieldDefinition(
 				'property_id',
-				FieldDefinition::TYPE_TEXT,
+				new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 				FieldDefinition::NOT_NULL
 			),
 		);
@@ -225,14 +226,14 @@ class Schema {
 			array(
 				new FieldDefinition(
 					'id',
-					FieldDefinition::TYPE_TEXT,
+					new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 					FieldDefinition::NOT_NULL
 				),
 
 				// Entity type
 				new FieldDefinition(
 					'type',
-					FieldDefinition::TYPE_TEXT,
+					new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 					FieldDefinition::NOT_NULL
 				),
 			)
@@ -253,20 +254,26 @@ class Schema {
 				array(
 					 // Type of the snak
 					 new FieldDefinition(
-						 'snak_type',
-						 FieldDefinition::TYPE_INTEGER,
-						 FieldDefinition::NOT_NULL,
-						 FieldDefinition::NO_DEFAULT,
-						 FieldDefinition::ATTRIB_UNSIGNED
+						'snak_type',
+						 new TypeDefinition(
+							 TypeDefinition::TYPE_INTEGER,
+							 TypeDefinition::NO_SIZE,
+							 TypeDefinition::ATTRIB_UNSIGNED
+						 ),
+						FieldDefinition::NOT_NULL,
+						FieldDefinition::NO_DEFAULT
 					 ),
 
 					 // Role of the snak (ie "main snak" or "qualifier")
 					 new FieldDefinition(
-						 'snak_role',
-						 FieldDefinition::TYPE_INTEGER,
-						 FieldDefinition::NOT_NULL,
-						 FieldDefinition::NO_DEFAULT,
-						 FieldDefinition::ATTRIB_UNSIGNED
+						'snak_role',
+						 new TypeDefinition(
+							 TypeDefinition::TYPE_INTEGER,
+							 TypeDefinition::NO_SIZE,
+							 TypeDefinition::ATTRIB_UNSIGNED
+						 ),
+						FieldDefinition::NOT_NULL,
+						FieldDefinition::NO_DEFAULT
 					 ),
 				)
 			)

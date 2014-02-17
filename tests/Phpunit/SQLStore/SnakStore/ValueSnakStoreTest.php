@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 use DataValues\StringValue;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
@@ -40,7 +41,11 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			new TableDefinition(
 				'strings_of_doom',
 				array(
-					new FieldDefinition( 'value', FieldDefinition::TYPE_TEXT, false ),
+					new FieldDefinition(
+						'value',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						false
+					),
 				)
 			),
 			'value',
