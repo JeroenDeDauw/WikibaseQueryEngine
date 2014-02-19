@@ -28,8 +28,8 @@ class LatLongHandler extends DataValueHandler {
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
-		$value = json_decode( $valueFieldValue, true );
-		return new LatLongValue( $value['latitude'], $value['longitude'] );
+		$value = explode( '|', $valueFieldValue, 2 );
+		return new LatLongValue( (float)$value[0], (float)$value[1] );
 	}
 
 	/**
@@ -48,9 +48,7 @@ class LatLongHandler extends DataValueHandler {
 		}
 
 		return array(
-			// Note: the code in this package is not dependent on MW.
-			// So do not replace this with FormatJSON::encode.
-			'value_json' => json_encode( $value->getArrayValue() ),
+			'value' => $this->constructValueFieldValue( $value )
 		);
 	}
 
@@ -73,12 +71,14 @@ class LatLongHandler extends DataValueHandler {
 			'value_lat' => $value->getLatitude(),
 			'value_lon' => $value->getLongitude(),
 
-			// Note: the code in this package is not dependent on MW.
-			// So do not replace this with FormatJSON::encode.
-			'value_json' => json_encode( $value->getArrayValue() ),
+			'value' => $this->constructValueFieldValue( $value ),
 		);
 
 		return $values;
+	}
+
+	private function constructValueFieldValue( LatLongValue $value ) {
+		return $value->getLatitude() . '|' . $value->getLongitude();
 	}
 
 }

@@ -171,7 +171,7 @@ final class DataValueHandlers {
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'value_json',
+						'value',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
@@ -187,8 +187,8 @@ final class DataValueHandlers {
 					),
 				)
 			),
-			'value_json',
-			'value_lat'
+			'value',
+			'value'
 		) );
 
 		$tables['number'] = new NumberHandler( new DataValueTable(
