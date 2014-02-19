@@ -5,7 +5,12 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 use DataValues\DataValue;
 use DataValues\LatLongValue;
 use InvalidArgumentException;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\IndexDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * Represents the mapping between DataValues\LatLongValue and
@@ -17,6 +22,44 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class LatLongHandler extends DataValueHandler {
+
+	public function __construct() {
+		parent::__construct( new DataValueTable(
+			new TableDefinition(
+				'latlong',
+				array(
+					new FieldDefinition(
+						'value_lat',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_lon',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						FieldDefinition::NOT_NULL
+					),
+				),
+				array(
+					new IndexDefinition(
+						'value_lat',
+						array( 'value_lat' => 0 )
+					),
+					new IndexDefinition(
+						'value_lon',
+						array( 'value_lon' => 0 )
+					),
+				)
+			),
+			'value',
+			'value',
+			'value'
+		) );
+	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField

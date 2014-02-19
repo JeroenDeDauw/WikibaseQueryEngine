@@ -4,14 +4,10 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
 use DataValues\StringValue;
 use Wikibase\Database\QueryInterface\QueryInterface;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
@@ -56,7 +52,7 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 		$queryInterface
 			->expects( $this->once() )
 			->method( 'insert' )
-			->with( $this->equalTo( 'test_table' ) );
+			->with( $this->equalTo( 'string' ) );
 
 		$snakInserter = $this->newInstance( $queryInterface );
 
@@ -74,36 +70,16 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 		return array(
 			new ValuelessSnakStore(
 				$queryInterface,
-				'test_table'
+				'string'
 			),
 			new ValueSnakStore(
 				$queryInterface,
 				array(
-					'string' => $this->newStringHandler()
+					'string' => new StringHandler()
 				),
 				SnakRole::MAIN_SNAK
 			)
 		);
-	}
-
-	protected function newStringHandler() {
-		// FIXME: should not have a partial copy of this
-		return new StringHandler( new DataValueTable(
-			new TableDefinition(
-				'test_table',
-				array(
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
-					),
-				)
-			),
-			'value',
-			'value',
-			'value',
-			'value'
-		) );
 	}
 
 }

@@ -49,23 +49,7 @@ class IntegrationStoreBuilder {
 			'test_store',
 			'integrationtest_',
 			array(
-				// FIXME: should not have a partial copy of this
-				'number' => new NumberHandler( new DataValueTable(
-					new TableDefinition(
-						'number',
-						array(
-							new FieldDefinition(
-								'value',
-								new TypeDefinition( TypeDefinition::TYPE_FLOAT ),
-								false
-							),
-						)
-					),
-					'value',
-					'value',
-					'value',
-					'value'
-				) )
+				'number' => new NumberHandler()
 			)
 		);
 

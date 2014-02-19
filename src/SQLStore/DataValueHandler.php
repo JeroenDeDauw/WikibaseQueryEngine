@@ -18,7 +18,7 @@ use Wikibase\Database\Schema\Definitions\TableDefinition;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-abstract class DataValueHandler implements \Immutable {
+abstract class DataValueHandler {
 
 	/**
 	 * @since 0.1
@@ -34,15 +34,6 @@ abstract class DataValueHandler implements \Immutable {
 	 */
 	public function __construct( DataValueTable $dataValueTable ) {
 		$this->dataValueTable = $dataValueTable;
-	}
-
-	/**
-	 * @since 0.1
-	 *
-	 * @return DataValueTable
-	 */
-	public function getDataValueTable() {
-		return $this->dataValueTable;
 	}
 
 	/**
@@ -79,6 +70,8 @@ abstract class DataValueHandler implements \Immutable {
 	 * This value is needed for constructing equality checking
 	 * queries.
 	 *
+	 * @since 0.1
+	 *
 	 * @param DataValue $value
 	 *
 	 * @return mixed
@@ -87,16 +80,21 @@ abstract class DataValueHandler implements \Immutable {
 	abstract public function getEqualityFieldValue( DataValue $value );
 
 	/**
-	 * Returns a clone of the DataValueHandler, though with the provided DataValue table rather then the original one.
+	 * @since 0.1
 	 *
-	 * @since wd.db
-	 *
-	 * @param DataValueTable $dataValueTable
-	 *
-	 * @return DataValueHandler
+	 * @return DataValueTable
 	 */
-	public function mutateDataValueTable( DataValueTable $dataValueTable ) {
-		return new static( $dataValueTable );
+	public function getDataValueTable() {
+		return $this->dataValueTable;
+	}
+
+	/**
+	 * @since 0.1
+	 *
+	 * @param DataValueTable $dvTable
+	 */
+	public function setDataValueTable( DataValueTable $dvTable ) {
+		$this->dataValueTable = $dvTable;
 	}
 
 }

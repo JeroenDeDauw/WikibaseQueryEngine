@@ -3,14 +3,9 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use OutOfBoundsException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\IndexDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\IriHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
@@ -99,188 +94,18 @@ final class DataValueHandlers {
 	private function getDefaultHandlers() {
 		$tables = array();
 
-		$tables['boolean'] = new BooleanHandler( new DataValueTable(
-			new TableDefinition(
-				'boolean',
-				array(
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_TINYINT ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value',
-			'value',
-			'value'
-		) );
+		$tables['boolean'] = new BooleanHandler();
 
-		$tables['string'] = new StringHandler( new DataValueTable(
-			new TableDefinition(
-				'string',
-				array(
-					new FieldDefinition( 'value',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value',
-			'value',
-			'value',
-			'value'
-		) );
+		$tables['string'] = new StringHandler();
 
-		$tables['monolingualtext'] = new MonolingualTextHandler( new DataValueTable(
-			new TableDefinition(
-				'mono_text',
-				array(
-					new FieldDefinition( 'value_text',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_language',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_json',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value_json',
-			'value_json',
-			'value_text',
-			'value_text'
-		) );
+		$tables['monolingualtext'] = new MonolingualTextHandler();
 
-		$tables['latlong'] = new LatLongHandler( new DataValueTable(
-			new TableDefinition(
-				'latlong',
-				array(
-					new FieldDefinition(
-						'value_lat',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_lon',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-				),
-				array(
-					new IndexDefinition(
-						'value_lat',
-						array( 'value_lat' => 0 )
-					),
-					new IndexDefinition(
-						'value_lon',
-						array( 'value_lon' => 0 )
-					),
-				)
-			),
-			'value',
-			'value',
-			'value'
-		) );
+		$tables['latlong'] = new LatLongHandler();
 
-		$tables['number'] = new NumberHandler( new DataValueTable(
-			new TableDefinition(
-				'number',
-				array(
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-				),
-				array(
-					new IndexDefinition(
-						'value',
-						array( 'value' => 0 )
-					),
-				)
-			),
-			'value',
-			'value',
-			'value',
-			'value'
-		) );
-
-		$tables['iri'] = new IriHandler( new DataValueTable(
-			new TableDefinition(
-				'iri',
-				array(
-					new FieldDefinition(
-						'value_scheme',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_fragment',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_query',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_hierp',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-
-					new FieldDefinition(
-						'value_iri',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_json',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value_json',
-			'value_json',
-			'value_iri',
-			'value_iri'
-		) );
+		$tables['number'] = new NumberHandler();
 
 		// TODO: register via hook
-		$tables['wikibase-entityid'] = new EntityIdHandler( new DataValueTable(
-			new TableDefinition(
-				'entityid',
-				array(
-					new FieldDefinition(
-						'value_id',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_type',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value_id',
-			'value_id',
-			'value_id',
-			'value_id'
-		) );
+		$tables['wikibase-entityid'] = new EntityIdHandler();
 
 		//TODO wbq_<role>_time table
 

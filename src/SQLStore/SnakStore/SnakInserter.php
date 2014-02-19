@@ -4,7 +4,7 @@ namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use RuntimeException;
 use Wikibase\DataModel\Entity\EntityId;
-use Wikibase\Snak;
+use Wikibase\DataModel\Snak\Snak;
 
 /**
  * Use case for inserting snaks into the store.

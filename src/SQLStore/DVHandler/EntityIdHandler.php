@@ -4,9 +4,13 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use InvalidArgumentException;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * Represents the mapping between Wikibase\EntityId and
@@ -18,6 +22,30 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class EntityIdHandler extends DataValueHandler {
+
+	public function __construct() {
+		parent::__construct( new DataValueTable(
+			new TableDefinition(
+				'entityid',
+				array(
+					new FieldDefinition(
+						'value_id',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_type',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						FieldDefinition::NOT_NULL
+					),
+				)
+			),
+			'value_id',
+			'value_id',
+			'value_id',
+			'value_id'
+		) );
+	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
