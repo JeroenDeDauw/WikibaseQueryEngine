@@ -80,20 +80,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @param DataValue $value
 	 */
-	public function testGetWhereConditionsReturnType( DataValue $value ) {
-		$instance = $this->newInstance();
-
-		$whereConditions = $instance->getWhereConditions( $value );
-
-		$this->assertInternalType( 'array', $whereConditions );
-		$this->assertNotEmpty( $whereConditions );
-	}
-
-	/**
-	 * @dataProvider valueProvider
-	 *
-	 * @param DataValue $value
-	 */
 	public function testGetInsertValuesReturnType( DataValue $value ) {
 		$instance = $this->newInstance();
 

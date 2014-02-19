@@ -12,7 +12,7 @@ use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore
@@ -37,6 +37,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	}
 
 	protected function newStringHandler() {
+		// FIXME: should not have a partial copy of this
 		return new StringHandler( new DataValueTable(
 			new TableDefinition(
 				'strings_of_doom',
@@ -48,6 +49,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 					),
 				)
 			),
+			'value',
 			'value',
 			'value',
 			'value'

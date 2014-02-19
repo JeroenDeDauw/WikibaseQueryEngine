@@ -8,7 +8,7 @@ use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\IndexDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * Contains the tables and table interactors for a given SQLStore configuration.
@@ -143,40 +143,54 @@ class Schema {
 	 * Turns the list of DataValueHandler objects into a list of these objects per snak type.
 	 * The table names are prefixed with both the stores table prefix and the snak type specific one.
 	 * Additional fields required by the store are also added to the tables.
-	 *
-	 * @since 0.1
 	 */
 	private function expandDataValueHandlers() {
 		foreach ( $this->snakTypes as $snakType => $snakTablePrefix ) {
 			$handlers = array();
 
 			foreach ( $this->config->getDataValueHandlers() as $dataValueType => $dataValueHandler ) {
-				$dvTable = $dataValueHandler->getDataValueTable();
-
-				$table = $dvTable->getTableDefinition();
-				$table = $table->mutateName( $this->config->getTablePrefix() . $snakTablePrefix . $table->getName() );
-				$table = $table->mutateFields(
-					array_merge(
-						$this->getPropertySnakFields(),
-						$table->getFields()
-					)
-				);
-				/** @var TableDefinition $table */
-				$table = $table->mutateIndexes(
-					array_merge(
-						$this->getPropertySnakIndexes(),
-						$table->getIndexes()
-					)
-				);
-
-				$dvTable = $dvTable->mutateTableDefinition( $table );
-				$dataValueHandler = $dataValueHandler->mutateDataValueTable( $dvTable );
-
-				$handlers[$dataValueType] = $dataValueHandler;
+				$handlers[$dataValueType] = $this->expandDataValueHandler( $dataValueHandler, $snakTablePrefix );
 			}
 
 			$this->dvHandlers[$snakType] = $handlers;
 		}
+	}
+
+	private function expandDataValueHandler( DataValueHandler $dataValueHandler, $snakTablePrefix ) {
+		$dvTable = $dataValueHandler->getDataValueTable();
+
+		$table = $dvTable->getTableDefinition();
+		$table = $table->mutateName( $this->config->getTablePrefix() . $snakTablePrefix . $table->getName() );
+		$table = $table->mutateFields(
+			array_merge(
+				$this->getPropertySnakFields(),
+				$table->getFields()
+			)
+		);
+
+		/** @var TableDefinition $table */
+		$table = $table->mutateIndexes(
+			array_merge(
+				$this->getCommonPropertySnakIndexes(),
+				array(
+					new IndexDefinition(
+						'value_property',
+						array(
+							$dvTable->getEqualityFieldName() => 0,
+							'property_id' => 16,
+							'entity_id' => 16,
+						),
+						IndexDefinition::TYPE_UNIQUE
+					),
+				),
+				$table->getIndexes()
+			)
+		);
+
+		$dvTable = $dvTable->mutateTableDefinition( $table );
+		$dataValueHandler = $dataValueHandler->mutateDataValueTable( $dvTable );
+
+		return $dataValueHandler;
 	}
 
 	/**
@@ -189,7 +203,7 @@ class Schema {
 			new FieldDefinition(
 				'row_id',
 				new TypeDefinition(
-					TypeDefinition::TYPE_BIGINT
+					TypeDefinition::TYPE_INTEGER
 				),
 				FieldDefinition::NOT_NULL,
 				FieldDefinition::NO_DEFAULT,
@@ -238,24 +252,13 @@ class Schema {
 	 *
 	 * @return IndexDefinition[]
 	 */
-	private function getPropertySnakIndexes() {
+	private function getCommonPropertySnakIndexes() {
 		return array(
 			new IndexDefinition(
 				'PRIMARY',
 				array( 'row_id' => 0 ),
 				IndexDefinition::TYPE_PRIMARY
 			),
-
-			new IndexDefinition(
-				'value_property',
-				array(
-					'value_identity' => 255,
-					'property_id' => 16,
-					'entity_id' => 16,
-				),
-				IndexDefinition::TYPE_UNIQUE
-			),
-
 			new IndexDefinition(
 				'entity_id',
 				array( 'entity_id' => 16, ),
@@ -355,21 +358,9 @@ class Schema {
 						FieldDefinition::NOT_NULL,
 						FieldDefinition::NO_DEFAULT
 					 ),
-
-					 // Role of the snak (ie "main snak" or "qualifier")
-					 new FieldDefinition(
-						'snak_role',
-						 new TypeDefinition(
-							 TypeDefinition::TYPE_INTEGER,
-							 TypeDefinition::NO_SIZE,
-							 TypeDefinition::ATTRIB_UNSIGNED
-						 ),
-						FieldDefinition::NOT_NULL,
-						FieldDefinition::NO_DEFAULT
-					 ),
 				)
 			),
-			$this->getPropertySnakIndexes()
+			$this->getCommonPropertySnakIndexes()
 		);
 	}
 

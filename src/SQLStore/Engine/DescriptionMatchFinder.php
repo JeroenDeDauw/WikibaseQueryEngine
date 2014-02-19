@@ -15,7 +15,7 @@ use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\Schema;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * Simple query engine that works on top of the SQLStore.
@@ -107,7 +107,10 @@ class DescriptionMatchFinder {
 				throw new QueryNotSupportedException( $description );
 			}
 
-			return $dvHandler->getWhereConditions( $subDescription->getValue() );
+			return array(
+				$dvHandler->getDataValueTable()->getEqualityFieldName()
+					=> $dvHandler->getEqualityFieldValue( $subDescription->getValue() )
+			);
 		}
 
 		return array();

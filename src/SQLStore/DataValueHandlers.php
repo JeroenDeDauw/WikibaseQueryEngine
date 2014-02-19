@@ -9,7 +9,7 @@ use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\GeoCoordinateHandler;
+use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\IriHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
@@ -88,8 +88,6 @@ final class DataValueHandlers {
 
 		$this->dvHandlers = $this->getDefaultHandlers();
 
-		// TODO: hook
-
 		$this->initialized = true;
 	}
 
@@ -113,6 +111,7 @@ final class DataValueHandlers {
 				)
 			),
 			'value',
+			'value',
 			'value'
 		) );
 
@@ -126,6 +125,7 @@ final class DataValueHandlers {
 					),
 				)
 			),
+			'value',
 			'value',
 			'value',
 			'value'
@@ -152,19 +152,15 @@ final class DataValueHandlers {
 				)
 			),
 			'value_json',
+			'value_json',
 			'value_text',
 			'value_text'
 		) );
 
-		$tables['globecoordinate'] = new GeoCoordinateHandler( new DataValueTable(
+		$tables['latlong'] = new LatLongHandler( new DataValueTable(
 			new TableDefinition(
-				'geo',
+				'latlong',
 				array(
-					new FieldDefinition(
-						'value_globe',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 255 ),
-						FieldDefinition::NOT_NULL
-					),
 					new FieldDefinition(
 						'value_lat',
 						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
@@ -176,27 +172,7 @@ final class DataValueHandlers {
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'value_max_lat',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_min_lat',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_max_lon',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_min_lon',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_json',
+						'value',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
@@ -210,26 +186,11 @@ final class DataValueHandlers {
 						'value_lon',
 						array( 'value_lon' => 0 )
 					),
-					new IndexDefinition(
-						'value_min_lat',
-						array( 'value_min_lat' => 0 )
-					),
-					new IndexDefinition(
-						'value_max_lat',
-						array( 'value_max_lat' => 0 )
-					),
-					new IndexDefinition(
-						'value_min_lon',
-						array( 'value_min_lon' => 0 )
-					),
-					new IndexDefinition(
-						'value_max_lon',
-						array( 'value_max_lon' => 0 )
-					),
 				)
 			),
-			'value_json',
-			'value_lat'
+			'value',
+			'value',
+			'value'
 		) );
 
 		$tables['number'] = new NumberHandler( new DataValueTable(
@@ -241,38 +202,16 @@ final class DataValueHandlers {
 						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
 						FieldDefinition::NOT_NULL
 					),
-					new FieldDefinition(
-						'value_lower_bound',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_upper_bound',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_json',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
 				),
 				array(
 					new IndexDefinition(
 						'value',
 						array( 'value' => 0 )
 					),
-					new IndexDefinition(
-						'value_lower_bound',
-						array( 'value_lower_bound' => 0 )
-					),
-					new IndexDefinition(
-						'value_upper_bound',
-						array( 'value_upper_bound' => 0 )
-					),
 				)
 			),
-			'value_json',
+			'value',
+			'value',
 			'value',
 			'value'
 		) );
@@ -315,6 +254,7 @@ final class DataValueHandlers {
 				)
 			),
 			'value_json',
+			'value_json',
 			'value_iri',
 			'value_iri'
 		) );
@@ -325,19 +265,21 @@ final class DataValueHandlers {
 				'entityid',
 				array(
 					new FieldDefinition(
-						'id',
+						'value_id',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'type',
+						'value_type',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 				)
 			),
-			'id',
-			'id'
+			'value_id',
+			'value_id',
+			'value_id',
+			'value_id'
 		) );
 
 		//TODO wbq_<role>_time table
