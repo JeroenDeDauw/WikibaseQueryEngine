@@ -3,11 +3,7 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
@@ -37,23 +33,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	}
 
 	protected function newStringHandler() {
-		// FIXME: should not have a partial copy of this
-		return new StringHandler( new DataValueTable(
-			new TableDefinition(
-				'strings_of_doom',
-				array(
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						false
-					),
-				)
-			),
-			'value',
-			'value',
-			'value',
-			'value'
-		) );
+		return new StringHandler();
 	}
 
 	public function canStoreProvider() {
@@ -122,7 +102,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 		$queryInterface->expects( $this->once() )
 			->method( 'insert' )
 			->with(
-				$this->equalTo( 'strings_of_doom' ),
+				$this->equalTo( 'string' ),
 				$this->equalTo(
 					array_merge(
 						array(

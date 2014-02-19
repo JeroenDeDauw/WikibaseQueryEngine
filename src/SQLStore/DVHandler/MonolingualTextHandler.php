@@ -5,7 +5,11 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 use DataValues\DataValue;
 use DataValues\MonolingualTextValue;
 use InvalidArgumentException;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * Represents the mapping between DataValues\MonolingualTextValue and
@@ -17,6 +21,34 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class MonolingualTextHandler extends DataValueHandler {
+
+	public function __construct() {
+		parent::__construct( new DataValueTable(
+			new TableDefinition(
+				'mono_text',
+				array(
+					new FieldDefinition( 'value_text',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_language',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_json',
+						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						FieldDefinition::NOT_NULL
+					),
+				)
+			),
+			'value_json',
+			'value_json',
+			'value_text',
+			'value_text'
+		) );
+	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField

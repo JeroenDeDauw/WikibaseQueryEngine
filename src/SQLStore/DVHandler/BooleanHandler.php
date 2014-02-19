@@ -5,7 +5,11 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 use DataValues\BooleanValue;
 use DataValues\DataValue;
 use InvalidArgumentException;
+use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * Represents the mapping between Wikibase\BooleanValue and
@@ -17,6 +21,24 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class BooleanHandler extends DataValueHandler {
+
+	public function __construct() {
+		parent::__construct( new DataValueTable(
+			new TableDefinition(
+				'boolean',
+				array(
+					new FieldDefinition(
+						'value',
+						new TypeDefinition( TypeDefinition::TYPE_TINYINT ),
+						FieldDefinition::NOT_NULL
+					),
+				)
+			),
+			'value',
+			'value',
+			'value'
+		) );
+	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField

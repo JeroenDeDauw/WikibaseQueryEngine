@@ -149,7 +149,8 @@ class Schema {
 			$handlers = array();
 
 			foreach ( $this->config->getDataValueHandlers() as $dataValueType => $dataValueHandler ) {
-				$handlers[$dataValueType] = $this->expandDataValueHandler( $dataValueHandler, $snakTablePrefix );
+				$handler = $this->expandDataValueHandler( clone $dataValueHandler, $snakTablePrefix );
+				$handlers[$dataValueType] = $handler;
 			}
 
 			$this->dvHandlers[$snakType] = $handlers;
@@ -161,14 +162,13 @@ class Schema {
 
 		$table = $dvTable->getTableDefinition();
 		$table = $table->mutateName( $this->config->getTablePrefix() . $snakTablePrefix . $table->getName() );
-		$table = $table->mutateFields(
-			array_merge(
-				$this->getPropertySnakFields(),
-				$table->getFields()
-			)
-		);
+
+		$commonFields = $this->getPropertySnakFields();
+		$tableFields = $table->getFields();
 
 		/** @var TableDefinition $table */
+		$table = $table->mutateFields( array_merge( $commonFields, $tableFields ) );
+
 		$table = $table->mutateIndexes(
 			array_merge(
 				$this->getCommonPropertySnakIndexes(),
@@ -188,7 +188,7 @@ class Schema {
 		);
 
 		$dvTable = $dvTable->mutateTableDefinition( $table );
-		$dataValueHandler = $dataValueHandler->mutateDataValueTable( $dvTable );
+		$dataValueHandler->setDataValueTable( $dvTable );
 
 		return $dataValueHandler;
 	}
@@ -279,6 +279,8 @@ class Schema {
 	 * @return TableDefinition[]
 	 */
 	private function getDvTables() {
+		$this->initialize();
+
 		$tables = array();
 
 		foreach ( $this->dvHandlers as $dvHandlers ) {
