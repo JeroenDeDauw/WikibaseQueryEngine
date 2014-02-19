@@ -81,6 +81,7 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 				new FieldDefinition( 'dsfdfdsfds', new TypeDefinition( TypeDefinition::TYPE_TINYINT ) )
 			) ),
 			'foo',
+			'foo',
 			'bar'
 		);
 

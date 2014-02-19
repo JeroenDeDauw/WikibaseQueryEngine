@@ -23,32 +23,12 @@ class BooleanHandler extends DataValueHandler {
 	 *
 	 * @since 0.1
 	 *
-	 * @param $valueFieldValue // TODO: mixed or string?
+	 * @param string $valueFieldValue
 	 *
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
 		return new BooleanValue( $valueFieldValue );
-	}
-
-	/**
-	 * @see DataValueHandler::getWhereConditions
-	 *
-	 * @since 0.1
-	 *
-	 * @param DataValue $value
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof BooleanValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a BooleanValue' );
-		}
-
-		return array(
-			'value' => $value->getValue(),
-		);
 	}
 
 	/**
@@ -71,6 +51,22 @@ class BooleanHandler extends DataValueHandler {
 		);
 
 		return $values;
+	}
+
+	/**
+	 * @see DataValueHandler::getEqualityFieldValue
+	 *
+	 * @param DataValue $value
+	 *
+	 * @return string
+	 * @throws InvalidArgumentException
+	 */
+	public function getEqualityFieldValue( DataValue $value ) {
+		if ( !( $value instanceof BooleanValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a BooleanValue' );
+		}
+
+		return $value->getValue();
 	}
 
 }

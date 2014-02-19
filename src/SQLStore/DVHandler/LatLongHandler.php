@@ -33,26 +33,6 @@ class LatLongHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getWhereConditions
-	 *
-	 * @since 0.1
-	 *
-	 * @param DataValue $value
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof LatLongValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
-		}
-
-		return array(
-			'value' => $this->constructValueFieldValue( $value )
-		);
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @since 0.1
@@ -71,13 +51,25 @@ class LatLongHandler extends DataValueHandler {
 			'value_lat' => $value->getLatitude(),
 			'value_lon' => $value->getLongitude(),
 
-			'value' => $this->constructValueFieldValue( $value ),
+			'value' => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
 	}
 
-	private function constructValueFieldValue( LatLongValue $value ) {
+	/**
+	 * @see DataValueHandler::getEqualityFieldValue
+	 *
+	 * @param DataValue $value
+	 *
+	 * @return string
+	 * @throws InvalidArgumentException
+	 */
+	public function getEqualityFieldValue( DataValue $value ) {
+		if ( !( $value instanceof LatLongValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
+		}
+
 		return $value->getLatitude() . '|' . $value->getLongitude();
 	}
 

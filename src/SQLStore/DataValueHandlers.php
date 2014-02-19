@@ -88,8 +88,6 @@ final class DataValueHandlers {
 
 		$this->dvHandlers = $this->getDefaultHandlers();
 
-		// TODO: hook
-
 		$this->initialized = true;
 	}
 
@@ -113,6 +111,7 @@ final class DataValueHandlers {
 				)
 			),
 			'value',
+			'value',
 			'value'
 		) );
 
@@ -126,6 +125,7 @@ final class DataValueHandlers {
 					),
 				)
 			),
+			'value',
 			'value',
 			'value',
 			'value'
@@ -151,6 +151,7 @@ final class DataValueHandlers {
 					),
 				)
 			),
+			'value_json',
 			'value_json',
 			'value_text',
 			'value_text'
@@ -188,6 +189,7 @@ final class DataValueHandlers {
 				)
 			),
 			'value',
+			'value',
 			'value'
 		) );
 
@@ -200,38 +202,16 @@ final class DataValueHandlers {
 						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
 						FieldDefinition::NOT_NULL
 					),
-					new FieldDefinition(
-						'value_lower_bound',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_upper_bound',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_json',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
-						FieldDefinition::NOT_NULL
-					),
 				),
 				array(
 					new IndexDefinition(
 						'value',
 						array( 'value' => 0 )
 					),
-					new IndexDefinition(
-						'value_lower_bound',
-						array( 'value_lower_bound' => 0 )
-					),
-					new IndexDefinition(
-						'value_upper_bound',
-						array( 'value_upper_bound' => 0 )
-					),
 				)
 			),
-			'value_json',
+			'value',
+			'value',
 			'value',
 			'value'
 		) );
@@ -274,6 +254,7 @@ final class DataValueHandlers {
 				)
 			),
 			'value_json',
+			'value_json',
 			'value_iri',
 			'value_iri'
 		) );
@@ -284,19 +265,21 @@ final class DataValueHandlers {
 				'entityid',
 				array(
 					new FieldDefinition(
-						'id',
+						'value_id',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'type',
+						'value_type',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
 				)
 			),
-			'id',
-			'id'
+			'value_id',
+			'value_id',
+			'value_id',
+			'value_id'
 		) );
 
 		//TODO wbq_<role>_time table

@@ -23,34 +23,12 @@ class IriHandler extends DataValueHandler {
 	 *
 	 * @since 0.1
 	 *
-	 * @param $valueFieldValue // TODO: mixed or string?
+	 * @param string $valueFieldValue
 	 *
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
 		return IriValue::newFromArray( json_decode( $valueFieldValue, true ) );
-	}
-
-	/**
-	 * @see DataValueHandler::getWhereConditions
-	 *
-	 * @since 0.1
-	 *
-	 * @param DataValue $value
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof IriValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a IriValue' );
-		}
-
-		return array(
-			// Note: the code in this package is not dependent on MW.
-			// So do not replace this with FormatJSON::encode.
-			'value_json' => json_encode( $value->getArrayValue() ),
-		);
 	}
 
 	/**
@@ -76,12 +54,26 @@ class IriHandler extends DataValueHandler {
 
 			'value_iri' => $value->getValue(),
 
-			// Note: the code in this package is not dependent on MW.
-			// So do not replace this with FormatJSON::encode.
-			'value_json' => json_encode( $value->getArrayValue() ),
+			'value_json' => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
+	}
+
+	/**
+	 * @see DataValueHandler::getEqualityFieldValue
+	 *
+	 * @param DataValue $value
+	 *
+	 * @return string
+	 * @throws InvalidArgumentException
+	 */
+	public function getEqualityFieldValue( DataValue $value ) {
+		if ( !( $value instanceof IriValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a IriValue' );
+		}
+
+		return json_encode( $value->getArrayValue() );
 	}
 
 }

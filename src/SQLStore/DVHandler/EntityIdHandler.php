@@ -34,26 +34,6 @@ class EntityIdHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getWhereConditions
-	 *
-	 * @since 0.1
-	 *
-	 * @param DataValue $value
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof EntityIdValue ) ) {
-			throw new InvalidArgumentException( '$value is not a EntityIdValue' );
-		}
-
-		return array(
-			'id' => json_encode( $value->getEntityId()->getSerialization() ),
-		);
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @since 0.1
@@ -69,11 +49,27 @@ class EntityIdHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'id' => $value->getEntityId()->getSerialization(),
-			'type' => $value->getEntityId()->getEntityType(),
+			'value_id' => $value->getEntityId()->getSerialization(),
+			'value_type' => $value->getEntityId()->getEntityType(),
 		);
 
 		return $values;
+	}
+
+	/**
+	 * @see DataValueHandler::getEqualityFieldValue
+	 *
+	 * @param DataValue $value
+	 *
+	 * @return string
+	 * @throws InvalidArgumentException
+	 */
+	public function getEqualityFieldValue( DataValue $value ) {
+		if ( !( $value instanceof EntityIdValue ) ) {
+			throw new InvalidArgumentException( '$value is not a EntityIdValue' );
+		}
+
+		return $value->getEntityId()->getSerialization();
 	}
 
 }

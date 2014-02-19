@@ -23,32 +23,12 @@ class NumberHandler extends DataValueHandler {
 	 *
 	 * @since 0.1
 	 *
-	 * @param $valueFieldValue // TODO: mixed or string?
+	 * @param string $valueFieldValue
 	 *
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
 		return new NumberValue( $valueFieldValue );
-	}
-
-	/**
-	 * @see DataValueHandler::getWhereConditions
-	 *
-	 * @since 0.1
-	 *
-	 * @param DataValue $value
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof NumberValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a NumberValue' );
-		}
-
-		return array(
-			'value' => $value->getValue(),
-		);
 	}
 
 	/**
@@ -67,11 +47,26 @@ class NumberHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'value_json' => $value->getArrayValue(),
 			'value' => $value->getValue(),
 		);
 
 		return $values;
+	}
+
+	/**
+	 * @see DataValueHandler::getEqualityFieldValue
+	 *
+	 * @param DataValue $value
+	 *
+	 * @return string
+	 * @throws InvalidArgumentException
+	 */
+	public function getEqualityFieldValue( DataValue $value ) {
+		if ( !( $value instanceof NumberValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a NumberValue' );
+		}
+
+		return $value->getValue();
 	}
 
 }

@@ -8,17 +8,17 @@ use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\PropertyNoValueSnak;
-use Wikibase\PropertySomeValueSnak;
-use Wikibase\PropertyValueSnak;
+use Wikibase\DataModel\Snak\PropertyNoValueSnak;
+use Wikibase\DataModel\Snak\PropertySomeValueSnak;
+use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\Snak;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\Snak;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter
@@ -87,6 +87,7 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function newStringHandler() {
+		// FIXME: should not have a partial copy of this
 		return new StringHandler( new DataValueTable(
 			new TableDefinition(
 				'test_table',
@@ -98,6 +99,7 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 					),
 				)
 			),
+			'value',
 			'value',
 			'value',
 			'value'
