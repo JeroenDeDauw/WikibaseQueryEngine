@@ -230,15 +230,6 @@ class Schema {
 				),
 				FieldDefinition::NOT_NULL
 			),
-
-			new FieldDefinition(
-				'value_identity',
-				new TypeDefinition(
-					TypeDefinition::TYPE_VARCHAR,
-					255
-				),
-				FieldDefinition::NOT_NULL
-			),
 		);
 	}
 
