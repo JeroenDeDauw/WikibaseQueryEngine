@@ -3,12 +3,12 @@
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
-use DataValues\GlobeCoordinateValue;
+use DataValues\LatLongValue;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
- * Represents the mapping between DataValues\GlobeCoordinateValue and
+ * Represents the mapping between DataValues\LatLongValue and
  * the corresponding table in the store.
  *
  * @since 0.1
@@ -16,19 +16,20 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class GeoCoordinateHandler extends DataValueHandler {
+class LatLongHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
 	 *
 	 * @since 0.1
 	 *
-	 * @param $valueFieldValue // TODO: mixed or string?
+	 * @param string $valueFieldValue
 	 *
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
-		return GlobeCoordinateValue::newFromArray( json_decode( $valueFieldValue, true ) );
+		$value = json_decode( $valueFieldValue, true );
+		return new LatLongValue( $value['latitude'], $value['longitude'] );
 	}
 
 	/**
@@ -42,8 +43,8 @@ class GeoCoordinateHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getWhereConditions( DataValue $value ) {
-		if ( !( $value instanceof GlobeCoordinateValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a GlobeCoordinateValue' );
+		if ( !( $value instanceof LatLongValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
 		}
 
 		return array(
@@ -64,17 +65,13 @@ class GeoCoordinateHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getInsertValues( DataValue $value ) {
-		if ( !( $value instanceof GlobeCoordinateValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a GlobeCoordinateValue' );
+		if ( !( $value instanceof LatLongValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
 		}
 
 		$values = array(
 			'value_lat' => $value->getLatitude(),
 			'value_lon' => $value->getLongitude(),
-
-			'value_precision' => $value->getPrecision(),
-
-			//TODO do max lat, max lon, min lat, min lon
 
 			// Note: the code in this package is not dependent on MW.
 			// So do not replace this with FormatJSON::encode.

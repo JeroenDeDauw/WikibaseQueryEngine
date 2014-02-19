@@ -9,7 +9,7 @@ use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\GeoCoordinateHandler;
+use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\IriHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
@@ -156,15 +156,10 @@ final class DataValueHandlers {
 			'value_text'
 		) );
 
-		$tables['globecoordinate'] = new GeoCoordinateHandler( new DataValueTable(
+		$tables['latlong'] = new LatLongHandler( new DataValueTable(
 			new TableDefinition(
-				'geo',
+				'latlong',
 				array(
-					new FieldDefinition(
-						'value_globe',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 255 ),
-						FieldDefinition::NOT_NULL
-					),
 					new FieldDefinition(
 						'value_lat',
 						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
@@ -172,26 +167,6 @@ final class DataValueHandlers {
 					),
 					new FieldDefinition(
 						'value_lon',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_max_lat',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_min_lat',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_max_lon',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_min_lon',
 						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
 						FieldDefinition::NOT_NULL
 					),
@@ -209,22 +184,6 @@ final class DataValueHandlers {
 					new IndexDefinition(
 						'value_lon',
 						array( 'value_lon' => 0 )
-					),
-					new IndexDefinition(
-						'value_min_lat',
-						array( 'value_min_lat' => 0 )
-					),
-					new IndexDefinition(
-						'value_max_lat',
-						array( 'value_max_lat' => 0 )
-					),
-					new IndexDefinition(
-						'value_min_lon',
-						array( 'value_min_lon' => 0 )
-					),
-					new IndexDefinition(
-						'value_max_lon',
-						array( 'value_max_lon' => 0 )
 					),
 				)
 			),
