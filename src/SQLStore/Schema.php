@@ -203,7 +203,7 @@ class Schema {
 			new FieldDefinition(
 				'row_id',
 				new TypeDefinition(
-					TypeDefinition::TYPE_BIGINT
+					TypeDefinition::TYPE_INTEGER
 				),
 				FieldDefinition::NOT_NULL,
 				FieldDefinition::NO_DEFAULT,
