@@ -16,7 +16,7 @@ if ( !in_array( '--testsuite=QueryEngineStandalone', $GLOBALS['argv'] ) ) {
 
 $pwd = getcwd();
 chdir( __DIR__ . '/..' );
-//passthru( 'composer update' );
+passthru( 'composer update' );
 chdir( $pwd );
 
 if ( !is_readable( __DIR__ . '/../vendor/autoload.php' ) ) {
