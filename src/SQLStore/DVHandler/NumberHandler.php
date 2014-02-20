@@ -37,7 +37,7 @@ class NumberHandler extends DataValueHandler {
 				array(
 					new IndexDefinition(
 						'value',
-						array( 'value' => 0 )
+						array( 'value' )
 					),
 				)
 			),

@@ -176,9 +176,9 @@ class Schema {
 					new IndexDefinition(
 						'value_property',
 						array(
-							$dvTable->getEqualityFieldName() => 0,
-							'property_id' => 16,
-							'entity_id' => 16,
+							$dvTable->getEqualityFieldName(),
+							'property_id',
+							'entity_id',
 						),
 						IndexDefinition::TYPE_UNIQUE
 					),
@@ -256,18 +256,18 @@ class Schema {
 		return array(
 			new IndexDefinition(
 				'PRIMARY',
-				array( 'row_id' => 0 ),
+				array( 'row_id' ),
 				IndexDefinition::TYPE_PRIMARY
 			),
 			new IndexDefinition(
 				'entity_id',
-				array( 'entity_id' => 16, ),
+				array( 'entity_id' ),
 				IndexDefinition::TYPE_INDEX
 			),
 
 			new IndexDefinition(
 				'property_id',
-				array( 'property_id' => 16, ),
+				array( 'property_id' ),
 				IndexDefinition::TYPE_INDEX
 			),
 		);
@@ -326,12 +326,12 @@ class Schema {
 			array(
 				new IndexDefinition(
 					'PRIMARY',
-					array( 'id' => 16 ),
+					array( 'id' ),
 					IndexDefinition::TYPE_PRIMARY
 				),
 				new IndexDefinition(
 					'type',
-					array( 'type' => 16 ),
+					array( 'type' ),
 					IndexDefinition::TYPE_INDEX
 				),
 			)

@@ -47,11 +47,11 @@ class LatLongHandler extends DataValueHandler {
 				array(
 					new IndexDefinition(
 						'value_lat',
-						array( 'value_lat' => 0 )
+						array( 'value_lat' )
 					),
 					new IndexDefinition(
 						'value_lon',
-						array( 'value_lon' => 0 )
+						array( 'value_lon' )
 					),
 				)
 			),
