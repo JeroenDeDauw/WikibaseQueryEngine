@@ -30,12 +30,12 @@ class EntityIdHandler extends DataValueHandler {
 				array(
 					new FieldDefinition(
 						'value_id',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'value_type',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 				)

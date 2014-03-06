@@ -29,33 +29,33 @@ class IriHandler extends DataValueHandler {
 				array(
 					new FieldDefinition(
 						'value_scheme',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'value_fragment',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'value_query',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'value_hierp',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 
 					new FieldDefinition(
 						'value_iri',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'value_json',
-						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
 				)
