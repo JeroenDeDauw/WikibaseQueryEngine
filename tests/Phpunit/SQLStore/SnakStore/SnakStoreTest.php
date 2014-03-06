@@ -3,13 +3,15 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
+use Wikibase\DataModel\Claim\Claim;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore
@@ -35,21 +37,24 @@ abstract class SnakStoreTest extends \PHPUnit_Framework_TestCase {
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P2',
 			SnakRole::QUALIFIER,
-			'Q3'
+			new ItemId( 'Q3' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P4',
 			SnakRole::MAIN_SNAK,
-			'Q5'
+			new ItemId( 'Q5' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( '~=[,,_,,]:3' ),
 			'P31337',
 			SnakRole::MAIN_SNAK,
-			'Q9001'
+			new ItemId( 'Q9001' ),
+			Claim::RANK_NORMAL
 		) );
 
 		return $argLists;

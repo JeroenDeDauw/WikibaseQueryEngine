@@ -178,7 +178,7 @@ class Schema {
 						array(
 							$dvTable->getEqualityFieldName(),
 							'property_id',
-							'entity_id',
+							'subject_id',
 						),
 						IndexDefinition::TYPE_UNIQUE
 					),
@@ -211,19 +211,19 @@ class Schema {
 			),
 
 			new FieldDefinition(
-				'entity_type',
+				'subject_id',
 				new TypeDefinition(
 					TypeDefinition::TYPE_VARCHAR,
-					8
+					16
 				),
 				FieldDefinition::NOT_NULL
 			),
 
 			new FieldDefinition(
-				'entity_id',
+				'subject_type',
 				new TypeDefinition(
 					TypeDefinition::TYPE_VARCHAR,
-					16
+					8
 				),
 				FieldDefinition::NOT_NULL
 			),
@@ -260,8 +260,8 @@ class Schema {
 				IndexDefinition::TYPE_PRIMARY
 			),
 			new IndexDefinition(
-				'entity_id',
-				array( 'entity_id' ),
+				'subject_id',
+				array( 'subject_id' ),
 				IndexDefinition::TYPE_INDEX
 			),
 

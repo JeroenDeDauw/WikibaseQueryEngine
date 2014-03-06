@@ -92,25 +92,33 @@ Where
 * id, string: serialization of the entities id
 * type, string: type of the entity
 
-### Table: valueless_snaks
+### Snak tables
 
-* entity_id, string
+All snak tables have the following fields:
+
+* row_id, int
+* subject_id, string
+* subject_type, string
 * property_id, string
-* snak_type, int: type of the snak, ie "no value"
-* snak_role, int: role of the snak, ie "qualifier" or "main snak"
+* statement_rank, int
 
-### Data value tables
+The schema definition is dynamically build in Schema.php.
 
-There is a data value table per type of data value the store is configured to support.
-Each such table has the following fields:
+#### Value snak tables
 
-* entity_id, string
-* property_id, string
+There is a value snak table per type of data value the store is configured to support.
 
 All data value tables have a set of additional fields that are specific to the type of
 data value they store. For the types of data value natively supported by the store,
 you can find the table definitions (without the common fields) in the
 Wikibase\QueryEngine\SQLStore\DataValueHandlers class.
+
+#### Valueless snak tables
+
+Additional fields:
+
+* snak_type, int: type of the snak, ie "no value"
+* snak_role, int: role of the snak, ie "qualifier" or "main snak"
 
 ## Tests
 

@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
@@ -43,7 +44,8 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			new StringValue( 'nyan' ),
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q100'
+			new ItemId( 'Q100' ),
+			Claim::RANK_NORMAL
 		) );
 
 
@@ -57,35 +59,40 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q100'
+			new ItemId( 'Q100' ),
+			Claim::RANK_NORMAL
 		) );
 
 		return $argLists;
@@ -102,16 +109,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 		$queryInterface->expects( $this->once() )
 			->method( 'insert' )
 			->with(
-				$this->equalTo( 'string' ),
-				$this->equalTo(
-					array_merge(
-						array(
-							'property_id' => $snakRow->getPropertyId(),
-							'entity_id' => $snakRow->getSubjectId(),
-						),
-						$stringHandler->getInsertValues( $snakRow->getValue() )
-					)
-				)
+				$this->equalTo( 'string' )
 			);
 
 		$store = new ValueSnakStore(
@@ -151,7 +149,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			->method( 'delete' )
 			->with(
 				$this->equalTo( $stringHandler->getDataValueTable()->getTableDefinition()->getName() ),
-				$this->equalTo( array( 'entity_id' => $subjectId ) )
+				$this->equalTo( array( 'subject_id' => $subjectId ) )
 			);
 
 		$store = new ValueSnakStore(

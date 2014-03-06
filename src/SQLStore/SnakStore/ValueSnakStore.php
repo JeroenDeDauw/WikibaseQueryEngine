@@ -67,8 +67,10 @@ class ValueSnakStore extends SnakStore {
 
 		$insertValues = array_merge(
 			array(
+				'subject_id' => $snakRow->getSubjectId()->getSerialization(),
+				'subject_type' => $snakRow->getSubjectId()->getEntityType(),
 				'property_id' => $snakRow->getPropertyId(),
-				'entity_id' => $snakRow->getSubjectId(),
+				'statement_rank' => $snakRow->getStatementRank(),
 			),
 			$dataValueHandler->getInsertValues( $snakRow->getValue() )
 		);
@@ -83,7 +85,7 @@ class ValueSnakStore extends SnakStore {
 		foreach ( $this->dataValueHandlers as $dvHandler ) {
 			$this->queryInterface->delete(
 				$dvHandler->getDataValueTable()->getTableDefinition()->getName(),
-				array( 'entity_id' => $subjectId->getSerialization() )
+				array( 'subject_id' => $subjectId->getSerialization() )
 			);
 		}
 	}

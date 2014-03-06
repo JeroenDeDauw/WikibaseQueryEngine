@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use InvalidArgumentException;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * Represents a row in a snak table. Immutable.
@@ -17,15 +18,17 @@ abstract class SnakRow {
 	protected $propertyId;
 	protected $snakRole;
 	protected $subjectId;
+	protected $entityType;
 
 	/**
 	 * @param string $propertyId
 	 * @param int $snakRole
-	 * @param string $subjectId
+	 * @param EntityId $subjectId
+	 * @param int $statementRank
 	 *
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct( $propertyId, $snakRole, $subjectId ) {
+	public function __construct( $propertyId, $snakRole, EntityId $subjectId, $statementRank ) {
 		if ( !is_string( $propertyId ) ) {
 			throw new InvalidArgumentException( '$propertyId needs to be a string' );
 		}
@@ -34,13 +37,10 @@ abstract class SnakRow {
 			throw new InvalidArgumentException( '$snakRole needs to be an integer' );
 		}
 
-		if ( !is_string( $subjectId ) ) {
-			throw new InvalidArgumentException( '$subjectId needs to be a string' );
-		}
-
 		$this->propertyId = $propertyId;
 		$this->snakRole = $snakRole;
 		$this->subjectId = $subjectId;
+		$this->statementRank = $statementRank;
 	}
 
 	/**
@@ -58,10 +58,17 @@ abstract class SnakRow {
 	}
 
 	/**
-	 * @return string
+	 * @return EntityId
 	 */
 	public function getSubjectId() {
 		return $this->subjectId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getStatementRank() {
+		return $this->statementRank;
 	}
 
 }

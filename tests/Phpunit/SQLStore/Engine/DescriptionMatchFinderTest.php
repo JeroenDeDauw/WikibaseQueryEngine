@@ -60,10 +60,10 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 			->method( 'select' )
 			->with(
 				$this->equalTo( 'tablename' ),
-				$this->equalTo( array( 'entity_id' ) )
+				$this->equalTo( array( 'subject_id' ) )
 			)
 			->will( $this->returnValue( array(
-				(object)array( 'entity_id' => $subjectId )
+				(object)array( 'subject_id' => $subjectId )
 			) ) );
 
 		$schema = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\Schema' )

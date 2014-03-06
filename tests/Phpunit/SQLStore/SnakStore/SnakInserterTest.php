@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
 use DataValues\StringValue;
 use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
@@ -56,7 +57,7 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$snakInserter = $this->newInstance( $queryInterface );
 
-		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ) );
+		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ), Claim::RANK_NORMAL );
 	}
 
 	protected function newInstance( QueryInterface $queryInterface ) {

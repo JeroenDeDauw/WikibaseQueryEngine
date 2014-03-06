@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use InvalidArgumentException;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * @since 0.1
@@ -21,16 +22,17 @@ class ValuelessSnakRow extends SnakRow {
 	 * @param int $internalSnakType
 	 * @param string $propertyId
 	 * @param int $snakRole
-	 * @param string $subjectId
+	 * @param EntityId $subjectId
+	 * @param int $statementRank
 	 *
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct( $internalSnakType, $propertyId, $snakRole, $subjectId ) {
+	public function __construct( $internalSnakType, $propertyId, $snakRole, EntityId $subjectId, $statementRank ) {
 		if ( !in_array( $internalSnakType, array( self::TYPE_NO_VALUE, self::TYPE_SOME_VALUE ), true ) ) {
 			throw new InvalidArgumentException( 'Invalid internal snak type provided' );
 		}
 
-		parent::__construct( $propertyId, $snakRole, $subjectId );
+		parent::__construct( $propertyId, $snakRole, $subjectId, $statementRank );
 
 		$this->internalSnakType = $internalSnakType;
 	}
