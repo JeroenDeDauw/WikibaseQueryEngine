@@ -4,10 +4,10 @@ namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use InvalidArgumentException;
 use Wikibase\DataModel\Entity\EntityId;
-use Wikibase\PropertyNoValueSnak;
-use Wikibase\PropertySomeValueSnak;
-use Wikibase\PropertyValueSnak;
-use Wikibase\Snak;
+use Wikibase\DataModel\Snak\PropertyNoValueSnak;
+use Wikibase\DataModel\Snak\PropertySomeValueSnak;
+use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\Snak;
 
 /**
  * Builder for ClaimRow objects.
@@ -25,32 +25,34 @@ class SnakRowBuilder {
 	 * @param Snak $snak
 	 * @param int $snakRole
 	 * @param EntityId $subjectId
+	 * @param int $statementRank
 	 *
 	 * @return SnakRow
 	 * @throws InvalidArgumentException
 	 */
-	public function newSnakRow( Snak $snak, $snakRole, EntityId $subjectId ) {
+	public function newSnakRow( Snak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
 		if ( $snak instanceof PropertyValueSnak ) {
-			return $this->newValueSnakRow( $snak, $snakRole, $subjectId );
+			return $this->newValueSnakRow( $snak, $snakRole, $subjectId, $statementRank );
 		}
 
 		if ( $snak instanceof PropertySomeValueSnak || $snak instanceof PropertyNoValueSnak ) {
-			return $this->newValuelessSnakRow( $snak, $snakRole, $subjectId );
+			return $this->newValuelessSnakRow( $snak, $snakRole, $subjectId, $statementRank );
 		}
 
 		throw new InvalidArgumentException( 'Got a snak type no supported by the SnakRowBuilder' );
 	}
 
-	protected function newValueSnakRow( PropertyValueSnak $snak, $snakRole, EntityId $subjectId ) {
+	protected function newValueSnakRow( PropertyValueSnak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
 		return new ValueSnakRow(
 			$snak->getDataValue(),
 			$snak->getPropertyId()->getSerialization(),
 			$snakRole,
-			$subjectId->getSerialization()
+			$subjectId,
+			$statementRank
 		);
 	}
 
-	protected function newValuelessSnakRow( Snak $snak, $snakRole, EntityId $subjectId ) {
+	protected function newValuelessSnakRow( Snak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
 		$internalSnakType = $snak instanceof PropertySomeValueSnak
 			? ValuelessSnakRow::TYPE_SOME_VALUE : ValuelessSnakRow::TYPE_NO_VALUE;
 
@@ -58,7 +60,8 @@ class SnakRowBuilder {
 			$internalSnakType,
 			$snak->getPropertyId()->getSerialization(),
 			$snakRole,
-			$subjectId->getSerialization()
+			$subjectId,
+			$statementRank
 		);
 	}
 

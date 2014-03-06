@@ -2,11 +2,11 @@
 
 namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
-use Wikibase\Claim;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
-use Wikibase\Snak;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\Snak;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * Use case for inserting snaks into the store.
@@ -35,15 +35,15 @@ class ClaimInserter {
 	}
 
 	protected function insertSnaks( Claim $claim, EntityId $subjectId ) {
-		$this->insertSnak( $claim->getMainSnak(), SnakRole::MAIN_SNAK, $subjectId );
+		$this->insertSnak( $claim->getMainSnak(), SnakRole::MAIN_SNAK, $subjectId, $claim->getRank() );
 
 		foreach ( $claim->getQualifiers() as $qualifier ) {
-			$this->insertSnak( $qualifier, SnakRole::QUALIFIER, $subjectId );
+			$this->insertSnak( $qualifier, SnakRole::QUALIFIER, $subjectId, $claim->getRank() );
 		}
 	}
 
-	protected function insertSnak( Snak $snak, $snakRole, EntityId $subjectId ) {
-		$this->snakInserter->insertSnak( $snak, $snakRole, $subjectId );
+	protected function insertSnak( Snak $snak, $snakRole, EntityId $subjectId, $claimRank ) {
+		$this->snakInserter->insertSnak( $snak, $snakRole, $subjectId, $claimRank );
 	}
 
 }

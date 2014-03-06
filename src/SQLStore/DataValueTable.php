@@ -36,6 +36,13 @@ final class DataValueTable implements \Immutable {
 	 *
 	 * @var string
 	 */
+	private $equalityFieldName;
+
+	/**
+	 * @since 0.1
+	 *
+	 * @var string
+	 */
 	private $sortFieldName;
 
 	/**
@@ -50,12 +57,14 @@ final class DataValueTable implements \Immutable {
 	 *
 	 * @param TableDefinition $table
 	 * @param string $valueFieldName
+	 * @param string $equalityFieldName
 	 * @param string $sortFieldName
 	 * @param string|null $labelFieldName
 	 */
-	public function __construct( TableDefinition $table, $valueFieldName, $sortFieldName, $labelFieldName = null ) {
+	public function __construct( TableDefinition $table, $valueFieldName, $equalityFieldName, $sortFieldName, $labelFieldName = null ) {
 		$this->tableDefinition = $table;
 		$this->valueFieldName = $valueFieldName;
+		$this->equalityFieldName = $equalityFieldName;
 		$this->sortFieldName = $sortFieldName;
 		$this->labelFieldName = $labelFieldName;
 	}
@@ -76,9 +85,28 @@ final class DataValueTable implements \Immutable {
 	}
 
 	/**
+	 * Returns the name of the field that holds a value suitable for equality checks.
+	 *
+	 * This field should not exceed 255 chars index space equivalent.
+	 *
+	 * The field should clearly be part of the table returned
+	 * by @see getTableDefinition.
+	 *
+	 * @since 0.1
+	 *
+	 * @return string
+	 */
+	public function getEqualityFieldName() {
+		return $this->valueFieldName;
+	}
+
+	/**
 	 * Return the field used to select this type of DataValue. In
 	 * particular, this identifies the column that is used to sort values
 	 * of this kind. Every type of data returns a non-empty string here.
+	 *
+	 * The field should clearly be part of the table returned
+	 * by @see getTableDefinition.
 	 *
 	 * @since 0.1
 	 *
@@ -125,7 +153,7 @@ final class DataValueTable implements \Immutable {
 	 * @return DataValueTable
 	 */
 	public function mutateTableDefinition( TableDefinition $tableDefinition ) {
-		return new self( $tableDefinition, $this->valueFieldName, $this->sortFieldName, $this->labelFieldName );
+		return new self( $tableDefinition, $this->valueFieldName, $this->equalityFieldName, $this->sortFieldName, $this->labelFieldName );
 	}
 
 }

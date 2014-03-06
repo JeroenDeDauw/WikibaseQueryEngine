@@ -53,6 +53,22 @@ class DataValueTableTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @param DataValueTable $dvTable
 	 */
+	public function testGetEqualityFieldNameReturnValue( DataValueTable $dvTable ) {
+		$equalityFieldName = $dvTable->getEqualityFieldName();
+
+		$this->assertInternalType( 'string', $equalityFieldName );
+
+		$this->assertTrue(
+			$dvTable->getTableDefinition()->hasFieldWithName( $equalityFieldName ),
+			'The equality field is present in the table'
+		);
+	}
+
+	/**
+	 * @dataProvider instanceProvider
+	 *
+	 * @param DataValueTable $dvTable
+	 */
 	public function testGetSortFieldNameReturnValue( DataValueTable $dvTable ) {
 		$sortFieldName = $dvTable->getSortFieldName();
 

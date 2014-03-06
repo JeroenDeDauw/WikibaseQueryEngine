@@ -27,7 +27,7 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * Simple query store for relational SQL databases.
@@ -177,11 +177,6 @@ class SQLStore {
 				$queryInterface,
 				$this->getSchema()->getDataValueHandlers( SnakRole::MAIN_SNAK ),
 				SnakRole::MAIN_SNAK
-			),
-			new ValueSnakStore(
-				$queryInterface,
-				$this->getSchema()->getDataValueHandlers( SnakRole::QUALIFIER ),
-				SnakRole::QUALIFIER
 			),
 			new ValuelessSnakStore(
 				$queryInterface,

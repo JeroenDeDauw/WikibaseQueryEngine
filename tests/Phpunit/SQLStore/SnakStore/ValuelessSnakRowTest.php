@@ -2,8 +2,10 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
+use Wikibase\DataModel\Claim\Claim;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow
@@ -25,14 +27,16 @@ class ValuelessSnakRowTest extends \PHPUnit_Framework_TestCase {
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P9001',
 			SnakRole::MAIN_SNAK,
-			'Q321'
+			new ItemId( 'Q321' ),
+			Claim::RANK_PREFERRED
 		);
 
 		$argLists[] = array(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P9002',
 			SnakRole::QUALIFIER,
-			'Q123'
+			new ItemId( 'Q123' ),
+			Claim::RANK_NORMAL
 		);
 
 		return $argLists;
@@ -41,13 +45,14 @@ class ValuelessSnakRowTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider constructorProvider
 	 */
-	public function testConstructor( $internalSnakType, $propertyId, $snakRole, $subjectId ) {
-		$snakRow = new ValuelessSnakRow( $internalSnakType, $propertyId, $snakRole, $subjectId );
+	public function testConstructor( $internalSnakType, $propertyId, $snakRole, $subjectId, $statementRank ) {
+		$snakRow = new ValuelessSnakRow( $internalSnakType, $propertyId, $snakRole, $subjectId, $statementRank );
 
 		$this->assertEquals( $propertyId, $snakRow->getPropertyId() );
 		$this->assertEquals( $snakRole, $snakRow->getSnakRole() );
 		$this->assertEquals( $internalSnakType, $snakRow->getInternalSnakType() );
 		$this->assertEquals( $subjectId, $snakRow->getSubjectId() );
+		$this->assertEquals( $statementRank, $snakRow->getStatementRank() );
 	}
 
 }

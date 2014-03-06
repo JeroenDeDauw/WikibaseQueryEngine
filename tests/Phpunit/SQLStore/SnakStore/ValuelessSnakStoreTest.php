@@ -4,11 +4,12 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
 use Wikibase\Database\QueryInterface\QueryInterface;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore
@@ -40,28 +41,32 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		return $argLists;
@@ -74,14 +79,16 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			new StringValue( 'nyan' ),
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q100'
+			new ItemId( 'Q100' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q100'
+			new ItemId( 'Q100' ),
+			Claim::RANK_NORMAL
 		) );
 
 		return $argLists;
@@ -96,15 +103,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 		$queryInterface->expects( $this->once() )
 			->method( 'insert' )
 			->with(
-				$this->equalTo( 'snaks_of_doom' ),
-				$this->equalTo(
-					array(
-						'property_id' => $snakRow->getPropertyId(),
-						'subject_id' => $snakRow->getSubjectId(),
-						'snak_type' => $snakRow->getInternalSnakType(),
-						'snak_role' => $snakRow->getSnakRole(),
-					)
-				)
+				$this->equalTo( 'snaks_of_doom' )
 			);
 
 		$store = $this->newInstanceWithQueryInterface( $queryInterface );

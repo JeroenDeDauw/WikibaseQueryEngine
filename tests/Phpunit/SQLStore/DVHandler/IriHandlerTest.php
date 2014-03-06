@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 use DataValues\IriValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
+use Wikibase\QueryEngine\SQLStore\DVHandler\IriHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 
 /**
@@ -30,8 +31,7 @@ class IriHandlerTest extends DataValueHandlerTest {
 	protected function getInstances() {
 		$instances = array();
 
-		$defaultHandlers = new DataValueHandlers();
-		$instances[] = $defaultHandlers->getHandler( 'iri' );
+		$instances[] = new IriHandler();
 
 		return $instances;
 	}

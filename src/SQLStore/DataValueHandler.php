@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use DataValues\DataValue;
+use InvalidArgumentException;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 
 /**
@@ -17,7 +18,7 @@ use Wikibase\Database\Schema\Definitions\TableDefinition;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-abstract class DataValueHandler implements \Immutable {
+abstract class DataValueHandler {
 
 	/**
 	 * @since 0.1
@@ -36,41 +37,15 @@ abstract class DataValueHandler implements \Immutable {
 	}
 
 	/**
-	 * @since 0.1
-	 *
-	 * @return DataValueTable
-	 */
-	public function getDataValueTable() {
-		return $this->dataValueTable;
-	}
-
-	/**
 	 * Create a DataValue from a cell value in the tables value field.
 	 *
 	 * @since 0.1
 	 *
-	 * @param $valueFieldValue // TODO: mixed or string?
+	 * @param string $valueFieldValue
 	 *
 	 * @return DataValue
 	 */
 	abstract public function newDataValueFromValueField( $valueFieldValue );
-
-	/**
-	 * Return an array of fields=>values to conditions (WHERE part) in SQL
-	 * queries for the given DataValue. This method can return fewer
-	 * fields than getInsertValues as long as they are enough to identify
-	 * an item for search.
-	 *
-	 * The passed DataValue needs to be of a type supported by the DataValueHandler.
-	 * If it is not supported, an InvalidArgumentException might be thrown.
-	 *
-	 * @since 0.1
-	 *
-	 * @param DataValue $value
-	 *
-	 * @return array
-	 */
-	abstract public function getWhereConditions( DataValue $value );
 
 	/**
 	 * Return an array of fields=>values that is to be inserted when
@@ -86,20 +61,40 @@ abstract class DataValueHandler implements \Immutable {
 	 * @param DataValue $value
 	 *
 	 * @return array
+	 * @throws InvalidArgumentException
 	 */
 	abstract public function getInsertValues( DataValue $value );
 
 	/**
-	 * Returns a clone of the DataValueHandler, though with the provided DataValue table rather then the original one.
+	 * Returns the equality field value for a given data value.
+	 * This value is needed for constructing equality checking
+	 * queries.
 	 *
-	 * @since wd.db
+	 * @since 0.1
 	 *
-	 * @param DataValueTable $dataValueTable
+	 * @param DataValue $value
 	 *
-	 * @return DataValueHandler
+	 * @return mixed
+	 * @throws InvalidArgumentException
 	 */
-	public function mutateDataValueTable( DataValueTable $dataValueTable ) {
-		return new static( $dataValueTable );
+	abstract public function getEqualityFieldValue( DataValue $value );
+
+	/**
+	 * @since 0.1
+	 *
+	 * @return DataValueTable
+	 */
+	public function getDataValueTable() {
+		return $this->dataValueTable;
+	}
+
+	/**
+	 * @since 0.1
+	 *
+	 * @param DataValueTable $dvTable
+	 */
+	public function setDataValueTable( DataValueTable $dvTable ) {
+		$this->dataValueTable = $dvTable;
 	}
 
 }

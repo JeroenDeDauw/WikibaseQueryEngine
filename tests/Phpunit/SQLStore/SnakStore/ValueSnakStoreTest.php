@@ -3,15 +3,13 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore
@@ -36,17 +34,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	}
 
 	protected function newStringHandler() {
-		return new StringHandler( new DataValueTable(
-			new TableDefinition(
-				'strings_of_doom',
-				array(
-					new FieldDefinition( 'value', FieldDefinition::TYPE_TEXT, false ),
-				)
-			),
-			'value',
-			'value',
-			'value'
-		) );
+		return new StringHandler();
 	}
 
 	public function canStoreProvider() {
@@ -56,7 +44,8 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			new StringValue( 'nyan' ),
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q100'
+			new ItemId( 'Q100' ),
+			Claim::RANK_NORMAL
 		) );
 
 
@@ -70,35 +59,40 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_SOME_VALUE,
 			'P1',
 			SnakRole::MAIN_SNAK,
-			'Q1'
+			new ItemId( 'Q1' ),
+			Claim::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),
 			'P1',
 			SnakRole::QUALIFIER,
-			'Q100'
+			new ItemId( 'Q100' ),
+			Claim::RANK_NORMAL
 		) );
 
 		return $argLists;
@@ -115,16 +109,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 		$queryInterface->expects( $this->once() )
 			->method( 'insert' )
 			->with(
-				$this->equalTo( 'strings_of_doom' ),
-				$this->equalTo(
-					array_merge(
-						array(
-							'property_id' => $snakRow->getPropertyId(),
-							'subject_id' => $snakRow->getSubjectId(),
-						),
-						$stringHandler->getInsertValues( $snakRow->getValue() )
-					)
-				)
+				$this->equalTo( 'string' )
 			);
 
 		$store = new ValueSnakStore(

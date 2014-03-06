@@ -5,8 +5,10 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 use DataValues\DataValue;
 use DataValues\MonolingualTextValue;
 use DataValues\StringValue;
+use Wikibase\DataModel\Claim\Claim;
+use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow
@@ -26,14 +28,16 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 			new StringValue( 'foobar baz' ),
 			'P2',
 			SnakRole::QUALIFIER,
-			'Q4'
+			new ItemId( 'Q4' ),
+			Claim::RANK_PREFERRED
 		);
 
 		$argLists[] = array(
 			new MonolingualTextValue( 'en', 'foobar baz' ),
 			'P9001',
 			SnakRole::QUALIFIER,
-			'Q9003'
+			new ItemId( 'Q9003' ),
+			Claim::RANK_NORMAL
 		);
 
 		return $argLists;
@@ -42,13 +46,14 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider constructorProvider
 	 */
-	public function testConstructor( DataValue $value, $propertyId, $snakRole, $subjectId ) {
-		$snakRow = new ValueSnakRow( $value, $propertyId, $snakRole, $subjectId );
+	public function testConstructor( DataValue $value, $propertyId, $snakRole, $subjectId, $statementRank ) {
+		$snakRow = new ValueSnakRow( $value, $propertyId, $snakRole, $subjectId, $statementRank );
 
 		$this->assertTrue( $value->equals( $snakRow->getValue() ) );
 		$this->assertEquals( $propertyId, $snakRow->getPropertyId() );
 		$this->assertEquals( $snakRole, $snakRow->getSnakRole() );
 		$this->assertEquals( $subjectId, $snakRow->getSubjectId() );
+		$this->assertEquals( $statementRank, $snakRow->getStatementRank() );
 	}
 
 }

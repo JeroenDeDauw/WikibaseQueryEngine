@@ -4,20 +4,18 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
 use DataValues\StringValue;
 use Wikibase\Database\QueryInterface\QueryInterface;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\PropertyNoValueSnak;
-use Wikibase\PropertySomeValueSnak;
-use Wikibase\PropertyValueSnak;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
+use Wikibase\DataModel\Snak\PropertyNoValueSnak;
+use Wikibase\DataModel\Snak\PropertySomeValueSnak;
+use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\Snak;
-use Wikibase\SnakRole;
+use Wikibase\DataModel\Snak\Snak;
+use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter
@@ -55,11 +53,11 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 		$queryInterface
 			->expects( $this->once() )
 			->method( 'insert' )
-			->with( $this->equalTo( 'test_table' ) );
+			->with( $this->equalTo( 'string' ) );
 
 		$snakInserter = $this->newInstance( $queryInterface );
 
-		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ) );
+		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ), Claim::RANK_NORMAL );
 	}
 
 	protected function newInstance( QueryInterface $queryInterface ) {
@@ -73,30 +71,16 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 		return array(
 			new ValuelessSnakStore(
 				$queryInterface,
-				'test_table'
+				'string'
 			),
 			new ValueSnakStore(
 				$queryInterface,
 				array(
-					'string' => $this->newStringHandler()
+					'string' => new StringHandler()
 				),
 				SnakRole::MAIN_SNAK
 			)
 		);
-	}
-
-	protected function newStringHandler() {
-		return new StringHandler( new DataValueTable(
-			new TableDefinition(
-				'test_table',
-				array(
-					new FieldDefinition( 'value', FieldDefinition::TYPE_TEXT, false ),
-				)
-			),
-			'value',
-			'value',
-			'value'
-		) );
 	}
 
 }

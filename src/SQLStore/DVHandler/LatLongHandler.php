@@ -3,16 +3,17 @@
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
-use DataValues\StringValue;
+use DataValues\LatLongValue;
 use InvalidArgumentException;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
+use Wikibase\Database\Schema\Definitions\IndexDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
- * Represents the mapping between Wikibase\StringValue and
+ * Represents the mapping between DataValues\LatLongValue and
  * the corresponding table in the store.
  *
  * @since 0.1
@@ -20,20 +21,40 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class StringHandler extends DataValueHandler {
+class LatLongHandler extends DataValueHandler {
 
 	public function __construct() {
 		parent::__construct( new DataValueTable(
 			new TableDefinition(
-				'string',
+				'latlong',
 				array(
-					new FieldDefinition( 'value',
+					new FieldDefinition(
+						'value_lat',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value_lon',
+						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
+						FieldDefinition::NOT_NULL
+					),
+					new FieldDefinition(
+						'value',
 						new TypeDefinition( TypeDefinition::TYPE_BLOB ),
 						FieldDefinition::NOT_NULL
 					),
+				),
+				array(
+					new IndexDefinition(
+						'value_lat',
+						array( 'value_lat' )
+					),
+					new IndexDefinition(
+						'value_lon',
+						array( 'value_lon' )
+					),
 				)
 			),
-			'value',
 			'value',
 			'value',
 			'value'
@@ -50,7 +71,8 @@ class StringHandler extends DataValueHandler {
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
-		return new StringValue( $valueFieldValue );
+		$value = explode( '|', $valueFieldValue, 2 );
+		return new LatLongValue( (float)$value[0], (float)$value[1] );
 	}
 
 	/**
@@ -64,12 +86,15 @@ class StringHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getInsertValues( DataValue $value ) {
-		if ( !( $value instanceof StringValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a StringValue' );
+		if ( !( $value instanceof LatLongValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
 		}
 
 		$values = array(
-			'value' => $value->getValue(),
+			'value_lat' => $value->getLatitude(),
+			'value_lon' => $value->getLongitude(),
+
+			'value' => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
@@ -84,11 +109,11 @@ class StringHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
-		if ( !( $value instanceof StringValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a StringValue' );
+		if ( !( $value instanceof LatLongValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
 		}
 
-		return $value->getValue();
+		return $value->getLatitude() . '|' . $value->getLongitude();
 	}
 
 }

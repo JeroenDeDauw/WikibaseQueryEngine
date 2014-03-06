@@ -2,11 +2,8 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Item;
 use Wikibase\Property;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\SQLStore\Writer;
 
 /**

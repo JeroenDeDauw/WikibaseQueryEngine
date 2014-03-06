@@ -38,8 +38,10 @@ class ValuelessSnakStore extends SnakStore {
 		$this->queryInterface->insert(
 			$this->tableName,
 			array(
+				'subject_id' => $snakRow->getSubjectId()->getSerialization(),
+				'subject_type' => $snakRow->getSubjectId()->getEntityType(),
 				'property_id' => $snakRow->getPropertyId(),
-				'subject_id' => $snakRow->getSubjectId(),
+				'statement_rank' => $snakRow->getStatementRank(),
 				'snak_type' => $snakRow->getInternalSnakType(),
 				'snak_role' => $snakRow->getSnakRole(),
 			)

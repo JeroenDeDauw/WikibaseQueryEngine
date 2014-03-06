@@ -67,8 +67,10 @@ class ValueSnakStore extends SnakStore {
 
 		$insertValues = array_merge(
 			array(
+				'subject_id' => $snakRow->getSubjectId()->getSerialization(),
+				'subject_type' => $snakRow->getSubjectId()->getEntityType(),
 				'property_id' => $snakRow->getPropertyId(),
-				'subject_id' => $snakRow->getSubjectId(),
+				'statement_rank' => $snakRow->getStatementRank(),
 			),
 			$dataValueHandler->getInsertValues( $snakRow->getValue() )
 		);

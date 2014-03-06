@@ -8,6 +8,7 @@ use Ask\Language\Option\QueryOptions;
 use DataValues\StringValue;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
+use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
@@ -76,7 +77,10 @@ class DescriptionMatchFinderTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( array() ) );
 
 		$dvTable = new DataValueTable(
-			new TableDefinition( 'tablename', array( new FieldDefinition( 'dsfdfdsfds', FieldDefinition::TYPE_BOOLEAN ) ) ),
+			new TableDefinition( 'tablename', array(
+				new FieldDefinition( 'dsfdfdsfds', new TypeDefinition( TypeDefinition::TYPE_TINYINT ) )
+			) ),
+			'foo',
 			'foo',
 			'bar'
 		);
