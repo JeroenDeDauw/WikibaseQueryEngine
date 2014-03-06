@@ -19,6 +19,7 @@ abstract class SnakRow {
 	protected $snakRole;
 	protected $subjectId;
 	protected $entityType;
+	protected $statementRank;
 
 	/**
 	 * @param string $propertyId
