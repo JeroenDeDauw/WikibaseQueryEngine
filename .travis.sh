@@ -5,7 +5,7 @@ set -x
 if [ "$1" == "Standalone" ]
 then
 	composer require satooshi/php-coveralls:dev-master
-	composer install
+	composer install --prefer-source
 else
 	cd ..
 
@@ -26,7 +26,7 @@ else
 
 	cd extensions/WikibaseQueryEngine
 	composer require satooshi/php-coveralls:dev-master
-	composer install
+	composer install --prefer-source
 
 	cd ../..
 	echo 'require_once( __DIR__ . "/extensions/WikibaseQueryEngine/WikibaseQueryEngine.php" );' >> LocalSettings.php
