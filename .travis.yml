@@ -11,6 +11,10 @@ matrix:
       php: 5.4
     - env: DBTYPE=sqlite TESTSUITE=Integration
       php: 5.5
+    - env: DBTYPE=sqlite TESTSUITE=Integration
+      php: 5.6
+    - env: DBTYPE=sqlite TESTSUITE=Integration
+      php: hhvm
   exclude:
     - env: THENEEDFORTHIS=FAIL
 
