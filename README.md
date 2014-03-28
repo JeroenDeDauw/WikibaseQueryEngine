@@ -1,7 +1,6 @@
 # Wikibase QueryEngine
 
 [![Build Status](https://secure.travis-ci.org/wmde/WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/wmde/WikibaseQueryEngine)
-[![Coverage Status](https://coveralls.io/repos/wmde/WikibaseQueryEngine/badge.png?branch=master)](https://coveralls.io/r/wmde/WikibaseQueryEngine?branch=master)
 [![Dependency Status](https://www.versioneye.com/package/php--wikibase--query-engine/badge.png)](https://www.versioneye.com/package/php--wikibase--query-engine)
 
 On [Packagist](https://packagist.org/packages/wikibase/query-engine):

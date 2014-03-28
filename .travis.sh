@@ -4,7 +4,6 @@ set -x
 
 if [ "$1" == "Standalone" ]
 then
-	composer require satooshi/php-coveralls:dev-master
 	composer install --prefer-source
 else
 	cd ..
@@ -25,7 +24,6 @@ else
 	php maintenance/install.php --dbtype $DBTYPE --dbuser root --dbname its_a_mw --dbpath $(pwd) --pass nyan TravisWiki admin
 
 	cd extensions/WikibaseQueryEngine
-	composer require satooshi/php-coveralls:dev-master
 	composer install --prefer-source
 
 	cd ../..
@@ -37,5 +35,4 @@ else
 	echo '$wgDevelopmentWarnings = true;' >> LocalSettings.php
 
 	php maintenance/update.php --quick
-
 fi

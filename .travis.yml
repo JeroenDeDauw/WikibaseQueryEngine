@@ -24,7 +24,7 @@ before_script:
 
 script:
   - if [ "$TESTSUITE" == "Integration" ] ; then cd ../phase3/extensions/WikibaseQueryEngine ; fi
-  - phpunit --testsuite=QueryEngine$TESTSUITE --coverage-clover build/logs/clover.xml
+  - phpunit --testsuite=QueryEngine$TESTSUITE
 
 
 notifications:
