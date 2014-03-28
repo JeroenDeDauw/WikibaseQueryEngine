@@ -28,7 +28,7 @@ class StringHandler extends DataValueHandler {
 				'string',
 				array(
 					new FieldDefinition( 'value',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
+						TypeDefinition::TYPE_BLOB,
 						FieldDefinition::NOT_NULL
 					),
 				)
