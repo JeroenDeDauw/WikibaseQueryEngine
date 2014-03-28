@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
-use Wikibase\Entity;
+use Wikibase\DataModel\Entity\Entity;
 
 /**
  * Use case for updating entities in the store.

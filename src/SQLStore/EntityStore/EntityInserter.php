@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
-use Wikibase\Entity;
+use Wikibase\DataModel\Entity\Entity;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 
 /**

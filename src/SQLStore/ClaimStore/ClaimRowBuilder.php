@@ -2,9 +2,9 @@
 
 namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
-use Wikibase\Claim;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\EntityId;
-use Wikibase\Statement;
+use Wikibase\DataModel\Claim\Statement;
 
 /**
  * Builder for ClaimRow objects.
