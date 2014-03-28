@@ -40,7 +40,7 @@ class LatLongHandler extends DataValueHandler {
 					),
 					new FieldDefinition(
 						'value',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 100 ),
 						FieldDefinition::NOT_NULL
 					),
 				),
