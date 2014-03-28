@@ -3,7 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
 use Wikibase\Database\QueryInterface\QueryInterface;
-use Wikibase\Entity;
+use Wikibase\DataModel\Entity\Entity;
 
 /**
  * Use case for inserting entities into the store.

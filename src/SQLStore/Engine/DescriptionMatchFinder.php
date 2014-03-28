@@ -11,11 +11,11 @@ use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\Schema;
-use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * Simple query engine that works on top of the SQLStore.

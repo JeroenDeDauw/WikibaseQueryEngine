@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\Entity;
+use Wikibase\DataModel\Entity\Entity;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;

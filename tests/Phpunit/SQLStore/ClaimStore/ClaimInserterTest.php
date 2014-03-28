@@ -3,17 +3,16 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\ClaimStore;
 
 use DataValues\StringValue;
-use Wikibase\Claim;
-use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\DataModel\Claim\Claim;
+use Wikibase\DataModel\Claim\Statement;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\PropertyNoValueSnak;
-use Wikibase\PropertyValueSnak;
+use Wikibase\DataModel\Reference;
+use Wikibase\DataModel\ReferenceList;
+use Wikibase\DataModel\Snak\PropertyNoValueSnak;
+use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\SnakList;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
-use Wikibase\Reference;
-use Wikibase\ReferenceList;
-use Wikibase\SnakList;
-use Wikibase\Statement;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter

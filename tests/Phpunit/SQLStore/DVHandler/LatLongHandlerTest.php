@@ -2,7 +2,6 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 
-use DataValues\GlobeCoordinateValue;
 use DataValues\LatLongValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;

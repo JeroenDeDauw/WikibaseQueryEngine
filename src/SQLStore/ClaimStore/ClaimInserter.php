@@ -4,9 +4,9 @@ namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\EntityId;
-use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 
 /**
  * Use case for inserting snaks into the store.

@@ -2,8 +2,7 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
-use Wikibase\Item;
-use Wikibase\Property;
+use Wikibase\DataModel\Entity\Item;
 use Wikibase\QueryEngine\SQLStore\Writer;
 
 /**

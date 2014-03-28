@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine;
 
-use Wikibase\Entity;
+use Wikibase\DataModel\Entity\Entity;
 
 /**
  * Updater for a query store.

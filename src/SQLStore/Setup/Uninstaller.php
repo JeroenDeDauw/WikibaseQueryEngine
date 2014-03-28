@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\SQLStore\Setup;
 
 use Wikibase\Database\Schema\TableBuilder;
 use Wikibase\QueryEngine\QueryStoreUninstaller;
-use Wikibase\QueryEngine\QueryStoreUpdater;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 

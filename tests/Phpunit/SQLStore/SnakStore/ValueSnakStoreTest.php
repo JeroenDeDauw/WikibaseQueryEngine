@@ -5,11 +5,11 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
+use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore

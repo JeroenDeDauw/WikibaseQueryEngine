@@ -9,7 +9,6 @@ use DataValues\StringValue;
 use Wikibase\Database\Schema\Definitions\FieldDefinition;
 use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
-use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
