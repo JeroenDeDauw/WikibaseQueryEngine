@@ -7,19 +7,19 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
-use Wikibase\Claims;
+use Wikibase\DataModel\Claim\Claims;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
-use Wikibase\Item;
-use Wikibase\PropertyValueSnak;
+use Wikibase\DataModel\Entity\Item;
+use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
-use Wikibase\Statement;
+use Wikibase\DataModel\Claim\Statement;
 
 /**
- * Tests the write operations (those exposed by Wikibase\QueryEngine\SQLStore\Writer)
+ * Tests the write operations (those exposed by Wikibase\QueryEngi`ne\SQLStore\Writer)
  * by verifying the entities are found only when they should be.
  *
  * @group medium
