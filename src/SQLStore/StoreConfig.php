@@ -3,7 +3,6 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use Exception;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 
 /**

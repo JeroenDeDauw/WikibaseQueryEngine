@@ -3,8 +3,8 @@
 namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Claim\Statement;
+use Wikibase\DataModel\Entity\EntityId;
 
 /**
  * Builder for ClaimRow objects.

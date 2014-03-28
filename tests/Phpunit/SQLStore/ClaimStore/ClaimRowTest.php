@@ -2,8 +2,8 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\ClaimStore;
 
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRow;
 use Wikibase\DataModel\Claim\Statement;
+use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRow;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRow

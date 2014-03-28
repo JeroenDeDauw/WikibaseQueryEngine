@@ -7,8 +7,8 @@ use DataValues\MonolingualTextValue;
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow

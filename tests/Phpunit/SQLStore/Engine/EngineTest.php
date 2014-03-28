@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
 use Ask\Language\Description\AnyValue;
 use Ask\Language\Option\QueryOptions;
-use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;

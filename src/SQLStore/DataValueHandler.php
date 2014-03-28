@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\SQLStore;
 
 use DataValues\DataValue;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
 
 /**
  * Represents the mapping between a DataValue type and the

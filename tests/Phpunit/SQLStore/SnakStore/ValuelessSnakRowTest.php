@@ -4,8 +4,8 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow

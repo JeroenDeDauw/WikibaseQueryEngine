@@ -3,7 +3,6 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Entity\Entity;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\Property;

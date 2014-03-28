@@ -8,6 +8,7 @@ use Wikibase\Database\Schema\SimpleTableSchemaUpdater;
 use Wikibase\Database\Schema\TableBuilder;
 use Wikibase\Database\Schema\TableDefinitionReader;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
+use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\QueryEngine;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
@@ -27,7 +28,6 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * Simple query store for relational SQL databases.

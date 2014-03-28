@@ -8,15 +8,15 @@ use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
 use Wikibase\DataModel\Claim\Claims;
+use Wikibase\DataModel\Claim\Statement;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
-use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
-use Wikibase\DataModel\Claim\Statement;
 
 /**
  * Tests the write operations (those exposed by Wikibase\QueryEngi`ne\SQLStore\Writer)

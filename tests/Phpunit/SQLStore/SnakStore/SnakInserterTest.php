@@ -9,13 +9,13 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Snak\Snak;
+use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
-use Wikibase\DataModel\Snak\Snak;
-use Wikibase\DataModel\Snak\SnakRole;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter

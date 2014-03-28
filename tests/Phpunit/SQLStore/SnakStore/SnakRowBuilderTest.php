@@ -8,9 +8,9 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
-use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder

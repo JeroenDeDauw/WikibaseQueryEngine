@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use InvalidArgumentException;
 use Wikibase\Database\QueryInterface\QueryInterface;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\DataModel\Entity\EntityId;
 
 /**

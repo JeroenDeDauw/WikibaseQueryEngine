@@ -2,7 +2,6 @@
 
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
-use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\Entity;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover;
 
