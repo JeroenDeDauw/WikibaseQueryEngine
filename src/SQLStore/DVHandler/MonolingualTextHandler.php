@@ -28,17 +28,17 @@ class MonolingualTextHandler extends DataValueHandler {
 				'mono_text',
 				array(
 					new FieldDefinition( 'value_text',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
+						TypeDefinition::TYPE_BLOB,
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'value_language',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 20 ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
 						'value_json',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
+						TypeDefinition::TYPE_BLOB,
 						FieldDefinition::NOT_NULL
 					),
 				)
