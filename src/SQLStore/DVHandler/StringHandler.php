@@ -10,6 +10,7 @@ use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
+use Wikibase\QueryEngine\SQLStore\StringHasher;
 
 /**
  * Represents the mapping between Wikibase\StringValue and
@@ -22,6 +23,11 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  */
 class StringHandler extends DataValueHandler {
 
+	/**
+	 * @var StringHasher
+	 */
+	private $stringHasher;
+
 	public function __construct() {
 		parent::__construct( new DataValueTable(
 			new TableDefinition(
@@ -31,13 +37,19 @@ class StringHandler extends DataValueHandler {
 						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
 						FieldDefinition::NOT_NULL
 					),
+					new FieldDefinition( 'hash',
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 70 ),
+						FieldDefinition::NOT_NULL
+					),
 				)
 			),
 			'value',
-			'value',
-			'value',
+			'hash',
+			'hash',
 			'value'
 		) );
+
+		$this->stringHasher = new StringHasher();
 	}
 
 	/**
@@ -70,6 +82,7 @@ class StringHandler extends DataValueHandler {
 
 		$values = array(
 			'value' => $value->getValue(),
+			'hash' => $this->stringHasher->hash( $value->getValue() ),
 		);
 
 		return $values;
