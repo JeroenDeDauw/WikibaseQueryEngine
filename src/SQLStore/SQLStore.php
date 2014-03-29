@@ -178,6 +178,11 @@ class SQLStore {
 				$this->getSchema()->getDataValueHandlers( SnakRole::MAIN_SNAK ),
 				SnakRole::MAIN_SNAK
 			),
+			new ValueSnakStore(
+				$queryInterface,
+				$this->getSchema()->getDataValueHandlers( SnakRole::QUALIFIER ),
+				SnakRole::QUALIFIER
+			),
 			new ValuelessSnakStore(
 				$queryInterface,
 				$this->getSchema()->getValuelessSnaksTable()->getName()
