@@ -10,7 +10,7 @@ use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
-use Wikibase\QueryEngine\SQLStore\StringHasher;
+use Wikibase\QueryEngine\StringHasher;
 
 /**
  * Represents the mapping between Wikibase\StringValue and
