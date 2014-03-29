@@ -10,6 +10,7 @@ use Wikibase\Database\Schema\Definitions\TableDefinition;
 use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
+use Wikibase\QueryEngine\StringHasher;
 
 /**
  * Represents the mapping between DataValues\MonolingualTextValue and
@@ -21,6 +22,11 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class MonolingualTextHandler extends DataValueHandler {
+
+	/**
+	 * @var StringHasher
+	 */
+	private $stringHasher;
 
 	public function __construct() {
 		parent::__construct( new DataValueTable(
@@ -41,13 +47,19 @@ class MonolingualTextHandler extends DataValueHandler {
 						TypeDefinition::TYPE_BLOB,
 						FieldDefinition::NOT_NULL
 					),
+					new FieldDefinition( 'hash',
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 70 ),
+						FieldDefinition::NOT_NULL
+					),
 				)
 			),
 			'value_json',
-			'value_json',
-			'value_text',
+			'hash',
+			'hash',
 			'value_text'
 		) );
+
+		$this->stringHasher = new StringHasher();
 	}
 
 	/**
@@ -83,6 +95,7 @@ class MonolingualTextHandler extends DataValueHandler {
 			'value_language' => $value->getLanguageCode(),
 
 			'value_json' => $this->getEqualityFieldValue( $value ),
+			'hash' => $this->stringHasher->hash( $value->getText() . $value->getLanguageCode() )
 		);
 
 		return $values;
