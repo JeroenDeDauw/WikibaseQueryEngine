@@ -4,6 +4,8 @@ namespace Wikibase\QueryEngine\SQLStore\Setup;
 
 use Wikibase\Database\QueryInterface\QueryInterfaceException;
 use Wikibase\Database\Schema\TableBuilder;
+use Wikibase\Database\Schema\TableCreationFailedException;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreInstaller;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
@@ -50,7 +52,7 @@ class Installer implements QueryStoreInstaller {
 	/**
 	 * @see QueryStoreInstaller::install
 	 *
-	 * TODO: document throws
+	 * @throws QueryEngineException
 	 */
 	public function install() {
 		$this->report( 'Starting install of ' . $this->config->getStoreName() );
@@ -58,8 +60,12 @@ class Installer implements QueryStoreInstaller {
 		try {
 			$this->setupTables();
 		}
-		catch ( QueryInterfaceException $exception ) {
-			// TODO: throw exception of proper type
+		catch ( TableCreationFailedException $ex ) {
+			throw new QueryEngineException(
+				'SQLStore installation failed: ' . $ex->getMessage(),
+				0,
+				$ex
+			);
 		}
 
 		// TODO: initialize basic content
@@ -69,6 +75,7 @@ class Installer implements QueryStoreInstaller {
 
 	/**
 	 * Sets up the tables of the store.
+	 * @throws TableCreationFailedException
 	 */
 	private function setupTables() {
 		foreach ( $this->storeSchema->getTables() as $table ) {
