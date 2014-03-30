@@ -48,7 +48,7 @@ class MonolingualTextHandler extends DataValueHandler {
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition( 'hash',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 70 ),
+						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 50 ),
 						FieldDefinition::NOT_NULL
 					),
 				)
