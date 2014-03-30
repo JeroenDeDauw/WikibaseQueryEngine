@@ -10,6 +10,9 @@ namespace Wikibase\QueryEngine;
  */
 interface QueryStoreUninstaller {
 
+	/**
+	 * @throws QueryEngineException
+	 */
 	public function uninstall();
 
 }
