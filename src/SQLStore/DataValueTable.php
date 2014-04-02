@@ -97,7 +97,7 @@ final class DataValueTable implements \Immutable {
 	 * @return string
 	 */
 	public function getEqualityFieldName() {
-		return $this->valueFieldName;
+		return $this->equalityFieldName;
 	}
 
 	/**

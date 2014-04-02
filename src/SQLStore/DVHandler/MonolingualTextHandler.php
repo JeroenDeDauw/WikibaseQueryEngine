@@ -94,8 +94,8 @@ class MonolingualTextHandler extends DataValueHandler {
 			'value_text' => $value->getText(),
 			'value_language' => $value->getLanguageCode(),
 
-			'value_json' => $this->getEqualityFieldValue( $value ),
-			'hash' => $this->stringHasher->hash( $value->getText() . $value->getLanguageCode() )
+			'value_json' => json_encode( $value->getArrayValue() ),
+			'hash' => $this->getEqualityFieldValue( $value )
 		);
 
 		return $values;
@@ -114,7 +114,7 @@ class MonolingualTextHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a MonolingualTextValue' );
 		}
 
-		return json_encode( $value->getArrayValue() );
+		return $this->stringHasher->hash( $value->getText() . $value->getLanguageCode() );
 	}
 
 }

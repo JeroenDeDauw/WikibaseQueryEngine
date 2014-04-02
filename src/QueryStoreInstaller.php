@@ -10,6 +10,9 @@ namespace Wikibase\QueryEngine;
  */
 interface QueryStoreInstaller {
 
+	/**
+	 * @throws QueryEngineException
+	 */
 	public function install();
 
 }

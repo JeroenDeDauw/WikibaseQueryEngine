@@ -3,6 +3,8 @@
 namespace Wikibase\QueryEngine\SQLStore\Setup;
 
 use Wikibase\Database\Schema\TableBuilder;
+use Wikibase\Database\Schema\TableDeletionFailedException;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreUninstaller;
 use Wikibase\QueryEngine\SQLStore\Schema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
@@ -49,31 +51,33 @@ class Uninstaller implements QueryStoreUninstaller {
 	/**
 	 * @see QueryStoreUninstaller::uninstall
 	 *
-	 * TODO: document throws
+	 * @throws QueryEngineException
 	 */
 	public function uninstall() {
 		$this->report( 'Starting uninstall of ' . $this->config->getStoreName() );
 
-		$this->dropTables();
+		try {
+			$this->dropTables();
+		}
+		catch ( TableDeletionFailedException $ex ) {
+			throw new QueryEngineException(
+				'SQLStore uninstallation failed: ' . $ex->getMessage(),
+				0,
+				$ex
+			);
+		}
 
 		$this->report( 'Finished uninstall of ' . $this->config->getStoreName() );
-
-		// TODO: throw exception on failure
 	}
 
 	/**
 	 * Removes the tables belonging to the store.
-	 *
-	 * @return boolean Success indicator
+	 * @throws TableDeletionFailedException
 	 */
 	private function dropTables() {
-		$success = true;
-
 		foreach ( $this->storeSchema->getTables() as $table ) {
 			$this->tableBuilder->dropTable( $table->getName() );
 		}
-
-		return $success; // TODO: remove, or switch to using a try catch
 	}
 
 }

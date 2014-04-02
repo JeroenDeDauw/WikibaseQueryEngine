@@ -82,7 +82,7 @@ class StringHandler extends DataValueHandler {
 
 		$values = array(
 			'value' => $value->getValue(),
-			'hash' => $this->stringHasher->hash( $value->getValue() ),
+			'hash' => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
@@ -101,7 +101,7 @@ class StringHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a StringValue' );
 		}
 
-		return $value->getValue();
+		return $this->stringHasher->hash( $value->getValue() );
 	}
 
 }
