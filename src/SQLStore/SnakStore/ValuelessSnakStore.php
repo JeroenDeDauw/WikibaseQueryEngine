@@ -42,7 +42,6 @@ class ValuelessSnakStore extends SnakStore {
 				'property_id' => $snakRow->getPropertyId(),
 				'statement_rank' => $snakRow->getStatementRank(),
 				'snak_type' => $snakRow->getInternalSnakType(),
-				'snak_role' => $snakRow->getSnakRole(),
 			)
 		);
 	}
