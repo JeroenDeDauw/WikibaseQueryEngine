@@ -117,7 +117,6 @@ Wikibase\QueryEngine\SQLStore\DataValueHandlers class.
 Additional fields:
 
 * snak_type, int: type of the snak, ie "no value"
-* snak_role, int: role of the snak, ie "qualifier" or "main snak"
 
 ## Tests
 
