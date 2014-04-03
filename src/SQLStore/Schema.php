@@ -100,7 +100,7 @@ class Schema {
 
 		if ( !array_key_exists( $dataValueType, $dataValueHandlers ) ) {
 			throw new OutOfBoundsException(
-				'Requested a DataValuerHandler for DataValue type '
+				'Requested a DataValueHandler for DataValue type '
 					. "'$dataValueType' while no handler for this type is set"
 			);
 		}
