@@ -74,4 +74,12 @@ class StringHasherTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals( $hash0, $hash1 );
 	}
 
+	public function testGivenStringWithoutBaseIsTheSame_hashWithoutBaseIsTheSame() {
+		$maxString = str_pad( '', $this->MAX_LENGTH, '0123456789' );
+		$hash0 = $this->hasher->hash( 'a' . $maxString );
+		$hash1 = $this->hasher->hash( 'b' . $maxString );
+
+		$this->assertEquals( substr( $hash0, 1 ), substr( $hash1, 1 ) );
+	}
+
 }

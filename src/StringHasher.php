@@ -36,7 +36,7 @@ class StringHasher  {
 
 		if ( strlen( $string ) >= $this->MAX_LENGTH ) {
 			return substr( $string, 0, $this->PLAIN_LENGTH )
-				. substr( sha1( $string ), 0, $this->SHA_LENGTH );
+				. substr( sha1( substr( $string, $this->PLAIN_LENGTH ) ), 0, $this->SHA_LENGTH );
 		}
 
 		return $string;
