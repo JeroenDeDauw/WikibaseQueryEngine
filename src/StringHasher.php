@@ -21,7 +21,7 @@ class StringHasher  {
 	/**
 	 * Returns a version of the string with maximum length 50.
 	 * The first 30 characters of the string are kept as-is in all cases.
-	 * If the string exceeds the max length, the end of the space is
+	 * If the string reaches the max length, the end of the space is
 	 * used for a hash that ensures uniqueness.
 	 *
 	 * @param string $string
@@ -34,7 +34,7 @@ class StringHasher  {
 			throw new InvalidArgumentException( '$string should be a string' );
 		}
 
-		if ( strlen( $string ) > $this->MAX_LENGTH ) {
+		if ( strlen( $string ) >= $this->MAX_LENGTH ) {
 			return substr( $string, 0, $this->PLAIN_LENGTH )
 				. substr( sha1( $string ), 0, $this->SHA_LENGTH );
 		}

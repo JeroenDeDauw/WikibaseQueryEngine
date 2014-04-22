@@ -12,8 +12,14 @@ use Wikibase\QueryEngine\StringHasher;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 class StringHasherTest extends \PHPUnit_Framework_TestCase {
+
+	/**
+	 * @see StringHasher::__construct
+	 */
+	private $MAX_LENGTH = 50;
 
 	/**
 	 * @var StringHasher
@@ -24,17 +30,20 @@ class StringHasherTest extends \PHPUnit_Framework_TestCase {
 		$this->hasher = new StringHasher();
 	}
 
+	private function assertStringToHash( $string, $expectedHash ) {
+		$this->assertEquals( $expectedHash, $this->hasher->hash( $string ) );
+	}
+
 	public function testGivenShortString_isReturnedAsIs() {
 		$this->assertStringToHash( '', '' );
 		$this->assertStringToHash( 'a', 'a' );
 		$this->assertStringToHash( 'ab cd ef gh', 'ab cd ef gh' );
-
-		$fiftyChars = '01234567890123456789012345678901234567890123456789';
-		$this->assertStringToHash( $fiftyChars, $fiftyChars );
 	}
 
-	private function assertStringToHash( $string, $expectedHash ) {
-		$this->assertEquals( $expectedHash, $this->hasher->hash( $string ) );
+	public function testGivenStringExceedingPlainLength_isNotHashed() {
+		$maxMinusOneString = str_pad( '', $this->MAX_LENGTH - 1, '0123456789' );
+
+		$this->assertStringToHash( $maxMinusOneString, $maxMinusOneString );
 	}
 
 	public function testGivenNonString_exceptionIsThrown() {
@@ -43,13 +52,24 @@ class StringHasherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGivenStringExceedingMaxLength_maxLengthStringIsReturned() {
-		$hash = $this->hasher->hash( '012345678901234567890123456789012345678901234567890123456789' );
-		$this->assertEquals( 50, strlen( $hash ) );
+		$maxPlusOneString = str_pad( '', $this->MAX_LENGTH + 1, '0123456789' );
+		$hash = $this->hasher->hash( $maxPlusOneString );
+
+		$this->assertEquals( $this->MAX_LENGTH, strlen( $hash ) );
+	}
+
+	public function testGivenStringThatCollidesWithAHash_isNotReturnedAsIs() {
+		$maxPlusOneString = str_pad( '', $this->MAX_LENGTH + 1, '0123456789' );
+		$collidingString = $this->hasher->hash( $maxPlusOneString );
+		$hash = $this->hasher->hash( $collidingString );
+
+		$this->assertNotEquals( $collidingString, $hash );
 	}
 
 	public function testGivenTwoStringsThatExceedMaxLength_hashIsNotTheSame() {
-		$hash0 = $this->hasher->hash( '012345678901234567890123456789012345678901234567890123456789A' );
-		$hash1 = $this->hasher->hash( '012345678901234567890123456789012345678901234567890123456789B' );
+		$maxString = str_pad( '', $this->MAX_LENGTH, '0123456789' );
+		$hash0 = $this->hasher->hash( $maxString . 'A' );
+		$hash1 = $this->hasher->hash( $maxString . 'B' );
 
 		$this->assertNotEquals( $hash0, $hash1 );
 	}
