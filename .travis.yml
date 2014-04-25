@@ -5,27 +5,25 @@ env:
 
 matrix:
   include:
-    - env: DBTYPE=mysql TESTSUITE=Standalone
+    - env: DBTYPE=mysql
       php: 5.3
-    - env: DBTYPE=mysql TESTSUITE=Integration
+    - env: DBTYPE=mysql
       php: 5.4
-    - env: DBTYPE=sqlite TESTSUITE=Integration
+    - env: DBTYPE=sqlite
       php: 5.5
-    - env: DBTYPE=sqlite TESTSUITE=Integration
+    - env: DBTYPE=sqlite
       php: 5.6
-    - env: DBTYPE=sqlite TESTSUITE=Integration
+    - env: DBTYPE=sqlite
       php: hhvm
   exclude:
     - env: THENEEDFORTHIS=FAIL
 
 before_script:
-  - composer self-update
-  - bash .travis.sh $TESTSUITE
+  - composer install --prefer-source
 
 script:
-  - if [ "$TESTSUITE" == "Integration" ] ; then cd ../phase3/extensions/WikibaseQueryEngine ; fi
-  - phpunit --testsuite=QueryEngine$TESTSUITE
-
+  - mysql --user root < tests/createTestDB.sql
+  - phpunit
 
 notifications:
   irc:
