@@ -61,11 +61,22 @@ class ValueSnakStore extends SnakStore {
 		/**
 		 * @var ValueSnakRow $snakRow
 		 */
+		if ( !array_key_exists( $snakRow->getValue()->getType(), $this->dataValueHandlers ) ) {
+			return;
+		}
+
 		$dataValueHandler = $this->getDataValueHandler( $snakRow->getValue()->getType() );
 
 		$tableName = $dataValueHandler->getDataValueTable()->getTableDefinition()->getName();
 
-		$insertValues = array_merge(
+		$this->queryInterface->insert(
+			$tableName,
+			$this->getInsertValues( $snakRow, $dataValueHandler )
+		);
+	}
+
+	private function getInsertValues( ValueSnakRow $snakRow, DataValueHandler $dataValueHandler ) {
+		return array_merge(
 			array(
 				'subject_id' => $snakRow->getSubjectId()->getSerialization(),
 				'subject_type' => $snakRow->getSubjectId()->getEntityType(),
@@ -73,11 +84,6 @@ class ValueSnakStore extends SnakStore {
 				'statement_rank' => $snakRow->getStatementRank(),
 			),
 			$dataValueHandler->getInsertValues( $snakRow->getValue() )
-		);
-
-		$this->queryInterface->insert(
-			$tableName,
-			$insertValues
 		);
 	}
 

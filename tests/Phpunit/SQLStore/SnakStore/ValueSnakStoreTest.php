@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
+use PHPUnit_Framework_Constraint_IsTrue;
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
@@ -127,10 +128,12 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	 * @dataProvider canStoreProvider
 	 */
 	public function testStoreSnakWithUnknownValueType( ValueSnakRow $snakRow ) {
-		$this->setExpectedException( 'OutOfBoundsException' );
+		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+
+		$queryInterface->expects( $this->never() )->method( $this->anything() );
 
 		$store = new ValueSnakStore(
-			$this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' ),
+			$queryInterface,
 			array(),
 			SnakRole::MAIN_SNAK
 		);
