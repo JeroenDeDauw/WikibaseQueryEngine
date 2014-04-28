@@ -5,7 +5,6 @@ namespace Wikibase\QueryEngine\Tests\Integration\SQLStore;
 use PDO;
 use PHPUnit_Framework_TestCase;
 use Wikibase\Database\MySQL\MySQLTableDefinitionReader;
-use Wikibase\Database\NullTableNameFormatter;
 use Wikibase\Database\PDO\PDOFactory;
 use Wikibase\Database\PrefixingTableNameFormatter;
 use Wikibase\Database\QueryInterface\QueryInterface;
