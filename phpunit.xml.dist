@@ -13,12 +13,8 @@
          strict="true"
          verbose="true">
     <testsuites>
-        <testsuite name="QueryEngineStandalone">
-            <directory>tests/Phpunit/</directory>
-            <exclude>tests/Integration</exclude>
-        </testsuite>
-        <testsuite name="QueryEngineIntegration">
-            <directory>tests/Integration/</directory>
+        <testsuite name="QueryEngine">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
     <filter>

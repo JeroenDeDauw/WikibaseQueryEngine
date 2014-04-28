@@ -2,23 +2,24 @@
 
 namespace Wikibase\QueryEngine\Tests\Integration\SQLStore;
 
+use PDO;
 use PHPUnit_Framework_TestCase;
-use Wikibase\Database\LazyDBConnectionProvider;
-use Wikibase\Database\MediaWiki\MediaWikiQueryInterface;
-use Wikibase\Database\MediaWiki\MediaWikiSchemaModifierBuilder;
-use Wikibase\Database\MediaWiki\MWTableBuilderBuilder;
-use Wikibase\Database\MediaWiki\MWTableDefinitionReaderBuilder;
+use Wikibase\Database\MySQL\MySQLTableDefinitionReader;
+use Wikibase\Database\PDO\PDOFactory;
+use Wikibase\Database\PrefixingTableNameFormatter;
+use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\SQLStore;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
 /**
- * @group medium
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class IntegrationStoreBuilder {
+
+	const DB_NAME = 'qengine_tests';
 
 	/**
 	 * @param PHPUnit_Framework_TestCase $testCase
@@ -26,43 +27,73 @@ class IntegrationStoreBuilder {
 	 * @return SQLStoreWithDependencies
 	 */
 	public static function newStore( PHPUnit_Framework_TestCase $testCase ) {
-		$dbConnectionProvider = new LazyDBConnectionProvider( DB_MASTER );
+		$builder = new self( $testCase );
+		return $builder->buildStore();
+	}
 
-		$tbBuilder = new MWTableBuilderBuilder();
-		$tableBuilder = $tbBuilder->setConnection( $dbConnectionProvider )->getTableBuilder();
+	private $testCase;
 
-		$queryInterface = new MediaWikiQueryInterface( $dbConnectionProvider );
+	private function __construct( PHPUnit_Framework_TestCase $testCase ) {
+		$this->testCase = $testCase;
+	}
 
-		$drBuilder = new MWTableDefinitionReaderBuilder();
-		$definitionReader = $drBuilder->setConnection( $dbConnectionProvider )
-			->setQueryInterface( $queryInterface )->getTableDefinitionReader();
+	private function buildStore() {
+		$factory = new PDOFactory( $this->newPDO() );
+		$tableBuilder = $factory->newMySQLTableBuilder( self::DB_NAME );
+		$queryInterface = $factory->newMySQLQueryInterface();
 
-		$smBuilder = new MediaWikiSchemaModifierBuilder();
-		$schemaModifier = $smBuilder->setConnection( $dbConnectionProvider )
-			->setQueryInterface( $queryInterface )->getSchemaModifier();
+		return new SQLStoreWithDependencies(
+			new SQLStore( $this->newStoreConfig() ),
+			$queryInterface,
+			$tableBuilder,
+			$this->newTableDefinitionReader( $queryInterface ),
+			$factory->newMySQLSchemaModifier()
+		);
+	}
 
+	private function newPDO() {
+		try {
+			return new PDO(
+				'mysql:dbname=' . self::DB_NAME . ';host=localhost',
+				'qengine_tester',
+				'mysql_is_evil'
+			);
+		}
+		catch ( \PDOException $ex ) {
+			$this->testCase->markTestSkipped(
+				'Test not run, presumably the database is not set up: ' . $ex->getMessage()
+			);
+		}
+	}
+
+	private function newStoreConfig() {
 		$config = new StoreConfig(
-			'test_store',
-			'integrationtest_',
+			'QueryR Replicator QueryEngine',
+			'qr_',
 			array(
 				'number' => new NumberHandler()
 			)
 		);
 
-		$propertyDvTypeLookup = $testCase->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
+		$config->setPropertyDataValueTypeLookup( $this->newDataValueTypeLookupStub() );
 
-		$propertyDvTypeLookup->expects( $testCase->any() )
+		return $config;
+	}
+
+	private function newDataValueTypeLookupStub() {
+		$propertyDvTypeLookup = $this->testCase->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
+
+		$propertyDvTypeLookup->expects( $this->testCase->any() )
 			->method( 'getDataValueTypeForProperty' )
-			->will( $testCase->returnValue( 'number' ) );
+			->will( $this->testCase->returnValue( 'number' ) );
 
-		$config->setPropertyDataValueTypeLookup( $propertyDvTypeLookup );
+		return $propertyDvTypeLookup;
+	}
 
-		return new SQLStoreWithDependencies(
-			new SQLStore( $config ),
+	private function newTableDefinitionReader( QueryInterface $queryInterface ) {
+		return new MySQLTableDefinitionReader(
 			$queryInterface,
-			$tableBuilder,
-			$definitionReader,
-			$schemaModifier
+			new PrefixingTableNameFormatter( 'prefix_' )
 		);
 	}
 

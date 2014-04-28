@@ -39,13 +39,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	protected $store;
 
 	public function setUp() {
-		if ( !defined( 'MEDIAWIKI' ) || !in_array( wfGetDB( DB_MASTER )->getType(), array( 'mysql', 'sqlite' ) ) ) {
-			$this->markTestSkipped( 'Can only run DescriptionMatchFinderIntegrationTest on MySQL or SQLite' );
-		}
-
-		parent::setUp();
-
-		$this->store = $this->newStore();
+		$this->store = IntegrationStoreBuilder::newStore( $this );
 
 		$this->store->newInstaller()->install();
 	}
@@ -54,10 +48,6 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		if ( isset( $this->store ) ) {
 			$this->store->newUninstaller( new NullMessageReporter() )->uninstall();
 		}
-	}
-
-	protected function newStore() {
-		return IntegrationStoreBuilder::newStore( $this );
 	}
 
 	public function testInsertAndRemoveItem() {

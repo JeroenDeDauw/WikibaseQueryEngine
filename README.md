@@ -39,6 +39,26 @@ You can find a list of the dependencies in the "require" section of the composer
 Load all dependencies and the load the Wikibase QueryEngine library by including its entry point:
 WikibaseQueryEngine.php.
 
+## Tests
+
+This library comes with a set up PHPUnit tests that cover all non-trivial code. You can run these
+tests using the PHPUnit configuration file found in the root directory. The tests can also be run
+via TravisCI, as a TravisCI configuration file is also provided in the root directory.
+
+### Running the tests
+
+Setup test database (optional - if not done, certain integration tests will be skipped)
+
+    mysql --user root -p < tests/createTestDB.sql
+
+Running the tests
+
+    phpunit
+
+Drop test database
+
+    mysql --user root -p < tests/dropTestDB.sql
+
 ## Usage
 
 The public interfaces in this component are everything directly in the Wikibase\QueryEngine.
@@ -117,12 +137,6 @@ Wikibase\QueryEngine\SQLStore\DataValueHandlers class.
 Additional fields:
 
 * snak_type, int: type of the snak, ie "no value"
-
-## Tests
-
-This library comes with a set up PHPUnit tests that cover all non-trivial code. You can run these
-tests using the PHPUnit configuration file found in the root directory. The tests can also be run
-via TravisCI, as a TravisCI configuration file is also provided in the root directory.
 
 ## Authors
 
