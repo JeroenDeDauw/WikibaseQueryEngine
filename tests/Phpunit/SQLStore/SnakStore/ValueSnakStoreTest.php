@@ -24,9 +24,14 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
  */
 class ValueSnakStoreTest extends SnakStoreTest {
 
+	private function newConnectionStub() {
+		return $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
+	}
+
 	protected function getInstance() {
 		return new ValueSnakStore(
-			$this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' ),
+			$this->newConnectionStub(),
 			array(
 				'string' => $this->newStringHandler()
 			),
@@ -35,7 +40,9 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	}
 
 	protected function newStringHandler() {
-		return new StringHandler();
+		$handler = new StringHandler();
+		$handler->setTablePrefix( '' );
+		return $handler;
 	}
 
 	public function canStoreProvider() {
@@ -103,18 +110,18 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	 * @dataProvider canStoreProvider
 	 */
 	public function testStoreSnak( ValueSnakRow $snakRow ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+		$connection = $this->newConnectionStub();
 
 		$stringHandler = $this->newStringHandler();
 
-		$queryInterface->expects( $this->once() )
+		$connection->expects( $this->once() )
 			->method( 'insert' )
 			->with(
 				$this->equalTo( 'string' )
 			);
 
 		$store = new ValueSnakStore(
-			$queryInterface,
+			$connection,
 			array(
 				'string' => $stringHandler
 			),
@@ -128,12 +135,12 @@ class ValueSnakStoreTest extends SnakStoreTest {
 	 * @dataProvider canStoreProvider
 	 */
 	public function testStoreSnakWithUnknownValueType( ValueSnakRow $snakRow ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+		$connection = $this->newConnectionStub();
 
-		$queryInterface->expects( $this->never() )->method( $this->anything() );
+		$connection->expects( $this->never() )->method( $this->anything() );
 
 		$store = new ValueSnakStore(
-			$queryInterface,
+			$connection,
 			array(),
 			SnakRole::MAIN_SNAK
 		);
@@ -146,17 +153,17 @@ class ValueSnakStoreTest extends SnakStoreTest {
 
 		$stringHandler = $this->newStringHandler();
 
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+		$connection = $this->newConnectionStub();
 
-		$queryInterface->expects( $this->atLeastOnce() )
+		$connection->expects( $this->atLeastOnce() )
 			->method( 'delete' )
 			->with(
-				$this->equalTo( $stringHandler->getDataValueTable()->getTableDefinition()->getName() ),
+				$this->equalTo( $stringHandler->getTableName() ),
 				$this->equalTo( array( 'subject_id' => $subjectId ) )
 			);
 
 		$store = new ValueSnakStore(
-			$queryInterface,
+			$connection,
 			array(
 				'string' => $stringHandler
 			),

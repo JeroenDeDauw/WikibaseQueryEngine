@@ -4,10 +4,10 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use DataValues\StringValue;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\StringHasher;
@@ -24,38 +24,50 @@ use Wikibase\QueryEngine\StringHasher;
 class StringHandler extends DataValueHandler {
 
 	/**
-	 * @var StringHasher
+	 * @var StringHasher|null
 	 */
-	private $stringHasher;
+	private $stringHasher = null;
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'string',
-				array(
-					new FieldDefinition( 'value',
-						TypeDefinition::TYPE_BLOB,
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition( 'hash',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 50 ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value',
-			'hash',
-			'hash',
-			'value'
-		) );
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'string';
+	}
 
-		$this->stringHasher = new StringHasher();
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value', Type::TEXT );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => 50 ) );
+
+		// TODO: check what indexes should be added
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value';
+	}
+
+	/**
+	 * @see DataValueHandler::getEqualityFieldName
+	 */
+	public function getEqualityFieldName() {
+		return 'hash';
+	}
+
+	/**
+	 * @see DataValueHandler::getSortFieldName
+	 */
+	public function getSortFieldName() {
+		return 'hash';
 	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
 	 *
 	 * @param string $valueFieldValue
 	 *
@@ -67,8 +79,6 @@ class StringHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getInsertValues
-	 *
-	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *
@@ -101,7 +111,15 @@ class StringHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a StringValue' );
 		}
 
-		return $this->stringHasher->hash( $value->getValue() );
+		return $this->hash( $value->getValue() );
+	}
+
+	private function hash( $string ) {
+		if ( $this->stringHasher === null ) {
+			$this->stringHasher = new StringHasher();
+		}
+
+		return $this->stringHasher->hash( $string );
 	}
 
 }

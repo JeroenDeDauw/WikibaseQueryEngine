@@ -17,20 +17,10 @@ class EntityInserter {
 
 	private $claimInserter;
 
-	/**
-	 * @since 0.1
-	 *
-	 * @param ClaimInserter $claimInserter
-	 */
 	public function __construct( ClaimInserter $claimInserter ) {
 		$this->claimInserter = $claimInserter;
 	}
 
-	/**
-	 * @since 0.1
-	 *
-	 * @param Entity $entity
-	 */
 	public function insertEntity( Entity $entity ) {
 		foreach ( $entity->getClaims() as $claim ) {
 			$this->claimInserter->insertClaim(

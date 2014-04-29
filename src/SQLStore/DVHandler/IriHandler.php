@@ -4,10 +4,10 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use DataValues\IriValue;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
@@ -22,55 +22,49 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  */
 class IriHandler extends DataValueHandler {
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'iri',
-				array(
-					new FieldDefinition(
-						'value_scheme',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_fragment',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_query',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_hierp',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
-						FieldDefinition::NOT_NULL
-					),
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'iri';
+	}
 
-					new FieldDefinition(
-						'value_iri',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_json',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value_json',
-			'value_json',
-			'value_iri',
-			'value_iri'
-		) );
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		// TODO: figure out what the max field lengths should be
+		$table->addColumn( 'value_scheme', Type::STRING );
+		$table->addColumn( 'value_fragment', Type::STRING );
+		$table->addColumn( 'value_query', Type::STRING );
+		$table->addColumn( 'value_hierp', Type::STRING );
+		$table->addColumn( 'value_iri', Type::STRING );
+		$table->addColumn( 'value_json', Type::STRING );
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value_json';
+	}
+
+	/**
+	 * @see DataValueHandler::getSortFieldName
+	 */
+	public function getSortFieldName() {
+		return 'value_iri';
+	}
+
+	/**
+	 * @see DataValueHandler::getLabelFieldName
+	 */
+	public function getLabelFieldName() {
+		return 'value_iri';
 	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
 	 *
 	 * @param string $valueFieldValue
 	 *
@@ -82,8 +76,6 @@ class IriHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getInsertValues
-	 *
-	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *

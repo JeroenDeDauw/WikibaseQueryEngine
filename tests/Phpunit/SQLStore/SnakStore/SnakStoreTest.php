@@ -6,7 +6,7 @@ use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
-use Wikibase\QueryEngine\SQLStore\Schema;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
@@ -80,10 +80,6 @@ abstract class SnakStoreTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCannotStore( SnakRow $snak ) {
 		$this->assertFalse( $this->getInstance()->canStore( $snak ) );
-	}
-
-	protected function newStoreSchema() {
-		return new Schema( new StoreConfig( 'foobar', 'nyan_', array() ) );
 	}
 
 	/**

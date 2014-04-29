@@ -4,11 +4,11 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use DataValues\NumberValue;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\IndexDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
@@ -23,35 +23,29 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  */
 class NumberHandler extends DataValueHandler {
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'number',
-				array(
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-				),
-				array(
-					new IndexDefinition(
-						'value',
-						array( 'value' )
-					),
-				)
-			),
-			'value',
-			'value',
-			'value',
-			'value'
-		) );
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'number';
+	}
+
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value', Type::DECIMAL );
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value';
 	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
 	 *
 	 * @param string $valueFieldValue
 	 *
@@ -63,8 +57,6 @@ class NumberHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getInsertValues
-	 *
-	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *
@@ -98,5 +90,8 @@ class NumberHandler extends DataValueHandler {
 
 		return $value->getValue();
 	}
+
+
+
 
 }

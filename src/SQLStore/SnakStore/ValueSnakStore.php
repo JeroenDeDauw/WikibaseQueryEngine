@@ -2,9 +2,9 @@
 
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
+use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
 use OutOfBoundsException;
-use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
@@ -16,7 +16,7 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  */
 class ValueSnakStore extends SnakStore {
 
-	protected $queryInterface;
+	protected $connection;
 	protected $dataValueHandlers;
 	protected $snakRole;
 
@@ -24,12 +24,12 @@ class ValueSnakStore extends SnakStore {
 	 * The array of DataValueHandlers must have DataValue types as array keys pointing to
 	 * the corresponding DataValueHandler.
 	 *
-	 * @param QueryInterface $queryInterface
+	 * @param Connection $connection
 	 * @param DataValueHandler[] $dataValueHandlers
 	 * @param int $supportedSnakRole
 	 */
-	public function __construct( QueryInterface $queryInterface, array $dataValueHandlers, $supportedSnakRole ) {
-		$this->queryInterface = $queryInterface;
+	public function __construct( Connection $connection, array $dataValueHandlers, $supportedSnakRole ) {
+		$this->connection = $connection;
 		$this->dataValueHandlers = $dataValueHandlers;
 		$this->snakRole = $supportedSnakRole;
 	}
@@ -67,9 +67,9 @@ class ValueSnakStore extends SnakStore {
 
 		$dataValueHandler = $this->getDataValueHandler( $snakRow->getValue()->getType() );
 
-		$tableName = $dataValueHandler->getDataValueTable()->getTableDefinition()->getName();
+		$tableName = $dataValueHandler->getTableName();
 
-		$this->queryInterface->insert(
+		$this->connection->insert(
 			$tableName,
 			$this->getInsertValues( $snakRow, $dataValueHandler )
 		);
@@ -89,8 +89,8 @@ class ValueSnakStore extends SnakStore {
 
 	public function removeSnaksOfSubject( EntityId $subjectId ) {
 		foreach ( $this->dataValueHandlers as $dvHandler ) {
-			$this->queryInterface->delete(
-				$dvHandler->getDataValueTable()->getTableDefinition()->getName(),
+			$this->connection->delete(
+				$dvHandler->getTableName(),
 				array( 'subject_id' => $subjectId->getSerialization() )
 			);
 		}

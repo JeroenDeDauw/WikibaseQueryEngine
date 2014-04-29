@@ -2,12 +2,11 @@
 
 namespace Wikibase\QueryEngine\SQLStore\Setup;
 
-use Wikibase\Database\QueryInterface\QueryInterfaceException;
-use Wikibase\Database\Schema\TableBuilder;
-use Wikibase\Database\Schema\TableCreationFailedException;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreInstaller;
-use Wikibase\QueryEngine\SQLStore\Schema;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
 /**
@@ -16,37 +15,14 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
  */
 class Installer implements QueryStoreInstaller {
 
-	/**
-	 * @var StoreConfig
-	 */
 	private $config;
-
-	/**
-	 * @var TableBuilder
-	 */
-	private $tableBuilder;
-
-	/**
-	 * @var Schema
-	 */
+	private $schemaManager;
 	private $storeSchema;
 
-	/**
-	 * @param StoreConfig $storeConfig
-	 * @param Schema $storeSchema
-	 * @param TableBuilder $tableBuilder
-	 */
-	public function __construct( StoreConfig $storeConfig, Schema $storeSchema, TableBuilder $tableBuilder ) {
+	public function __construct( StoreConfig $storeConfig, StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
 		$this->config = $storeConfig;
 		$this->storeSchema = $storeSchema;
-		$this->tableBuilder = $tableBuilder;
-	}
-
-	/**
-	 * @param string $message
-	 */
-	private function report( $message ) {
-
+		$this->schemaManager = $schemaManager;
 	}
 
 	/**
@@ -55,12 +31,10 @@ class Installer implements QueryStoreInstaller {
 	 * @throws QueryEngineException
 	 */
 	public function install() {
-		$this->report( 'Starting install of ' . $this->config->getStoreName() );
-
 		try {
 			$this->setupTables();
 		}
-		catch ( TableCreationFailedException $ex ) {
+		catch ( DBALException $ex ) {
 			throw new QueryEngineException(
 				'SQLStore installation failed: ' . $ex->getMessage(),
 				0,
@@ -69,17 +43,16 @@ class Installer implements QueryStoreInstaller {
 		}
 
 		// TODO: initialize basic content
-
-		$this->report( 'Finished install of ' . $this->config->getStoreName() );
 	}
 
 	/**
 	 * Sets up the tables of the store.
-	 * @throws TableCreationFailedException
+	 *
+	 * @throws DBALException
 	 */
 	private function setupTables() {
 		foreach ( $this->storeSchema->getTables() as $table ) {
-			$this->tableBuilder->createTable( $table );
+			$this->schemaManager->createTable( $table );
 		}
 	}
 

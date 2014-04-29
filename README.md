@@ -9,9 +9,9 @@ On [Packagist](https://packagist.org/packages/wikibase/query-engine):
 [![Download count](https://poser.pugx.org/wikibase/query-engine/d/total.png)](https://packagist.org/packages/wikibase/query-engine)
 
 Component containing query answering code for
-[Ask](https://www.mediawiki.org/wiki/Extension:Ask)
+[Ask](https://github.com/wmde/Ask)
 queries against a collection of
-[Wikibase](https://www.mediawiki.org/wiki/Wikibase)
+[Wikibase](http://wikiba.se)
 entities.
 
 ## Installation
@@ -46,19 +46,9 @@ This library comes with a set up PHPUnit tests that cover all non-trivial code. 
 tests using the PHPUnit configuration file found in the root directory. The tests can also be run
 via TravisCI, as a TravisCI configuration file is also provided in the root directory.
 
-### Running the tests
-
-Setup test database (optional - if not done, certain integration tests will be skipped)
-
-    mysql --user root -p < tests/createTestDB.sql
-
 Running the tests
 
     phpunit
-
-Drop test database
-
-    mysql --user root -p < tests/dropTestDB.sql
 
 ## Usage
 
@@ -73,37 +63,33 @@ Public classes of the SQLStore:
 
 Needed for construction:
 
-* SQLStore\Store
-* SQLStore\StoreConfig
-* SQLStore\DataValueHandlers
+* SQLStore\SQLStore
+    * SQLStore\StoreSchema
+        * SQLStore\DataValueHandlers
+    * SQLStore\StoreConfig
 
 Needed for extension:
 
-* SQLStore\DataValueTable
 * SQLStore\DataValueHandler
 
 Constructing an SQLStore:
 
 ```php
-use Wikibase\QueryEngine\SQLStore\Store;
+use Wikibase\QueryEngine\SQLStore\SQLStore;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
+use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 
 $dvHandlers = new DataValueHandlers();
 
-$config = new StoreConfig(
-	'My awesome query store',
-	'nyan_',
-	$dvHandlers->getHandlers()
+$dvHandlers->addMainSnakHandler( 'number', new NumberHandler() );
+
+$store = new Store(
+    new StoreSchema( 'table_prefix_', $dvHandlers ),
+    new StoreConfig( 'store name' )
 );
-
-$store = new Store( $config, $queryInterface, $tableBuilder );
 ```
-
-Where
-
-* $queryInterface is a Wikibase\Database\QueryInterface\QueryInterface
-* $tableBuilder is a Wikibase\Database\Schema\TableBuilder
 
 ## SQLStore internal structure
 
@@ -129,9 +115,7 @@ The schema definition is dynamically build in Schema.php.
 There is a value snak table per type of data value the store is configured to support.
 
 All data value tables have a set of additional fields that are specific to the type of
-data value they store. For the types of data value natively supported by the store,
-you can find the table definitions (without the common fields) in the
-Wikibase\QueryEngine\SQLStore\DataValueHandlers class.
+data value they store. For the types of data value natively supported by the store.
 
 #### Valueless snak tables
 
@@ -148,12 +132,10 @@ as [Wikimedia Germany](https://wikimedia.de) employee for the [Wikidata project]
 
 * [Wikibase QueryEngine on Packagist](https://packagist.org/packages/wikibase/query-engine)
 * [Wikibase QueryEngine on Ohloh](https://www.ohloh.net/p/wikibasequeryengine/)
-* [Wikibase QueryEngine on MediaWiki.org](https://www.mediawiki.org/wiki/Extension:Wikibase_QueryEngine)
+* [Wikibase QueryEngine on GitHub](https://github.com/wmde/WikibaseQueryEngine)
 * [TravisCI build status](https://travis-ci.org/wmde/WikibaseQueryEngine)
-* [Latest version of the readme file](https://github.com/wmde/WikibaseQueryEngine/blob/master/README.md)
 
 ## Related projects
 
-* [Ask JavaScript implementation](https://github.com/JeroenDeDauw/AskJS)
-* [Wikibase](https://www.mediawiki.org/wiki/Wikibase)
+* [Wikibase](http://wikiba.se)
 * [Semantic MediaWiki](https://semantic-mediawiki.org/)

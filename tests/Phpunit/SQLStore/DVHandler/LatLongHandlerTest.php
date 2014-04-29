@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 use DataValues\LatLongValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
+use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 
 /**
@@ -30,8 +31,7 @@ class LatLongHandlerTest extends DataValueHandlerTest {
 	protected function getInstances() {
 		$instances = array();
 
-		$defaultHandlers = new DataValueHandlers();
-		$instances[] = $defaultHandlers->getHandler( 'latlong' );
+		$instances[] = new LatLongHandler();
 
 		return $instances;
 	}

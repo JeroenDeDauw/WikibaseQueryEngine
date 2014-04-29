@@ -17,20 +17,10 @@ class EntityRemover {
 
 	private $snakRemover;
 
-	/**
-	 * @since 0.1
-	 *
-	 * @param SnakRemover $snakRemover
-	 */
 	public function __construct( SnakRemover $snakRemover ) {
 		$this->snakRemover = $snakRemover;
 	}
 
-	/**
-	 * @since 0.1
-	 *
-	 * @param Entity $entity
-	 */
 	public function removeEntity( Entity $entity ) {
 		$this->snakRemover->removeSnaksOfSubject( $entity->getId() );
 

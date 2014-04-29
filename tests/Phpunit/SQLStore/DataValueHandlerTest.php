@@ -35,7 +35,14 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 * @return DataValueHandler[][]
 	 */
 	public function instanceProvider() {
-		return $this->arrayWrap( $this->getInstances() );
+		$argLists = array();
+
+		foreach ( $this->getInstances() as $handler ) {
+			$handler->setTablePrefix( '' );
+			$argLists[] = array( $handler );
+		}
+
+		return $argLists;
 	}
 
 	/**
@@ -71,8 +78,11 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @param DataValueHandler $dvHandler
 	 */
-	public function testGetDataValueTableReturnType( DataValueHandler $dvHandler ) {
-		$this->assertInstanceOf( 'Wikibase\QueryEngine\SQLStore\DataValueTable', $dvHandler->getDataValueTable() );
+	public function testConstructTableReturnType( DataValueHandler $dvHandler ) {
+		$this->assertInstanceOf(
+			'Doctrine\DBAL\Schema\Table',
+			$dvHandler->constructTable( array(), array() )
+		);
 	}
 
 	/**
@@ -88,11 +98,11 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertInternalType( 'array', $insertValues );
 		$this->assertNotEmpty( $insertValues );
 
-		$this->assertArrayHasKey( $instance->getDataValueTable()->getValueFieldName(), $insertValues );
-		$this->assertArrayHasKey( $instance->getDataValueTable()->getSortFieldName(), $insertValues );
+		$this->assertArrayHasKey( $instance->getValueFieldName(), $insertValues );
+		$this->assertArrayHasKey( $instance->getSortFieldName(), $insertValues );
 
-		if ( $instance->getDataValueTable()->getLabelFieldName() !== null ) {
-			$this->assertArrayHasKey( $instance->getDataValueTable()->getLabelFieldName(), $insertValues );
+		if ( $instance->getLabelFieldName() !== null ) {
+			$this->assertArrayHasKey( $instance->getLabelFieldName(), $insertValues );
 		}
 	}
 
@@ -105,7 +115,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		$instance = $this->newInstance();
 
 		$fieldValues = $instance->getInsertValues( $value );
-		$valueFieldValue = $fieldValues[$instance->getDataValueTable()->getValueFieldName()];
+		$valueFieldValue = $fieldValues[$instance->getValueFieldName()];
 
 		$newValue = $instance->newDataValueFromValueField( $valueFieldValue );
 
@@ -113,6 +123,79 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 			$value->equals( $newValue ),
 			'Newly constructed DataValue equals the old one'
 		);
+	}
+
+	/**
+	 * @dataProvider instanceProvider
+	 *
+	 * @param DataValueHandler $dvHandler
+	 */
+	public function testGetValueFieldNameReturnValue( DataValueHandler $dvHandler ) {
+		$valueFieldName = $dvHandler->getValueFieldName();
+
+		$this->assertInternalType( 'string', $valueFieldName );
+
+		$this->assertTrue(
+			$this->handlerTableHasColumn( $dvHandler, $valueFieldName ),
+			'The value field is present in the table'
+		);
+	}
+
+	private function handlerTableHasColumn( DataValueHandler $dvHandler, $columnName ) {
+		return $dvHandler->constructTable( array(), array() )->hasColumn( $columnName );
+	}
+
+	/**
+	 * @dataProvider instanceProvider
+	 *
+	 * @param DataValueHandler $dvHandler
+	 */
+	public function testGetEqualityFieldNameReturnValue( DataValueHandler $dvHandler ) {
+		$equalityFieldName = $dvHandler->getEqualityFieldName();
+
+		$this->assertInternalType( 'string', $equalityFieldName );
+
+		$this->assertTrue(
+			$this->handlerTableHasColumn( $dvHandler, $equalityFieldName ),
+			'The equality field is present in the table'
+		);
+	}
+
+	/**
+	 * @dataProvider instanceProvider
+	 *
+	 * @param DataValueHandler $dvHandler
+	 */
+	public function testGetSortFieldNameReturnValue( DataValueHandler $dvHandler ) {
+		$sortFieldName = $dvHandler->getSortFieldName();
+
+		$this->assertInternalType( 'string', $sortFieldName );
+
+		$this->assertTrue(
+			$this->handlerTableHasColumn( $dvHandler, $sortFieldName ),
+			'The sort field is present in the table'
+		);
+	}
+
+	/**
+	 * @dataProvider instanceProvider
+	 *
+	 * @param DataValueHandler $dvHandler
+	 */
+	public function testGetLabelFieldNameReturnValue( DataValueHandler $dvHandler ) {
+		$labelFieldName = $dvHandler->getLabelFieldName();
+
+		$this->assertTrue(
+			$labelFieldName === null || is_string( $labelFieldName ),
+			'The label field name needs to be either string or null'
+		);
+
+		if ( is_string( $labelFieldName ) ) {
+			$this->assertTrue(
+				$this->handlerTableHasColumn( $dvHandler, $labelFieldName ),
+				'The label field is present in the table'
+			);
+		}
 	}
 
 }

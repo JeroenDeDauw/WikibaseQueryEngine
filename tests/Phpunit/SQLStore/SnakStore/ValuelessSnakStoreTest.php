@@ -3,7 +3,7 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
-use Wikibase\Database\QueryInterface\QueryInterface;
+use Doctrine\DBAL\Connection;
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
@@ -23,13 +23,18 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
  */
 class ValuelessSnakStoreTest extends SnakStoreTest {
 
-	protected function getInstance() {
-		return $this->newInstanceWithQueryInterface( $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' ) );
+	private function newConnectionStub() {
+		return $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
 	}
 
-	protected function newInstanceWithQueryInterface( QueryInterface $queryInterface ) {
+	protected function getInstance() {
+		return $this->newInstanceWithConnection( $this->newConnectionStub() );
+	}
+
+	protected function newInstanceWithConnection( Connection $connection ) {
 		return new ValuelessSnakStore(
-			$queryInterface,
+			$connection,
 			'snaks_of_doom'
 		);
 	}
@@ -98,15 +103,15 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 	 * @dataProvider canStoreProvider
 	 */
 	public function testStoreSnak( ValuelessSnakRow $snakRow ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+		$connection = $this->newConnectionStub();
 
-		$queryInterface->expects( $this->once() )
+		$connection->expects( $this->once() )
 			->method( 'insert' )
 			->with(
 				$this->equalTo( 'snaks_of_doom' )
 			);
 
-		$store = $this->newInstanceWithQueryInterface( $queryInterface );
+		$store = $this->newInstanceWithConnection( $connection );
 
 		$store->storeSnakRow( $snakRow );
 	}
@@ -115,9 +120,9 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 		$subjectId = 'Q4242';
 		$tableName = 'test_snaks_nyan';
 
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+		$connection = $this->newConnectionStub();
 
-		$queryInterface->expects( $this->once() )
+		$connection->expects( $this->once() )
 			->method( 'delete' )
 			->with(
 				$this->equalTo( $tableName ),
@@ -125,7 +130,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			);
 
 		$store = new ValuelessSnakStore(
-			$queryInterface,
+			$connection,
 			$tableName
 		);
 

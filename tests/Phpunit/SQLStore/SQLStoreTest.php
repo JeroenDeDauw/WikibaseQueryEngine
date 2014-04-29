@@ -2,8 +2,11 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
+use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
+use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SQLStore;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SQLStore
@@ -17,39 +20,35 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
 class SQLStoreTest extends \PHPUnit_Framework_TestCase {
 
 	protected function newInstance() {
-		$storeConfig = new StoreConfig( 'foo', 'bar', array() );
+		$handlers = new DataValueHandlers();
+		$handlers->addMainSnakHandler( 'string', new StringHandler() );
 
-		$dvTypeLookup = $this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
+		$storeSchema = new StoreSchema( 'prefix_', $handlers );
+		$storeConfig = new StoreConfig( 'store name' );
 
-		$dvTypeLookup->expects( $this->any() )
-			->method( 'getDataValueTypeForProperty' )
-			->will( $this->returnValue( 'string' ) );
-
-		$storeConfig->setPropertyDataValueTypeLookup( $dvTypeLookup );
-
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
-		$tableBuilder = $this->getMock( 'Wikibase\Database\Schema\TableBuilder' );
-		$definitionReader = $this->getMock( 'Wikibase\Database\Schema\TableDefinitionReader' );
-		$schemaModifier = $this->getMock( 'Wikibase\Database\Schema\SchemaModifier' );
-
-		return new SQLStore( $storeConfig, $queryInterface, $tableBuilder, $definitionReader, $schemaModifier );
+		return new SQLStore( $storeSchema, $storeConfig );
 	}
 
 	public function testGetUpdaterReturnType() {
 		$this->assertInstanceOf(
 			'Wikibase\QueryEngine\QueryStoreWriter',
-			$this->newInstance()->newWriter( $this->newMockQueryInterface() )
+			$this->newInstance()->newWriter( $this->newMockConnection() )
 		);
 	}
 
-	protected function newMockQueryInterface() {
-		return $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+	protected function newMockConnection() {
+		return $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
 	}
 
 	public function testGetQueryEngineReturnType() {
 		$this->assertInstanceOf(
 			'Wikibase\QueryEngine\QueryEngine',
-			$this->newInstance()->newQueryEngine( $this->newMockQueryInterface() )
+			$this->newInstance()->newQueryEngine(
+				$this->newMockConnection(),
+				$this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' ),
+				$this->getMock( 'Wikibase\DataModel\Entity\EntityIdParser' )
+			)
 		);
 	}
 

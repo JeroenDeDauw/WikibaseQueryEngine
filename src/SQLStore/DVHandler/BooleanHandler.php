@@ -4,10 +4,10 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\BooleanValue;
 use DataValues\DataValue;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
@@ -22,32 +22,30 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  */
 class BooleanHandler extends DataValueHandler {
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'boolean',
-				array(
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_TINYINT ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value',
-			'value',
-			'value'
-		) );
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'boolean';
+	}
+
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value', Type::BOOLEAN );
+		$table->addIndex( array( 'value' ) );
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value';
 	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
 		return new BooleanValue( $valueFieldValue );
@@ -55,8 +53,6 @@ class BooleanHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getInsertValues
-	 *
-	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *

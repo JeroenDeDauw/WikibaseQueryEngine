@@ -54,15 +54,13 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$argLists[] = array( $item );
 
 
-		$property = Property::newEmpty();
-		$property->setDataTypeId( 'string' );
+		$property = Property::newFromType( 'string' );
 		$property->setId( 9001 );
 
 		$argLists[] = array( $property );
 
 
-		$property = Property::newEmpty();
-		$property->setDataTypeId( 'string' );
+		$property = Property::newFromType( 'string' );
 		$property->setId( 1 );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
 		$property->addClaim( $this->newClaim( 42 ) );

@@ -25,6 +25,8 @@ abstract class SnakStore {
 	 * @since 0.1
 	 *
 	 * @param SnakRow $snakRow
+	 *
+	 * TODO: exception
 	 */
 	public abstract function storeSnakRow( SnakRow $snakRow );
 
@@ -32,6 +34,8 @@ abstract class SnakStore {
 	 * @since 0.1
 	 *
 	 * @param EntityId $subjectId
+	 *
+	 * TODO: exception
 	 */
 	public abstract function removeSnaksOfSubject( EntityId $subjectId );
 

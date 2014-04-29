@@ -2,53 +2,45 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\Database\QueryInterface\QueryInterface;
-use Wikibase\Database\Schema\SchemaModifier;
-use Wikibase\Database\Schema\TableBuilder;
-use Wikibase\Database\Schema\TableDefinitionReader;
+use Doctrine\DBAL\Connection;
+use Wikibase\DataModel\Entity\EntityIdParser;
+use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryStoreWithDependencies;
 
 class SQLStoreWithDependencies implements QueryStoreWithDependencies {
 
-	protected $queryInterface;
-	protected $tableBuilder;
-	protected $tableReader;
-	protected $schemaModifier;
+	private $factory;
+	private $connection;
+	private $lookup;
+	private $idParser;
 
-	protected $store;
-
-	public function __construct( SQLStore $factory, QueryInterface $queryInterface,
-		TableBuilder $tableBuilder, TableDefinitionReader $tableReader, SchemaModifier $schemaModifier ) {
+	public function __construct( SQLStore $factory, Connection $connection,
+		PropertyDataValueTypeLookup $lookup, EntityIdParser $idParser ) {
 
 		$this->factory = $factory;
-		$this->queryInterface = $queryInterface;
-		$this->tableBuilder = $tableBuilder;
-		$this->tableReader = $tableReader;
-		$this->schemaModifier = $schemaModifier;
+		$this->connection = $connection;
+		$this->lookup = $lookup;
+		$this->idParser = $idParser;
 	}
 
-	public function newQueryEngine() {
-		return $this->factory->newQueryEngine( $this->queryInterface );
+	public function newQueryEngine(  ) {
+		return $this->factory->newQueryEngine( $this->connection, $this->lookup, $this->idParser );
 	}
 
 	public function newWriter() {
-		return $this->factory->newWriter( $this->queryInterface );
+		return $this->factory->newWriter( $this->connection );
 	}
 
 	public function newInstaller() {
-		return $this->factory->newInstaller( $this->tableBuilder );
+		return $this->factory->newInstaller( $this->connection->getSchemaManager() );
 	}
 
 	public function newUninstaller() {
-		return $this->factory->newUninstaller( $this->tableBuilder );
+		return $this->factory->newUninstaller( $this->connection->getSchemaManager() );
 	}
 
 	public function newUpdater() {
-		return $this->factory->newUpdater(
-			$this->tableBuilder,
-			$this->tableReader,
-			$this->schemaModifier
-		);
+		return $this->factory->newUpdater( $this->connection->getSchemaManager() );
 	}
 
 }

@@ -26,10 +26,6 @@ class ClaimInserter {
 		$this->claimRowBuilder = $claimRowBuilder;
 	}
 
-	/**
-	 * @param Claim $claim
-	 * @param EntityId $subjectId
-	 */
 	public function insertClaim( Claim $claim, EntityId $subjectId ) {
 		$this->insertSnaks( $claim, $subjectId );
 	}

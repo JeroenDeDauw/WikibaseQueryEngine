@@ -34,6 +34,8 @@ class SnakRemover {
 	 * @since 0.1
 	 *
 	 * @param EntityId $subjectId
+	 *
+	 * TODO: exception
 	 */
 	public function removeSnaksOfSubject( EntityId $subjectId ) {
 		foreach ( $this->snakStores as $snakStore ) {
