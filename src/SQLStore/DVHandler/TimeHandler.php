@@ -24,7 +24,11 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  */
 class TimeHandler extends DataValueHandler {
 
-	private $secondsPerYear = 31536000; // 365 * 24 * 60 * 60
+	/**
+	 * Average length of a year in the Gregorian calendar.
+	 * 365 + 1 / 4 - 1 / 100 + 1 / 400 = 365.2425 days.
+	 */
+	const SECONDS_PER_YEAR = 31556952;
 
 	public function __construct() {
 		parent::__construct( new DataValueTable(
@@ -42,12 +46,12 @@ class TimeHandler extends DataValueHandler {
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'value_min_epoche',
+						'value_epoche_min',
 						new TypeDefinition( TypeDefinition::TYPE_BIGINT ),
 						FieldDefinition::NOT_NULL
 					),
 					new FieldDefinition(
-						'value_max_epoche',
+						'value_epoche_max',
 						new TypeDefinition( TypeDefinition::TYPE_BIGINT ),
 						FieldDefinition::NOT_NULL
 					),
@@ -58,12 +62,12 @@ class TimeHandler extends DataValueHandler {
 						array( 'value_epoche' )
 					),
 					new IndexDefinition(
-						'value_min_epoche',
-						array( 'value_min_epoche' )
+						'value_epoche_min',
+						array( 'value_epoche_min' )
 					),
 					new IndexDefinition(
-						'value_max_epoche',
-						array( 'value_max_epoche' )
+						'value_epoche_max',
+						array( 'value_epoche_max' )
 					),
 				)
 			),
@@ -102,13 +106,13 @@ class TimeHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a TimeValue' );
 		}
 
+		$epoche = $this->getEpoche( $value->getTime() );
+		// XXX: Shouldn't min/max use the after/before values?
 		$values = array(
-			'value_epoche' => $this->getEpoche( $value->getTime() ),
-			'value_epoche_min' => $this->getEpoche( $value->getTime() ),
-			'value_epoche_max' => $this->getEpoche(
-					$value->getTime(),
-					$this->getSecondsFromPrecision( $value->getPrecision() )
-				),
+			'value_epoche'     => $epoche,
+			'value_epoche_min' => $epoche,
+			'value_epoche_max' => $epoche
+				+ $this->getSecondsFromPrecision( $value->getPrecision() ),
 
 			'value' => $this->getEqualityFieldValue( $value ),
 		);
@@ -117,25 +121,60 @@ class TimeHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @param string $timeString +0000000000002014-01-01T00:00:00Z
-	 * @param int $secondsToAdd
+	 * @param string $time
 	 *
 	 * @throws RuntimeException
 	 * @return int
 	 */
-	private function getEpoche( $timeString, $secondsToAdd = 0 ) {
-		preg_match( '/^([-+]\d{1,16})-(.+Z)$/', $timeString, $matches );
-		list(, $year, $timeWithoutYear ) = $matches;
+	private function getEpoche( $time ) {
+		// Validation is done in TimeValue. As long if we found enough numbers we are fine.
+		if ( !preg_match( '/([-+]?\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)/', $time, $matches )
+		) {
+			throw new RuntimeException( "Failed to parse time value $time." );
+		}
+		list( , $fullYear, $month, $day, $hour, $minute, $second ) = $matches;
 
-		$timeWithoutYear = '01-' . $timeWithoutYear;
-		$year = intval( $year );
+		// We use mktime only for the month, day and time calculation. Set the year to the smallest
+		// possible in the 1970-2038 range to be safe, even if it's 1901-2038 since PHP 5.1.0.
+		$year = $this->isLeapYear( $fullYear ) ? 1972 : 1970;
 
-		$epoche = strtotime( $timeWithoutYear );
-		if( $epoche === false ){
-			throw new RuntimeException( 'Failed to get epoche from time value: ' . $timeString );
+		$defaultTimezone = date_default_timezone_get();
+		date_default_timezone_set( 'UTC' );
+		// With day/month set to 0 mktime would calculate the last day of the previous month/year.
+		// In the context of this calculation we must assume 0 means "start of the month/year".
+		$timestamp = mktime( $hour, $minute, $second, max( 1, $month ), max( 1, $day ), $year );
+		date_default_timezone_set( $defaultTimezone );
+
+		if ( $timestamp === false ) {
+			throw new RuntimeException( "Failed to get epoche from time value $time." );
 		}
 
-		return $epoche + ( $this->secondsPerYear * $year ) + $secondsToAdd;
+		$missingYears = $fullYear - $year;
+		$missingLeapDays = $this->getLeapDays( $fullYear ) - $this->getLeapDays( $year );
+
+		return $timestamp + ( $missingYears * 365 + $missingLeapDays ) * 86400;
+	}
+
+	/**
+	 * @param int $year
+	 *
+	 * @return bool
+	 */
+	private function isLeapYear( $year ) {
+		$isMultipleOf4   = $year %   4 === 0;
+		$isMultipleOf100 = $year % 100 === 0;
+		$isMultipleOf400 = $year % 400 === 0;
+		return $isMultipleOf4 && !$isMultipleOf100 || $isMultipleOf400;
+	}
+
+	/**
+	 * @param int $year
+	 *
+	 * @return int
+	 */
+	private function getLeapDays( $year ) {
+		$year = abs( $year );
+		return (int)( $year / 4 ) - (int)( $year / 100 ) + (int)( $year / 400 );
 	}
 
 	/**
@@ -155,29 +194,30 @@ class TimeHandler extends DataValueHandler {
 			case TimeValue::PRECISION_DAY:
 				return 86400;
 			case TimeValue::PRECISION_MONTH:
-				return 2592000; // 86400 * 30
+				return self::SECONDS_PER_YEAR / 12;
 			case TimeValue::PRECISION_YEAR:
-				return 31536000; // 86400 * 365
+				return self::SECONDS_PER_YEAR;
 			case TimeValue::PRECISION_10a:
-				return 315360000;
+				return self::SECONDS_PER_YEAR * 10;
 			case TimeValue::PRECISION_100a:
-				return 3153600000;
+				return self::SECONDS_PER_YEAR * 100;
 			case TimeValue::PRECISION_ka:
-				return 31536000000;
+				return self::SECONDS_PER_YEAR * 1000;
 			case TimeValue::PRECISION_10ka:
-				return 315360000000;
+				return self::SECONDS_PER_YEAR * 10000;
 			case TimeValue::PRECISION_100ka:
-				return 3153600000000;
+				return self::SECONDS_PER_YEAR * 100000;
 			case TimeValue::PRECISION_Ma:
-				return 31536000000000;
+				return self::SECONDS_PER_YEAR * 1000000;
 			case TimeValue::PRECISION_10Ma:
-				return 315360000000000;
+				return self::SECONDS_PER_YEAR * 10000000;
 			case TimeValue::PRECISION_100Ma:
-				return 3153600000000000;
+				return self::SECONDS_PER_YEAR * 100000000;
 			case TimeValue::PRECISION_Ga:
-				return 31536000000000000;
+				return self::SECONDS_PER_YEAR * 1000000000;
 		}
-		throw new RuntimeException( 'Unable to get seconds for precision:' . $precision );
+
+		throw new RuntimeException( "Unable to get seconds for precision $precision." );
 	}
 
 	/**
@@ -190,7 +230,7 @@ class TimeHandler extends DataValueHandler {
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof TimeValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a TimeValue' );
+			throw new InvalidArgumentException( 'Value is not a TimeValue.' );
 		}
 
 		return $value->getTime() . '|' . $value->getPrecision() . '|' . $value->getCalendarModel();
