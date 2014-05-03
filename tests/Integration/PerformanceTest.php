@@ -14,6 +14,7 @@ use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
 /**
  * @group large
+ * @group performance
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
@@ -39,7 +40,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase {
 
 	public function testItemInsertion() {
 		$writer = $this->store->newWriter();
-		$generator = new RandomItemIterator( new RandomItemBuilder(), 2500 );
+		$generator = new RandomItemIterator( new RandomItemBuilder(), 250 );
 
 		/**
 		 * @var Item $item
@@ -146,9 +147,9 @@ class RandomItemBuilder {
 	}
 
 	private function addStatements( Item $item ) {
-		$i = 0;
+		$i = mt_rand( 0, 200 );
 
-		while ( $i++ < mt_rand( 0, 100 ) ) {
+		while ( $i-- > 0 ) {
 			$this->addStatement( $item );
 		}
 	}

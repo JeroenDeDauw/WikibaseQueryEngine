@@ -5,26 +5,35 @@ env:
 
 matrix:
   include:
-    - env: DBTYPE=mysql
+    - env: DB=mysql
       php: 5.3
-    - env: DBTYPE=mysql
+    - env: DB=sqlite
       php: 5.4
-    - env: DBTYPE=sqlite
+    - env: DB=mysql
       php: 5.5
-    - env: DBTYPE=sqlite
+    - env: DB=sqlite
       php: 5.6
-    - env: DBTYPE=sqlite
+    - env: DB=mysqli
+      php: 5.6
+    - env: DB=sqlite
       php: hhvm
+    - env: DB=pgsql POSTGRESQL_VERSION=9.1
+      php: 5.3
+    - env: DB=pgsql POSTGRESQL_VERSION=9.3
+      php: 5.6
   exclude:
     - env: THENEEDFORTHIS=FAIL
   allow_failures:
     - php: hhvm
+    - env: DB=pgsql POSTGRESQL_VERSION=9.1
+    - env: DB=pgsql POSTGRESQL_VERSION=9.3
 
 before_script:
   - composer install --prefer-source
+  - sh tests/travis/before_script.sh
 
 script:
-  - phpunit
+  - phpunit -c tests/travis/$DB.travis.xml
 
 notifications:
   irc:

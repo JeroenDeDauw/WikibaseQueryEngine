@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit
+        bootstrap="./../bootstrap.php">
+    <testsuites>
+        <testsuite name="WikibaseQueryEngine">
+            <directory>./..</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <exclude>
+            <group>performance</group>
+        </exclude>
+    </groups>
+
+    <php>
+        <var name="db_type" value="mysqli"/>
+        <var name="db_host" value="localhost" />
+        <var name="db_username" value="qe_tester" />
+        <var name="db_password" value="mysql_is_evil" />
+        <var name="db_name" value="qe_tests" />
+        <var name="db_port" value="3306"/>
+
+        <var name="tmpdb_type" value="mysqli"/>
+        <var name="tmpdb_host" value="localhost" />
+        <var name="tmpdb_username" value="qe_tester" />
+        <var name="tmpdb_password" value="mysql_is_evil" />
+        <var name="tmpdb_name" value="qe_tests_tmp" />
+        <var name="tmpdb_port" value="3306"/>
+    </php>
+</phpunit>

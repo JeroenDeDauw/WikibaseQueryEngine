@@ -41,7 +41,10 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 			);
 		}
 
-		$inserter = new EntityInserter( $claimInserter );
+		$connection = $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
+
+		$inserter = new EntityInserter( $claimInserter, $connection );
 
 		$inserter->insertEntity( $entity );
 	}

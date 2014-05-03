@@ -18,9 +18,13 @@
         </testsuite>
         <testsuite name="QueryEngineIntegration">
             <directory>tests/Integration</directory>
-            <exclude>tests/Integration/Performance</exclude>
         </testsuite>
     </testsuites>
+    <groups>
+        <exclude>
+            <group>performance</group>
+        </exclude>
+    </groups>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
