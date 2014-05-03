@@ -13,7 +13,7 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
-use Wikibase\QueryEngine\Tests\Integration\SQLStore\IntegrationStoreBuilder;
+use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
 /**
  * @group Wikibase

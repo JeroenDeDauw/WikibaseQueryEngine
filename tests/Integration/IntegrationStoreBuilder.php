@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\Tests\Integration\SQLStore;
+namespace Wikibase\QueryEngine\Tests\Integration;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;

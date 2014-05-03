@@ -17,6 +17,7 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
+use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
 /**
  * Tests the write operations (those exposed by Wikibase\QueryEngi`ne\SQLStore\Writer)
