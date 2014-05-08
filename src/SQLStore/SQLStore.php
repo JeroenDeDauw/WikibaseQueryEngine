@@ -41,7 +41,7 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
 class SQLStore {
 
 	private $config;
-	protected $schema;
+	private $schema;
 
 	public function __construct( StoreSchema $schema, StoreConfig $config ) {
 		$this->schema = $schema;
