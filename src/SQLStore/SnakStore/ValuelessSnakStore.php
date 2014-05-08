@@ -2,8 +2,8 @@
 
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
+use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
-use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\DataModel\Entity\EntityId;
 
 /**
@@ -14,11 +14,11 @@ use Wikibase\DataModel\Entity\EntityId;
  */
 class ValuelessSnakStore extends SnakStore {
 
-	protected $queryInterface;
+	protected $connection;
 	protected $tableName;
 
-	public function __construct( QueryInterface $queryInterface, $tableName ) {
-		$this->queryInterface = $queryInterface;
+	public function __construct( Connection $connection, $tableName ) {
+		$this->connection = $connection;
 		$this->tableName = $tableName;
 	}
 
@@ -34,7 +34,7 @@ class ValuelessSnakStore extends SnakStore {
 		/**
 		 * @var ValuelessSnakRow $snakRow
 		 */
-		$this->queryInterface->insert(
+		$this->connection->insert(
 			$this->tableName,
 			array(
 				'subject_id' => $snakRow->getSubjectId()->getSerialization(),
@@ -47,7 +47,7 @@ class ValuelessSnakStore extends SnakStore {
 	}
 
 	public function removeSnaksOfSubject( EntityId $subjectId ) {
-		$this->queryInterface->delete(
+		$this->connection->delete(
 			$this->tableName,
 			array( 'subject_id' => $subjectId->getSerialization() )
 		);

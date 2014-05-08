@@ -3,7 +3,8 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\Setup;
 
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
-use Wikibase\QueryEngine\SQLStore\Schema;
+use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\Setup\Installer;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
@@ -19,19 +20,21 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
 class InstallerTest extends \PHPUnit_Framework_TestCase {
 
 	public function testInstall() {
-		$defaultHandlers = new DataValueHandlers();
-		$storeConfig = new StoreConfig( 'foo', 'wbsql_', $defaultHandlers->getHandlers() );
-		$schema = new Schema( $storeConfig );
-		$tableBuilder = $this->getMock( 'Wikibase\Database\Schema\TableBuilder' );
+		$handlers = new DataValueHandlers();
+		$handlers->addMainSnakHandler( 'string', new StringHandler() );
+		$handlers->addQualifierHandler( 'string', new StringHandler() );
 
-		$tableBuilder->expects( $this->atLeastOnce() )
+		$schemaManager = $this->getMockBuilder( 'Doctrine\DBAL\Schema\AbstractSchemaManager' )
+			->disableOriginalConstructor()->setMethods( array( 'createTable' ) )->getMockForAbstractClass();
+
+		$schemaManager->expects( $this->atLeastOnce() )
 			->method( 'createTable' )
 			->will( $this->returnValue( true ) );
 
 		$storeSetup = new Installer(
-			$storeConfig,
-			$schema,
-			$tableBuilder
+			new StoreConfig( 'store name' ),
+			new StoreSchema( 'prefix_', $handlers ),
+			$schemaManager
 		);
 
 		$storeSetup->install();

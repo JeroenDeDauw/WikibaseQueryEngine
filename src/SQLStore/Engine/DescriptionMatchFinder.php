@@ -6,16 +6,16 @@ use Ask\Language\Description\Description;
 use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
+use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
-use Wikibase\Database\QueryInterface\QueryInterface;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
-use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\QueryEngine\DBALQueryBuilder;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\Schema;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
  * Simple query engine that works on top of the SQLStore.
@@ -27,16 +27,16 @@ use Wikibase\QueryEngine\SQLStore\Schema;
  */
 class DescriptionMatchFinder {
 
-	protected $queryInterface;
+	protected $connection;
 	protected $schema;
 	protected $propertyDataValueTypeLookup;
 	protected $idParser;
 
-	public function __construct( QueryInterface $queryInterface,
-			Schema $schema,
+	public function __construct( Connection $connection,
+			StoreSchema $schema,
 			PropertyDataValueTypeLookup $propertyDataValueTypeLookup, EntityIdParser $idParser ) {
 
-		$this->queryInterface = $queryInterface;
+		$this->connection = $connection;
 		$this->schema = $schema;
 		$this->propertyDataValueTypeLookup = $propertyDataValueTypeLookup;
 		$this->idParser = $idParser;
@@ -72,28 +72,34 @@ class DescriptionMatchFinder {
 
 		$propertyId = $propertyId->getEntityId();
 
-		$dvHandler = $this->schema->getDataValueHandler(
-			$this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId ),
-			SnakRole::MAIN_SNAK
+		$dvHandler = $this->schema->getDataValueHandlers()->getMainSnakHandler(
+			$this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId )
 		);
 
 		$conditions = $this->getExtraConditions( $description, $dvHandler );
 
 		$conditions['property_id'] = $propertyId->getSerialization();
 
-		$selectionResult = $this->queryInterface->select(
-			$dvHandler->getDataValueTable()->getTableDefinition()->getName(),
+		$queryBuilder = new DBALQueryBuilder( $this->connection );
+
+		$queryBuilder->selectFromWhere(
 			array(
 				'subject_id',
 			),
+			$dvHandler->getTableName(),
 			$conditions
 		);
 
+		$queryBuilder->setMaxResults( $options->getLimit() );
+		$queryBuilder->setFirstResult( $options->getOffset() );
+
 		$entityIds = array();
 
-		foreach ( $selectionResult as $resultRow ) {
+		$results = $queryBuilder->execute();
+
+		foreach ( $results as $resultRow ) {
 			// TODO: handle parse exception
-			$entityIds[] = $this->idParser->parse( $resultRow->subject_id );
+			$entityIds[] = $this->idParser->parse( $resultRow['subject_id'] );
 		}
 
 		return $entityIds;
@@ -108,7 +114,7 @@ class DescriptionMatchFinder {
 			}
 
 			return array(
-				$dvHandler->getDataValueTable()->getEqualityFieldName()
+				$dvHandler->getEqualityFieldName()
 					=> $dvHandler->getEqualityFieldValue( $subDescription->getValue() )
 			);
 		}

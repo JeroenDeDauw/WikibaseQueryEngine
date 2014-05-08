@@ -3,11 +3,12 @@
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
+use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
@@ -23,48 +24,48 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  */
 class EntityIdHandler extends DataValueHandler {
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'entityid',
-				array(
-					new FieldDefinition(
-						'value_id',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 20 ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_type',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 20 ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value_id',
-			'value_id',
-			'value_id',
-			'value_id'
-		) );
+	private $idParser;
+
+	public function __construct( EntityIdParser $idParser ) {
+		$this->idParser = $idParser;
+	}
+
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'entityid';
+	}
+
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value_id', Type::STRING, array( 'length' => 20 ) );
+		$table->addColumn( 'value_type', Type::STRING, array( 'length' => 20 ) );
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value_id';
 	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
 	 *
 	 * @param string $valueFieldValue
 	 *
 	 * @return DataValue
 	 */
 	public function newDataValueFromValueField( $valueFieldValue ) {
-		$parser = new BasicEntityIdParser(); // TODO: inject
-		return new EntityIdValue( $parser->parse( $valueFieldValue ) ); // TODO: handle parse exception
+		// TODO: handle parse exception
+		return new EntityIdValue( $this->idParser->parse( $valueFieldValue ) );
 	}
 
 	/**
 	 * @see DataValueHandler::getInsertValues
-	 *
-	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *

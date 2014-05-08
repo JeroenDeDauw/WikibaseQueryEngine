@@ -4,11 +4,11 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use DataValues\LatLongValue;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\IndexDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
@@ -23,48 +23,34 @@ use Wikibase\QueryEngine\SQLStore\DataValueTable;
  */
 class LatLongHandler extends DataValueHandler {
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'latlong',
-				array(
-					new FieldDefinition(
-						'value_lat',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_lon',
-						new TypeDefinition( TypeDefinition::TYPE_DECIMAL ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 100 ),
-						FieldDefinition::NOT_NULL
-					),
-				),
-				array(
-					new IndexDefinition(
-						'value_lat',
-						array( 'value_lat' )
-					),
-					new IndexDefinition(
-						'value_lon',
-						array( 'value_lon' )
-					),
-				)
-			),
-			'value',
-			'value',
-			'value'
-		) );
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'latlong';
+	}
+
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value_lat', Type::DECIMAL );
+		$table->addColumn( 'value_lon', Type::DECIMAL );
+		$table->addColumn( 'value', Type::STRING, array( 'length' => 100 ) );
+
+		$table->addIndex( array( 'value_lat' ) );
+		$table->addIndex( array( 'value_lon' ) );
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value';
 	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
 	 *
 	 * @param string $valueFieldValue
 	 *
@@ -77,8 +63,6 @@ class LatLongHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getInsertValues
-	 *
-	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *

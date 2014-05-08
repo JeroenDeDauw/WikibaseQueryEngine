@@ -2,13 +2,12 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\Database\QueryInterface\QueryInterface;
-use Wikibase\Database\Schema\SchemaModifier;
-use Wikibase\Database\Schema\SimpleTableSchemaUpdater;
-use Wikibase\Database\Schema\TableBuilder;
-use Wikibase\Database\Schema\TableDefinitionReader;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
+use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryEngine;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
@@ -17,7 +16,6 @@ use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityTable;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
 use Wikibase\QueryEngine\SQLStore\Setup\Installer;
 use Wikibase\QueryEngine\SQLStore\Setup\Uninstaller;
@@ -43,159 +41,136 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
  */
 class SQLStore {
 
-	/**
-	 * @var StoreConfig
-	 */
 	private $config;
+	protected $schema;
 
-	/**
-	 * @var Schema|null
-	 */
-	protected $schema = null;
-
-	public function __construct( StoreConfig $config ) {
+	public function __construct( StoreSchema $schema, StoreConfig $config ) {
+		$this->schema = $schema;
 		$this->config = $config;
 	}
 
 	/**
-	 * @return Schema
-	 */
-	private function getSchema() {
-		if ( $this->schema === null ) {
-			$this->schema = new Schema( $this->config );
-		}
-
-		return $this->schema;
-	}
-
-	/**
-	 * @since 0.1
-	 *
-	 * @param QueryInterface $queryInterface
+	 * @param Connection $connection
+	 * @param PropertyDataValueTypeLookup $lookup
+	 * @param EntityIdParser $idParser
 	 *
 	 * @return QueryEngine
 	 */
-	public function newQueryEngine( QueryInterface $queryInterface ) {
+	public function newQueryEngine( Connection $connection, PropertyDataValueTypeLookup $lookup,
+		EntityIdParser $idParser ) {
+
 		return new Engine(
-			$this->newDescriptionMatchFinder( $queryInterface )
+			$this->newDescriptionMatchFinder( $connection, $lookup, $idParser )
 		);
 	}
 
 	/**
 	 * @since 0.1
 	 *
-	 * @param QueryInterface $queryInterface
+	 * @param Connection $connection
 	 *
 	 * @return QueryStoreWriter
 	 */
-	public function newWriter( QueryInterface $queryInterface ) {
+	public function newWriter( Connection $connection ) {
 		return new Writer(
-			$this->newEntityInserter( $queryInterface ),
-			$this->newEntityUpdater( $queryInterface ),
-			$this->newEntityRemover( $queryInterface )
+			$this->newEntityInserter( $connection ),
+			$this->newEntityUpdater( $connection ),
+			$this->newEntityRemover( $connection )
 		);
 	}
 
-	public function newInstaller( TableBuilder $tableBuilder ) {
+	public function newInstaller( AbstractSchemaManager $schemaManager ) {
 		return new Installer(
 			$this->config,
-			$this->getSchema(),
-			$tableBuilder
+			$this->schema,
+			$schemaManager
 		);
 	}
 
-	public function newUninstaller( TableBuilder $tableBuilder ) {
+	public function newUninstaller( AbstractSchemaManager $schemaManager ) {
 		return new Uninstaller(
 			$this->config,
-			$this->getSchema(),
-			$tableBuilder
+			$this->schema,
+			$schemaManager
 		);
 	}
 
-	public function newUpdater( TableBuilder $tableBuilder, TableDefinitionReader $tableDefinitionReader, SchemaModifier $schemaModifier ) {
+	public function newUpdater( AbstractSchemaManager $schemaManager ) {
 		return new Updater(
-			$this->getSchema(),
-			new SimpleTableSchemaUpdater( $schemaModifier ),
-			$tableDefinitionReader,
-			$tableBuilder
+			$this->schema,
+			$schemaManager
 		);
 	}
 
-	private function newEntityInserter( QueryInterface $queryInterface ) {
+	private function newEntityInserter( Connection $connection ) {
 		return new EntityInserter(
-			$this->newClaimInserter( $queryInterface )
+			$this->newClaimInserter( $connection )
 		);
 	}
 
-	private function newEntityUpdater( QueryInterface $queryInterface ) {
+	private function newEntityUpdater( Connection $connection ) {
 		return new EntityUpdater(
-			$this->newEntityRemover( $queryInterface ),
-			$this->newEntityInserter( $queryInterface )
+			$this->newEntityRemover( $connection ),
+			$this->newEntityInserter( $connection )
 		);
 	}
 
-	private function newEntityRemover( QueryInterface $queryInterface ) {
+	private function newEntityRemover( Connection $connection ) {
 		return new EntityRemover(
-			$this->newSnakRemover( $queryInterface )
+			$this->newSnakRemover( $connection )
 		);
 	}
 
-	private function newSnakRemover( QueryInterface $queryInterface ) {
-		return new SnakRemover( $this->getSnakStores( $queryInterface ) );
+	private function newSnakRemover( Connection $connection ) {
+		return new SnakRemover( $this->getSnakStores( $connection ) );
 	}
 
-	// This table is not yet needed.
-	// Later one it will be a dependency of the EntityInserter/Remover/Updater
-	private function newEntityTable( QueryInterface $queryInterface ) {
-		return new EntityTable(
-			$queryInterface,
-			$this->getSchema()->getEntitiesTable()->getName()
-		);
-	}
-
-	private function newClaimInserter( QueryInterface $queryInterface ) {
+	private function newClaimInserter( Connection $connection ) {
 		return new ClaimInserter(
-			$this->newSnakInserter( $queryInterface ),
+			$this->newSnakInserter( $connection ),
 			new ClaimRowBuilder()
 		);
 	}
 
-	private function newSnakInserter( QueryInterface $queryInterface ) {
+	private function newSnakInserter( Connection $connection ) {
 		return new SnakInserter(
-			$this->getSnakStores( $queryInterface ),
+			$this->getSnakStores( $connection ),
 			new SnakRowBuilder()
 		);
 	}
 
 	/**
-	 * @param QueryInterface $queryInterface
+	 * @param Connection $connection
+	 *
 	 * @return SnakStore[]
 	 */
-	private function getSnakStores( QueryInterface $queryInterface ) {
+	private function getSnakStores( Connection $connection ) {
 		return array(
 			new ValueSnakStore(
-				$queryInterface,
-				$this->getSchema()->getDataValueHandlers( SnakRole::MAIN_SNAK ),
+				$connection,
+				$this->schema->getDataValueHandlers()->getMainSnakHandlers(),
 				SnakRole::MAIN_SNAK
 			),
 			new ValueSnakStore(
-				$queryInterface,
-				$this->getSchema()->getDataValueHandlers( SnakRole::QUALIFIER ),
+				$connection,
+				$this->schema->getDataValueHandlers()->getQualifierHandlers(),
 				SnakRole::QUALIFIER
 			),
 			new ValuelessSnakStore(
-				$queryInterface,
-				$this->getSchema()->getValuelessSnaksTable()->getName()
+				$connection,
+				$this->schema->getValuelessSnaksTable()->getName()
 			)
 		);
 	}
 
-	private function newDescriptionMatchFinder( QueryInterface $queryInterface ) {
+	private function newDescriptionMatchFinder( Connection $connection,
+		PropertyDataValueTypeLookup $lookup, EntityIdParser $idParser ) {
+
 		return new DescriptionMatchFinder(
-			$queryInterface,
-			$this->getSchema(),
-			$this->config->getPropertyDataValueTypeLookup(),
-			new BasicEntityIdParser() // TODO: inject
+			$connection,
+			$this->schema,
+			$lookup,
+			$idParser
 		);
 	}
 

@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 use DataValues\StringValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
+use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 
 /**
@@ -30,8 +31,7 @@ class StringHandlerTest extends DataValueHandlerTest {
 	protected function getInstances() {
 		$instances = array();
 
-		$defaultHandlers = new DataValueHandlers();
-		$instances[] = $defaultHandlers->getHandler( 'string' );
+		$instances[] = new StringHandler();
 
 		return $instances;
 	}

@@ -19,64 +19,15 @@ use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 class StoreConfig {
 
 	/**
-	 * @since 0.1
-	 *
 	 * @var string
 	 */
 	private $name;
 
 	/**
-	 * @since 0.1
-	 *
-	 * @var string
-	 */
-	private $tablePrefix;
-
-	/**
-	 * The DataValueHandlers for the DataValue types supported by this configuration.
-	 * Array keys are DataValue type identifiers (string) pointing to the corresponding DataValueHandler.
-	 *
-	 * @since 0.1
-	 *
-	 * @var DataValueHandler[]
-	 */
-	private $dvHandlers = array();
-
-	/**
-	 * @since 0.1
-	 *
-	 * @var PropertyDataValueTypeLookup|null
-	 */
-	protected $propertyDataValueTypeLookup = null;
-
-	/**
-	 * @since 0.1
-	 *
 	 * @param string $storeName
-	 * @param string $tablePrefix
-	 * @param DataValueHandler[] $dataValueHandlers
 	 */
-	public function __construct( $storeName, $tablePrefix, array $dataValueHandlers ) {
+	public function __construct( $storeName ) {
 		$this->name = $storeName;
-		$this->tablePrefix = $tablePrefix;
-		$this->dvHandlers = $dataValueHandlers;
-	}
-
-	public function setPropertyDataValueTypeLookup( PropertyDataValueTypeLookup $lookup ) {
-		$this->propertyDataValueTypeLookup = $lookup;
-	}
-
-	/**
-	 * @return PropertyDataValueTypeLookup
-	 *
-	 * @throws Exception
-	 */
-	public function getPropertyDataValueTypeLookup() {
-		if ( $this->propertyDataValueTypeLookup === null ) {
-			throw new Exception( 'setPropertyDataValueTypeLookup has not been called yet' );
-		}
-
-		return $this->propertyDataValueTypeLookup;
 	}
 
 	/**
@@ -86,24 +37,6 @@ class StoreConfig {
 	 */
 	public function getStoreName() {
 		return $this->name;
-	}
-
-	/**
-	 * @since 0.1
-	 *
-	 * @return string
-	 */
-	public function getTablePrefix() {
-		return $this->tablePrefix;
-	}
-
-	/**
-	 * @since 0.1
-	 *
-	 * @return DataValueHandler[]
-	 */
-	public function getDataValueHandlers() {
-		return $this->dvHandlers;
 	}
 
 	/**

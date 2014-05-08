@@ -2,11 +2,11 @@
 
 namespace Wikibase\QueryEngine\SQLStore\Setup;
 
-use Wikibase\Database\Schema\TableBuilder;
-use Wikibase\Database\Schema\TableDeletionFailedException;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreUninstaller;
-use Wikibase\QueryEngine\SQLStore\Schema;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
 /**
@@ -15,37 +15,14 @@ use Wikibase\QueryEngine\SQLStore\StoreConfig;
  */
 class Uninstaller implements QueryStoreUninstaller {
 
-	/**
-	 * @var StoreConfig
-	 */
 	private $config;
-
-	/**
-	 * @var TableBuilder
-	 */
-	private $tableBuilder;
-
-	/**
-	 * @var Schema
-	 */
+	private $schemaManager;
 	private $storeSchema;
 
-	/**
-	 * @param StoreConfig $storeConfig
-	 * @param Schema $storeSchema
-	 * @param TableBuilder $tableBuilder
-	 */
-	public function __construct( StoreConfig $storeConfig, Schema $storeSchema, TableBuilder $tableBuilder ) {
+	public function __construct( StoreConfig $storeConfig, StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
 		$this->config = $storeConfig;
 		$this->storeSchema = $storeSchema;
-		$this->tableBuilder = $tableBuilder;
-	}
-
-	/**
-	 * @param string $message
-	 */
-	private function report( $message ) {
-
+		$this->schemaManager = $schemaManager;
 	}
 
 	/**
@@ -54,29 +31,25 @@ class Uninstaller implements QueryStoreUninstaller {
 	 * @throws QueryEngineException
 	 */
 	public function uninstall() {
-		$this->report( 'Starting uninstall of ' . $this->config->getStoreName() );
-
 		try {
 			$this->dropTables();
 		}
-		catch ( TableDeletionFailedException $ex ) {
+		catch ( DBALException $ex ) {
 			throw new QueryEngineException(
 				'SQLStore uninstallation failed: ' . $ex->getMessage(),
 				0,
 				$ex
 			);
 		}
-
-		$this->report( 'Finished uninstall of ' . $this->config->getStoreName() );
 	}
 
 	/**
 	 * Removes the tables belonging to the store.
-	 * @throws TableDeletionFailedException
+	 * @throws DBALException
 	 */
 	private function dropTables() {
 		foreach ( $this->storeSchema->getTables() as $table ) {
-			$this->tableBuilder->dropTable( $table->getName() );
+			$this->schemaManager->dropTable( $table->getName() );
 		}
 	}
 

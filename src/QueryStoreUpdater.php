@@ -10,6 +10,9 @@ namespace Wikibase\QueryEngine;
  */
 interface QueryStoreUpdater {
 
+	/**
+	 * @throws QueryEngineException
+	 */
 	public function update();
 
 }

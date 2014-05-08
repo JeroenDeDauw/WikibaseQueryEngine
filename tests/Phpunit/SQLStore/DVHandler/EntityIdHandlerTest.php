@@ -2,12 +2,13 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 
+use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
+use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 
 /**
@@ -33,8 +34,7 @@ class EntityIdHandlerTest extends DataValueHandlerTest {
 	protected function getInstances() {
 		$instances = array();
 
-		$defaultHandlers = new DataValueHandlers();
-		$instances[] = $defaultHandlers->getHandler( 'wikibase-entityid' );
+		$instances[] = new EntityIdHandler( new BasicEntityIdParser() );
 
 		return $instances;
 	}

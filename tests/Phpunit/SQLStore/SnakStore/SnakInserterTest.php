@@ -3,7 +3,7 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
 use DataValues\StringValue;
-use Wikibase\Database\QueryInterface\QueryInterface;
+use Doctrine\DBAL\Connection;
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
@@ -48,35 +48,39 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider snakProvider
 	 */
 	public function testInsertSnak( Snak $snak ) {
-		$queryInterface = $this->getMock( 'Wikibase\Database\QueryInterface\QueryInterface' );
+		$connection = $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
 
-		$queryInterface
+		$connection
 			->expects( $this->once() )
 			->method( 'insert' )
 			->with( $this->equalTo( 'string' ) );
 
-		$snakInserter = $this->newInstance( $queryInterface );
+		$snakInserter = $this->newInstance( $connection );
 
 		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ), Claim::RANK_NORMAL );
 	}
 
-	protected function newInstance( QueryInterface $queryInterface ) {
+	protected function newInstance( Connection $connection ) {
 		return new SnakInserter(
-			$this->getSnakStores( $queryInterface ),
+			$this->getSnakStores( $connection ),
 			new SnakRowBuilder()
 		);
 	}
 
-	protected function getSnakStores( QueryInterface $queryInterface ) {
+	protected function getSnakStores( Connection $connection ) {
+		$stringHandler = new StringHandler();
+		$stringHandler->setTablePrefix( '' );
+
 		return array(
 			new ValuelessSnakStore(
-				$queryInterface,
+				$connection,
 				'string'
 			),
 			new ValueSnakStore(
-				$queryInterface,
+				$connection,
 				array(
-					'string' => new StringHandler()
+					'string' => $stringHandler
 				),
 				SnakRole::MAIN_SNAK
 			)

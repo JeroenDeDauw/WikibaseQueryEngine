@@ -4,10 +4,10 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use DataValues\MonolingualTextValue;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DataValueTable;
 use Wikibase\QueryEngine\StringHasher;
@@ -28,44 +28,55 @@ class MonolingualTextHandler extends DataValueHandler {
 	 */
 	private $stringHasher;
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'mono_text',
-				array(
-					new FieldDefinition( 'value_text',
-						TypeDefinition::TYPE_BLOB,
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_language',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 20 ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_json',
-						TypeDefinition::TYPE_BLOB,
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition( 'hash',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 50 ),
-						FieldDefinition::NOT_NULL
-					),
-				)
-			),
-			'value_json',
-			'hash',
-			'hash',
-			'value_text'
-		) );
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'mono_text';
+	}
 
-		$this->stringHasher = new StringHasher();
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value_text', Type::TEXT );
+		$table->addColumn( 'value_language', Type::STRING, array( 'length' => 20 ) );
+		$table->addColumn( 'value_json', Type::TEXT );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => 50 ) );
+
+		// TODO: check what indexes should be added
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value_json';
+	}
+
+	/**
+	 * @see DataValueHandler::getEqualityFieldName
+	 */
+	public function getEqualityFieldName() {
+		return 'hash';
+	}
+
+	/**
+	 * @see DataValueHandler::getSortFieldName
+	 */
+	public function getSortFieldName() {
+		return 'hash';
+	}
+
+	/**
+	 * @see DataValueHandler::getLabelFieldName
+	 */
+	public function getLabelFieldName() {
+		return 'value_text';
 	}
 
 	/**
 	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
 	 *
 	 * @param string $valueFieldValue
 	 *
@@ -77,8 +88,6 @@ class MonolingualTextHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getInsertValues
-	 *
-	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *
@@ -114,7 +123,15 @@ class MonolingualTextHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a MonolingualTextValue' );
 		}
 
-		return $this->stringHasher->hash( $value->getText() . $value->getLanguageCode() );
+		return $this->hash( $value->getText() . $value->getLanguageCode() );
+	}
+
+	private function hash( $string ) {
+		if ( $this->stringHasher === null ) {
+			$this->stringHasher = new StringHasher();
+		}
+
+		return $this->stringHasher->hash( $string );
 	}
 
 }

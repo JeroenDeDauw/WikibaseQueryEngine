@@ -17,20 +17,11 @@ class EntityUpdater {
 	private $remover;
 	private $inserter;
 
-	/**
-	 * @since 0.1
-	 *
-	 */
 	public function __construct( EntityRemover $remover, EntityInserter $inserter ) {
 		$this->remover = $remover;
 		$this->inserter = $inserter;
 	}
 
-	/**
-	 * @since 0.1
-	 *
-	 * @param Entity $entity
-	 */
 	public function updateEntity( Entity $entity ) {
 		$this->remover->removeEntity( $entity );
 		$this->inserter->insertEntity( $entity );

@@ -39,6 +39,8 @@ class SnakInserter {
 	 * @param int $snakRole
 	 * @param EntityId $subjectId
 	 * @param int $statementRank
+	 *
+	 * TODO: exception
 	 */
 	public function insertSnak( Snak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
 		$snakRow = $this->snakRowBuilder->newSnakRow( $snak, $snakRole, $subjectId, $statementRank );
