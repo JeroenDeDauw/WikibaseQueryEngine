@@ -13,10 +13,18 @@
          strict="true"
          verbose="true">
     <testsuites>
-        <testsuite name="QueryEngine">
-            <directory>tests</directory>
+        <testsuite name="QueryEngineUnit">
+            <directory>tests/Phpunit</directory>
+        </testsuite>
+        <testsuite name="QueryEngineIntegration">
+            <directory>tests/Integration</directory>
         </testsuite>
     </testsuites>
+    <groups>
+        <exclude>
+            <group>performance</group>
+        </exclude>
+    </groups>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>

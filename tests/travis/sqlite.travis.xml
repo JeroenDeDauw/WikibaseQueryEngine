@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit
+    bootstrap="./../bootstrap.php">
+    <testsuites>
+        <testsuite name="WikibaseQueryEngine">
+            <directory>./..</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <exclude>
+            <group>performance</group>
+        </exclude>
+    </groups>
+</phpunit>

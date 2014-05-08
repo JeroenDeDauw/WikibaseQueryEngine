@@ -104,7 +104,8 @@ class SQLStore {
 
 	private function newEntityInserter( Connection $connection ) {
 		return new EntityInserter(
-			$this->newClaimInserter( $connection )
+			$this->newClaimInserter( $connection ),
+			$connection
 		);
 	}
 

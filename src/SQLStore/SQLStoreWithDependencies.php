@@ -43,4 +43,8 @@ class SQLStoreWithDependencies implements QueryStoreWithDependencies {
 		return $this->factory->newUpdater( $this->connection->getSchemaManager() );
 	}
 
+	public function __destruct() {
+		$this->connection->close();
+	}
+
 }
