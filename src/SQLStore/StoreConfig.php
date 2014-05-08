@@ -18,13 +18,13 @@ class StoreConfig {
 	/**
 	 * @var string
 	 */
-	private $name;
+	private $storeName;
 
 	/**
 	 * @param string $storeName
 	 */
 	public function __construct( $storeName ) {
-		$this->name = $storeName;
+		$this->storeName = $storeName;
 	}
 
 	/**
@@ -33,7 +33,7 @@ class StoreConfig {
 	 * @return string
 	 */
 	public function getStoreName() {
-		return $this->name;
+		return $this->storeName;
 	}
 
 	/**
