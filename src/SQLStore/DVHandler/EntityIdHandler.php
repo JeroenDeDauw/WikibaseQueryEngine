@@ -9,7 +9,6 @@ use InvalidArgumentException;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * Represents the mapping between Wikibase\EntityId and

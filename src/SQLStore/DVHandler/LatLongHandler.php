@@ -8,7 +8,6 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * Represents the mapping between DataValues\LatLongValue and
