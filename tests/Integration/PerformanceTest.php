@@ -1,6 +1,6 @@
 <?php
 
-namespace Wikibase\QueryEngine\Tests\Integration\SQLStore;
+namespace Wikibase\QueryEngine\Tests\Integration;
 
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Statement;
@@ -10,7 +10,6 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
-use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
 /**
  * @group large
