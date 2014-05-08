@@ -2,9 +2,6 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Exception;
-use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
-
 /**
  * Configuration for the SQL Store.
  * This is purely a value object containing the configuration declaration.

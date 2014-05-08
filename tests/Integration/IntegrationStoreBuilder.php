@@ -2,13 +2,10 @@
 
 namespace Wikibase\QueryEngine\Tests\Integration;
 
-use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use PHPUnit_Framework_TestCase;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
-use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlersBuilder;
-use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\SQLStore;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;

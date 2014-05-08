@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 
 use DataValues\BooleanValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 

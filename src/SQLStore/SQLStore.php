@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\SQLStore;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;

@@ -2,12 +2,10 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
-use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\StoreSchema

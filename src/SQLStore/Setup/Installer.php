@@ -6,8 +6,8 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreInstaller;
-use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
  * @licence GNU GPL v2+

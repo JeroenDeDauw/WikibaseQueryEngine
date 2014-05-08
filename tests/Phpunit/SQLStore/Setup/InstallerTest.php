@@ -4,9 +4,9 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\Setup;
 
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
-use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\Setup\Installer;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
+use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\Setup\Installer

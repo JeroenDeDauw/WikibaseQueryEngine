@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 
 use DataValues\NumberValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 

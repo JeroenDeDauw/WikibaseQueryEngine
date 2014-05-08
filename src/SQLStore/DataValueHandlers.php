@@ -3,13 +3,6 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use OutOfBoundsException;
-use Wikibase\DataModel\Entity\BasicEntityIdParser;
-use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 
 /**
  * @since 0.1

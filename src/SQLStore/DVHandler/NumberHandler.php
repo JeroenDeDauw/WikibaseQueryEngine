@@ -4,8 +4,6 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
 use DataValues\NumberValue;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;

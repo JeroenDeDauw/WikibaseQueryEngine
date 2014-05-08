@@ -3,11 +3,9 @@
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use DataValues\DataValue;
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;

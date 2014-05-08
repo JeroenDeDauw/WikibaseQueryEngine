@@ -3,8 +3,6 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use DataValues\DataValue;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use InvalidArgumentException;
 use RuntimeException;

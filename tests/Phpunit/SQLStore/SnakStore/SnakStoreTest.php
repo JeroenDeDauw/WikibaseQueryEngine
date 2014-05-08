@@ -6,12 +6,10 @@ use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
-use Wikibase\QueryEngine\SQLStore\StoreSchema;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakStore

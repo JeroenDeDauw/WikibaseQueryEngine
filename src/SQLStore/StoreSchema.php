@@ -2,15 +2,8 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
-use OutOfBoundsException;
-use OutOfRangeException;
-use Wikibase\DataModel\Snak\SnakRole;
-use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
-use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
 
 /**
  * Contains the tables and table interactors for a given SQLStore configuration.
