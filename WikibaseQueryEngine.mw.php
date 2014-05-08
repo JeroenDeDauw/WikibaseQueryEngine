@@ -15,8 +15,6 @@ $GLOBALS['wgExtensionCredits']['wikibase'][] = array(
 	'author' => array(
 		'[https://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]',
 	),
-	'url' => 'https://www.mediawiki.org/wiki/Extension:Wikibase_QueryEngine',
-	'descriptionmsg' => 'wikibasequeryengine-desc'
+	'url' => 'https://github.com/wmde/WikibaseQueryEngine',
+	'description' => 'Answers Ask queries against a collection of Wikibase entities'
 );
-
-$GLOBALS['wgExtensionMessagesFiles']['WikibaseQueryEngine'] = __DIR__ . '/WikibaseQueryEngine.i18n.php';
