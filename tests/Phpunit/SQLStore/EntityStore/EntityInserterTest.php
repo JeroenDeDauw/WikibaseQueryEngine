@@ -2,13 +2,18 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
+use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
+use Wikibase\DataModel\Claim\Statement;
 use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
+use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 
 /**
@@ -41,8 +46,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 			);
 		}
 
-		$connection = $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
-			->disableOriginalConstructor()->getMock();
+		$connection = $this->getConnection();
 
 		$inserter = new EntityInserter( $claimInserter, $connection );
 
@@ -94,6 +98,65 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;
+	}
+
+	public function testOnlyBestClaimsGetInserted() {
+		$item = Item::newEmpty();
+		$item->setId( 42 );
+
+		$item->addClaim( $this->newStatement( 1, 'foo', Claim::RANK_DEPRECATED ) );
+		$item->addClaim( $this->newStatement( 1, 'bar', Claim::RANK_PREFERRED ) );
+		$item->addClaim( $this->newStatement( 1, 'baz', Claim::RANK_NORMAL ) );
+		$item->addClaim( $this->newStatement( 2, 'bah', Claim::RANK_NORMAL ) );
+		$item->addClaim( $this->newStatement( 3, 'blah', Claim::RANK_DEPRECATED ) );
+
+		$this->assertClaimsAreInsertedForEntity(
+			$item,
+			array(
+				$this->newStatement( 1, 'bar', Claim::RANK_PREFERRED ),
+				$this->newStatement( 2, 'bah', Claim::RANK_NORMAL )
+			)
+		);
+	}
+
+	private function newStatement( $propertyId, $stringValue, $rank ) {
+		$statement = new Statement( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) );
+		$statement->setRank( $rank );
+		$statement->setGuid( sha1( $propertyId .  $stringValue ) );
+		return $statement;
+	}
+
+	private function assertClaimsAreInsertedForEntity( Entity $entity, array $claims ) {
+		$claimInserter = new SpyClaimInserter();
+
+		$inserter = new EntityInserter( $claimInserter, $this->getConnection() );
+
+		$inserter->insertEntity( $entity );
+
+		$this->assertEquals( $claims, $claimInserter->getInsertedClaims() );
+	}
+
+	private function getConnection() {
+		$connection = $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
+
+		return $connection;
+	}
+
+}
+
+class SpyClaimInserter extends ClaimInserter {
+
+	private $insertedClaims = array();
+
+	public function __construct() {}
+
+	public function insertClaim( Claim $claim, EntityId $subjectId ) {
+		$this->insertedClaims[] = $claim;
+	}
+
+	public function getInsertedClaims() {
+		return $this->insertedClaims;
 	}
 
 }
