@@ -154,4 +154,20 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		return $statement;
 	}
 
+	public function testCanAddSameSnaksToAlreadyInsertedEntity() {
+		$item = Item::newEmpty();
+		$item->setId( new ItemId( 'Q1234' ) );
+
+		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd1' ) );
+		$item->addClaim( $this->newStatement( 2, 'foo', 'abcd2' ) );
+
+		$this->store->newWriter()->insertEntity( $item );
+
+		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd3' ) );
+
+		$this->store->newWriter()->updateEntity( $item );
+
+		$this->assertTrue( true );
+	}
+
 }
