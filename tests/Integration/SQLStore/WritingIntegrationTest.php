@@ -7,6 +7,7 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
+use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claims;
 use Wikibase\DataModel\Claim\Statement;
 use Wikibase\DataModel\Entity\EntityId;
@@ -16,6 +17,7 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\QueryEngine\NullMessageReporter;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
@@ -42,13 +44,12 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$this->store = IntegrationStoreBuilder::newStore( $this );
 
-		$this->store->newInstaller()->install();
-	}
-
-	public function tearDown() {
-		if ( isset( $this->store ) ) {
+		try {
 			$this->store->newUninstaller( new NullMessageReporter() )->uninstall();
 		}
+		catch ( QueryEngineException $ex ) {}
+
+		$this->store->newInstaller()->install();
 	}
 
 	public function testInsertAndRemoveItem() {
@@ -132,6 +133,41 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 			array(),
 			$this->findMatchingEntities( $propertyDescription )
 		);
+	}
+
+	public function testCanInsertClaimsWithTheSameMainSnak() {
+		$item = Item::newEmpty();
+		$item->setId( new ItemId( 'Q1234' ) );
+
+		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd1' ) );
+		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd2' ) );
+		$item->addClaim( $this->newStatement( 2, 'foo', 'abcd3' ) );
+
+		$this->store->newWriter()->insertEntity( $item );
+
+		$this->assertTrue( true );
+	}
+
+	private function newStatement( $propertyId, $stringValue, $guid ) {
+		$statement = new Statement( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) );
+		$statement->setGuid( $guid );
+		return $statement;
+	}
+
+	public function testCanAddSameSnaksToAlreadyInsertedEntity() {
+		$item = Item::newEmpty();
+		$item->setId( new ItemId( 'Q1234' ) );
+
+		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd1' ) );
+		$item->addClaim( $this->newStatement( 2, 'foo', 'abcd2' ) );
+
+		$this->store->newWriter()->insertEntity( $item );
+
+		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd3' ) );
+
+		$this->store->newWriter()->updateEntity( $item );
+
+		$this->assertTrue( true );
 	}
 
 }
