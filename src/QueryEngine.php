@@ -11,9 +11,6 @@ use Wikibase\DataModel\Entity\EntityId;
  *
  * @since 0.1
  *
- * @file
- * @ingroup WikibaseQueryStore
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
