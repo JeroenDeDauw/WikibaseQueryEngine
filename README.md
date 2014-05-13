@@ -92,6 +92,12 @@ $store = new Store(
 );
 ```
 
+## CLI
+
+To get a list of available CLI commands, execute this in the root directory:
+
+    php queryengine
+
 ## SQLStore internal structure
 
 ### Table: entities
