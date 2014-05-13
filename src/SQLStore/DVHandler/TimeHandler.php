@@ -5,16 +5,13 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 use DataValues\DataValue;
 use DataValues\LatLongValue;
 use DataValues\TimeValue;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use RuntimeException;
 use ValueParsers\CalendarModelParser;
 use ValueParsers\TimeParser;
-use Wikibase\Database\Schema\Definitions\FieldDefinition;
-use Wikibase\Database\Schema\Definitions\IndexDefinition;
-use Wikibase\Database\Schema\Definitions\TableDefinition;
-use Wikibase\Database\Schema\Definitions\TypeDefinition;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueTable;
 
 /**
  * @since 0.1
@@ -30,51 +27,45 @@ class TimeHandler extends DataValueHandler {
 	 */
 	const SECONDS_PER_YEAR = 31556952;
 
-	public function __construct() {
-		parent::__construct( new DataValueTable(
-			new TableDefinition(
-				'time',
-				array(
-					new FieldDefinition(
-						'value',
-						new TypeDefinition( TypeDefinition::TYPE_VARCHAR, 33 ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_epoche',
-						new TypeDefinition( TypeDefinition::TYPE_BIGINT ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_epoche_min',
-						new TypeDefinition( TypeDefinition::TYPE_BIGINT ),
-						FieldDefinition::NOT_NULL
-					),
-					new FieldDefinition(
-						'value_epoche_max',
-						new TypeDefinition( TypeDefinition::TYPE_BIGINT ),
-						FieldDefinition::NOT_NULL
-					),
-				),
-				array(
-					new IndexDefinition(
-						'value_epoche',
-						array( 'value_epoche' )
-					),
-					new IndexDefinition(
-						'value_epoche_min',
-						array( 'value_epoche_min' )
-					),
-					new IndexDefinition(
-						'value_epoche_max',
-						array( 'value_epoche_max' )
-					),
-				)
-			),
-			'value',
-			'value_epoche',
-			'value_epoche'
-		) );
+	/**
+	 * @see DataValueHandler::getBaseTableName
+	 */
+	protected function getBaseTableName() {
+		return 'time';
+	}
+
+	/**
+	 * @see DataValueHandler::completeTable
+	 */
+	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value', Type::STRING, array( 'length' => 33 ) );
+		$table->addColumn( 'value_epoche', Type::BIGINT );
+		$table->addColumn( 'value_epoche_min', Type::BIGINT );
+		$table->addColumn( 'value_epoche_max', Type::BIGINT );
+		$table->addIndex( array( 'value_epoche' ) );
+		$table->addIndex( array( 'value_epoche_min' ) );
+		$table->addIndex( array( 'value_epoche_max' ) );
+	}
+
+	/**
+	 * @see DataValueHandler::getValueFieldName
+	 */
+	public function getValueFieldName() {
+		return 'value';
+	}
+
+	/**
+	 * @see DataValueHandler::getEqualityFieldName
+	 */
+	public function getEqualityFieldName() {
+		return 'value_epoche';
+	}
+
+	/**
+	 * @see DataValueHandler::getSortFieldName
+	 */
+	public function getSortFieldName() {
+		return 'value_epoche';
 	}
 
 	/**

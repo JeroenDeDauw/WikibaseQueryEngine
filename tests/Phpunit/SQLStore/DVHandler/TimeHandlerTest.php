@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 
 use DataValues\TimeValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DVHandler\TimeHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 
@@ -20,16 +19,6 @@ use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
  * @author Adam Shorland
  */
 class TimeHandlerTest extends DataValueHandlerTest {
-
-	/**
-	 * @var TimeHandler
-	 */
-	private $timeHandler;
-
-	protected function setUp()
-	{
-		$this->timeHandler = new TimeHandler();
-	}
 
 	/**
 	 * @param string $time
@@ -64,8 +53,7 @@ class TimeHandlerTest extends DataValueHandlerTest {
 	protected function getInstances() {
 		$instances = array();
 
-		$defaultHandlers = new DataValueHandlers();
-		$instances[] = $defaultHandlers->getHandler( 'time' );
+		$instances[] = new TimeHandler();
 
 		return $instances;
 	}
@@ -121,8 +109,10 @@ class TimeHandlerTest extends DataValueHandlerTest {
 	 * @param int $expected
 	 */
 	public function testEpocheCalculation( $time, $expected ) {
+		$instance = $this->newInstance();
+
 		$timeValue = $this->getTimeValueMock( $time );
-		$insertValues = $this->timeHandler->getInsertValues( $timeValue );
+		$insertValues = $instance->getInsertValues( $timeValue );
 		$epoche = $insertValues['value_epoche'];
 
 		$this->assertEquals( $expected, $epoche );
@@ -154,8 +144,10 @@ class TimeHandlerTest extends DataValueHandlerTest {
 	}
 
 	public function testEqualityFieldValue() {
+		$instance = $this->newInstance();
+
 		$timeValue = $this->getTimeValueMock( '41153.7' );
-		$equalityFieldValue = $this->timeHandler->getEqualityFieldValue( $timeValue );
+		$equalityFieldValue = $instance->getEqualityFieldValue( $timeValue );
 
 		$this->assertEquals( '41153.7|11|Stardate', $equalityFieldValue );
 	}
