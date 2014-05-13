@@ -18,6 +18,7 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  *
  * @licence GNU GPL v2+
  * @author Adam Shorland < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 class TimeHandler extends DataValueHandler {
 
@@ -42,6 +43,7 @@ class TimeHandler extends DataValueHandler {
 		$table->addColumn( 'value_epoche', Type::BIGINT );
 		$table->addColumn( 'value_epoche_min', Type::BIGINT );
 		$table->addColumn( 'value_epoche_max', Type::BIGINT );
+
 		$table->addIndex( array( 'value_epoche' ) );
 		$table->addIndex( array( 'value_epoche_min' ) );
 		$table->addIndex( array( 'value_epoche_max' ) );
@@ -97,13 +99,15 @@ class TimeHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a TimeValue' );
 		}
 
-		$epoche = $this->getEpoche( $value->getTime() );
-		// XXX: Shouldn't min/max use the after/before values?
+		$epoche = $this->getEpoche( $value->getTime(), $value->getTimezone() );
+		$before = $value->getBefore();
+		// The range from before to after must be at least one unit long
+		$after = max( 1, $value->getAfter() );
+		$precisionInSeconds = $this->getPrecisionInSeconds( $value->getPrecision() );
 		$values = array(
-			'value_epoche'     => $epoche,
-			'value_epoche_min' => $epoche,
-			'value_epoche_max' => $epoche
-				+ $this->getSecondsFromPrecision( $value->getPrecision() ),
+			'value_epoche' => $epoche,
+			'value_epoche_min' => $epoche - $before * $precisionInSeconds,
+			'value_epoche_max' => $epoche + $after * $precisionInSeconds,
 
 			'value' => $this->getEqualityFieldValue( $value ),
 		);
@@ -113,17 +117,23 @@ class TimeHandler extends DataValueHandler {
 
 	/**
 	 * @param string $time
+	 * @param int $timezone in minutes
 	 *
 	 * @throws RuntimeException
-	 * @return int
+	 * @return float
 	 */
-	private function getEpoche( $time ) {
+	private function getEpoche( $time, $timezone ) {
 		// Validation is done in TimeValue. As long if we found enough numbers we are fine.
 		if ( !preg_match( '/([-+]?\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)/', $time, $matches )
 		) {
 			throw new RuntimeException( "Failed to parse time value $time." );
 		}
 		list( , $fullYear, $month, $day, $hour, $minute, $second ) = $matches;
+
+		// There is no year 0 but this is not the place to do validation. Assume -1.
+		if ( $fullYear < 0 ) {
+			$fullYear += 1;
+		}
 
 		// We use mktime only for the month, day and time calculation. Set the year to the smallest
 		// possible in the 1970-2038 range to be safe, even if it's 1901-2038 since PHP 5.1.0.
@@ -143,38 +153,37 @@ class TimeHandler extends DataValueHandler {
 		$missingYears = $fullYear - $year;
 		$missingLeapDays = $this->getLeapDays( $fullYear ) - $this->getLeapDays( $year );
 
-		return $timestamp + ( $missingYears * 365 + $missingLeapDays ) * 86400;
+		return $timestamp + ( $missingYears * 365 + $missingLeapDays ) * 86400 - $timezone * 60;
 	}
 
 	/**
-	 * @param int $year
+	 * @param float $year
 	 *
 	 * @return bool
 	 */
 	private function isLeapYear( $year ) {
-		$isMultipleOf4   = $year %   4 === 0;
-		$isMultipleOf100 = $year % 100 === 0;
-		$isMultipleOf400 = $year % 400 === 0;
+		$isMultipleOf4   = fmod( $year,   4 ) === 0.0;
+		$isMultipleOf100 = fmod( $year, 100 ) === 0.0;
+		$isMultipleOf400 = fmod( $year, 400 ) === 0.0;
 		return $isMultipleOf4 && !$isMultipleOf100 || $isMultipleOf400;
 	}
 
 	/**
-	 * @param int $year
+	 * @param float $year
 	 *
-	 * @return int
+	 * @return float
 	 */
 	private function getLeapDays( $year ) {
-		$year = abs( $year );
-		return (int)( $year / 4 ) - (int)( $year / 100 ) + (int)( $year / 400 );
+		return floor( $year / 4 ) - floor( $year / 100 ) + floor( $year / 400 );
 	}
 
 	/**
 	 * @param int $precision
 	 *
 	 * @throws RuntimeException
-	 * @return int
+	 * @return float
 	 */
-	private function getSecondsFromPrecision( $precision ) {
+	private function getPrecisionInSeconds( $precision ) {
 		switch ( $precision ) {
 			case TimeValue::PRECISION_SECOND:
 				return 1;
