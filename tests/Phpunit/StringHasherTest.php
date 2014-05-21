@@ -17,11 +17,6 @@ use Wikibase\QueryEngine\StringHasher;
 class StringHasherTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @see StringHasher::__construct
-	 */
-	private $MAX_LENGTH = 50;
-
-	/**
 	 * @var StringHasher
 	 */
 	private $hasher;
@@ -41,7 +36,7 @@ class StringHasherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGivenStringExceedingPlainLength_isNotHashed() {
-		$maxMinusOneString = str_pad( '', $this->MAX_LENGTH - 1, '0123456789' );
+		$maxMinusOneString = str_pad( '', StringHasher::LENGTH - 1, '0123456789' );
 
 		$this->assertStringToHash( $maxMinusOneString, $maxMinusOneString );
 	}
@@ -52,14 +47,14 @@ class StringHasherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGivenStringExceedingMaxLength_maxLengthStringIsReturned() {
-		$maxPlusOneString = str_pad( '', $this->MAX_LENGTH + 1, '0123456789' );
+		$maxPlusOneString = str_pad( '', StringHasher::LENGTH + 1, '0123456789' );
 		$hash = $this->hasher->hash( $maxPlusOneString );
 
-		$this->assertEquals( $this->MAX_LENGTH, strlen( $hash ) );
+		$this->assertEquals( StringHasher::LENGTH, strlen( $hash ) );
 	}
 
 	public function testGivenStringThatCollidesWithAHash_isNotReturnedAsIs() {
-		$maxPlusOneString = str_pad( '', $this->MAX_LENGTH + 1, '0123456789' );
+		$maxPlusOneString = str_pad( '', StringHasher::LENGTH + 1, '0123456789' );
 		$collidingString = $this->hasher->hash( $maxPlusOneString );
 		$hash = $this->hasher->hash( $collidingString );
 
@@ -67,7 +62,7 @@ class StringHasherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGivenTwoStringsThatExceedMaxLength_hashIsNotTheSame() {
-		$maxString = str_pad( '', $this->MAX_LENGTH, '0123456789' );
+		$maxString = str_pad( '', StringHasher::LENGTH, '0123456789' );
 		$hash0 = $this->hasher->hash( $maxString . 'A' );
 		$hash1 = $this->hasher->hash( $maxString . 'B' );
 
@@ -75,7 +70,7 @@ class StringHasherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGivenStringWithoutBaseIsTheSame_hashWithoutBaseIsTheSame() {
-		$maxString = str_pad( '', $this->MAX_LENGTH, '0123456789' );
+		$maxString = str_pad( '', StringHasher::LENGTH, '0123456789' );
 		$hash0 = $this->hasher->hash( 'a' . $maxString );
 		$hash1 = $this->hasher->hash( 'b' . $maxString );
 

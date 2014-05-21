@@ -38,7 +38,7 @@ class StringHandler extends DataValueHandler {
 	 */
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value', Type::TEXT );
-		$table->addColumn( 'hash', Type::STRING, array( 'length' => 50 ) );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
 		// TODO: check what indexes should be added
 	}
