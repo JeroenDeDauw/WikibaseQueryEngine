@@ -40,7 +40,7 @@ class MonolingualTextHandler extends DataValueHandler {
 		$table->addColumn( 'value_text', Type::TEXT );
 		$table->addColumn( 'value_language', Type::STRING, array( 'length' => 20 ) );
 		$table->addColumn( 'value_json', Type::TEXT );
-		$table->addColumn( 'hash', Type::STRING, array( 'length' => 50 ) );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
 		// TODO: check what indexes should be added
 	}
