@@ -141,19 +141,6 @@ abstract class DataValueHandler {
 	}
 
 	/**
-	 * Create a DataValue from a cell value in the tables value field.
-	 *
-	 * @since 0.1
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 *
-	 * TODO: exception type
-	 */
-	abstract public function newDataValueFromValueField( $valueFieldValue );
-
-	/**
 	 * Return an array of fields=>values that is to be inserted when
 	 * writing the given DataValue to the database. Values should be set
 	 * for all columns, even if NULL. This array is used to perform all

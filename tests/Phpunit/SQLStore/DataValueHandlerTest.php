@@ -107,25 +107,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataProvider valueProvider
-	 *
-	 * @param DataValue $value
-	 */
-	public function testNewDataValueFromValueFieldValue( DataValue $value ) {
-		$instance = $this->newInstance();
-
-		$fieldValues = $instance->getInsertValues( $value );
-		$valueFieldValue = $fieldValues[$instance->getValueFieldName()];
-
-		$newValue = $instance->newDataValueFromValueField( $valueFieldValue );
-
-		$this->assertTrue(
-			$value->equals( $newValue ),
-			'Newly constructed DataValue equals the old one'
-		);
-	}
-
-	/**
 	 * @dataProvider instanceProvider
 	 *
 	 * @param DataValueHandler $dvHandler

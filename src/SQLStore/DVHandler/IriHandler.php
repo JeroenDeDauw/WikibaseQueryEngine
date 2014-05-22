@@ -62,17 +62,6 @@ class IriHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		return IriValue::newFromArray( json_decode( $valueFieldValue, true ) );
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value

@@ -47,18 +47,6 @@ class LatLongHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		$value = explode( '|', $valueFieldValue, 2 );
-		return new LatLongValue( (float)$value[0], (float)$value[1] );
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value

@@ -65,17 +65,6 @@ class StringHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		return new StringValue( $valueFieldValue );
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value
