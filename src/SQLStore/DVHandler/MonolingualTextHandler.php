@@ -60,10 +60,10 @@ class MonolingualTextHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getSortFieldName
+	 * @see DataValueHandler::getSortFieldNames
 	 */
-	public function getSortFieldName() {
-		return 'hash';
+	public function getSortFieldNames() {
+		return array( 'hash' );
 	}
 
 	/**

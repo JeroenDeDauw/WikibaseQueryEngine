@@ -99,7 +99,9 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEmpty( $insertValues );
 
 		$this->assertArrayHasKey( $instance->getValueFieldName(), $insertValues );
-		$this->assertArrayHasKey( $instance->getSortFieldName(), $insertValues );
+		foreach ( $instance->getSortFieldNames() as $sortFieldName ) {
+			$this->assertArrayHasKey( $sortFieldName, $insertValues );
+		}
 
 		if ( $instance->getLabelFieldName() !== null ) {
 			$this->assertArrayHasKey( $instance->getLabelFieldName(), $insertValues );
@@ -167,14 +169,19 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 * @param DataValueHandler $dvHandler
 	 */
 	public function testGetSortFieldNameReturnValue( DataValueHandler $dvHandler ) {
-		$sortFieldName = $dvHandler->getSortFieldName();
+		$sortFieldNames = $dvHandler->getSortFieldNames();
 
-		$this->assertInternalType( 'string', $sortFieldName );
+		$this->assertInternalType( 'array', $sortFieldNames );
+		$this->assertNotEmpty( $sortFieldNames );
 
-		$this->assertTrue(
-			$this->handlerTableHasColumn( $dvHandler, $sortFieldName ),
-			'The sort field is present in the table'
-		);
+		foreach ( $sortFieldNames as $sortFieldName ) {
+			$this->assertInternalType( 'string', $sortFieldName );
+
+			$this->assertTrue(
+				$this->handlerTableHasColumn( $dvHandler, $sortFieldName ),
+				'The sort field is present in the table'
+			);
+		}
 	}
 
 	/**
