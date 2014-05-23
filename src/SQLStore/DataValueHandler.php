@@ -110,16 +110,24 @@ abstract class DataValueHandler {
 	}
 
 	/**
-	 * Return the field used to select this type of DataValue. In
-	 * particular, this identifies the column that is used to sort values
-	 * of this kind. Every type of data returns a non-empty string here.
-	 *
-	 * @since 0.1
+	 * @deprecated use getSortFieldNames instead
 	 *
 	 * @return string
 	 */
 	public function getSortFieldName() {
 		return $this->getValueFieldName();
+	}
+
+	/**
+	 * Returns the names of the fields used to order this type of DataValue.
+	 * Usually a single field. Must not be an empty array.
+	 *
+	 * @since 0.1
+	 *
+	 * @return string[]
+	 */
+	public function getSortFieldNames() {
+		return array( $this->getSortFieldName() );
 	}
 
 	/**
