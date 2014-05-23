@@ -110,15 +110,6 @@ abstract class DataValueHandler {
 	}
 
 	/**
-	 * @deprecated use getSortFieldNames instead
-	 *
-	 * @return string
-	 */
-	public function getSortFieldName() {
-		return $this->getValueFieldName();
-	}
-
-	/**
 	 * Returns the names of the fields used to order this type of DataValue.
 	 * Usually a single field. Must not be an empty array.
 	 *
@@ -127,7 +118,7 @@ abstract class DataValueHandler {
 	 * @return string[]
 	 */
 	public function getSortFieldNames() {
-		return array( $this->getSortFieldName() );
+		return array( $this->getValueFieldName() );
 	}
 
 	/**
