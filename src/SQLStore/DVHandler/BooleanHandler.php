@@ -43,13 +43,6 @@ class BooleanHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		return new BooleanValue( $valueFieldValue );
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value
