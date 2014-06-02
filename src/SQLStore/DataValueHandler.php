@@ -169,6 +169,8 @@ abstract class DataValueHandler {
 	 * @return mixed
 	 * @throws InvalidArgumentException
 	 */
-	abstract public function getEqualityFieldValue( DataValue $value );
+	public function getEqualityFieldValue( DataValue $value ) {
+		return $value->getHash();
+	}
 
 }
