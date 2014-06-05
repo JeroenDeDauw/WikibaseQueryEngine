@@ -145,6 +145,23 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @dataProvider valueProvider
+	 *
+	 * @param DataValue $value
+	 */
+	public function testGetEqualityFieldValue_matchesEqualityField( DataValue $value ) {
+		$instance = $this->newInstance();
+
+		$insertValues = $instance->getInsertValues( $value );
+		$equalityFieldName = $instance->getEqualityFieldName();
+		$equalityFieldValue = $instance->getEqualityFieldValue( $value );
+
+		$this->assertInternalType( 'array', $insertValues );
+		$this->assertArrayHasKey( $equalityFieldName, $insertValues );
+		$this->assertEquals( $insertValues[$equalityFieldName], $equalityFieldValue );
+	}
+
+	/**
 	 * @dataProvider instanceProvider
 	 *
 	 * @param DataValueHandler $dvHandler
