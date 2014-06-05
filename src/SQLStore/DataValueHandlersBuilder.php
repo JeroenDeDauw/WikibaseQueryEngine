@@ -10,6 +10,7 @@ use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
+use Wikibase\QueryEngine\SQLStore\DVHandler\TimeHandler;
 
 /**
  * @since 0.1
@@ -38,6 +39,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addMainSnakHandler( 'monolingualtext', new MonolingualTextHandler() );
 		$this->handlers->addMainSnakHandler( 'number', new NumberHandler() );
 		$this->handlers->addMainSnakHandler( 'string', new StringHandler() );
+		$this->handlers->addMainSnakHandler( 'time', new TimeHandler() );
 
 		$this->handlers->addQualifierHandler( 'boolean', new BooleanHandler() );
 		$this->handlers->addQualifierHandler( 'iri', new IriHandler() );
@@ -45,6 +47,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addQualifierHandler( 'monolingualtext', new MonolingualTextHandler() );
 		$this->handlers->addQualifierHandler( 'number', new NumberHandler() );
 		$this->handlers->addQualifierHandler( 'string', new StringHandler() );
+		$this->handlers->addQualifierHandler( 'time', new TimeHandler() );
 
 		return $this;
 	}
