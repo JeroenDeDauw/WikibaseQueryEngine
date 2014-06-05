@@ -42,17 +42,6 @@ class NumberHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		return new NumberValue( $valueFieldValue );
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value

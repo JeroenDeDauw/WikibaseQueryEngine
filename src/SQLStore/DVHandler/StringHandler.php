@@ -58,21 +58,10 @@ class StringHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getSortFieldName
+	 * @see DataValueHandler::getSortFieldNames
 	 */
-	public function getSortFieldName() {
-		return 'hash';
-	}
-
-	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		return new StringValue( $valueFieldValue );
+	public function getSortFieldNames() {
+		return array( 'hash' );
 	}
 
 	/**

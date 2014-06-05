@@ -48,10 +48,10 @@ class IriHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getSortFieldName
+	 * @see DataValueHandler::getSortFieldNames
 	 */
-	public function getSortFieldName() {
-		return 'value_iri';
+	public function getSortFieldNames() {
+		return array( 'value_iri' );
 	}
 
 	/**
@@ -59,17 +59,6 @@ class IriHandler extends DataValueHandler {
 	 */
 	public function getLabelFieldName() {
 		return 'value_iri';
-	}
-
-	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		return IriValue::newFromArray( json_decode( $valueFieldValue, true ) );
 	}
 
 	/**

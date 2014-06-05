@@ -60,10 +60,10 @@ class MonolingualTextHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getSortFieldName
+	 * @see DataValueHandler::getSortFieldNames
 	 */
-	public function getSortFieldName() {
-		return 'hash';
+	public function getSortFieldNames() {
+		return array( 'hash' );
 	}
 
 	/**
@@ -71,17 +71,6 @@ class MonolingualTextHandler extends DataValueHandler {
 	 */
 	public function getLabelFieldName() {
 		return 'value_text';
-	}
-
-	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		return MonolingualTextValue::newFromArray( json_decode( $valueFieldValue, true ) );
 	}
 
 	/**

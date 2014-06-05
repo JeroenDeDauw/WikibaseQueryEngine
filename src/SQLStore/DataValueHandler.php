@@ -110,16 +110,15 @@ abstract class DataValueHandler {
 	}
 
 	/**
-	 * Return the field used to select this type of DataValue. In
-	 * particular, this identifies the column that is used to sort values
-	 * of this kind. Every type of data returns a non-empty string here.
+	 * Returns the names of the fields used to order this type of DataValue.
+	 * Usually a single field. Must not be an empty array.
 	 *
 	 * @since 0.1
 	 *
-	 * @return string
+	 * @return string[]
 	 */
-	public function getSortFieldName() {
-		return $this->getValueFieldName();
+	public function getSortFieldNames() {
+		return array( $this->getValueFieldName() );
 	}
 
 	/**
@@ -139,19 +138,6 @@ abstract class DataValueHandler {
 	public function getLabelFieldName() {
 		return $this->getValueFieldName();
 	}
-
-	/**
-	 * Create a DataValue from a cell value in the tables value field.
-	 *
-	 * @since 0.1
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 *
-	 * TODO: exception type
-	 */
-	abstract public function newDataValueFromValueField( $valueFieldValue );
 
 	/**
 	 * Return an array of fields=>values that is to be inserted when
@@ -183,6 +169,8 @@ abstract class DataValueHandler {
 	 * @return mixed
 	 * @throws InvalidArgumentException
 	 */
-	abstract public function getEqualityFieldValue( DataValue $value );
+	public function getEqualityFieldValue( DataValue $value ) {
+		return $value->getHash();
+	}
 
 }
