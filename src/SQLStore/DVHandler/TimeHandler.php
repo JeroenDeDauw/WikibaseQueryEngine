@@ -30,7 +30,8 @@ class TimeHandler extends DataValueHandler {
 	 * @see DataValueHandler::completeTable
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value', Type::STRING, array( 'length' => 33 ) );
+		// For example: -1234567890123456-12-31T23:59:59+01:00
+		$table->addColumn( 'value', Type::STRING, array( 'length' => 38 ) );
 		$table->addColumn( 'value_timestamp', Type::BIGINT );
 		$table->addColumn( 'value_min_timestamp', Type::BIGINT );
 		$table->addColumn( 'value_max_timestamp', Type::BIGINT );
@@ -51,7 +52,7 @@ class TimeHandler extends DataValueHandler {
 	 * @see DataValueHandler::getEqualityFieldName
 	 */
 	public function getEqualityFieldName() {
-		return 'value_timestamp';
+		return 'value';
 	}
 
 	/**
@@ -59,20 +60,6 @@ class TimeHandler extends DataValueHandler {
 	 */
 	public function getSortFieldName() {
 		return 'value_timestamp';
-	}
-
-	/**
-	 * @see DataValueHandler::newDataValueFromValueField
-	 *
-	 * @since 0.1
-	 *
-	 * @param string $valueFieldValue
-	 *
-	 * @return DataValue
-	 */
-	public function newDataValueFromValueField( $valueFieldValue ) {
-		$value = explode( '|', $valueFieldValue, 3 );
-		return new TimeValue( $value[0], 0, 0, 0, (int)$value[1], $value[2] );
 	}
 
 	/**
@@ -92,10 +79,12 @@ class TimeHandler extends DataValueHandler {
 
 		$calculator = new TimeValueCalculator();
 		$timestamp = $calculator->getTimestamp( $value );
+		$precisionInSeconds = $calculator->getSecondsForPrecision( $value->getPrecision() );
+
 		$before = $value->getBefore();
 		// The range from before to after must be at least one unit long
 		$after = max( 1, $value->getAfter() );
-		$precisionInSeconds = $calculator->getSecondsForPrecision( $value->getPrecision() );
+
 		$values = array(
 			'value_timestamp' => $timestamp,
 			'value_min_timestamp' => $timestamp - $before * $precisionInSeconds,
@@ -120,7 +109,24 @@ class TimeHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a TimeValue.' );
 		}
 
-		return $value->getTime() . '|' . $value->getPrecision() . '|' . $value->getCalendarModel();
+		if ( !preg_match( '/(-?\d+)(-\d\d-\d\dT\d\d:\d\d:\d\d)/', $value->getTime(), $matches ) ) {
+			throw new InvalidArgumentException( 'Failed to parse time value ' . $value->getTime() . '.' );
+		}
+		list( , $year, $mmddhhmmss ) = $matches;
+
+		$isoTime = sprintf( '%.0f', $year ) . $mmddhhmmss;
+
+		if ( !$value->getTimezone() ) {
+			$isoTime .= 'Z';
+		} else {
+			$isoTime .= sprintf(
+				'%+03d:%02d',
+				intval( $value->getTimezone() / 60 ),
+				abs( $value->getTimezone() ) % 60
+			);
+		}
+
+		return $isoTime;
 	}
 
 }
