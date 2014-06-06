@@ -102,31 +102,38 @@ class TimeHandler extends DataValueHandler {
 	 * @param DataValue $value
 	 *
 	 * @throws InvalidArgumentException
-	 * @return string
+	 * @return string ISO date and time without leading plus and zeros,
+	 * with the time zone in the format +01:00
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof TimeValue ) ) {
 			throw new InvalidArgumentException( 'Value is not a TimeValue.' );
 		}
 
+		// This ignores leading plus and time zones on purpose, validation should not happen here
 		if ( !preg_match( '/(-?\d+)(-\d\d-\d\dT\d\d:\d\d:\d\d)/', $value->getTime(), $matches ) ) {
 			throw new InvalidArgumentException( 'Failed to parse time value ' . $value->getTime() . '.' );
 		}
 		list( , $year, $mmddhhmmss ) = $matches;
 
-		$isoTime = sprintf( '%.0f', $year ) . $mmddhhmmss;
+		$isoDateAndTime = sprintf( '%.0f', $year )
+			. $mmddhhmmss
+			. $this->getTimeZoneSuffix( $value->getTimezone() );
 
-		if ( !$value->getTimezone() ) {
-			$isoTime .= 'Z';
-		} else {
-			$isoTime .= sprintf(
-				'%+03d:%02d',
-				intval( $value->getTimezone() / 60 ),
-				abs( $value->getTimezone() ) % 60
-			);
+		return $isoDateAndTime;
+	}
+
+	/**
+	 * @param int $minutes offset from UTC in minutes
+	 *
+	 * @return string time zone in the format +01:00 or Z for zero
+	 */
+	private function getTimeZoneSuffix( $minutes ) {
+		if ( !$minutes ) {
+			return 'Z';
 		}
 
-		return $isoTime;
+		return sprintf( '%+03d:%02d', intval( $minutes / 60 ), abs( $minutes ) % 60 );
 	}
 
 }
