@@ -46,6 +46,11 @@ class LatLongHandler extends DataValueHandler {
 		return 'value';
 	}
 
+	public function getSortFieldNames() {
+		// Order by West-East first
+		return array( 'value_lon', 'value_lat' );
+	}
+
 	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
