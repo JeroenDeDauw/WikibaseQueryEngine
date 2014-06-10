@@ -56,10 +56,10 @@ class TimeHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getSortFieldName
+	 * @see DataValueHandler::getSortFieldNames
 	 */
-	public function getSortFieldName() {
-		return 'value_timestamp';
+	public function getSortFieldNames() {
+		return array( 'value_timestamp' );
 	}
 
 	/**
