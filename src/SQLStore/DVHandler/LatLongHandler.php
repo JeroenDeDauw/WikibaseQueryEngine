@@ -35,8 +35,7 @@ class LatLongHandler extends DataValueHandler {
 		$table->addColumn( 'value_lon', Type::DECIMAL );
 		$table->addColumn( 'value', Type::STRING, array( 'length' => 100 ) );
 
-		$table->addIndex( array( 'value_lat' ) );
-		$table->addIndex( array( 'value_lon' ) );
+		$table->addIndex( array( 'value_lon', 'value_lat' ) );
 	}
 
 	/**
@@ -44,6 +43,11 @@ class LatLongHandler extends DataValueHandler {
 	 */
 	public function getValueFieldName() {
 		return 'value';
+	}
+
+	public function getSortFieldNames() {
+		// Order by West-East first
+		return array( 'value_lon', 'value_lat' );
 	}
 
 	/**
