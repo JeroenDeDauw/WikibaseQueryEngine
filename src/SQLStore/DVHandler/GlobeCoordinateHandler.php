@@ -35,7 +35,6 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		$table->addColumn( 'value_max_lat', Type::DECIMAL );
 		$table->addColumn( 'value_min_lon', Type::DECIMAL );
 		$table->addColumn( 'value_max_lon', Type::DECIMAL );
-		// This relies on the default implementation being an MD5 hash
 		$table->addColumn( 'hash',          Type::STRING, array( 'length' => 32 ) );
 
 		$table->addIndex( array( 'value_lon', 'value_lat' ) );
@@ -89,11 +88,21 @@ class GlobeCoordinateHandler extends DataValueHandler {
 			'value_min_lon' => $value->getLongitude() - $precision,
 			'value_max_lon' => $value->getLongitude() + $precision,
 
-			// This relies on the default implementation being an MD5 hash
 			'hash' => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
+	}
+
+	public function getEqualityFieldValue( DataValue $value ) {
+		if ( !( $value instanceof GlobeCoordinateValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a GlobeCoordinateValue' );
+		}
+
+		$serialization = ( fmod( $value->getLatitude() + 540, 360 ) - 180 ) . '|'
+			. ( fmod( $value->getLongitude() + 540, 360 ) - 180 ) . '|'
+			. $value->getGlobe();
+		return md5( $serialization );
 	}
 
 }
