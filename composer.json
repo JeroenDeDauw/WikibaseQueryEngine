@@ -32,7 +32,11 @@
 		"doctrine/dbal": "~2.4.2"
 	},
 	"require-dev": {
-		"ext-sqlite3": "*"
+		"ext-sqlite3": "*",
+		"symfony/console": "~2.4.4"
+	},
+	"suggest": {
+		"symfony/console": "Allows use of the command line interface"
 	},
 	"autoload": {
 		"files" : [
@@ -41,6 +45,12 @@
 		"psr-4": {
 			"Wikibase\\QueryEngine\\": "src/"
 		}
+	},
+	"bin": [
+		"bin/queryengine"
+	],
+	"config": {
+		"bin-dir": "bin"
 	},
 	"extra": {
 		"branch-alias": {
