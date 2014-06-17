@@ -7,6 +7,7 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use InvalidArgumentException;
 use Iterator;
@@ -16,6 +17,7 @@ use Wikibase\DataModel\Entity\EntityIdParsingException;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
@@ -93,7 +95,7 @@ class DescriptionMatchFinder {
 		$queryBuilder->setMaxResults( $options->getLimit() );
 		$queryBuilder->setFirstResult( $options->getOffset() );
 
-		return $this->getEntityIdsFromResult( $queryBuilder->execute() );
+		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder( $queryBuilder ) );
 	}
 
 	private function createQueryBuilder( PropertyId $propertyId, ValueDescription $description ) {
@@ -123,6 +125,15 @@ class DescriptionMatchFinder {
 		}
 
 		$builder->from( $dvHandler->getTableName(), $dvHandler->getTableName() );
+	}
+
+	private function getResultFromQueryBuilder( QueryBuilder $builder ) {
+		try {
+			return $builder->execute();
+		}
+		catch ( DBALException $ex ) {
+			throw new QueryEngineException( $ex->getMessage(), $ex->getCode(), $ex );
+		}
 	}
 
 	/**
