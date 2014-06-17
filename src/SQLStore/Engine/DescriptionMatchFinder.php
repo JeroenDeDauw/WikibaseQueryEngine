@@ -8,8 +8,10 @@ use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
+use Iterator;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdParser;
+use Wikibase\DataModel\Entity\EntityIdParsingException;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\DBALQueryBuilder;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
@@ -27,10 +29,10 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  */
 class DescriptionMatchFinder {
 
-	protected $connection;
-	protected $schema;
-	protected $propertyDataValueTypeLookup;
-	protected $idParser;
+	private $connection;
+	private $schema;
+	private $propertyDataValueTypeLookup;
+	private $idParser;
 
 	public function __construct( Connection $connection,
 			StoreSchema $schema,
@@ -62,8 +64,16 @@ class DescriptionMatchFinder {
 		throw new QueryNotSupportedException( $description );
 	}
 
-	// TODO: this code needs some serious cleanup before it is extended
-	protected function findMatchingSomeProperty( SomeProperty $description, QueryOptions $options ) {
+	/**
+	 * TODO: this code needs some serious cleanup before it is extended
+	 *
+	 * @param SomeProperty $description
+	 * @param QueryOptions $options
+	 *
+	 * @return EntityId[]
+	 * @throws InvalidArgumentException
+	 */
+	private function findMatchingSomeProperty( SomeProperty $description, QueryOptions $options ) {
 		$propertyId = $description->getPropertyId();
 
 		if ( !( $propertyId instanceof EntityIdValue ) ) {
@@ -93,19 +103,10 @@ class DescriptionMatchFinder {
 		$queryBuilder->setMaxResults( $options->getLimit() );
 		$queryBuilder->setFirstResult( $options->getOffset() );
 
-		$entityIds = array();
-
-		$results = $queryBuilder->execute();
-
-		foreach ( $results as $resultRow ) {
-			// TODO: handle parse exception
-			$entityIds[] = $this->idParser->parse( $resultRow['subject_id'] );
-		}
-
-		return $entityIds;
+		return $this->getEntityIdsFromResult( $queryBuilder->execute() );
 	}
 
-	protected function getExtraConditions( SomeProperty $description, DataValueHandler $dvHandler ) {
+	private function getExtraConditions( SomeProperty $description, DataValueHandler $dvHandler ) {
 		$subDescription = $description->getSubDescription();
 
 		if ( $subDescription instanceof ValueDescription ) {
@@ -120,6 +121,24 @@ class DescriptionMatchFinder {
 		}
 
 		return array();
+	}
+
+	/**
+	 * @param Iterator|array $resultRows
+	 *
+	 * @return EntityId[]
+	 */
+	private function getEntityIdsFromResult( $resultRows ) {
+		$entityIds = array();
+
+		foreach ( $resultRows as $resultRow ) {
+			try {
+				$entityIds[] = $this->idParser->parse( $resultRow['subject_id'] );
+			}
+			catch ( EntityIdParsingException $ex ) {}
+		}
+
+		return $entityIds;
 	}
 
 }
