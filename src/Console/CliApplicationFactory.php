@@ -19,7 +19,7 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class CliApplicationBuilder {
+class CliApplicationFactory {
 
 	/**
 	 * @var Application
@@ -39,7 +39,7 @@ class CliApplicationBuilder {
 	}
 
 	private function setApplicationInfo() {
-		$this->app->setName( 'Wikibase Query CLI' );
+		$this->app->setName( 'Wikibase QueryEngine CLI' );
 		$this->app->setVersion( WIKIBASE_QUERYENGINE_VERSION );
 	}
 
