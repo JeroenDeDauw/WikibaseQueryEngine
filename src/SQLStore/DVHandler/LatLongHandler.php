@@ -2,11 +2,14 @@
 
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
+use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
 use DataValues\LatLongValue;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
+use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
@@ -87,6 +90,21 @@ class LatLongHandler extends DataValueHandler {
 		}
 
 		return $value->getLatitude() . '|' . $value->getLongitude();
+	}
+
+	/**
+	 * @see DataValueHandler::addMatchConditions
+	 *
+	 * @param QueryBuilder $builder
+	 * @param ValueDescription $description
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws QueryNotSupportedException
+	 */
+	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+		// TODO
+		throw new QueryNotSupportedException( $description, 'No query support implemented yet' );
 	}
 
 }

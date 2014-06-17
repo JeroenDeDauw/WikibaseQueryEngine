@@ -2,10 +2,13 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
+use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use InvalidArgumentException;
 use RuntimeException;
+use Wikibase\QueryEngine\QueryNotSupportedException;
 
 /**
  * Represents the mapping between a DataValue type and the
@@ -171,6 +174,29 @@ abstract class DataValueHandler {
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		return $value->getHash();
+	}
+
+	/**
+	 * @since 0.2
+	 *
+	 * @param QueryBuilder $builder
+	 * @param ValueDescription $description
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws QueryNotSupportedException
+	 */
+	public abstract function addMatchConditions( QueryBuilder $builder, ValueDescription $description );
+
+	/**
+	 * @since 0.2
+	 *
+	 * @param QueryBuilder $builder
+	 * @param DataValue $value
+	 */
+	protected function addEqualityMatchConditions( QueryBuilder $builder, DataValue $value ) {
+		$builder->andWhere( $this->getTableName() . '.' . $this->getEqualityFieldName() . '= :equality' );
+		$builder->setParameter( ':equality', $this->getEqualityFieldValue( $value ) );
 	}
 
 }
