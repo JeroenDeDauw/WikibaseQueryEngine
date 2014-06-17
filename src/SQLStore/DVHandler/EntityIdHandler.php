@@ -2,12 +2,15 @@
 
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
+use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
+use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
@@ -84,6 +87,25 @@ class EntityIdHandler extends DataValueHandler {
 		}
 
 		return $value->getEntityId()->getSerialization();
+	}
+
+	/**
+	 * @see DataValueHandler::addMatchConditions
+	 *
+	 * @param QueryBuilder $builder
+	 * @param ValueDescription $description
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws QueryNotSupportedException
+	 */
+	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
+			$this->addEqualityMatchConditions( $builder, $description->getValue() );
+		}
+		else {
+			throw new QueryNotSupportedException( $description, 'Only equality is supported' );
+		}
 	}
 
 }

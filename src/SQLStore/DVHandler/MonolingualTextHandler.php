@@ -2,11 +2,14 @@
 
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
+use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
 use DataValues\MonolingualTextValue;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
+use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\StringHasher;
 
@@ -119,6 +122,25 @@ class MonolingualTextHandler extends DataValueHandler {
 		}
 
 		return $this->stringHasher->hash( $string );
+	}
+
+	/**
+	 * @see DataValueHandler::addMatchConditions
+	 *
+	 * @param QueryBuilder $builder
+	 * @param ValueDescription $description
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws QueryNotSupportedException
+	 */
+	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
+			$this->addEqualityMatchConditions( $builder, $description->getValue() );
+		}
+		else {
+			throw new QueryNotSupportedException( $description, 'Only equality is supported' );
+		}
 	}
 
 }
