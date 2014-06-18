@@ -37,10 +37,12 @@ class DescriptionMatchFinder {
 	private $propertyDataValueTypeLookup;
 	private $idParser;
 
-	public function __construct( Connection $connection,
-			StoreSchema $schema,
-			PropertyDataValueTypeLookup $propertyDataValueTypeLookup, EntityIdParser $idParser ) {
-
+	public function __construct(
+		Connection $connection,
+		StoreSchema $schema,
+		PropertyDataValueTypeLookup $propertyDataValueTypeLookup,
+		EntityIdParser $idParser
+	) {
 		$this->connection = $connection;
 		$this->schema = $schema;
 		$this->propertyDataValueTypeLookup = $propertyDataValueTypeLookup;
@@ -137,7 +139,7 @@ class DescriptionMatchFinder {
 	}
 
 	/**
-	 * @param Iterator|array $resultRows
+	 * @param Iterator|array[] $resultRows
 	 *
 	 * @return EntityId[]
 	 */
@@ -155,4 +157,3 @@ class DescriptionMatchFinder {
 	}
 
 }
-

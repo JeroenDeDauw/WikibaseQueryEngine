@@ -182,21 +182,17 @@ abstract class DataValueHandler {
 	 * @param QueryBuilder $builder
 	 * @param ValueDescription $description
 	 *
-	 * @return array
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	public abstract function addMatchConditions( QueryBuilder $builder, ValueDescription $description );
-
-	/**
-	 * @since 0.2
-	 *
-	 * @param QueryBuilder $builder
-	 * @param DataValue $value
-	 */
-	protected function addEqualityMatchConditions( QueryBuilder $builder, DataValue $value ) {
-		$builder->andWhere( $this->getTableName() . '.' . $this->getEqualityFieldName() . '= :equality' );
-		$builder->setParameter( ':equality', $this->getEqualityFieldValue( $value ) );
+	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
+			$builder->andWhere( $this->getTableName() . '.' . $this->getEqualityFieldName() . '= :equality' );
+			$builder->setParameter( ':equality', $this->getEqualityFieldValue( $description->getValue() ) );
+		}
+		else {
+			throw new QueryNotSupportedException( $description, 'Only equality is supported' );
+		}
 	}
 
 }

@@ -145,7 +145,6 @@ class TimeHandler extends DataValueHandler {
 	 * @param QueryBuilder $builder
 	 * @param ValueDescription $description
 	 *
-	 * @return array
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
