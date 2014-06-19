@@ -24,6 +24,8 @@ class TimeHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'time';
@@ -45,14 +47,9 @@ class TimeHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
-	 */
-	public function getValueFieldName() {
-		return 'value';
-	}
-
-	/**
 	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
 	 */
 	public function getEqualityFieldName() {
 		return 'value';
@@ -60,6 +57,8 @@ class TimeHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
 	 */
 	public function getSortFieldNames() {
 		return array( 'value_timestamp' );

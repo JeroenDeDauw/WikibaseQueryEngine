@@ -24,6 +24,8 @@ class NumberHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'number';
@@ -37,10 +39,12 @@ class NumberHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
+	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
 	 */
-	public function getValueFieldName() {
-		return 'value';
+	public function getSortFieldNames() {
+		return array( 'value' );
 	}
 
 	/**

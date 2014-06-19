@@ -30,6 +30,8 @@ class StringHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'string';
@@ -46,14 +48,9 @@ class StringHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
-	 */
-	public function getValueFieldName() {
-		return 'value';
-	}
-
-	/**
 	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
 	 */
 	public function getEqualityFieldName() {
 		return 'hash';
@@ -61,6 +58,8 @@ class StringHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
 	 */
 	public function getSortFieldNames() {
 		return array( 'hash' );

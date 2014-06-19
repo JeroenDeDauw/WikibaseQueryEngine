@@ -24,6 +24,8 @@ class BooleanHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'boolean';
@@ -34,14 +36,17 @@ class BooleanHandler extends DataValueHandler {
 	 */
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value', Type::BOOLEAN );
+
 		$table->addIndex( array( 'value' ) );
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
+	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
 	 */
-	public function getValueFieldName() {
-		return 'value';
+	public function getSortFieldNames() {
+		return array( 'value' );
 	}
 
 	/**

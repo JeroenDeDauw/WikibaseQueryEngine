@@ -30,6 +30,8 @@ class MonolingualTextHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'mono_text';
@@ -48,14 +50,9 @@ class MonolingualTextHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
-	 */
-	public function getValueFieldName() {
-		return 'value_json';
-	}
-
-	/**
 	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
 	 */
 	public function getEqualityFieldName() {
 		return 'hash';
@@ -63,6 +60,8 @@ class MonolingualTextHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
 	 */
 	public function getSortFieldNames() {
 		return array( 'hash' );
