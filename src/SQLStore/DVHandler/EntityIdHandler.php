@@ -63,7 +63,7 @@ class EntityIdHandler extends DataValueHandler {
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof EntityIdValue ) ) {
-			throw new InvalidArgumentException( '$value is not a EntityIdValue' );
+			throw new InvalidArgumentException( '$value is not a EntityIdValue.' );
 		}
 
 		$values = array(
@@ -84,7 +84,7 @@ class EntityIdHandler extends DataValueHandler {
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof EntityIdValue ) ) {
-			throw new InvalidArgumentException( '$value is not a EntityIdValue' );
+			throw new InvalidArgumentException( '$value is not a EntityIdValue.' );
 		}
 
 		return $value->getEntityId()->getSerialization();

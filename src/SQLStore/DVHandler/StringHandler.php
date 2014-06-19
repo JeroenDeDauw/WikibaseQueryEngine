@@ -58,11 +58,12 @@ class StringHandler extends DataValueHandler {
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof StringValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a StringValue' );
+			throw new InvalidArgumentException( 'Value is not a StringValue.' );
 		}
 
 		$values = array(
 			'value' => $value->getValue(),
+
 			'hash' => $this->getEqualityFieldValue( $value ),
 		);
 
@@ -79,7 +80,7 @@ class StringHandler extends DataValueHandler {
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof StringValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a StringValue' );
+			throw new InvalidArgumentException( 'Value is not a StringValue.' );
 		}
 
 		return $this->hash( $value->getValue() );

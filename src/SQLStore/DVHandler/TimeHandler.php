@@ -36,10 +36,10 @@ class TimeHandler extends DataValueHandler {
 	 */
 	protected function completeTable( Table $table ) {
 		// TODO: Do we need to store the precision, before, after, timezone and calendar model?
-		$table->addColumn( 'value_timestamp', Type::BIGINT );
+		$table->addColumn( 'value_timestamp',     Type::BIGINT );
 		$table->addColumn( 'value_min_timestamp', Type::BIGINT );
 		$table->addColumn( 'value_max_timestamp', Type::BIGINT );
-		$table->addColumn( 'hash', Type::STRING, array( 'length' => 32 ) );
+		$table->addColumn( 'hash',                Type::STRING, array( 'length' => 32 ) );
 
 		$table->addIndex( array( 'value_timestamp' ) );
 		$table->addIndex( array( 'value_min_timestamp' ) );
@@ -65,7 +65,7 @@ class TimeHandler extends DataValueHandler {
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof TimeValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a TimeValue' );
+			throw new InvalidArgumentException( 'Value is not a TimeValue.' );
 		}
 
 		$calculator = new TimeValueCalculator();
@@ -100,13 +100,13 @@ class TimeHandler extends DataValueHandler {
 		$value = $description->getValue();
 
 		if ( !( $value instanceof TimeValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a TimeValue' );
+			throw new InvalidArgumentException( 'Value is not a TimeValue.' );
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
 			$this->addInRangeConditions( $builder, $value );
 		} else {
-			throw new QueryNotSupportedException( $description, 'Only equality is supported' );
+			parent::addMatchConditions( $builder, $description);
 		}
 	}
 
