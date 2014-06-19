@@ -2,13 +2,15 @@
 
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
+use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
 use DataValues\QuantityValue;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
+use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
-use Wikibase\QueryEngine\StringHasher;
 
 /**
  * @since 0.1
@@ -17,11 +19,6 @@ use Wikibase\QueryEngine\StringHasher;
  * @author Thiemo Mättig
  */
 class QuantityHandler extends DataValueHandler {
-
-	/**
-	 * @var StringHasher|null
-	 */
-	private $stringHasher = null;
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
@@ -34,12 +31,12 @@ class QuantityHandler extends DataValueHandler {
 	 * @see DataValueHandler::completeTable
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
+		$table->addColumn( $this->getEqualityFieldName(), Type::STRING, array( 'length' => 32 ) );
 		$table->addColumn( 'value_actual', Type::DECIMAL );
 		$table->addColumn( 'value_lower_bound', Type::DECIMAL );
 		$table->addColumn( 'value_upper_bound', Type::DECIMAL );
 
-		// XXX: Does the equality field get an index automatically?
+		$table->addIndex( array( 'value_actual' ) );
 		$table->addIndex( array( 'value_lower_bound' ) );
 		$table->addIndex( array( 'value_upper_bound' ) );
 	}
@@ -55,7 +52,7 @@ class QuantityHandler extends DataValueHandler {
 	 * @see DataValueHandler::getEqualityFieldName
 	 */
 	public function getEqualityFieldName() {
-		return 'value';
+		return 'hash';
 	}
 
 	/**
@@ -78,38 +75,49 @@ class QuantityHandler extends DataValueHandler {
 			'value_lower_bound' => $value->getLowerBound()->getValueFloat(),
 			'value_upper_bound' => $value->getUpperBound()->getValueFloat(),
 
-			'value' => $this->getEqualityFieldValue( $value ),
+			$this->getEqualityFieldName() => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
 	}
 
 	/**
-	 * @see DataValueHandler::getEqualityFieldValue
+	 * @see DataValueHandler::addMatchConditions
 	 *
-	 * @param DataValue $value
+	 * @param QueryBuilder $builder
+	 * @param ValueDescription $description
 	 *
 	 * @throws InvalidArgumentException
-	 * @return float
+	 * @throws QueryNotSupportedException
 	 */
-	public function getEqualityFieldValue( DataValue $value ) {
-		if ( !( $value instanceof QuantityValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a QuantityValue.' );
-		}
+	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
+			$searchValue = $description->getValue();
+			if ( !( $searchValue instanceof QuantityValue ) ) {
+				throw new InvalidArgumentException( 'Value is not a QuantityValue.' );
+			}
 
-		$string = strval( $value->getAmount()->getValueFloat() );
-		if ( $value->getUnit() !== '1' ) {
-			$string .= ' ' . $value->getUnit();
-		}
-		return $this->hash( $string );
-	}
+			// We are not asking if the given search value fits in a range, we are searching for
+			// values within the given search range.
+			$lowerBound = $searchValue->getLowerBound()->getValueFloat();
+			$upperBound = $searchValue->getUpperBound()->getValueFloat();
 
-	private function hash( $string ) {
-		if ( $this->stringHasher === null ) {
-			$this->stringHasher = new StringHasher();
+			// Exact search if search range is zero.
+			if ( $lowerBound >= $upperBound ) {
+				$builder->andWhere( $this->getTableName() . '.value_actual = :actual' );
+				$builder->setParameter( ':actual', $searchValue->getAmount()->getValueFloat() );
+			} else {
+				// If searching for 1500 m (with default precision +/-1) we don't want to
+				// find 1501 m, but want to find 1500.99 m (no matter what the precision is).
+				// So the range is ]-precision,+precision[ (exclusive).
+				$builder->andWhere( $this->getTableName() . '.' . $this->getValueFieldName() . ' > :lower_bound' );
+				$builder->andWhere( $this->getTableName() . '.' . $this->getValueFieldName() . ' < :upper_bound' );
+				$builder->setParameter( ':lower_bound', $lowerBound );
+				$builder->setParameter( ':upper_bound', $upperBound );
+			}
+		} else {
+			parent::addMatchConditions( $builder, $description );
 		}
-
-		return $this->stringHasher->hash( $string );
 	}
 
 }

@@ -81,39 +81,4 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 		$this->assertGreaterThanOrEqual( $insertValues['value_actual'], $insertValues['value_upper_bound'] );
 	}
 
-	public function amountProvider() {
-		return array(
-			array( '1', 1.0 ),
-
-			// Separate with space to avoid confusion
-			array( '1 m', 1.0, 'm' ),
-
-			// Rely on PHP`s build-in significant digits limitation
-			array( '0.33333333333333', 1/3 ),
-			array( '3.3333333333333E-9', 0.00000001/3 ),
-		);
-	}
-
-	/**
-	 * @dataProvider amountProvider
-	 *
-	 * @param string $expected
-	 * @param float $amount
-	 * @param string $unit
-	 */
-	public function testGetEqualityFieldValue( $expected, $amount, $unit = '1' ) {
-		$instance = $this->newInstance();
-
-		$amount = new DecimalValue( $amount );
-		$quantityValue = new QuantityValue(
-			$amount,
-			$unit,
-			$amount,
-			$amount
-		);
-		$equalityFieldValue = $instance->getEqualityFieldValue( $quantityValue );
-
-		$this->assertEquals( $expected, $equalityFieldValue );
-	}
-
 }
