@@ -1,5 +1,9 @@
 # Wikibase QueryEngine release notes
 
+## Version 0.3 (dev)
+
+* 
+
 ## Version 0.2 (2014-06-21)
 
 Initial release with these features:
