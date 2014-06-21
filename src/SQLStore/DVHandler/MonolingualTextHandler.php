@@ -43,28 +43,9 @@ class MonolingualTextHandler extends DataValueHandler {
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value_text', Type::TEXT );
 		$table->addColumn( 'value_language', Type::STRING, array( 'length' => 20 ) );
-		$table->addColumn( 'value_json', Type::TEXT );
 		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
 		// TODO: check what indexes should be added
-	}
-
-	/**
-	 * @see DataValueHandler::getEqualityFieldName
-	 *
-	 * @return string
-	 */
-	public function getEqualityFieldName() {
-		return 'hash';
-	}
-
-	/**
-	 * @see DataValueHandler::getSortFieldNames
-	 *
-	 * @return string[]
-	 */
-	public function getSortFieldNames() {
-		return array( 'hash' );
 	}
 
 	/**
@@ -91,7 +72,6 @@ class MonolingualTextHandler extends DataValueHandler {
 			'value_text' => $value->getText(),
 			'value_language' => $value->getLanguageCode(),
 
-			'value_json' => json_encode( $value->getArrayValue() ),
 			'hash' => $this->getEqualityFieldValue( $value )
 		);
 

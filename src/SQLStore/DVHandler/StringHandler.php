@@ -48,24 +48,6 @@ class StringHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getEqualityFieldName
-	 *
-	 * @return string
-	 */
-	public function getEqualityFieldName() {
-		return 'hash';
-	}
-
-	/**
-	 * @see DataValueHandler::getSortFieldNames
-	 *
-	 * @return string[]
-	 */
-	public function getSortFieldNames() {
-		return array( 'hash' );
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value

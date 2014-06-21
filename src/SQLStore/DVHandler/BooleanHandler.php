@@ -41,12 +41,12 @@ class BooleanHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getSortFieldNames
+	 * @see DataValueHandler::getEqualityFieldName
 	 *
-	 * @return string[]
+	 * @return string
 	 */
-	public function getSortFieldNames() {
-		return array( 'value' );
+	public function getEqualityFieldName() {
+		return 'value';
 	}
 
 	/**

@@ -45,6 +45,15 @@ class IriHandler extends DataValueHandler {
 	}
 
 	/**
+	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
+	 */
+	public function getEqualityFieldName() {
+		return 'value_json';
+	}
+
+	/**
 	 * @see DataValueHandler::getSortFieldNames
 	 *
 	 * @return string[]

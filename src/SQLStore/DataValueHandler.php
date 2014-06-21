@@ -110,7 +110,9 @@ abstract class DataValueHandler {
 	 *
 	 * @return string[]
 	 */
-	abstract public function getSortFieldNames();
+	public function getSortFieldNames() {
+		return array( $this->getEqualityFieldName() );
+	}
 
 	/**
 	 * Return the label field for this type of DataValue. This should be

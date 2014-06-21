@@ -42,11 +42,11 @@ class EntityIdHandler extends DataValueHandler {
 	 * @see DataValueHandler::completeTable
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value_type', Type::STRING, array( 'length' => 20 ) );
 		$table->addColumn( 'value_id', Type::STRING, array( 'length' => 20 ) );
+		$table->addColumn( 'value_type', Type::STRING, array( 'length' => 20 ) );
 
-		$table->addIndex( array( 'value_type' ) );
 		$table->addIndex( array( 'value_id' ) );
+		$table->addIndex( array( 'value_type' ) );
 	}
 
 	/**
@@ -56,15 +56,6 @@ class EntityIdHandler extends DataValueHandler {
 	 */
 	public function getEqualityFieldName() {
 		return 'value_id';
-	}
-
-	/**
-	 * @see DataValueHandler::getSortFieldNames
-	 *
-	 * @return string[]
-	 */
-	public function getSortFieldNames() {
-		return array( 'value_id' );
 	}
 
 	/**
@@ -81,8 +72,8 @@ class EntityIdHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'value_type' => $value->getEntityId()->getEntityType(),
 			'value_id' => $value->getEntityId()->getSerialization(),
+			'value_type' => $value->getEntityId()->getEntityType(),
 		);
 
 		return $values;

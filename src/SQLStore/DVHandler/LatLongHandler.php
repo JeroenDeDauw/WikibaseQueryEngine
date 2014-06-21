@@ -44,6 +44,15 @@ class LatLongHandler extends DataValueHandler {
 	}
 
 	/**
+	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
+	 */
+	public function getEqualityFieldName() {
+		return 'value';
+	}
+
+	/**
 	 * @see DataValueHandler::getSortFieldNames
 	 *
 	 * @return string[]
