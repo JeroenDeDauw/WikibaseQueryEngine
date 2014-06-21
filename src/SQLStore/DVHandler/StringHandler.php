@@ -30,6 +30,8 @@ class StringHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'string';
@@ -43,27 +45,6 @@ class StringHandler extends DataValueHandler {
 		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
 		// TODO: check what indexes should be added
-	}
-
-	/**
-	 * @see DataValueHandler::getValueFieldName
-	 */
-	public function getValueFieldName() {
-		return 'value';
-	}
-
-	/**
-	 * @see DataValueHandler::getEqualityFieldName
-	 */
-	public function getEqualityFieldName() {
-		return 'hash';
-	}
-
-	/**
-	 * @see DataValueHandler::getSortFieldNames
-	 */
-	public function getSortFieldNames() {
-		return array( 'hash' );
 	}
 
 	/**

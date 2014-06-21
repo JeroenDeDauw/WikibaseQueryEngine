@@ -98,7 +98,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertInternalType( 'array', $insertValues );
 		$this->assertNotEmpty( $insertValues );
 
-		$this->assertArrayHasKey( $instance->getValueFieldName(), $insertValues );
 		foreach ( $instance->getSortFieldNames() as $sortFieldName ) {
 			$this->assertArrayHasKey( $sortFieldName, $insertValues );
 		}
@@ -106,22 +105,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		if ( $instance->getLabelFieldName() !== null ) {
 			$this->assertArrayHasKey( $instance->getLabelFieldName(), $insertValues );
 		}
-	}
-
-	/**
-	 * @dataProvider instanceProvider
-	 *
-	 * @param DataValueHandler $dvHandler
-	 */
-	public function testGetValueFieldNameReturnValue( DataValueHandler $dvHandler ) {
-		$valueFieldName = $dvHandler->getValueFieldName();
-
-		$this->assertInternalType( 'string', $valueFieldName );
-
-		$this->assertTrue(
-			$this->handlerTableHasColumn( $dvHandler, $valueFieldName ),
-			'The value field is present in the table'
-		);
 	}
 
 	private function handlerTableHasColumn( DataValueHandler $dvHandler, $columnName ) {

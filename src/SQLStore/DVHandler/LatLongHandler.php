@@ -25,6 +25,8 @@ class LatLongHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'latlong';
@@ -42,12 +44,19 @@ class LatLongHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
+	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
 	 */
-	public function getValueFieldName() {
+	public function getEqualityFieldName() {
 		return 'value';
 	}
 
+	/**
+	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
+	 */
 	public function getSortFieldNames() {
 		// Order by West-East first
 		return array( 'value_lon', 'value_lat' );

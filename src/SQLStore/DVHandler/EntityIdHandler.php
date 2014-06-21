@@ -31,6 +31,8 @@ class EntityIdHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'entityid';
@@ -42,12 +44,17 @@ class EntityIdHandler extends DataValueHandler {
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value_id', Type::STRING, array( 'length' => 20 ) );
 		$table->addColumn( 'value_type', Type::STRING, array( 'length' => 20 ) );
+
+		$table->addIndex( array( 'value_id' ) );
+		$table->addIndex( array( 'value_type' ) );
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
+	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
 	 */
-	public function getValueFieldName() {
+	public function getEqualityFieldName() {
 		return 'value_id';
 	}
 

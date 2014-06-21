@@ -24,6 +24,8 @@ class IriHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'iri';
@@ -43,14 +45,18 @@ class IriHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getValueFieldName
+	 * @see DataValueHandler::getEqualityFieldName
+	 *
+	 * @return string
 	 */
-	public function getValueFieldName() {
+	public function getEqualityFieldName() {
 		return 'value_json';
 	}
 
 	/**
 	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
 	 */
 	public function getSortFieldNames() {
 		return array( 'value_iri' );
@@ -58,6 +64,8 @@ class IriHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getLabelFieldName
+	 *
+	 * @return string
 	 */
 	public function getLabelFieldName() {
 		return 'value_iri';

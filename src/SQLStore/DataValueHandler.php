@@ -90,16 +90,6 @@ abstract class DataValueHandler {
 	abstract protected function completeTable( Table $table );
 
 	/**
-	 * Returns the name of the field that holds the value from which
-	 * a DataValue instance can be (re)constructed.
-	 *
-	 * @since 0.1
-	 *
-	 * @return string
-	 */
-	abstract public function getValueFieldName();
-
-	/**
 	 * Returns the name of the field that holds a value suitable for equality checks.
 	 *
 	 * This field should not exceed 255 chars index space equivalent.
@@ -109,7 +99,7 @@ abstract class DataValueHandler {
 	 * @return string
 	 */
 	public function getEqualityFieldName() {
-		return $this->getValueFieldName();
+		return 'hash';
 	}
 
 	/**
@@ -121,17 +111,17 @@ abstract class DataValueHandler {
 	 * @return string[]
 	 */
 	public function getSortFieldNames() {
-		return array( $this->getValueFieldName() );
+		return array( $this->getEqualityFieldName() );
 	}
 
 	/**
 	 * Return the label field for this type of DataValue. This should be
 	 * a string column in the database table that can be used for selecting
 	 * values using criteria such as "starts with". The return value can be
-	 * empty if this is not supported. This is preferred for DataValue
+	 * null if this is not supported. This is preferred for DataValue
 	 * classes that do not have an obvious canonical string writing anyway.
 	 *
-	 * The return value can be a column name or the empty string (if the
+	 * The return value can be a column name or null (if the
 	 * give type of DataValue does not have a label field).
 	 *
 	 * @since 0.1
@@ -139,7 +129,7 @@ abstract class DataValueHandler {
 	 * @return string|null
 	 */
 	public function getLabelFieldName() {
-		return $this->getValueFieldName();
+		return null;
 	}
 
 	/**
