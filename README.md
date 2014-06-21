@@ -9,11 +9,13 @@ On [Packagist](https://packagist.org/packages/wikibase/query-engine):
 [![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/version.png)](https://packagist.org/packages/wikibase/query-engine)
 [![Download count](https://poser.pugx.org/wikibase/query-engine/d/total.png)](https://packagist.org/packages/wikibase/query-engine)
 
-Component containing query answering code for
-[Ask](https://github.com/wmde/Ask)
-queries against a collection of
-[Wikibase](http://wikiba.se)
-entities.
+**Wikibase QueryEngine** is a component that supports running [Ask](https://github.com/wmde/Ask)
+queries against a collection of [Wikibase](http://wikiba.se) entities.
+
+It is primarily used by the Wikibase MediaWiki extensions, though
+has no dependencies whatsoever on these or on MediaWiki itself.
+
+Recent changes can be found in the [release notes](RELEASE-NOTES.md).
 
 ## Installation
 
@@ -115,7 +117,7 @@ All snak tables have the following fields:
 * property_id, string
 * statement_rank, int
 
-The schema definition is dynamically build in Schema.php.
+The schema definition is dynamically build in StoreSchema.php.
 
 #### Value snak tables
 
@@ -132,8 +134,7 @@ Additional fields:
 
 ## Authors
 
-Wikibase QueryEngine has been written by [Jeroen De Dauw](https://www.mediawiki.org/wiki/User:Jeroen_De_Dauw)
-as [Wikimedia Germany](https://wikimedia.de) employee for the [Wikidata project](https://wikidata.org/).
+Wikibase QueryEngine has been written by the Wikidata team for the [Wikidata project](https://wikidata.org/).
 
 ## Links
 
