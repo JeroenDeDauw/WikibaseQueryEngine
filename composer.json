@@ -47,11 +47,8 @@
 		}
 	},
 	"bin": [
-		"bin/queryengine"
+		"queryengine"
 	],
-	"config": {
-		"bin-dir": "bin"
-	},
 	"extra": {
 		"branch-alias": {
 			"dev-master": "0.3.x-dev"
