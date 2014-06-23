@@ -10,6 +10,7 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\StringHasher;
 
 /**
  * Represents the mapping between DataValues\IriValue and
@@ -23,6 +24,11 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 class IriHandler extends DataValueHandler {
 
 	/**
+	 * @var StringHasher|null
+	 */
+	private $stringHasher = null;
+
+	/**
 	 * @see DataValueHandler::getBaseTableName
 	 *
 	 * @return string
@@ -33,33 +39,18 @@ class IriHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::completeTable
+	 *
+	 * @param Table $table
 	 */
 	protected function completeTable( Table $table ) {
 		// TODO: figure out what the max field lengths should be
 		$table->addColumn( 'value_scheme', Type::STRING );
-		$table->addColumn( 'value_fragment', Type::STRING );
+		$table->addColumn( 'value_hierarchical', Type::STRING );
 		$table->addColumn( 'value_query', Type::STRING );
-		$table->addColumn( 'value_hierp', Type::STRING );
-		$table->addColumn( 'value_iri', Type::STRING );
-		$table->addColumn( 'value_json', Type::STRING );
-	}
+		$table->addColumn( 'value_fragment', Type::STRING );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
-	/**
-	 * @see DataValueHandler::getEqualityFieldName
-	 *
-	 * @return string
-	 */
-	public function getEqualityFieldName() {
-		return 'value_json';
-	}
-
-	/**
-	 * @see DataValueHandler::getSortFieldNames
-	 *
-	 * @return string[]
-	 */
-	public function getSortFieldNames() {
-		return array( 'value_iri' );
+		$table->addIndex( array( 'hash' ) );
 	}
 
 	/**
@@ -67,8 +58,8 @@ class IriHandler extends DataValueHandler {
 	 *
 	 * @param DataValue $value
 	 *
-	 * @return array
 	 * @throws InvalidArgumentException
+	 * @return string[]
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof IriValue ) ) {
@@ -77,13 +68,11 @@ class IriHandler extends DataValueHandler {
 
 		$values = array(
 			'value_scheme' => $value->getScheme(),
-			'value_fragment' => $value->getFragment(),
+			'value_hierarchical' => $value->getHierarchicalPart(),
 			'value_query' => $value->getQuery(),
-			'value_hierp' => $value->getHierarchicalPart(),
+			'value_fragment' => $value->getFragment(),
 
-			'value_iri' => $value->getValue(),
-
-			'value_json' => $this->getEqualityFieldValue( $value ),
+			'hash' => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
@@ -94,15 +83,23 @@ class IriHandler extends DataValueHandler {
 	 *
 	 * @param DataValue $value
 	 *
-	 * @return string
 	 * @throws InvalidArgumentException
+	 * @return string
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof IriValue ) ) {
 			throw new InvalidArgumentException( 'Value is not a IriValue' );
 		}
 
-		return json_encode( $value->getArrayValue() );
+		return $this->hash( $value->getValue() );
+	}
+
+	private function hash( $string ) {
+		if ( $this->stringHasher === null ) {
+			$this->stringHasher = new StringHasher();
+		}
+
+		return $this->stringHasher->hash( $string );
 	}
 
 }
