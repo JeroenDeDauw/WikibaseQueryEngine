@@ -28,8 +28,8 @@
 		"data-values/geo": "~0.1",
 		"data-values/time": "~0.6",
 		"ask/ask": "~1.0",
-		"wikibase/data-model": "~0.8.1",
-		"doctrine/dbal": "~2.4.2"
+		"wikibase/data-model": "~1.0@dev|~0.8.1",
+		"doctrine/dbal": "~2.4"
 	},
 	"require-dev": {
 		"ext-sqlite3": "*",
