@@ -115,24 +115,6 @@ abstract class DataValueHandler {
 	}
 
 	/**
-	 * Return the label field for this type of DataValue. This should be
-	 * a string column in the database table that can be used for selecting
-	 * values using criteria such as "starts with". The return value can be
-	 * null if this is not supported. This is preferred for DataValue
-	 * classes that do not have an obvious canonical string writing anyway.
-	 *
-	 * The return value can be a column name or null (if the
-	 * give type of DataValue does not have a label field).
-	 *
-	 * @since 0.1
-	 *
-	 * @return string|null
-	 */
-	public function getLabelFieldName() {
-		return null;
-	}
-
-	/**
 	 * Return an array of fields=>values that is to be inserted when
 	 * writing the given DataValue to the database. Values should be set
 	 * for all columns, even if NULL. This array is used to perform all

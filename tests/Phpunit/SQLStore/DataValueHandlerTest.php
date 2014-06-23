@@ -101,10 +101,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		foreach ( $instance->getSortFieldNames() as $sortFieldName ) {
 			$this->assertArrayHasKey( $sortFieldName, $insertValues );
 		}
-
-		if ( $instance->getLabelFieldName() !== null ) {
-			$this->assertArrayHasKey( $instance->getLabelFieldName(), $insertValues );
-		}
 	}
 
 	private function handlerTableHasColumn( DataValueHandler $dvHandler, $columnName ) {
@@ -161,27 +157,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 			$this->assertTrue(
 				$this->handlerTableHasColumn( $dvHandler, $sortFieldName ),
 				'The sort field is present in the table'
-			);
-		}
-	}
-
-	/**
-	 * @dataProvider instanceProvider
-	 *
-	 * @param DataValueHandler $dvHandler
-	 */
-	public function testGetLabelFieldNameReturnValue( DataValueHandler $dvHandler ) {
-		$labelFieldName = $dvHandler->getLabelFieldName();
-
-		$this->assertTrue(
-			$labelFieldName === null || is_string( $labelFieldName ),
-			'The label field name needs to be either string or null'
-		);
-
-		if ( is_string( $labelFieldName ) ) {
-			$this->assertTrue(
-				$this->handlerTableHasColumn( $dvHandler, $labelFieldName ),
-				'The label field is present in the table'
 			);
 		}
 	}
