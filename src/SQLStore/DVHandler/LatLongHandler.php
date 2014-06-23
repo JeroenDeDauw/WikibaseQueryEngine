@@ -34,22 +34,17 @@ class LatLongHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::completeTable
+	 *
+	 * @param Table $table
 	 */
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value_lat', Type::DECIMAL );
 		$table->addColumn( 'value_lon', Type::DECIMAL );
-		$table->addColumn( 'value', Type::STRING, array( 'length' => 100 ) );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => 32 ) );
 
-		$table->addIndex( array( 'value_lon', 'value_lat' ) );
-	}
-
-	/**
-	 * @see DataValueHandler::getEqualityFieldName
-	 *
-	 * @return string
-	 */
-	public function getEqualityFieldName() {
-		return 'value';
+		// We need to search for greater/lower than. This can't use a combined index.
+		$table->addIndex( array( 'value_lat' ) );
+		$table->addIndex( array( 'value_lon' ) );
 	}
 
 	/**
@@ -79,26 +74,11 @@ class LatLongHandler extends DataValueHandler {
 			'value_lat' => $value->getLatitude(),
 			'value_lon' => $value->getLongitude(),
 
-			'value' => $this->getEqualityFieldValue( $value ),
+			// No special human-readable hash needed, everything required is in the other fields.
+			'hash' => $this->getEqualityFieldValue( $value ),
 		);
 
 		return $values;
-	}
-
-	/**
-	 * @see DataValueHandler::getEqualityFieldValue
-	 *
-	 * @param DataValue $value
-	 *
-	 * @return string
-	 * @throws InvalidArgumentException
-	 */
-	public function getEqualityFieldValue( DataValue $value ) {
-		if ( !( $value instanceof LatLongValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
-		}
-
-		return $value->getLatitude() . '|' . $value->getLongitude();
 	}
 
 	/**
