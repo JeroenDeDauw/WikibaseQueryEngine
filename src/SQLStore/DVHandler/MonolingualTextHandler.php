@@ -49,13 +49,6 @@ class MonolingualTextHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getLabelFieldName
-	 */
-	public function getLabelFieldName() {
-		return 'value_text';
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value

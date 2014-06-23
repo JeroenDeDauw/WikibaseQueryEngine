@@ -63,15 +63,6 @@ class IriHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::getLabelFieldName
-	 *
-	 * @return string
-	 */
-	public function getLabelFieldName() {
-		return 'value_iri';
-	}
-
-	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
 	 * @param DataValue $value
