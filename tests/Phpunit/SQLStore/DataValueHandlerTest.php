@@ -12,6 +12,7 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
@@ -121,6 +122,19 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 			$this->handlerTableHasColumn( $dvHandler, $equalityFieldName ),
 			'The equality field is present in the table'
 		);
+	}
+
+	/**
+	 * @dataProvider valueProvider
+	 *
+	 * @param DataValue $value
+	 */
+	public function testGetEqualityFieldValue_doesNotExceedIndexLimit( DataValue $value ) {
+		$instance = $this->newInstance();
+
+		$equalityFieldValue = $instance->getEqualityFieldValue( $value );
+
+		$this->assertLessThanOrEqual( 255, strlen( $equalityFieldValue ) );
 	}
 
 	/**
