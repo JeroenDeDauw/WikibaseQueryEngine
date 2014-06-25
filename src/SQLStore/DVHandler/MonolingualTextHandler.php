@@ -20,6 +20,7 @@ use Wikibase\QueryEngine\StringHasher;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 class MonolingualTextHandler extends DataValueHandler {
 
@@ -53,12 +54,12 @@ class MonolingualTextHandler extends DataValueHandler {
 	 *
 	 * @param DataValue $value
 	 *
-	 * @return array
 	 * @throws InvalidArgumentException
+	 * @return string[]
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof MonolingualTextValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a MonolingualTextValue' );
+			throw new InvalidArgumentException( 'Value is not a MonolingualTextValue.' );
 		}
 
 		$values = array(
@@ -76,15 +77,16 @@ class MonolingualTextHandler extends DataValueHandler {
 	 *
 	 * @param DataValue $value
 	 *
-	 * @return string
 	 * @throws InvalidArgumentException
+	 * @return string
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof MonolingualTextValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a MonolingualTextValue' );
+			throw new InvalidArgumentException( 'Value is not a MonolingualTextValue.' );
 		}
 
-		return $this->hash( $value->getText() . $value->getLanguageCode() );
+		return $this->hash( addcslashes( $value->getText(), '\\|' )
+			. '|' . addcslashes( $value->getLanguageCode(), '\\|' ) );
 	}
 
 	private function hash( $string ) {
