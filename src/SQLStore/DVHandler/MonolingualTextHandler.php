@@ -42,7 +42,8 @@ class MonolingualTextHandler extends DataValueHandler {
 	 */
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value_text', Type::TEXT );
-		$table->addColumn( 'value_language', Type::STRING, array( 'length' => 20 ) );
+		// See http://tools.ietf.org/html/rfc5646#section-4.4.1
+		$table->addColumn( 'value_language', Type::STRING, array( 'length' => 35 ) );
 		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
 		// TODO: check what indexes should be added
