@@ -83,9 +83,9 @@ class TimeHandler extends DataValueHandler {
 		$timestamp = $calculator->getTimestamp( $value );
 		$precisionInSeconds = $calculator->getSecondsForPrecision( $value->getPrecision() );
 
-		$before = $value->getBefore();
+		$before = abs( $value->getBefore() );
 		// The range from before to after must be at least one unit long
-		$after = max( 1, $value->getAfter() );
+		$after = max( 1, abs( $value->getAfter() ) );
 
 		$values = array(
 			'value_timestamp' => $timestamp,
@@ -148,8 +148,29 @@ class TimeHandler extends DataValueHandler {
 	 * @throws QueryNotSupportedException
 	 */
 	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
-		// TODO
-		throw new QueryNotSupportedException( $description, 'No query support implemented yet' );
+		$value = $description->getValue();
+
+		if ( !( $value instanceof TimeValue ) ) {
+			throw new InvalidArgumentException( 'Value is not a TimeValue' );
+		}
+
+		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
+			$calculator = new TimeValueCalculator();
+			$timestamp = $calculator->getTimestamp( $value );
+			$precisionInSeconds = $calculator->getSecondsForPrecision( $value->getPrecision() );
+
+			$before = abs( $value->getBefore() );
+			// The range from before to after must be at least one unit long
+			$after = max( 1, abs( $value->getAfter() ) );
+
+			// When searching for 1900 (precision year) we do not want to find 1901-01-01T00:00:00.
+			$builder->andWhere( $this->getTableName() . '.value_timestamp >= :min_lat' );
+			$builder->andWhere( $this->getTableName() . '.value_timestamp < :max_lat' );
+			$builder->setParameter( ':value_timestamp', $timestamp - $before * $precisionInSeconds );
+			$builder->setParameter( ':value_timestamp', $timestamp + $after * $precisionInSeconds );
+		} else {
+			throw new QueryNotSupportedException( $description, 'Only equality is supported' );
+		}
 	}
 
 }
