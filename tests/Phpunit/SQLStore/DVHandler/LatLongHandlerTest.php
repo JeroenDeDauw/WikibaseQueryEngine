@@ -49,4 +49,18 @@ class LatLongHandlerTest extends DataValueHandlerTest {
 		return $values;
 	}
 
+	/**
+	 * @dataProvider valueProvider
+	 *
+	 * @param LatLongValue $value
+	 */
+	public function testGetInsertValues( LatLongValue $value ) {
+		$instance = $this->newInstance();
+
+		$insertValues = $instance->getInsertValues( $value );
+
+		$this->assertInternalType( 'float', $insertValues['value_lat'] );
+		$this->assertInternalType( 'float', $insertValues['value_lon'] );
+	}
+
 }
