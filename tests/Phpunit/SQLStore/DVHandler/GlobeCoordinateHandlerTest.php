@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 
 use DataValues\GlobeCoordinateValue;
 use DataValues\LatLongValue;
-use OutOfRangeException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\GlobeCoordinateHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
@@ -86,75 +85,6 @@ class GlobeCoordinateHandlerTest extends DataValueHandlerTest {
 		$this->assertGreaterThanOrEqual( $insertValues['value_lat'], $insertValues['value_max_lat'] );
 		$this->assertLessThanOrEqual( $insertValues['value_lon'], $insertValues['value_min_lon'] );
 		$this->assertGreaterThanOrEqual( $insertValues['value_lon'], $insertValues['value_max_lon'] );
-	}
-
-	public function latLongProvider() {
-		return array(
-			array( -360, -360 ),
-			array( -180, -180 ),
-			array( -1, 0 ),
-			array( 0, -1 ),
-			array( 0, 0 ),
-			array( 0, 1 ),
-			array( 1, 0 ),
-			array( 180, 180 ),
-			array( 360, 360 ),
-		);
-	}
-
-	/**
-	 * @dataProvider latLongProvider
-	 *
-	 * @param float $latitude
-	 * @param float $longitude
-	 */
-	public function testGetEqualityFieldValue_samePointAfter360Degree( $latitude, $longitude ) {
-		$instance = $this->newInstance();
-
-		$referenceCoordinate = new GlobeCoordinateValue(
-			new LatLongValue( $latitude, $longitude ),
-			null
-		);
-		$referenceHash = $instance->getEqualityFieldValue( $referenceCoordinate );
-
-		foreach ( array( -360, 0, 360 ) as $latitudeDelta ) {
-			foreach ( array( -360, 0, 360 ) as $longitudeDelta ) {
-				try {
-					$sameCoordinate = new GlobeCoordinateValue(
-						new LatLongValue( $latitude + $latitudeDelta, $longitude + $longitudeDelta ),
-						null
-					);
-					$sameHash = $instance->getEqualityFieldValue( $sameCoordinate );
-
-					$this->assertEquals(
-						$referenceHash,
-						$sameHash,
-						$sameCoordinate->getLatitude() . '|' . $sameCoordinate->getLongitude()
-						. " is equal to $latitude|$longitude"
-					);
-				} catch ( OutOfRangeException $ex ) {
-					// No need to test combinations that aren't accepted by LatLongValue
-				}
-			}
-		}
-	}
-
-	public function testGetEqualityFieldValue_differentPointAfter180Degree() {
-		$instance = $this->newInstance();
-
-		$referenceCoordinate = new GlobeCoordinateValue(
-			new LatLongValue( 0, 0 ),
-			null
-		);
-		$differentCoordinate = new GlobeCoordinateValue(
-			new LatLongValue( 0, 180 ),
-			null
-		);
-
-		$this->assertNotEquals(
-			$instance->getEqualityFieldValue( $referenceCoordinate ),
-			$instance->getEqualityFieldValue( $differentCoordinate )
-		);
 	}
 
 }
