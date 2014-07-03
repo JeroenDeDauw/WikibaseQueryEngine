@@ -24,8 +24,6 @@ class TimeHandlerTest extends DataValueHandlerTest {
 	/**
 	 * @see DataValueHandlerTest::getInstances
 	 *
-	 * @since 0.1
-	 *
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
@@ -38,8 +36,6 @@ class TimeHandlerTest extends DataValueHandlerTest {
 
 	/**
 	 * @see DataValueHandlerTest::getValues
-	 *
-	 * @since 0.1
 	 *
 	 * @return TimeValue[]
 	 */
@@ -93,53 +89,6 @@ class TimeHandlerTest extends DataValueHandlerTest {
 		$this->assertInternalType( 'float', $insertValues['value_max_timestamp'] );
 		$this->assertLessThanOrEqual( $insertValues['value_timestamp'], $insertValues['value_min_timestamp'] );
 		$this->assertGreaterThan( $insertValues['value_timestamp'], $insertValues['value_max_timestamp'] );
-	}
-
-	public function isoTimeProvider() {
-		return array(
-			// Strip plus sign and leading zeros
-			array( '2001-02-03T04:05:06Z', '+00002001-02-03T04:05:06Z' ),
-
-			// Attach actual time zone if not zero
-			array( '2001-02-03T04:05:06+00:59', '+00002001-02-03T04:05:06Z', 59 ),
-			array( '2001-02-03T04:05:06+01:00', '+00002001-02-03T04:05:06Z', 60 ),
-			array( '2001-02-03T04:05:06-01:01', '+00002001-02-03T04:05:06Z', -61 ),
-			array( '2001-02-03T04:05:06-100:00', '+00002001-02-03T04:05:06Z', -6000 ),
-
-			// Keep minus sign on negative years
-			array( '-2001-02-03T04:05:06Z', '-00002001-02-03T04:05:06Z' ),
-
-			// No four digit years
-			array( '1-02-03T04:05:06Z', '+00000001-02-03T04:05:06Z' ),
-			array( '-1-02-03T04:05:06Z', '-00000001-02-03T04:05:06Z' ),
-
-			// Make sure 32 bit integer clipping does not happen
-			array( '100000000000000-02-03T04:05:06Z', '+100000000000000-02-03T04:05:06Z' ),
-			array( '-100000000000000-02-03T04:05:06Z', '-100000000000000-02-03T04:05:06Z' ),
-		);
-	}
-
-	/**
-	 * @dataProvider isoTimeProvider
-	 *
-	 * @param string $expectedIsoTime
-	 * @param string $time an ISO 8601 date and time
-	 * @param int $timezone offset from UTC in minutes
-	 */
-	public function testGetEqualityFieldValue( $expectedIsoTime, $time, $timezone = 0 ) {
-		$instance = $this->newInstance();
-
-		$timeValue = new TimeValue(
-			$time,
-			$timezone,
-			0,
-			0,
-			TimeValue::PRECISION_SECOND,
-			'http://www.wikidata.org/entity/Q1985727'
-		);
-		$equalityFieldValue = $instance->getEqualityFieldValue( $timeValue );
-
-		$this->assertEquals( $expectedIsoTime, $equalityFieldValue );
 	}
 
 }
