@@ -24,8 +24,6 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 	/**
 	 * @see DataValueHandlerTest::getInstances
 	 *
-	 * @since 0.1
-	 *
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
@@ -38,8 +36,6 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 
 	/**
 	 * @see DataValueHandlerTest::getValues
-	 *
-	 * @since 0.1
 	 *
 	 * @return QuantityValue[]
 	 */
@@ -74,9 +70,9 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 
 		$insertValues = $instance->getInsertValues( $quantityValue );
 
-		$this->assertInternalType( 'float', $insertValues['value_actual'] );
-		$this->assertInternalType( 'float', $insertValues['value_lower_bound'] );
-		$this->assertInternalType( 'float', $insertValues['value_upper_bound'] );
+		$this->assertInternalType( 'string', $insertValues['value_actual'] );
+		$this->assertInternalType( 'string', $insertValues['value_lower_bound'] );
+		$this->assertInternalType( 'string', $insertValues['value_upper_bound'] );
 		$this->assertLessThanOrEqual( $insertValues['value_actual'], $insertValues['value_lower_bound'] );
 		$this->assertGreaterThanOrEqual( $insertValues['value_actual'], $insertValues['value_upper_bound'] );
 	}
