@@ -24,8 +24,6 @@ class TimeHandlerTest extends DataValueHandlerTest {
 	/**
 	 * @see DataValueHandlerTest::getInstances
 	 *
-	 * @since 0.1
-	 *
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
@@ -38,8 +36,6 @@ class TimeHandlerTest extends DataValueHandlerTest {
 
 	/**
 	 * @see DataValueHandlerTest::getValues
-	 *
-	 * @since 0.1
 	 *
 	 * @return TimeValue[]
 	 */

@@ -58,8 +58,6 @@ class TimeHandler extends DataValueHandler {
 	/**
 	 * @see DataValueHandler::getInsertValues
 	 *
-	 * @since 0.1
-	 *
 	 * @param DataValue $value
 	 *
 	 * @throws InvalidArgumentException
@@ -106,22 +104,31 @@ class TimeHandler extends DataValueHandler {
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$calculator = new TimeValueCalculator();
-			$timestamp = $calculator->getTimestamp( $value );
-			$precisionInSeconds = $calculator->getSecondsForPrecision( $value->getPrecision() );
-
-			$before = abs( $value->getBefore() );
-			// The range from before to after must be at least one unit long
-			$after = max( 1, abs( $value->getAfter() ) );
-
-			// When searching for 1900 (precision year) we do not want to find 1901-01-01T00:00:00.
-			$builder->andWhere( $this->getTableName() . '.value_timestamp >= :min_lat' );
-			$builder->andWhere( $this->getTableName() . '.value_timestamp < :max_lat' );
-			$builder->setParameter( ':value_timestamp', $timestamp - $before * $precisionInSeconds );
-			$builder->setParameter( ':value_timestamp', $timestamp + $after * $precisionInSeconds );
+			$this->addInRangeConditions( $builder, $value );
 		} else {
 			throw new QueryNotSupportedException( $description, 'Only equality is supported' );
 		}
+	}
+
+	/**
+	 * @param QueryBuilder $builder
+	 * @param TimeValue $value
+	 */
+	private function addInRangeConditions( QueryBuilder $builder, TimeValue $value ) {
+		$calculator = new TimeValueCalculator();
+		$timestamp = $calculator->getTimestamp( $value );
+		$precisionInSeconds = $calculator->getSecondsForPrecision( $value->getPrecision() );
+
+		$before = abs( $value->getBefore() );
+		// The range from before to after must be at least one unit long
+		$after = max( 1, abs( $value->getAfter() ) );
+
+		// When searching for 1900 (precision year) we do not want to find 1901-01-01T00:00:00.
+		$builder->andWhere( $this->getTableName() . '.value_timestamp >= :min_timestamp' );
+		$builder->andWhere( $this->getTableName() . '.value_timestamp < :max_timestamp' );
+
+		$builder->setParameter( ':min_timestamp', $timestamp - $before * $precisionInSeconds );
+		$builder->setParameter( ':max_timestamp', $timestamp + $after * $precisionInSeconds );
 	}
 
 }
