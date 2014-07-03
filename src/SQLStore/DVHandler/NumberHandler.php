@@ -36,6 +36,8 @@ class NumberHandler extends DataValueHandler {
 	 */
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value', Type::DECIMAL );
+
+		$table->addIndex( array( 'value' ) );
 	}
 
 	/**

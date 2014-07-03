@@ -44,7 +44,8 @@ class StringHandler extends DataValueHandler {
 		$table->addColumn( 'value', Type::TEXT );
 		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
-		// TODO: check what indexes should be added
+		// TODO: Is an index on the first 255 bytes/chars of each BLOB/CLOB column possible?
+		$table->addIndex( array( 'hash' ) );
 	}
 
 	/**
