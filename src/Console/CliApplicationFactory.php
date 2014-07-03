@@ -11,10 +11,9 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  * Builds the QueryEngine CLI application.
  * It adds the QueryEngine CLI commands with some demo configuration.
  *
- * Applications that want to provide their own CLI can either use the
- * application constructed here and override the configuration, or
- * simply construct an Application object on their own and use the
- * Commands defined by this library.
+ * This class is package private. Applications that use QueryEngine
+ * and that want to include QueryEngine commands in their own CLI
+ * should use their own Application object.
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
