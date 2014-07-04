@@ -24,8 +24,6 @@ class GlobeCoordinateHandlerTest extends DataValueHandlerTest {
 	/**
 	 * @see DataValueHandlerTest::getInstances
 	 *
-	 * @since 0.1
-	 *
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
@@ -38,8 +36,6 @@ class GlobeCoordinateHandlerTest extends DataValueHandlerTest {
 
 	/**
 	 * @see DataValueHandlerTest::getValues
-	 *
-	 * @since 0.1
 	 *
 	 * @return GlobeCoordinateValue[]
 	 */
@@ -73,14 +69,18 @@ class GlobeCoordinateHandlerTest extends DataValueHandlerTest {
 
 		$insertValues = $instance->getInsertValues( $globeCoordinateValue );
 
-		$this->assertInternalType( 'string', $insertValues['value_globe'] );
-		$this->assertNotEmpty( $insertValues['value_globe'] );
+		if ( $insertValues['value_globe'] !== null ) {
+			$this->assertInternalType( 'string', $insertValues['value_globe'] );
+			$this->assertNotEmpty( $insertValues['value_globe'] );
+		}
+
 		$this->assertInternalType( 'float', $insertValues['value_lat'] );
 		$this->assertInternalType( 'float', $insertValues['value_lon'] );
 		$this->assertInternalType( 'float', $insertValues['value_min_lat'] );
 		$this->assertInternalType( 'float', $insertValues['value_max_lat'] );
 		$this->assertInternalType( 'float', $insertValues['value_min_lon'] );
 		$this->assertInternalType( 'float', $insertValues['value_max_lon'] );
+
 		$this->assertLessThanOrEqual( $insertValues['value_lat'], $insertValues['value_min_lat'] );
 		$this->assertGreaterThanOrEqual( $insertValues['value_lat'], $insertValues['value_max_lat'] );
 		$this->assertLessThanOrEqual( $insertValues['value_lon'], $insertValues['value_min_lon'] );
