@@ -38,8 +38,8 @@ class LatLongHandler extends DataValueHandler {
 	 * @param Table $table
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value_lat', Type::DECIMAL );
-		$table->addColumn( 'value_lon', Type::DECIMAL );
+		$table->addColumn( 'value_lat', Type::FLOAT );
+		$table->addColumn( 'value_lon', Type::FLOAT );
 		$table->addColumn( 'hash', Type::STRING, array( 'length' => 32 ) );
 
 		// We need to search for greater/lower than. This can't use a combined index.
