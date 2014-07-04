@@ -69,19 +69,10 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		}
 
 		$math = new GlobeMath();
-		$normalized = $math->normalizeCoordinate( $value );
+		$normalized = $math->normalizeGlobeCoordinate( $value );
 		$lat = $normalized->getLatitude();
 		$lon = $normalized->getLongitude();
 		$precision = abs( $value->getPrecision() );
-
-		$min = $math->normalizeCoordinate( new GlobeCoordinateValue( new LatLongValue(
-			$value->getLatitude() - $precision,
-			$value->getLongitude() - $precision
-		), null, $value->getGlobe() ) );
-		$max = $math->normalizeCoordinate( new GlobeCoordinateValue( new LatLongValue(
-			$value->getLatitude() + $precision,
-			$value->getLongitude() + $precision
-		), null, $value->getGlobe() ) );
 
 		$values = array(
 			'value_globe'   => $this->normalizeGlobe( $value->getGlobe() ),
@@ -128,16 +119,10 @@ class GlobeCoordinateHandler extends DataValueHandler {
 	 */
 	private function addInRangeConditions( QueryBuilder $builder, GlobeCoordinateValue $value ) {
 		$math = new GlobeMath();
+		$normalized = $math->normalizeGlobeCoordinate( $value );
+		$lat = $normalized->getLatitude();
+		$lon = $normalized->getLongitude();
 		$precision = abs( $value->getPrecision() );
-
-		$min = $math->normalizeCoordinate( new GlobeCoordinateValue( new LatLongValue(
-			$value->getLatitude() - $precision,
-			$value->getLongitude() - $precision
-		), null, $value->getGlobe() ) );
-		$max = $math->normalizeCoordinate( new GlobeCoordinateValue( new LatLongValue(
-			$value->getLatitude() + $precision,
-			$value->getLongitude() + $precision
-		), null, $value->getGlobe() ) );
 
 		$builder->andWhere( $this->getTableName() . '.value_globe = :globe' );
 		$builder->andWhere( $this->getTableName() . '.value_lat >= :min_lat' );
@@ -146,10 +131,10 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		$builder->andWhere( $this->getTableName() . '.value_lon <= :max_lon' );
 
 		$builder->setParameter( ':globe', $this->normalizeGlobe( $value->getGlobe() ) );
-		$builder->setParameter( ':min_lat', $min->getLatitude() );
-		$builder->setParameter( ':max_lat', $max->getLatitude() );
-		$builder->setParameter( ':min_lon', $min->getLongitude() );
-		$builder->setParameter( ':max_lon', $max->getLongitude() );
+		$builder->setParameter( ':min_lat', $lat - $precision );
+		$builder->setParameter( ':max_lat', $lat + $precision );
+		$builder->setParameter( ':min_lon', $lon - $precision );
+		$builder->setParameter( ':max_lon', $lon + $precision );
 	}
 
 	/**
