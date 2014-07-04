@@ -22,8 +22,6 @@ interface QueryStoreWriter {
 	/**
 	 * @see QueryStoreUpdater::insertEntity
 	 *
-	 * @since 0.1
-	 *
 	 * @param Entity $entity
 	 */
 	public function insertEntity( Entity $entity );
@@ -31,16 +29,12 @@ interface QueryStoreWriter {
 	/**
 	 * @see QueryStoreUpdater::updateEntity
 	 *
-	 * @since 0.1
-	 *
 	 * @param Entity $entity
 	 */
 	public function updateEntity( Entity $entity );
 
 	/**
 	 * @see QueryStoreUpdater::deleteEntity
-	 *
-	 * @since 0.1
 	 *
 	 * @param Entity $entity
 	 */

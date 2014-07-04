@@ -17,8 +17,6 @@ use Wikibase\DataModel\Entity\EntityId;
 interface QueryEngine {
 
 	/**
-	 * @since 0.1
-	 *
 	 * @param Description $description
 	 * @param QueryOptions $options
 	 *

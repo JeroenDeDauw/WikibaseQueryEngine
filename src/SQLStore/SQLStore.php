@@ -64,8 +64,6 @@ class SQLStore {
 	}
 
 	/**
-	 * @since 0.1
-	 *
 	 * @param Connection $connection
 	 *
 	 * @return QueryStoreWriter

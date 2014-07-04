@@ -28,8 +28,6 @@ class StoreConfig {
 	}
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return string
 	 */
 	public function getStoreName() {
@@ -38,8 +36,6 @@ class StoreConfig {
 
 	/**
 	 * Returns a map that maps entity type (string) to internal id postfix digit (int, unique).
-	 *
-	 * @since 0.1
 	 *
 	 * @return int[]
 	 */

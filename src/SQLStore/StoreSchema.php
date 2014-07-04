@@ -45,8 +45,6 @@ class StoreSchema {
 	/**
 	 * Returns all tables part of the stores schema.
 	 *
-	 * @since 0.1
-	 *
 	 * @return Table[]
 	 */
 	public function getTables() {
@@ -113,8 +111,6 @@ class StoreSchema {
 	}
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return Table
 	 */
 	public function getValuelessSnaksTable() {

@@ -19,8 +19,6 @@ interface QueryStoreWithDependencies {
 	 * Returns the query engine for this store.
 	 * The query engine allows running queries against the store.
 	 *
-	 * @since 0.1
-	 *
 	 * @return QueryEngine
 	 */
 	public function newQueryEngine();
@@ -29,29 +27,21 @@ interface QueryStoreWithDependencies {
 	 * Returns the writer for this store.
 	 * The updater allows for updating the data in the store.
 	 *
-	 * @since 0.1
-	 *
 	 * @return QueryStoreWriter
 	 */
 	public function newWriter();
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return QueryStoreInstaller
 	 */
 	public function newInstaller();
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return QueryStoreUninstaller
 	 */
 	public function newUninstaller();
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return QueryStoreUpdater
 	 */
 	public function newUpdater();
