@@ -54,7 +54,9 @@ class QuantityHandler extends DataValueHandler {
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof QuantityValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a QuantityValue' );
+			throw new InvalidArgumentException( 'Value is not a QuantityValue.' );
+		} elseif ( $value->getUnit() !== '1' ) {
+			throw new InvalidArgumentException( 'Units other than "1" are not yet supported.' );
 		}
 
 		$values = array(
@@ -82,6 +84,8 @@ class QuantityHandler extends DataValueHandler {
 
 		if ( !( $value instanceof QuantityValue ) ) {
 			throw new InvalidArgumentException( 'Value is not a QuantityValue.' );
+		} elseif ( $value->getUnit() !== '1' ) {
+			throw new InvalidArgumentException( 'Units other than "1" are not yet supported.' );
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
@@ -92,9 +96,6 @@ class QuantityHandler extends DataValueHandler {
 	}
 
 	/**
-	 * We are not asking if the given search value fits in a range, we are searching for values
-	 * within the given search range.
-	 *
 	 * @param QueryBuilder $builder
 	 * @param QuantityValue $value
 	 */
@@ -118,6 +119,9 @@ class QuantityHandler extends DataValueHandler {
 	}
 
 	/**
+	 * We are not asking if the given search value fits in a range, we are searching for
+	 * values within the given search range.
+	 *
 	 * If searching for 1500 m (with default precision +/-1) we don't want to find 1501 m,
 	 * but want to find 1500.99 m (no matter what the precision is).
 	 * So the range is ]-precision,+precision[ (exclusive).

@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DVHandler;
 
 use DataValues\DecimalValue;
 use DataValues\QuantityValue;
+use InvalidArgumentException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\QuantityHandler;
 use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
@@ -43,16 +44,14 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 		$values = array();
 
 		foreach ( array( 0, -1/3, 2/3, 99 ) as $amount ) {
-			foreach ( array( '1', 'm' ) as $unit ) {
-				foreach ( array( 0, 1/7, 7 ) as $upperDelta ) {
-					foreach ( array( 0, -1/9, -9 ) as $lowerDelta ) {
-						$values[] = new QuantityValue(
-							new DecimalValue( $amount ),
-							$unit,
-							new DecimalValue( $amount + $upperDelta ),
-							new DecimalValue( $amount + $lowerDelta )
-						);
-					}
+			foreach ( array( 0, 1/7, 7 ) as $upperDelta ) {
+				foreach ( array( 0, -1/9, -9 ) as $lowerDelta ) {
+					$values[] = new QuantityValue(
+						new DecimalValue( $amount ),
+						'1',
+						new DecimalValue( $amount + $upperDelta ),
+						new DecimalValue( $amount + $lowerDelta )
+					);
 				}
 			}
 		}
@@ -75,6 +74,16 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 		$this->assertInternalType( 'string', $insertValues['value_upper_bound'] );
 		$this->assertLessThanOrEqual( $insertValues['value_actual'], $insertValues['value_lower_bound'] );
 		$this->assertGreaterThanOrEqual( $insertValues['value_actual'], $insertValues['value_upper_bound'] );
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testGetInsertValues_unsupportedUnit() {
+		$instance = $this->newInstance();
+		$amount = new DecimalValue( 0 );
+		$value = new QuantityValue( $amount, 'invalid', $amount, $amount );
+		$instance->getInsertValues( $value );
 	}
 
 }
