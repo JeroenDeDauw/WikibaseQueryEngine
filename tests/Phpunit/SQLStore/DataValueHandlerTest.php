@@ -17,11 +17,15 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
+	 * @since 0.1
+	 *
 	 * @return DataValueHandler[]
 	 */
 	protected abstract function getInstances();
 
 	/**
+	 * @since 0.1
+	 *
 	 * @return DataValue[]
 	 */
 	protected abstract function getValues();

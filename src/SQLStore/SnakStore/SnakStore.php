@@ -13,6 +13,8 @@ use Wikibase\DataModel\Entity\EntityId;
 abstract class SnakStore {
 
 	/**
+	 * @since 0.1
+	 *
 	 * @param SnakRow $snakRow
 	 *
 	 * @return boolean
@@ -20,6 +22,8 @@ abstract class SnakStore {
 	public abstract function canStore( SnakRow $snakRow );
 
 	/**
+	 * @since 0.1
+	 *
 	 * @param SnakRow $snakRow
 	 *
 	 * TODO: exception
@@ -27,6 +31,8 @@ abstract class SnakStore {
 	public abstract function storeSnakRow( SnakRow $snakRow );
 
 	/**
+	 * @since 0.1
+	 *
 	 * @param EntityId $subjectId
 	 *
 	 * TODO: exception

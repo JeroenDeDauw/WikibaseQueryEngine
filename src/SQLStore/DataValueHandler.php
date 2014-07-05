@@ -94,6 +94,8 @@ abstract class DataValueHandler {
 	 *
 	 * This field should not exceed 255 chars index space equivalent.
 	 *
+	 * @since 0.1
+	 *
 	 * @return string
 	 */
 	public function getEqualityFieldName() {
@@ -103,6 +105,8 @@ abstract class DataValueHandler {
 	/**
 	 * Returns the names of the fields used to order this type of DataValue.
 	 * Usually a single field. Must not be an empty array.
+	 *
+	 * @since 0.1
 	 *
 	 * @return string[]
 	 */
@@ -119,6 +123,8 @@ abstract class DataValueHandler {
 	 * The passed DataValue needs to be of a type supported by the DataValueHandler.
 	 * If it is not supported, an InvalidArgumentException might be thrown.
 	 *
+	 * @since 0.1
+	 *
 	 * @param DataValue $value
 	 *
 	 * @return array
@@ -130,6 +136,8 @@ abstract class DataValueHandler {
 	 * Returns the equality field value for a given data value.
 	 * This value is needed for constructing equality checking
 	 * queries.
+	 *
+	 * @since 0.1
 	 *
 	 * @param DataValue $value
 	 *
