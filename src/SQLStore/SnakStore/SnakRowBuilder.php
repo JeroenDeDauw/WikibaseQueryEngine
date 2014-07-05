@@ -20,8 +20,6 @@ use Wikibase\DataModel\Snak\Snak;
 class SnakRowBuilder {
 
 	/**
-	 * @since 0.1
-	 *
 	 * @param Snak $snak
 	 * @param int $snakRole
 	 * @param EntityId $subjectId

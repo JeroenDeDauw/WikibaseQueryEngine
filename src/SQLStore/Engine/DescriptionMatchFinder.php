@@ -53,8 +53,6 @@ class DescriptionMatchFinder {
 	 * Finds all entities that match the selection criteria.
 	 * The matching entities are returned as an array of internal entity ids.
 	 *
-	 * @since 0.1
-	 *
 	 * @param Description $description
 	 * @param QueryOptions $options
 	 *

@@ -26,8 +26,6 @@ class Engine implements QueryEngine {
 	/**
 	 * @see QueryEngine::getMatchingEntities
 	 *
-	 * @since 0.1
-	 *
 	 * @param Description $description
 	 * @param QueryOptions $options
 	 *

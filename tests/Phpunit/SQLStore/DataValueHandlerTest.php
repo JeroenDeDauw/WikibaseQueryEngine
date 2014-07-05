@@ -31,8 +31,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	protected abstract function getValues();
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return DataValueHandler[][]
 	 */
 	public function instanceProvider() {
@@ -47,8 +45,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return DataValue[][]
 	 */
 	public function valueProvider() {
@@ -56,8 +52,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @since 0.1
-	 *
 	 * @return DataValueHandler
 	 */
 	protected function newInstance() {

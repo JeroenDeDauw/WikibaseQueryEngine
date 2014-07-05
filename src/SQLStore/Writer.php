@@ -31,8 +31,6 @@ class Writer implements QueryStoreWriter {
 	/**
 	 * @see QueryStoreUpdater::insertEntity
 	 *
-	 * @since 0.1
-	 *
 	 * @param Entity $entity
 	 */
 	public function insertEntity( Entity $entity ) {
@@ -42,8 +40,6 @@ class Writer implements QueryStoreWriter {
 	/**
 	 * @see QueryStoreUpdater::updateEntity
 	 *
-	 * @since 0.1
-	 *
 	 * @param Entity $entity
 	 */
 	public function updateEntity( Entity $entity ) {
@@ -52,8 +48,6 @@ class Writer implements QueryStoreWriter {
 
 	/**
 	 * @see QueryStoreUpdater::deleteEntity
-	 *
-	 * @since 0.1
 	 *
 	 * @param Entity $entity
 	 */

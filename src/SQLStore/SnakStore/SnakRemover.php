@@ -31,8 +31,6 @@ class SnakRemover {
 	}
 
 	/**
-	 * @since 0.1
-	 *
 	 * @param EntityId $subjectId
 	 *
 	 * TODO: exception
