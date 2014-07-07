@@ -32,7 +32,7 @@ class DumpSqlCommand extends Command {
 
 	protected function configure() {
 		$this->setName( 'dumpsql' );
-		$this->setDescription( 'Dumps the SQL for creating the QueryEngine schema' );
+		$this->setDescription( 'Dumps the SQL for creating the SQLStore schema' );
 	}
 
 	protected function execute( InputInterface $input, OutputInterface $output ) {
