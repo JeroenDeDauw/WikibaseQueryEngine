@@ -14,6 +14,7 @@ $GLOBALS['wgExtensionCredits']['wikibase'][] = array(
 	'version' => WIKIBASE_QUERYENGINE_VERSION,
 	'author' => array(
 		'[https://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]',
+		'Thiemo Mättig',
 	),
 	'url' => 'https://github.com/wmde/WikibaseQueryEngine',
 	'description' => 'Answers Ask queries against a collection of Wikibase entities'
