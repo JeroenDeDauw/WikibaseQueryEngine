@@ -35,7 +35,7 @@ class NumberHandler extends DataValueHandler {
 	 * @see DataValueHandler::completeTable
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value', Type::DECIMAL );
+		$table->addColumn( 'value', Type::FLOAT );
 
 		$table->addIndex( array( 'value' ) );
 	}
@@ -59,7 +59,7 @@ class NumberHandler extends DataValueHandler {
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof NumberValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a NumberValue' );
+			throw new InvalidArgumentException( 'Value is not a NumberValue.' );
 		}
 
 		$values = array(
@@ -74,12 +74,12 @@ class NumberHandler extends DataValueHandler {
 	 *
 	 * @param DataValue $value
 	 *
-	 * @return string
+	 * @return int|float
 	 * @throws InvalidArgumentException
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof NumberValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a NumberValue' );
+			throw new InvalidArgumentException( 'Value is not a NumberValue.' );
 		}
 
 		return $value->getValue();

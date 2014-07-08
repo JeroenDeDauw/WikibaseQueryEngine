@@ -17,6 +17,7 @@ use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 class NumberHandlerTest extends DataValueHandlerTest {
 
@@ -51,6 +52,19 @@ class NumberHandlerTest extends DataValueHandlerTest {
 		$values[] = new NumberValue( 71010.101010 );
 
 		return $values;
+	}
+
+	/**
+	 * @dataProvider valueProvider
+	 *
+	 * @param NumberValue $numberValue
+	 */
+	public function testGetInsertValues( NumberValue $numberValue ) {
+		$instance = $this->newInstance();
+
+		$insertValues = $instance->getInsertValues( $numberValue );
+
+		$this->assertInternalType( 'numeric', $insertValues['value'] );
 	}
 
 }
