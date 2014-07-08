@@ -4,6 +4,7 @@
 
 #### Breaking changes
 
+* All DECIMAL types (in Number, LatLong, ...) have been changed to FLOAT
 * The data value tables no longer have a "label field"
 * The hash used for LatLong values has been changed
 * The hash used for IRI values has been changed
