@@ -17,6 +17,7 @@ use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 class LatLongHandlerTest extends DataValueHandlerTest {
 

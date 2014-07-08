@@ -21,6 +21,7 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 class LatLongHandler extends DataValueHandler {
 
@@ -78,7 +79,7 @@ class LatLongHandler extends DataValueHandler {
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof LatLongValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
+			throw new InvalidArgumentException( 'Value is not a LatLongValue.' );
 		}
 
 		$math = new GlobeMath();
@@ -108,7 +109,7 @@ class LatLongHandler extends DataValueHandler {
 		$value = $description->getValue();
 
 		if ( !( $value instanceof LatLongValue ) ) {
-			throw new InvalidArgumentException( 'Value is not a LatLongValue' );
+			throw new InvalidArgumentException( 'Value is not a LatLongValue.' );
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
@@ -130,7 +131,7 @@ class LatLongHandler extends DataValueHandler {
 
 		$builder->andWhere( $this->getTableName() . '.value_lat >= :min_lat' );
 		$builder->andWhere( $this->getTableName() . '.value_lat <= :max_lat' );
-		$builder->andWhere( $this->getTableName() . '.value_lon <= :min_lon' );
+		$builder->andWhere( $this->getTableName() . '.value_lon >= :min_lon' );
 		$builder->andWhere( $this->getTableName() . '.value_lon <= :max_lon' );
 
 		$builder->setParameter( ':min_lat', $lat - self::EPSILON );
