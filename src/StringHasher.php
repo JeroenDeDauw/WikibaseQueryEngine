@@ -26,7 +26,7 @@ class StringHasher {
 	private $rawLength;
 	private $hashedLength = 27;
 
-	function __construct() {
+	public function __construct() {
 		$this->rawLength = self::LENGTH - $this->hashedLength;
 	}
 
