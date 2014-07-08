@@ -47,7 +47,7 @@ class Updater implements QueryStoreUpdater {
 	}
 
 	private function handleTable( Table $table ) {
-		if ( $this->schemaManager->tablesExist( $table->getName() ) ) {
+		if ( $this->schemaManager->tablesExist( array( $table->getName() ) ) ) {
 			$this->migrateTable( $table );
 		}
 		else {
