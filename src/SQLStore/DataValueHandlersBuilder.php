@@ -10,6 +10,7 @@ use Wikibase\QueryEngine\SQLStore\DVHandler\IriHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
+use Wikibase\QueryEngine\SQLStore\DVHandler\QuantityHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\TimeHandler;
 
@@ -40,6 +41,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addMainSnakHandler( 'globecoordinate', new GlobeCoordinateHandler() );
 		$this->handlers->addMainSnakHandler( 'monolingualtext', new MonolingualTextHandler() );
 		$this->handlers->addMainSnakHandler( 'number', new NumberHandler() );
+		$this->handlers->addMainSnakHandler( 'quantity', new QuantityHandler() );
 		$this->handlers->addMainSnakHandler( 'string', new StringHandler() );
 		$this->handlers->addMainSnakHandler( 'time', new TimeHandler() );
 
@@ -49,6 +51,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addQualifierHandler( 'globecoordinate', new GlobeCoordinateHandler() );
 		$this->handlers->addQualifierHandler( 'monolingualtext', new MonolingualTextHandler() );
 		$this->handlers->addQualifierHandler( 'number', new NumberHandler() );
+		$this->handlers->addQualifierHandler( 'quantity', new QuantityHandler() );
 		$this->handlers->addQualifierHandler( 'string', new StringHandler() );
 		$this->handlers->addQualifierHandler( 'time', new TimeHandler() );
 
