@@ -70,13 +70,26 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider instanceProvider
+	 * @param DataValueHandler $dvHandler
+	 */
+	public function testGetTableName( DataValueHandler $dvHandler ) {
+		$tableName = $dvHandler->getTableName();
+
+		$this->assertInternalType( 'string', $tableName );
+		$this->assertNotEmpty( $tableName );
+		$this->assertLessThanOrEqual( 255, strlen( $tableName ) );
+		$this->assertRegExp( '/^\w+$/', $tableName );
+	}
+
+	/**
+	 * @dataProvider instanceProvider
 	 *
 	 * @param DataValueHandler $dvHandler
 	 */
 	public function testConstructTableReturnType( DataValueHandler $dvHandler ) {
 		$this->assertInstanceOf(
 			'Doctrine\DBAL\Schema\Table',
-			$dvHandler->constructTable( array(), array() )
+			$dvHandler->constructTable()
 		);
 	}
 
@@ -99,7 +112,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function handlerTableHasColumn( DataValueHandler $dvHandler, $columnName ) {
-		return $dvHandler->constructTable( array(), array() )->hasColumn( $columnName );
+		return $dvHandler->constructTable()->hasColumn( $columnName );
 	}
 
 	/**
@@ -111,6 +124,9 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		$equalityFieldName = $dvHandler->getEqualityFieldName();
 
 		$this->assertInternalType( 'string', $equalityFieldName );
+		$this->assertNotEmpty( $equalityFieldName );
+		$this->assertLessThanOrEqual( 255, strlen( $equalityFieldName ) );
+		$this->assertRegExp( '/^\w+$/', $equalityFieldName );
 
 		$this->assertTrue(
 			$this->handlerTableHasColumn( $dvHandler, $equalityFieldName ),
