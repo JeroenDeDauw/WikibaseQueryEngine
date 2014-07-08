@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\SQLStore;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
+use Wikibase\QueryEngine\SQLStore\DVHandler\GlobeCoordinateHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\IriHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\LatLongHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler;
@@ -36,6 +37,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addMainSnakHandler( 'boolean', new BooleanHandler() );
 		$this->handlers->addMainSnakHandler( 'iri', new IriHandler() );
 		$this->handlers->addMainSnakHandler( 'geocoordinate', new LatLongHandler() );
+		$this->handlers->addMainSnakHandler( 'globecoordinate', new GlobeCoordinateHandler() );
 		$this->handlers->addMainSnakHandler( 'monolingualtext', new MonolingualTextHandler() );
 		$this->handlers->addMainSnakHandler( 'number', new NumberHandler() );
 		$this->handlers->addMainSnakHandler( 'string', new StringHandler() );
@@ -44,6 +46,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addQualifierHandler( 'boolean', new BooleanHandler() );
 		$this->handlers->addQualifierHandler( 'iri', new IriHandler() );
 		$this->handlers->addQualifierHandler( 'geocoordinate', new LatLongHandler() );
+		$this->handlers->addQualifierHandler( 'globecoordinate', new GlobeCoordinateHandler() );
 		$this->handlers->addQualifierHandler( 'monolingualtext', new MonolingualTextHandler() );
 		$this->handlers->addQualifierHandler( 'number', new NumberHandler() );
 		$this->handlers->addQualifierHandler( 'string', new StringHandler() );
