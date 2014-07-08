@@ -127,7 +127,7 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		$builder->andWhere( $this->getTableName() . '.value_globe = :globe' );
 		$builder->andWhere( $this->getTableName() . '.value_lat >= :min_lat' );
 		$builder->andWhere( $this->getTableName() . '.value_lat <= :max_lat' );
-		$builder->andWhere( $this->getTableName() . '.value_lon <= :min_lon' );
+		$builder->andWhere( $this->getTableName() . '.value_lon >= :min_lon' );
 		$builder->andWhere( $this->getTableName() . '.value_lon <= :max_lon' );
 
 		$builder->setParameter( ':globe', $this->normalizeGlobe( $value->getGlobe() ) );
