@@ -68,6 +68,13 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	private function assertIdentifier( $identifier ) {
+		$this->assertInternalType( 'string', $identifier );
+		$this->assertNotEmpty( $identifier );
+		$this->assertLessThanOrEqual( 255, strlen( $identifier ) );
+		$this->assertRegExp( '/^\w+$/', $identifier );
+	}
+
 	/**
 	 * @dataProvider instanceProvider
 	 * @param DataValueHandler $dvHandler
@@ -75,10 +82,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	public function testGetTableName( DataValueHandler $dvHandler ) {
 		$tableName = $dvHandler->getTableName();
 
-		$this->assertInternalType( 'string', $tableName );
-		$this->assertNotEmpty( $tableName );
-		$this->assertLessThanOrEqual( 255, strlen( $tableName ) );
-		$this->assertRegExp( '/^\w+$/', $tableName );
+		$this->assertIdentifier( $tableName );
 	}
 
 	/**
@@ -123,11 +127,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	public function testGetEqualityFieldNameReturnValue( DataValueHandler $dvHandler ) {
 		$equalityFieldName = $dvHandler->getEqualityFieldName();
 
-		$this->assertInternalType( 'string', $equalityFieldName );
-		$this->assertNotEmpty( $equalityFieldName );
-		$this->assertLessThanOrEqual( 255, strlen( $equalityFieldName ) );
-		$this->assertRegExp( '/^\w+$/', $equalityFieldName );
-
+		$this->assertIdentifier( $equalityFieldName );
 		$this->assertTrue(
 			$this->handlerTableHasColumn( $dvHandler, $equalityFieldName ),
 			'The equality field is present in the table'
