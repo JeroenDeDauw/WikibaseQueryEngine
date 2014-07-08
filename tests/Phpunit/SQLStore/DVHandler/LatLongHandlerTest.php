@@ -17,6 +17,7 @@ use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Thiemo Mättig
  */
 class LatLongHandlerTest extends DataValueHandlerTest {
 
@@ -47,6 +48,20 @@ class LatLongHandlerTest extends DataValueHandlerTest {
 		$values[] = new LatLongValue( -2.3, -4.2 );
 
 		return $values;
+	}
+
+	/**
+	 * @dataProvider valueProvider
+	 *
+	 * @param LatLongValue $value
+	 */
+	public function testGetInsertValues( LatLongValue $value ) {
+		$instance = $this->newInstance();
+
+		$insertValues = $instance->getInsertValues( $value );
+
+		$this->assertInternalType( 'float', $insertValues['value_lat'] );
+		$this->assertInternalType( 'float', $insertValues['value_lon'] );
 	}
 
 }
