@@ -42,8 +42,10 @@ class EntityIdHandler extends DataValueHandler {
 	 * @see DataValueHandler::completeTable
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value_id', Type::STRING, array( 'length' => 20 ) );
-		$table->addColumn( 'value_type', Type::STRING, array( 'length' => 20 ) );
+		// Same length as MediaWiki titles.
+		$table->addColumn( 'value_id', Type::STRING, array( 'length' => 255 ) );
+		// Same length as in the Wikibase tables.
+		$table->addColumn( 'value_type', Type::STRING, array( 'length' => 32 ) );
 
 		$table->addIndex( array( 'value_id' ) );
 		$table->addIndex( array( 'value_type' ) );
