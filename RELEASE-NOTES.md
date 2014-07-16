@@ -8,6 +8,7 @@
 * The data value tables no longer have a "label field"
 * The hash used for LatLong values has been changed
 * The hash used for IRI values has been changed
+* The field lengths for EntityId values have been increased
 * The `CliApplicationFactory` class is now package private
 
 #### Additions and improvements
