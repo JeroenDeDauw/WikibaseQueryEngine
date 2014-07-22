@@ -8,7 +8,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
-use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
@@ -22,12 +21,6 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class EntityIdHandler extends DataValueHandler {
-
-	private $idParser;
-
-	public function __construct( EntityIdParser $idParser ) {
-		$this->idParser = $idParser;
-	}
 
 	/**
 	 * @see DataValueHandler::getBaseTableName
