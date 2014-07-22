@@ -3,6 +3,9 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
 use DataValues\DataValue;
+use DataValues\UnknownValue;
+use InvalidArgumentException;
+use RuntimeException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
@@ -77,7 +80,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider instanceProvider
-	 * @param DataValueHandler $dvHandler
 	 */
 	public function testGetTableName( DataValueHandler $dvHandler ) {
 		$tableName = $dvHandler->getTableName();
@@ -86,9 +88,23 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @expectedException RuntimeException
+	 */
+	public function testGetTableName_tablePrefixMustBeSet() {
+		$instance = $this->newInstance();
+		$instance->getTableName();
+	}
+
+	/**
 	 * @dataProvider instanceProvider
-	 *
-	 * @param DataValueHandler $dvHandler
+	 * @expectedException RuntimeException
+	 */
+	public function testSetTablePrefix_canNotBeChanged( DataValueHandler $dvHandler ) {
+		$dvHandler->setTablePrefix( '' );
+	}
+
+	/**
+	 * @dataProvider instanceProvider
 	 */
 	public function testConstructTableReturnType( DataValueHandler $dvHandler ) {
 		$this->assertInstanceOf(
@@ -98,9 +114,15 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @dataProvider instanceProvider
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testGetInsertValues_failsOnUnknownTypes( DataValueHandler $dvHandler ) {
+		$dvHandler->getInsertValues( new UnknownValue( null ) );
+	}
+
+	/**
 	 * @dataProvider valueProvider
-	 *
-	 * @param DataValue $value
 	 */
 	public function testGetInsertValuesReturnType( DataValue $value ) {
 		$instance = $this->newInstance();
@@ -121,8 +143,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider instanceProvider
-	 *
-	 * @param DataValueHandler $dvHandler
 	 */
 	public function testGetEqualityFieldNameReturnValue( DataValueHandler $dvHandler ) {
 		$equalityFieldName = $dvHandler->getEqualityFieldName();
@@ -136,8 +156,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider valueProvider
-	 *
-	 * @param DataValue $value
 	 */
 	public function testGetEqualityFieldValue_doesNotExceedIndexLimit( DataValue $value ) {
 		$instance = $this->newInstance();
@@ -149,8 +167,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider valueProvider
-	 *
-	 * @param DataValue $value
 	 */
 	public function testGetEqualityFieldValue_matchesEqualityField( DataValue $value ) {
 		$instance = $this->newInstance();
@@ -166,8 +182,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider instanceProvider
-	 *
-	 * @param DataValueHandler $dvHandler
 	 */
 	public function testGetSortFieldNameReturnValue( DataValueHandler $dvHandler ) {
 		$sortFieldNames = $dvHandler->getSortFieldNames();
