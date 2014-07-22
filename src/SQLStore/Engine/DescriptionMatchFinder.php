@@ -111,7 +111,7 @@ class DescriptionMatchFinder {
 			$dvHandler
 		);
 
-		$queryBuilder->andWhere( $dvHandler->getTableName() . '.' . 'property_id= :property_id' );
+		$queryBuilder->andWhere( $dvHandler->getTableName() . '.property_id = :property_id' );
 		$queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
 
 		$dvHandler->addMatchConditions( $queryBuilder, $description );
@@ -148,7 +148,9 @@ class DescriptionMatchFinder {
 			try {
 				$entityIds[] = $this->idParser->parse( $resultRow['subject_id'] );
 			}
-			catch ( EntityIdParsingException $ex ) {}
+			catch ( EntityIdParsingException $ex ) {
+				// Reporting invalid IDs would not be helpful at this point, just skip them.
+			}
 		}
 
 		return $entityIds;
