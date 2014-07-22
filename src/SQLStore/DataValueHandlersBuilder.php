@@ -2,7 +2,6 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\QueryEngine\SQLStore\DVHandler\BooleanHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\EntityIdHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\GlobeCoordinateHandler;
@@ -15,8 +14,6 @@ use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\DVHandler\TimeHandler;
 
 /**
- * @since 0.1
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
@@ -44,6 +41,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addMainSnakHandler( 'quantity', new QuantityHandler() );
 		$this->handlers->addMainSnakHandler( 'string', new StringHandler() );
 		$this->handlers->addMainSnakHandler( 'time', new TimeHandler() );
+		$this->handlers->addMainSnakHandler( 'wikibase-entityid', new EntityIdHandler() );
 
 		$this->handlers->addQualifierHandler( 'boolean', new BooleanHandler() );
 		$this->handlers->addQualifierHandler( 'iri', new IriHandler() );
@@ -54,18 +52,7 @@ class DataValueHandlersBuilder {
 		$this->handlers->addQualifierHandler( 'quantity', new QuantityHandler() );
 		$this->handlers->addQualifierHandler( 'string', new StringHandler() );
 		$this->handlers->addQualifierHandler( 'time', new TimeHandler() );
-
-		return $this;
-	}
-
-	/**
-	 * @param EntityIdParser $idParser
-	 *
-	 * @return self
-	 */
-	public function withEntityIdHandler( EntityIdParser $idParser ) {
-		$this->handlers->addMainSnakHandler( 'wikibase-entityid', new EntityIdHandler( $idParser ) );
-		$this->handlers->addQualifierHandler( 'wikibase-entityid', new EntityIdHandler( $idParser ) );
+		$this->handlers->addQualifierHandler( 'wikibase-entityid', new EntityIdHandler() );
 
 		return $this;
 	}
