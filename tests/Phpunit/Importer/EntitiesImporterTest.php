@@ -4,6 +4,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\Importer;
 
 use Wikibase\QueryEngine\Importer\EntitiesImporter;
 use Wikibase\QueryEngine\Tests\Fixtures\FakeEntityIterator;
+use Wikibase\QueryEngine\Tests\Fixtures\FakeEntitiesImporterBuilder;
 
 /**
  * @covers Wikibase\QueryEngine\Importer\EntitiesImporter
@@ -16,13 +17,12 @@ use Wikibase\QueryEngine\Tests\Fixtures\FakeEntityIterator;
  */
 class EntitiesImporterTest extends \PHPUnit_Framework_TestCase {
 
-	public function testWhenReporterIsNotSet_importCausesException() {
+	public function testWhenReporterIsNotSet_importStillRuns() {
 		$importer = new EntitiesImporter(
 			$this->getMock( 'Wikibase\QueryEngine\QueryStoreWriter' ),
 			new \ArrayIterator()
 		);
 
-		$this->setExpectedException( 'RuntimeException' );
 		$importer->run();
 	}
 
@@ -43,8 +43,7 @@ class EntitiesImporterTest extends \PHPUnit_Framework_TestCase {
 		$reporter->expects( $this->never() )
 			->method( 'onEntityInsertFailed' );
 
-		$importer = new EntitiesImporter( $storeWriter, $entityIterator );
-		$importer->setReporter( $reporter );
+		$importer = new EntitiesImporter( $storeWriter, $entityIterator, $reporter );
 
 		$importer->run();
 	}

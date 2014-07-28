@@ -16,30 +16,22 @@ class EntitiesImporter {
 
 	private $storeWriter;
 	private $entityIterator;
-
-	/**
-	 * @var ImportReporter|null
-	 */
-	private $reporter = null;
+	private $reporter;
 
 	private $shouldStop = false;
 
 	/**
 	 * @param QueryStoreWriter $storeWriter
 	 * @param Iterator $entityIterator Each value should be of type Entity
+	 * @param ImportReporter|null $reporter
 	 */
-	public function __construct( QueryStoreWriter $storeWriter, Iterator $entityIterator  ) {
+	public function __construct( QueryStoreWriter $storeWriter, Iterator $entityIterator, ImportReporter $reporter = null ) {
 		$this->storeWriter = $storeWriter;
 		$this->entityIterator = $entityIterator;
-	}
-
-	public function setReporter( ImportReporter $reporter ) {
-		$this->reporter = $reporter;
+		$this->reporter = $reporter === null ? new NullImportReporter() : $reporter;
 	}
 
 	public function run() {
-		$this->verifyReporterIsSet();
-
 		$this->reporter->onImportStarted();
 
 		foreach ( $this->entityIterator as $entity ) {
@@ -76,14 +68,6 @@ class EntitiesImporter {
 
 	public function stop() {
 		$this->shouldStop = true;
-	}
-
-	private function verifyReporterIsSet() {
-		if ( $this->reporter === null ) {
-			throw new RuntimeException(
-				'A reporter needs to be set via setReporter before running the EntitiesInserter'
-			);
-		}
 	}
 
 }
