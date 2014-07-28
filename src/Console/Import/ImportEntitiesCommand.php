@@ -17,10 +17,10 @@ class ImportEntitiesCommand extends Command {
 	/**
 	 * @var EntitiesImporter
 	 */
-	private $entitiesInserter;
+	private $entitiesImporter;
 
-	public function setDependencies( EntitiesImporter $entitiesInserter ) {
-		$this->entitiesInserter = $entitiesInserter;
+	public function setDependencies( EntitiesImporter $entitiesImporter ) {
+		$this->entitiesImporter = $entitiesImporter;
 	}
 
 	protected function configure() {
@@ -29,11 +29,11 @@ class ImportEntitiesCommand extends Command {
 	}
 
 	protected function execute( InputInterface $input, OutputInterface $output ) {
-		pcntl_signal( SIGINT, array( $this->entitiesInserter, 'stop' ) );
-		pcntl_signal( SIGTERM, array( $this->entitiesInserter, 'stop' ) );
+		pcntl_signal( SIGINT, array( $this->entitiesImporter, 'stop' ) );
+		pcntl_signal( SIGTERM, array( $this->entitiesImporter, 'stop' ) );
 
-		$this->entitiesInserter->setReporter( new CliImportReporter( $output ) );
-		$this->entitiesInserter->run();
+		$this->entitiesImporter->setReporter( new CliImportReporter( $output ) );
+		$this->entitiesImporter->run();
 	}
 
 }
