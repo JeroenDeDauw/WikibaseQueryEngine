@@ -6,6 +6,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Wikibase\QueryEngine\Console\Import\ImportEntitiesCommand;
 use Wikibase\QueryEngine\Importer\EntitiesImporter;
 use Wikibase\QueryEngine\Tests\Fixtures\FakeEntityIterator;
+use Wikibase\QueryEngine\Tests\Fixtures\FakeEntitiesImporterBuilder;
 use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
 /**
@@ -21,7 +22,7 @@ class ImportEntitiesCommandTest extends \PHPUnit_Framework_TestCase {
 		$this->store = IntegrationStoreBuilder::newStore( $this );
 
 		$this->command = new ImportEntitiesCommand();
-		$this->command->setDependencies( new EntitiesImporter(
+		$this->command->setDependencies( new FakeEntitiesImporterBuilder(
 			$this->store->newWriter(),
 			new FakeEntityIterator()
 		) );
