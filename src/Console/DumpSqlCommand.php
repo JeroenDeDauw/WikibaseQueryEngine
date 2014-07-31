@@ -31,7 +31,7 @@ class DumpSqlCommand extends Command {
 	}
 
 	protected function configure() {
-		$this->setName( 'dumpsql' );
+		$this->setName( 'sqlstore:dumpsql' );
 		$this->setDescription( 'Dumps the SQL for creating the SQLStore schema' );
 	}
 
