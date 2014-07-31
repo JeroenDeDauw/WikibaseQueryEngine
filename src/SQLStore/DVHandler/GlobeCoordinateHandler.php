@@ -33,7 +33,7 @@ class GlobeCoordinateHandler extends DataValueHandler {
 	 * @see DataValueHandler::completeTable
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value_globe',   Type::STRING, array( 'length' => 255 ) );
+		$table->addColumn( 'value_globe',   Type::STRING, array( 'length' => 255, 'notnull' => false ) );
 		$table->addColumn( 'value_lat',     Type::FLOAT );
 		$table->addColumn( 'value_lon',     Type::FLOAT );
 		$table->addColumn( 'value_min_lat', Type::FLOAT );
