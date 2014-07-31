@@ -25,6 +25,11 @@ interface EntitiesImporterBuilder {
 	public function setContinuationId( $previousEntityId );
 
 	/**
+	 * @param int $limit
+	 */
+	public function setLimit( $limit );
+
+	/**
 	 * @return EntitiesImporter
 	 */
 	public function newImporter();

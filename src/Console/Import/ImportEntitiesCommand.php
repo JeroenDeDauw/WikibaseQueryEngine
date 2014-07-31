@@ -43,10 +43,18 @@ class ImportEntitiesCommand extends Command {
 			InputOption::VALUE_OPTIONAL,
 			'The id of the entity to resume from (id not included)'
 		);
+
+		$this->addOption(
+			'limit',
+			'l',
+			InputOption::VALUE_OPTIONAL,
+			'The maximum number of entities to import'
+		);
 	}
 
 	protected function execute( InputInterface $input, OutputInterface $output ) {
 		$this->importerBuilder->setBatchSize( (int)$input->getOption( 'batchsize' ) );
+		$this->importerBuilder->setLimit( (int)$input->getOption( 'limit' ) );
 		$this->importerBuilder->setReporter( new CliImportReporter( $output ) );
 
 		$this->handleContinueOption( $input, $output );

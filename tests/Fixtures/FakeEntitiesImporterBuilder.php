@@ -43,6 +43,12 @@ class FakeEntitiesImporterBuilder implements EntitiesImporterBuilder {
 	}
 
 	/**
+	 * @param int $limit
+	 */
+	public function setLimit( $limit ) {
+	}
+
+	/**
 	 * @return EntitiesImporter
 	 */
 	public function newImporter() {
