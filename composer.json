@@ -38,7 +38,8 @@
 		"symfony/console": "~2.4.4"
 	},
 	"suggest": {
-		"symfony/console": "Allows use of the command line interface"
+		"symfony/console": "Allows use of the command line interface",
+		"ext-pcntl": "Allows graceful interruption of the entities importer"
 	},
 	"autoload": {
 		"files" : [

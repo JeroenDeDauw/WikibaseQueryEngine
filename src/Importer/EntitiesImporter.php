@@ -35,7 +35,9 @@ class EntitiesImporter {
 		$this->reporter->onImportStarted();
 
 		foreach ( $this->entityIterator as $entity ) {
-			pcntl_signal_dispatch();
+			if ( function_exists( 'pcntl_signal_dispatch' ) ) {
+				pcntl_signal_dispatch();
+			}
 
 			if ( $this->shouldStop ) {
 				$this->shouldStop = false;
