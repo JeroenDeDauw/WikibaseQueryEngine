@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\Importer;
 
 use Wikibase\QueryEngine\Importer\EntitiesImporter;
 use Wikibase\QueryEngine\Tests\Fixtures\FakeEntityIterator;
-use Wikibase\QueryEngine\Tests\Fixtures\FakeEntitiesImporterBuilder;
 
 /**
  * @covers Wikibase\QueryEngine\Importer\EntitiesImporter
