@@ -35,7 +35,7 @@
 	},
 	"require-dev": {
 		"ext-sqlite3": "*",
-		"symfony/console": "~2.4.4"
+		"symfony/console": "~2.4"
 	},
 	"suggest": {
 		"symfony/console": "Allows use of the command line interface",
