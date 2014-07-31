@@ -32,6 +32,7 @@ class QuantityHandler extends DataValueHandler {
 	 * @see DataValueHandler::completeTable
 	 */
 	protected function completeTable( Table $table ) {
+		$table->addColumn( 'value_unit', Type::STRING, array( 'length' => 255, 'notnull' => false ) );
 		$table->addColumn( 'value_actual', Type::FLOAT );
 		$table->addColumn( 'value_lower_bound', Type::FLOAT );
 		$table->addColumn( 'value_upper_bound', Type::FLOAT );
@@ -60,6 +61,7 @@ class QuantityHandler extends DataValueHandler {
 		}
 
 		$values = array(
+			'value_unit' => $this->normalizeUnit( $value->getUnit() ),
 			'value_actual' => $value->getAmount()->getValue(),
 			'value_lower_bound' => $value->getLowerBound()->getValue(),
 			'value_upper_bound' => $value->getUpperBound()->getValue(),
@@ -135,6 +137,15 @@ class QuantityHandler extends DataValueHandler {
 
 		$builder->setParameter( ':lower_bound', $value->getLowerBound()->getValue() );
 		$builder->setParameter( ':upper_bound', $value->getUpperBound()->getValue() );
+	}
+
+	/**
+	 * @param string $unit
+	 *
+	 * @return string|null
+	 */
+	private function normalizeUnit( $unit ) {
+		return $unit === '1' ? null : $unit;
 	}
 
 }
