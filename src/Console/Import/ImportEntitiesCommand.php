@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Wikibase\QueryEngine\Importer\EntitiesImporter;
 use Wikibase\QueryEngine\Importer\EntitiesImporterBuilder;
 
 /**
@@ -52,8 +53,7 @@ class ImportEntitiesCommand extends Command {
 
 		$importer = $this->importerBuilder->newImporter();
 
-		pcntl_signal( SIGINT, array( $importer, 'stop' ) );
-		pcntl_signal( SIGTERM, array( $importer, 'stop' ) );
+		$this->registerSignalHandlers( $importer, $output );
 
 		$importer->run();
 	}
@@ -64,6 +64,16 @@ class ImportEntitiesCommand extends Command {
 		if ( $continueId !== null ) {
 			$output->writeln( "<info>Continuing from </info><comment>$continueId</comment>" );
 			$this->importerBuilder->setContinuationId( $continueId );
+		}
+	}
+
+	private function registerSignalHandlers( EntitiesImporter $importer, OutputInterface $output ) {
+		if ( function_exists( 'pcntl_signal' ) ) {
+			pcntl_signal( SIGINT, array( $importer, 'stop' ) );
+			pcntl_signal( SIGTERM, array( $importer, 'stop' ) );
+		}
+		else {
+			$output->writeln( '<comment>PCNTL not available; running without graceful interruption support</comment>' );
 		}
 	}
 
