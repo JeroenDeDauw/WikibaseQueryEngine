@@ -27,4 +27,20 @@ class DataValueHandlersBuilderTest extends \PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey( 'string', $handlers->getQualifierHandlers() );
 	}
 
+	public function testCallingWithSimpleQuantityHandlersOnlyHasQuantityHandlers() {
+		$builder = new DataValueHandlersBuilder();
+		$handlers = $builder->withSimpleQualifierHandlers()->getHandlers();
+
+		$this->assertEmpty( $handlers->getMainSnakHandlers() );
+		$this->assertNotEmpty( $handlers->getQualifierHandlers() );
+	}
+
+	public function testCallingWithSimpleMainSnakHandlersOnlyHasMainSnakHandlers() {
+		$builder = new DataValueHandlersBuilder();
+		$handlers = $builder->withSimpleMainSnakHandlers()->getHandlers();
+
+		$this->assertNotEmpty( $handlers->getMainSnakHandlers() );
+		$this->assertEmpty( $handlers->getQualifierHandlers() );
+	}
+
 }

@@ -29,9 +29,18 @@ class DataValueHandlersBuilder {
 	}
 
 	/**
+	 * @since 0.3
 	 * @return self
 	 */
 	public function withSimpleHandlers() {
+		return $this->withSimpleMainSnakHandlers()->withSimpleQualifierHandlers();
+	}
+
+	/**
+	 * @since 0.3
+	 * @return self
+	 */
+	public function withSimpleMainSnakHandlers() {
 		$this->handlers->addMainSnakHandler( 'boolean', new BooleanHandler() );
 		$this->handlers->addMainSnakHandler( 'iri', new IriHandler() );
 		$this->handlers->addMainSnakHandler( 'geocoordinate', new LatLongHandler() );
@@ -43,6 +52,14 @@ class DataValueHandlersBuilder {
 		$this->handlers->addMainSnakHandler( 'time', new TimeHandler() );
 		$this->handlers->addMainSnakHandler( 'wikibase-entityid', new EntityIdHandler() );
 
+		return $this;
+	}
+
+	/**
+	 * @since 0.3
+	 * @return self
+	 */
+	public function withSimpleQualifierHandlers() {
 		$this->handlers->addQualifierHandler( 'boolean', new BooleanHandler() );
 		$this->handlers->addQualifierHandler( 'iri', new IriHandler() );
 		$this->handlers->addQualifierHandler( 'geocoordinate', new LatLongHandler() );
@@ -58,6 +75,7 @@ class DataValueHandlersBuilder {
 	}
 
 	/**
+	 * @since 0.3
 	 * @return DataValueHandlers
 	 */
 	public function getHandlers() {
