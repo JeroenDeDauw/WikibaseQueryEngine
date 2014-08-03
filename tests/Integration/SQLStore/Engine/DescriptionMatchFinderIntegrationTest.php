@@ -30,7 +30,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 	/**
 	 * @var SQLStoreWithDependencies
 	 */
-	protected $store;
+	private $store;
 
 	public function setUp() {
 		$this->store = IntegrationStoreBuilder::newStore( $this );
@@ -46,7 +46,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		}
 	}
 
-	protected function insertEntities() {
+	private function insertEntities() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1112' ) );
 

@@ -39,7 +39,7 @@ class ValueSnakStoreTest extends SnakStoreTest {
 		);
 	}
 
-	protected function newStringHandler() {
+	private function newStringHandler() {
 		$handler = new StringHandler();
 		$handler->setTablePrefix( '' );
 		return $handler;
