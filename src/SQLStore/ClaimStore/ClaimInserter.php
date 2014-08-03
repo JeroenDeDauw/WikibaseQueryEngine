@@ -18,8 +18,8 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
  */
 class ClaimInserter {
 
-	protected $snakInserter;
-	protected $claimRowBuilder;
+	private $snakInserter;
+	private $claimRowBuilder;
 
 	public function __construct( SnakInserter $snakInserter, ClaimRowBuilder $claimRowBuilder ) {
 		$this->snakInserter = $snakInserter;
@@ -30,7 +30,7 @@ class ClaimInserter {
 		$this->insertSnaks( $claim, $subjectId );
 	}
 
-	protected function insertSnaks( Claim $claim, EntityId $subjectId ) {
+	private function insertSnaks( Claim $claim, EntityId $subjectId ) {
 		$this->insertSnak( $claim->getMainSnak(), SnakRole::MAIN_SNAK, $subjectId, $claim->getRank() );
 
 		foreach ( $claim->getQualifiers() as $qualifier ) {
@@ -38,7 +38,7 @@ class ClaimInserter {
 		}
 	}
 
-	protected function insertSnak( Snak $snak, $snakRole, EntityId $subjectId, $claimRank ) {
+	private function insertSnak( Snak $snak, $snakRole, EntityId $subjectId, $claimRank ) {
 		$this->snakInserter->insertSnak( $snak, $snakRole, $subjectId, $claimRank );
 	}
 

@@ -23,7 +23,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var SQLStoreWithDependencies
 	 */
-	protected $store;
+	private $store;
 
 	public function setUp() {
 		$this->store = IntegrationStoreBuilder::newStore( $this );

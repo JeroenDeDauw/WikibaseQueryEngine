@@ -61,14 +61,14 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ), Claim::RANK_NORMAL );
 	}
 
-	protected function newInstance( Connection $connection ) {
+	private function newInstance( Connection $connection ) {
 		return new SnakInserter(
 			$this->getSnakStores( $connection ),
 			new SnakRowBuilder()
 		);
 	}
 
-	protected function getSnakStores( Connection $connection ) {
+	private function getSnakStores( Connection $connection ) {
 		$stringHandler = new StringHandler();
 		$stringHandler->setTablePrefix( '' );
 

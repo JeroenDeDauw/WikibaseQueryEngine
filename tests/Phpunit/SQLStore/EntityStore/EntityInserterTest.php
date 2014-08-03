@@ -94,7 +94,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		return $argLists;
 	}
 
-	protected function newClaim( $propertyNumber ) {
+	private function newClaim( $propertyNumber ) {
 		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;

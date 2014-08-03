@@ -19,9 +19,9 @@ class SnakInserter {
 	/**
 	 * @var SnakStore[]
 	 */
-	protected $snakStores;
+	private $snakStores;
 
-	protected $snakRowBuilder;
+	private $snakRowBuilder;
 
 	/**
 	 * @param SnakStore[] $snakStores
@@ -45,7 +45,7 @@ class SnakInserter {
 		$this->insertSnakRow( $snakRow );
 	}
 
-	protected function insertSnakRow( SnakRow $snakRow ) {
+	private function insertSnakRow( SnakRow $snakRow ) {
 		foreach ( $this->snakStores as $snakStore ) {
 			if ( $snakStore->canStore( $snakRow ) ) {
 				$snakStore->storeSnakRow( $snakRow );

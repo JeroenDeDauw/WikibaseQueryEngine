@@ -14,12 +14,12 @@ use InvalidArgumentException;
  */
 class ClaimRow {
 
-	protected $internalId;
-	protected $externalGuid;
-	protected $subjectId;
-	protected $propertyId;
-	protected $rank;
-	protected $hash;
+	private $internalId;
+	private $externalGuid;
+	private $subjectId;
+	private $propertyId;
+	private $rank;
+	private $hash;
 
 	/**
 	 * @param int|null $internalId

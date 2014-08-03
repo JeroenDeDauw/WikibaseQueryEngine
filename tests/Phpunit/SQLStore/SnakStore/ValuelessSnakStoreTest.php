@@ -32,7 +32,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 		return $this->newInstanceWithConnection( $this->newConnectionStub() );
 	}
 
-	protected function newInstanceWithConnection( Connection $connection ) {
+	private function newInstanceWithConnection( Connection $connection ) {
 		return new ValuelessSnakStore(
 			$connection,
 			'snaks_of_doom'

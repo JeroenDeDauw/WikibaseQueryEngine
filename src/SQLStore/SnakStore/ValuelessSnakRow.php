@@ -16,7 +16,7 @@ class ValuelessSnakRow extends SnakRow {
 	const TYPE_NO_VALUE = 0;
 	const TYPE_SOME_VALUE = 1;
 
-	protected $internalSnakType;
+	private $internalSnakType;
 
 	/**
 	 * @param int $internalSnakType

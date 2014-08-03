@@ -39,7 +39,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var SQLStoreWithDependencies
 	 */
-	protected $store;
+	private $store;
 
 	public function setUp() {
 		$this->store = IntegrationStoreBuilder::newStore( $this );
@@ -84,7 +84,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	 * @param Description $description
 	 * @return EntityId[]
 	 */
-	protected function findMatchingEntities( Description $description ) {
+	private function findMatchingEntities( Description $description ) {
 		$matchFinder = $this->store->newQueryEngine();
 
 		$queryOptions = new QueryOptions(

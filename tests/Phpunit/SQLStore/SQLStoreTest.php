@@ -19,7 +19,7 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  */
 class SQLStoreTest extends \PHPUnit_Framework_TestCase {
 
-	protected function newInstance() {
+	private function newInstance() {
 		$handlers = new DataValueHandlers();
 		$handlers->addMainSnakHandler( 'string', new StringHandler() );
 
@@ -36,7 +36,7 @@ class SQLStoreTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	protected function newMockConnection() {
+	private function newMockConnection() {
 		return $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
 			->disableOriginalConstructor()->getMock();
 	}

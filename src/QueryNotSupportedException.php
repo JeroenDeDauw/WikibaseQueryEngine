@@ -15,7 +15,7 @@ use Ask\Language\Description\Description;
  */
 class QueryNotSupportedException extends QueryEngineException {
 
-	protected $queryDescription;
+	private $queryDescription;
 
 	public function __construct( Description $queryDescription, $message = '', \Exception $previous = null ) {
 		$this->queryDescription = $queryDescription;

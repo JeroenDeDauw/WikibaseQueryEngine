@@ -14,7 +14,7 @@ use Wikibase\DataModel\Entity\EntityId;
  */
 class ValueSnakRow extends SnakRow {
 
-	protected $value;
+	private $value;
 
 	/**
 	 * @param DataValue $value

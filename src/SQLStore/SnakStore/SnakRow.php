@@ -15,11 +15,11 @@ use Wikibase\DataModel\Entity\EntityId;
  */
 abstract class SnakRow {
 
-	protected $propertyId;
-	protected $snakRole;
-	protected $subjectId;
-	protected $entityType;
-	protected $statementRank;
+	private $propertyId;
+	private $snakRole;
+	private $subjectId;
+	private $entityType;
+	private $statementRank;
 
 	/**
 	 * @param string $propertyId
