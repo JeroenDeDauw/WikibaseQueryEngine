@@ -40,7 +40,7 @@ class SnakRowBuilder {
 		throw new InvalidArgumentException( 'Got a snak type no supported by the SnakRowBuilder' );
 	}
 
-	protected function newValueSnakRow( PropertyValueSnak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
+	private function newValueSnakRow( PropertyValueSnak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
 		return new ValueSnakRow(
 			$snak->getDataValue(),
 			$snak->getPropertyId()->getSerialization(),
@@ -50,7 +50,7 @@ class SnakRowBuilder {
 		);
 	}
 
-	protected function newValuelessSnakRow( Snak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
+	private function newValuelessSnakRow( Snak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
 		$internalSnakType = $snak instanceof PropertySomeValueSnak
 			? ValuelessSnakRow::TYPE_SOME_VALUE : ValuelessSnakRow::TYPE_NO_VALUE;
 

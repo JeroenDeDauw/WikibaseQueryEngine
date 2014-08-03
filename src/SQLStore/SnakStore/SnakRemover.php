@@ -21,7 +21,7 @@ class SnakRemover {
 	/**
 	 * @var SnakStore[]
 	 */
-	protected $snakStores;
+	private $snakStores;
 
 	/**
 	 * @param SnakStore[] $snakStores

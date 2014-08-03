@@ -14,8 +14,8 @@ use Wikibase\DataModel\Entity\EntityId;
  */
 class ValuelessSnakStore extends SnakStore {
 
-	protected $connection;
-	protected $tableName;
+	private $connection;
+	private $tableName;
 
 	public function __construct( Connection $connection, $tableName ) {
 		$this->connection = $connection;

@@ -16,9 +16,9 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
  */
 class ValueSnakStore extends SnakStore {
 
-	protected $connection;
-	protected $dataValueHandlers;
-	protected $snakRole;
+	private $connection;
+	private $dataValueHandlers;
+	private $snakRole;
 
 	/**
 	 * The array of DataValueHandlers must have DataValue types as array keys pointing to
@@ -45,7 +45,7 @@ class ValueSnakStore extends SnakStore {
 	 * @return DataValueHandler
 	 * @throws OutOfBoundsException
 	 */
-	protected function getDataValueHandler( $dataValueType ) {
+	private function getDataValueHandler( $dataValueType ) {
 		if ( !array_key_exists( $dataValueType, $this->dataValueHandlers ) ) {
 			throw new OutOfBoundsException( "There is no DataValueHandler set for '$dataValueType'" );
 		}
