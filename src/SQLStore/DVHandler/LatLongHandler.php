@@ -37,6 +37,15 @@ class LatLongHandler extends DataValueHandler {
 	const EPSILON = 0.00028;
 
 	/**
+	 * @var GlobeMath
+	 */
+	private $math;
+
+	public function __construct() {
+		$this->math = new GlobeMath();
+	}
+
+	/**
 	 * @see DataValueHandler::getBaseTableName
 	 *
 	 * @return string
@@ -78,12 +87,11 @@ class LatLongHandler extends DataValueHandler {
 	 * @throws InvalidArgumentException
 	 */
 	public function getInsertValues( DataValue $value ) {
-		if ( !( $value instanceof LatLongValue ) ) {
+		if ( $value instanceof LatLongValue ) {
+			$normalized = $this->math->normalizeLatLong( $value, self::MINIMUM_LONGITUDE );
+		} else {
 			throw new InvalidArgumentException( 'Value is not a LatLongValue.' );
 		}
-
-		$math = new GlobeMath();
-		$normalized = $math->normalizeLatLong( $value, self::MINIMUM_LONGITUDE );
 
 		$values = array(
 			'value_lat' => $normalized->getLatitude(),
@@ -108,12 +116,15 @@ class LatLongHandler extends DataValueHandler {
 	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
 		$value = $description->getValue();
 
-		if ( !( $value instanceof LatLongValue ) ) {
+		if ( $value instanceof LatLongValue ) {
+			$epsilon = self::EPSILON;
+			$value = $this->math->normalizeLatLong( $value, self::MINIMUM_LONGITUDE );
+		} else {
 			throw new InvalidArgumentException( 'Value is not a LatLongValue.' );
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$this->addInRangeConditions( $builder, $value );
+			$this->addInRangeConditions( $builder, $value, $epsilon );
 		} else {
 			parent::addMatchConditions( $builder, $description );
 		}
@@ -122,22 +133,21 @@ class LatLongHandler extends DataValueHandler {
 	/**
 	 * @param QueryBuilder $builder
 	 * @param LatLongValue $value
+	 * @param float|int $epsilon
 	 */
-	private function addInRangeConditions( QueryBuilder $builder, LatLongValue $value ) {
-		$math = new GlobeMath();
-		$normalized = $math->normalizeLatLong( $value, self::MINIMUM_LONGITUDE );
-		$lat = $normalized->getLatitude();
-		$lon = $normalized->getLongitude();
+	private function addInRangeConditions( QueryBuilder $builder, LatLongValue $value, $epsilon ) {
+		$lat = $value->getLatitude();
+		$lon = $value->getLongitude();
 
 		$builder->andWhere( $this->getTableName() . '.value_lat >= :min_lat' );
 		$builder->andWhere( $this->getTableName() . '.value_lat <= :max_lat' );
 		$builder->andWhere( $this->getTableName() . '.value_lon >= :min_lon' );
 		$builder->andWhere( $this->getTableName() . '.value_lon <= :max_lon' );
 
-		$builder->setParameter( ':min_lat', $lat - self::EPSILON );
-		$builder->setParameter( ':max_lat', $lat + self::EPSILON );
-		$builder->setParameter( ':min_lon', $lon - self::EPSILON );
-		$builder->setParameter( ':max_lon', $lon + self::EPSILON );
+		$builder->setParameter( ':min_lat', $lat - $epsilon );
+		$builder->setParameter( ':max_lat', $lat + $epsilon );
+		$builder->setParameter( ':min_lon', $lon - $epsilon );
+		$builder->setParameter( ':max_lon', $lon + $epsilon );
 	}
 
 }
