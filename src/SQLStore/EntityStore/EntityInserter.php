@@ -13,8 +13,6 @@ use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 /**
  * Use case for inserting entities into the store.
  *
- * @since 0.1
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */

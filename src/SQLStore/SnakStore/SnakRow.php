@@ -8,8 +8,6 @@ use Wikibase\DataModel\Entity\EntityId;
 /**
  * Represents a row in a snak table. Immutable.
  *
- * @since 0.1
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
