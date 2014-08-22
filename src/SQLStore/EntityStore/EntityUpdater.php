@@ -7,8 +7,6 @@ use Wikibase\DataModel\Entity\Entity;
 /**
  * Use case for updating entities in the store.
  *
- * @since 0.1
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */

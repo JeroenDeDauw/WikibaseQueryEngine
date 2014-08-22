@@ -9,8 +9,6 @@ use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
- * @since 0.1
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */

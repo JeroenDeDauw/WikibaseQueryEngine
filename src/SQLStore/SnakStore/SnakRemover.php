@@ -11,8 +11,6 @@ use Wikibase\DataModel\Entity\EntityId;
  * the entity has, so deletes can be run just against the relevant
  * data value type specific tables.
  *
- * @since 0.1
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
