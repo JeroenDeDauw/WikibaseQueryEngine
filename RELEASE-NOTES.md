@@ -1,6 +1,6 @@
 # Wikibase QueryEngine release notes
 
-## Version 0.3 (dev)
+## Version 0.3 (2014-08-22)
 
 #### Breaking changes
 
