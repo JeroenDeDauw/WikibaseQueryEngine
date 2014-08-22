@@ -23,8 +23,6 @@ class EntityRemover {
 
 	public function removeEntity( Entity $entity ) {
 		$this->snakRemover->removeSnaksOfSubject( $entity->getId() );
-
-		// TODO: obtain and remove virtual claims
 	}
 
 }
