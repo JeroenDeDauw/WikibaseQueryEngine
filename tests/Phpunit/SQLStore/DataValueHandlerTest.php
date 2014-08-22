@@ -108,10 +108,18 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider instanceProvider
 	 */
 	public function testConstructTableReturnType( DataValueHandler $dvHandler ) {
-		$this->assertInstanceOf(
-			'Doctrine\DBAL\Schema\Table',
-			$dvHandler->constructTable()
-		);
+		$table = $dvHandler->constructTable();
+		$this->assertInstanceOf( 'Doctrine\DBAL\Schema\Table', $table );
+	}
+
+	/**
+	 * @dataProvider instanceProvider
+	 */
+	public function testConstructTable_addsAtLeastOneIndex( DataValueHandler $dvHandler ) {
+		$table = $dvHandler->constructTable();
+		$indexes = $table->getIndexes();
+
+		$this->assertNotEmpty( $indexes );
 	}
 
 	/**
@@ -127,7 +135,6 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetInsertValuesReturnType( DataValue $value ) {
 		$instance = $this->newInstance();
-
 		$insertValues = $instance->getInsertValues( $value );
 
 		$this->assertInternalType( 'array', $insertValues );
@@ -184,7 +191,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider instanceProvider
 	 */
-	public function testGetSortFieldNameReturnValue( DataValueHandler $dvHandler ) {
+	public function testGetSortFieldNamesReturnValue( DataValueHandler $dvHandler ) {
 		$sortFieldNames = $dvHandler->getSortFieldNames();
 
 		$this->assertInternalType( 'array', $sortFieldNames );
