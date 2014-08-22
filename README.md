@@ -3,7 +3,7 @@
 [![Build Status](https://secure.travis-ci.org/wmde/WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/wmde/WikibaseQueryEngine)
 [![Code Coverage](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/badges/quality-score.png?s=69cb7a4272badafeea876275cd6dba1032fa2d46)](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/)
-[![Dependency Status](https://www.versioneye.com/package/php--wikibase--query-engine/badge.png)](https://www.versioneye.com/package/php--wikibase--query-engine)
+[![Dependency Status](https://www.versioneye.com/php/wikibase:query-engine/dev-master/badge.svg)](https://www.versioneye.com/php/wikibase:query-engine/dev-master)
 
 On [Packagist](https://packagist.org/packages/wikibase/query-engine):
 [![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/version.png)](https://packagist.org/packages/wikibase/query-engine)
