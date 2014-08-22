@@ -41,8 +41,6 @@ class Installer implements QueryStoreInstaller {
 				$ex
 			);
 		}
-
-		// TODO: initialize basic content
 	}
 
 	/**
