@@ -23,7 +23,18 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 class GlobeCoordinateHandler extends DataValueHandler {
 
 	/**
+	 * @var GlobeMath
+	 */
+	private $math;
+
+	public function __construct() {
+		$this->math = new GlobeMath();
+	}
+
+	/**
 	 * @see DataValueHandler::getBaseTableName
+	 *
+	 * @return string
 	 */
 	protected function getBaseTableName() {
 		return 'globecoordinate';
@@ -31,6 +42,8 @@ class GlobeCoordinateHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::completeTable
+	 *
+	 * @param Table $table
 	 */
 	protected function completeTable( Table $table ) {
 		$table->addColumn( 'value_globe',   Type::STRING, array( 'length' => 255, 'notnull' => false ) );
@@ -49,6 +62,8 @@ class GlobeCoordinateHandler extends DataValueHandler {
 
 	/**
 	 * @see DataValueHandler::getSortFieldNames
+	 *
+	 * @return string[]
 	 */
 	public function getSortFieldNames() {
 		// Order by West-East first
@@ -68,8 +83,7 @@ class GlobeCoordinateHandler extends DataValueHandler {
 			throw new InvalidArgumentException( 'Value is not a GlobeCoordinateValue.' );
 		}
 
-		$math = new GlobeMath();
-		$normalized = $math->normalizeGlobeCoordinate( $value );
+		$normalized = $this->math->normalizeGlobeCoordinate( $value );
 		$lat = $normalized->getLatitude();
 		$lon = $normalized->getLongitude();
 		$precision = abs( $value->getPrecision() );
@@ -118,11 +132,10 @@ class GlobeCoordinateHandler extends DataValueHandler {
 	 * @param GlobeCoordinateValue $value
 	 */
 	private function addInRangeConditions( QueryBuilder $builder, GlobeCoordinateValue $value ) {
-		$math = new GlobeMath();
-		$normalized = $math->normalizeGlobeCoordinate( $value );
-		$lat = $normalized->getLatitude();
-		$lon = $normalized->getLongitude();
-		$precision = abs( $value->getPrecision() );
+		$value = $this->math->normalizeGlobeCoordinate( $value );
+		$lat = $value->getLatitude();
+		$lon = $value->getLongitude();
+		$epsilon = abs( $value->getPrecision() );
 
 		$builder->andWhere( $this->getTableName() . '.value_globe = :globe' );
 		$builder->andWhere( $this->getTableName() . '.value_lat >= :min_lat' );
@@ -131,10 +144,10 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		$builder->andWhere( $this->getTableName() . '.value_lon <= :max_lon' );
 
 		$builder->setParameter( ':globe', $this->normalizeGlobe( $value->getGlobe() ) );
-		$builder->setParameter( ':min_lat', $lat - $precision );
-		$builder->setParameter( ':max_lat', $lat + $precision );
-		$builder->setParameter( ':min_lon', $lon - $precision );
-		$builder->setParameter( ':max_lon', $lon + $precision );
+		$builder->setParameter( ':min_lat', $lat - $epsilon );
+		$builder->setParameter( ':max_lat', $lat + $epsilon );
+		$builder->setParameter( ':min_lon', $lon - $epsilon );
+		$builder->setParameter( ':max_lon', $lon + $epsilon );
 	}
 
 	/**
@@ -143,8 +156,7 @@ class GlobeCoordinateHandler extends DataValueHandler {
 	 * @return string|null
 	 */
 	private function normalizeGlobe( $globe ) {
-		$math = new GlobeMath();
-		$globe = $math->normalizeGlobe( $globe );
+		$globe = $this->math->normalizeGlobe( $globe );
 
 		if ( $globe === GlobeCoordinateValue::GLOBE_EARTH ) {
 			$globe = null;
