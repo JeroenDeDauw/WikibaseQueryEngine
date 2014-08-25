@@ -1,5 +1,9 @@
 # Wikibase QueryEngine release notes
 
+## Version 0.3.1 (2014-08-25)
+
+* Allow installation with Wikibase DataModel 0.9.x
+
 ## Version 0.3 (2014-08-22)
 
 #### Breaking changes
