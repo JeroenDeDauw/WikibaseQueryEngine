@@ -30,11 +30,13 @@ dependency on `wikibase/query-engine` to your project's `composer.json` file.
 Here is a minimal example of a `composer.json` file that just defines a dependency on
 Wikibase QueryEngine 1.0:
 
+```js
     {
         "require": {
             "wikibase/query-engine": "1.0.*"
         }
     }
+```
 
 ### Manual
 
