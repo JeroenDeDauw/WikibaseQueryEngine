@@ -4,8 +4,8 @@ namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
 use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
-use DataValues\GlobeMath;
-use DataValues\LatLongValue;
+use DataValues\Geo\GlobeMath;
+use DataValues\Geo\Values\LatLongValue;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
