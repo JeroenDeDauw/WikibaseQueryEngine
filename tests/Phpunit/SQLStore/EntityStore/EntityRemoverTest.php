@@ -2,11 +2,11 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\Entity;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
 
 /**
@@ -63,24 +63,26 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$property = Property::newFromType( 'string' );
 		$property->setId( 1 );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
-		$property->addClaim( $this->newClaim( 42 ) );
+
+		// TODO: re-enable with DataModel 1.1
+//		$property->addClaim( $this->newStatement( 42 ) );
 
 		$argLists[] = array( $property );
 
 
 		$item = Item::newEmpty();
 		$item->setId( 2 );
-		$item->addClaim( $this->newClaim( 42 ) );
-		$item->addClaim( $this->newClaim( 43 ) );
-		$item->addClaim( $this->newClaim( 44 ) );
+		$item->getStatements()->addStatement( $this->newStatement( 42 ) );
+		$item->getStatements()->addStatement( $this->newStatement( 43 ) );
+		$item->getStatements()->addStatement( $this->newStatement( 44 ) );
 
 		$argLists[] = array( $item );
 
 		return $argLists;
 	}
 
-	private function newClaim( $propertyNumber ) {
-		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
+	private function newStatement( $propertyNumber ) {
+		$claim = new Statement( new PropertyNoValueSnak( $propertyNumber ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;
 	}
