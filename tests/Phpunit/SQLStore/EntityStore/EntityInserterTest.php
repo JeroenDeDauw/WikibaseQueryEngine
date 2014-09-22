@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Claim\Statement;
 use Wikibase\DataModel\Entity\Entity;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\Item;
@@ -13,6 +12,7 @@ use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 
@@ -77,7 +77,9 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$property = Property::newFromType( 'string' );
 		$property->setId( new PropertyId( 'P1' ) );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
-		$property->addClaim( $this->newClaim( 42 ) );
+
+		// TODO: re-enable with DataModel 1.1
+		//$property->addClaim( $this->newClaim( 42 ) );
 
 		$argLists[] = array( $property );
 
@@ -85,17 +87,17 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q2' ) );
 
-		$item->addClaim( $this->newClaim( 42 ) );
-		$item->addClaim( $this->newClaim( 43 ) );
-		$item->addClaim( $this->newClaim( 44 ) );
+		$item->getStatements()->addStatement( $this->newNoValueStatement( 42 ) );
+		$item->getStatements()->addStatement( $this->newNoValueStatement( 43 ) );
+		$item->getStatements()->addStatement( $this->newNoValueStatement( 44 ) );
 
 		$argLists[] = array( $item );
 
 		return $argLists;
 	}
 
-	private function newClaim( $propertyNumber ) {
-		$claim = new Claim( new PropertyNoValueSnak( $propertyNumber ) );
+	private function newNoValueStatement( $propertyNumber ) {
+		$claim = new Statement( new PropertyNoValueSnak( $propertyNumber ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;
 	}
@@ -104,11 +106,11 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( 42 );
 
-		$item->addClaim( $this->newStatement( 1, 'foo', Claim::RANK_DEPRECATED ) );
-		$item->addClaim( $this->newStatement( 1, 'bar', Claim::RANK_PREFERRED ) );
-		$item->addClaim( $this->newStatement( 1, 'baz', Claim::RANK_NORMAL ) );
-		$item->addClaim( $this->newStatement( 2, 'bah', Claim::RANK_NORMAL ) );
-		$item->addClaim( $this->newStatement( 3, 'blah', Claim::RANK_DEPRECATED ) );
+		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', Claim::RANK_DEPRECATED ) );
+		$item->getStatements()->addStatement( $this->newStatement( 1, 'bar', Claim::RANK_PREFERRED ) );
+		$item->getStatements()->addStatement( $this->newStatement( 1, 'baz', Claim::RANK_NORMAL ) );
+		$item->getStatements()->addStatement( $this->newStatement( 2, 'bah', Claim::RANK_NORMAL ) );
+		$item->getStatements()->addStatement( $this->newStatement( 3, 'blah', Claim::RANK_DEPRECATED ) );
 
 		$this->assertClaimsAreInsertedForEntity(
 			$item,
