@@ -68,8 +68,6 @@ class DescriptionMatchFinder {
 	}
 
 	/**
-	 * TODO: this code needs some serious cleanup before it is extended
-	 *
 	 * @param SomeProperty $description
 	 * @param QueryOptions $options
 	 *
@@ -99,9 +97,7 @@ class DescriptionMatchFinder {
 	}
 
 	private function createQueryBuilder( PropertyId $propertyId, ValueDescription $description ) {
-		$dvHandler = $this->schema->getDataValueHandlers()->getMainSnakHandler(
-			$this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId )
-		);
+		$dvHandler = $this->getDataValueHandlerFor( $propertyId );
 
 		$queryBuilder = new QueryBuilder( $this->connection );
 
@@ -117,6 +113,12 @@ class DescriptionMatchFinder {
 		$dvHandler->addMatchConditions( $queryBuilder, $description );
 
 		return $queryBuilder;
+	}
+
+	private function getDataValueHandlerFor( $propertyId ) {
+		return $this->schema->getDataValueHandlers()->getMainSnakHandler(
+			$this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId )
+		);
 	}
 
 	private function addFieldsToSelect( QueryBuilder $builder, array $fieldNames, DataValueHandler $dvHandler ) {
