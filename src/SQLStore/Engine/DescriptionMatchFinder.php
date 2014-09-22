@@ -37,6 +37,11 @@ class DescriptionMatchFinder {
 	private $propertyDataValueTypeLookup;
 	private $idParser;
 
+	/**
+	 * @var QueryBuilder
+	 */
+	private $queryBuilder;
+
 	public function __construct(
 		Connection $connection,
 		StoreSchema $schema,
@@ -60,6 +65,8 @@ class DescriptionMatchFinder {
 	 * @throws QueryNotSupportedException
 	 */
 	public function findMatchingEntities( Description $description, QueryOptions $options ) {
+		$this->queryBuilder = new QueryBuilder( $this->connection );
+
 		if ( $description instanceof SomeProperty ) {
 			return $this->findMatchingSomeProperty( $description, $options );
 		}
@@ -76,43 +83,54 @@ class DescriptionMatchFinder {
 	 * @throws QueryNotSupportedException
 	 */
 	private function findMatchingSomeProperty( SomeProperty $description, QueryOptions $options ) {
-		$propertyId = $description->getPropertyId();
-
-		if ( !( $propertyId instanceof EntityIdValue ) ) {
-			throw new InvalidArgumentException( 'All property ids provided to the SQLStore should be EntityIdValue objects' );
-		}
-
 		$subDescription = $description->getSubDescription();
 
 		if ( !( $subDescription instanceof ValueDescription ) ) {
 			throw new QueryNotSupportedException( $description );
 		}
 
-		$queryBuilder = $this->createQueryBuilder( $propertyId->getEntityId(), $subDescription );
+		$this->addPropertyAndValueDescription(
+			$this->getPropertyIdFrom( $description ),
+			$subDescription
+		);
 
-		$queryBuilder->setMaxResults( $options->getLimit() );
-		$queryBuilder->setFirstResult( $options->getOffset() );
+		$this->addOptions( $options );
 
-		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder( $queryBuilder ) );
+		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder() );
 	}
 
-	private function createQueryBuilder( PropertyId $propertyId, ValueDescription $description ) {
+	/**
+	 * @param SomeProperty $description
+	 * @return PropertyId
+	 */
+	private function getPropertyIdFrom( SomeProperty $description ) {
+		$propertyId = $description->getPropertyId();
+
+		if ( !( $propertyId instanceof EntityIdValue ) ) {
+			throw new InvalidArgumentException( 'All property ids provided to the SQLStore should be EntityIdValue objects' );
+		}
+
+		return $propertyId->getEntityId();
+	}
+
+	private function addOptions( QueryOptions $options ) {
+		$this->queryBuilder->setMaxResults( $options->getLimit() );
+		$this->queryBuilder->setFirstResult( $options->getOffset() );
+	}
+
+	private function addPropertyAndValueDescription( PropertyId $propertyId, ValueDescription $description ) {
 		$dvHandler = $this->getDataValueHandlerFor( $propertyId );
 
-		$queryBuilder = new QueryBuilder( $this->connection );
-
 		$this->addFieldsToSelect(
-			$queryBuilder,
+			$this->queryBuilder,
 			array( 'subject_id' ),
 			$dvHandler
 		);
 
-		$queryBuilder->andWhere( $dvHandler->getTableName() . '.property_id = :property_id' );
-		$queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
+		$this->queryBuilder->andWhere( $dvHandler->getTableName() . '.property_id = :property_id' );
+		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
 
-		$dvHandler->addMatchConditions( $queryBuilder, $description );
-
-		return $queryBuilder;
+		$dvHandler->addMatchConditions( $this->queryBuilder, $description );
 	}
 
 	private function getDataValueHandlerFor( $propertyId ) {
@@ -129,9 +147,9 @@ class DescriptionMatchFinder {
 		$builder->from( $dvHandler->getTableName(), $dvHandler->getTableName() );
 	}
 
-	private function getResultFromQueryBuilder( QueryBuilder $builder ) {
+	private function getResultFromQueryBuilder() {
 		try {
-			return $builder->execute();
+			return $this->queryBuilder->execute();
 		}
 		catch ( DBALException $ex ) {
 			throw new QueryEngineException( $ex->getMessage(), $ex->getCode(), $ex );
