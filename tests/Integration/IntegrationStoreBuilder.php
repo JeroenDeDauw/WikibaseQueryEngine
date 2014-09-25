@@ -70,26 +70,46 @@ class IntegrationStoreBuilder {
 			) );
 		}
 
-		$realDbParams = $this->getConnectionParams();
-		$tmpDbParams = $this->getTempConnectionParams();
+		$this->recreateDatabase();
 
-		$realConn = DriverManager::getConnection( $realDbParams );
+		return DriverManager::getConnection( $this->getConnectionParams() );
+	}
 
-		// Connect to tmpdb in order to drop and create the real test db.
-		$tmpConn = DriverManager::getConnection( $tmpDbParams );
-
-		$dbname = $realConn->getDatabase();
+	private function recreateDatabase() {
+		$realConn = DriverManager::getConnection( $this->getConnectionParams() );
+		$dbName = $realConn->getDatabase();
 		$realConn->close();
 
-		if ( in_array( $dbname, $tmpConn->getSchemaManager()->listDatabases() ) ) {
-			$tmpConn->getSchemaManager()->dropDatabase( $dbname );
+		if ( $GLOBALS['db_type'] === 'pdo_pgsql' ) {
+			$this->recreatePostgresDatabase( $dbName );
+		}
+		else {
+			$this->recreateSaneDatabase( $dbName );
+		}
+	}
+
+	private function recreateSaneDatabase( $dbName ) {
+		// Connect to tmpdb in order to drop and create the real test db.
+		$tmpConn = DriverManager::getConnection( $this->getTempConnectionParams() );
+
+		if ( in_array( $dbName, $tmpConn->getSchemaManager()->listDatabases() ) ) {
+			$tmpConn->getSchemaManager()->dropDatabase( $dbName );
 		}
 
-		$tmpConn->getSchemaManager()->createDatabase( $dbname );
-
+		$tmpConn->getSchemaManager()->createDatabase( $dbName );
 		$tmpConn->close();
+	}
 
-		return DriverManager::getConnection( $realDbParams );
+	private function recreatePostgresDatabase( $dbName ) {
+		$pdo = new \PDO(
+			'pgsql:host=' . $GLOBALS['db_host']
+			. ';port=' . $GLOBALS['db_port']
+			. ';user=' . $GLOBALS['db_username']
+			. ';password=' . $GLOBALS['db_password']
+		);
+
+		$pdo->exec( 'DROP DATABASE ' . $dbName );
+		$pdo->exec( 'CREATE DATABASE ' . $dbName );
 	}
 
 	private function getConnectionParams() {

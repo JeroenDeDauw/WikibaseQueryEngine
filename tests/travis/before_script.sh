@@ -9,8 +9,6 @@ fi
 
 if [ "$DB" = 'pgsql' ]
 then
-	psql -c 'DROP DATABASE IF EXISTS qe_pg_tests_tmp;' -U postgres
-	psql -c 'DROP DATABASE IF EXISTS qe_pg_tests;' -U postgres
 	psql -c 'create database qe_pg_tests_tmp;' -U postgres
 	psql -c 'create database qe_pg_tests;' -U postgres
 
