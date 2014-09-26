@@ -17,5 +17,6 @@ $GLOBALS['wgExtensionCredits']['wikibase'][] = array(
 		'Thiemo Mättig',
 	),
 	'url' => 'https://github.com/wmde/WikibaseQueryEngine',
-	'description' => 'Answers Ask queries against a collection of Wikibase entities'
+	'description' => 'Answers Ask queries against a collection of Wikibase entities',
+	'license-name' => 'GPL-2.0+'
 );
