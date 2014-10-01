@@ -20,7 +20,7 @@ interface PropertyDataValueTypeLookup {
 	 *
 	 * @return string The type of the data values has values of
 	 *
-	 * TODO: provide exception type and document
+	 * @throws PropertyDataValueTypeLookupException
 	 */
 	public function getDataValueTypeForProperty( PropertyId $propertyId );
 
