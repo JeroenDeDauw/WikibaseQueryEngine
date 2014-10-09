@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
-use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
@@ -31,27 +31,27 @@ class Writer implements QueryStoreWriter {
 	/**
 	 * @see QueryStoreUpdater::insertEntity
 	 *
-	 * @param Entity $entity
+	 * @param EntityDocument $entity
 	 */
-	public function insertEntity( Entity $entity ) {
+	public function insertEntity( EntityDocument $entity ) {
 		$this->entityInserter->insertEntity( $entity );
 	}
 
 	/**
 	 * @see QueryStoreUpdater::updateEntity
 	 *
-	 * @param Entity $entity
+	 * @param EntityDocument $entity
 	 */
-	public function updateEntity( Entity $entity ) {
+	public function updateEntity( EntityDocument $entity ) {
 		$this->entityUpdater->updateEntity( $entity );
 	}
 
 	/**
 	 * @see QueryStoreUpdater::deleteEntity
 	 *
-	 * @param Entity $entity
+	 * @param EntityDocument $entity
 	 */
-	public function deleteEntity( Entity $entity ) {
+	public function deleteEntity( EntityDocument $entity ) {
 		$this->entityRemover->removeEntity( $entity );
 	}
 

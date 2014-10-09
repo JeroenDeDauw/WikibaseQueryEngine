@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine;
 
-use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityDocument;
 
 /**
  * Updater for a query store.
@@ -10,9 +10,6 @@ use Wikibase\DataModel\Entity\Entity;
  * into the query store, existing data can be updated and existing data can be removed.
  *
  * @since 0.1
- *
- * @file
- * @ingroup WikibaseQueryStore
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
@@ -24,26 +21,26 @@ interface QueryStoreWriter {
 	 *
 	 * @since 0.1
 	 *
-	 * @param Entity $entity
+	 * @param EntityDocument $entity
 	 */
-	public function insertEntity( Entity $entity );
+	public function insertEntity( EntityDocument $entity );
 
 	/**
 	 * @see QueryStoreUpdater::updateEntity
 	 *
 	 * @since 0.1
 	 *
-	 * @param Entity $entity
+	 * @param EntityDocument $entity
 	 */
-	public function updateEntity( Entity $entity );
+	public function updateEntity( EntityDocument $entity );
 
 	/**
 	 * @see QueryStoreUpdater::deleteEntity
 	 *
 	 * @since 0.1
 	 *
-	 * @param Entity $entity
+	 * @param EntityDocument $entity
 	 */
-	public function deleteEntity( Entity $entity );
+	public function deleteEntity( EntityDocument $entity );
 
 }
