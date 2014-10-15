@@ -4,7 +4,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\ClaimStore;
 
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Claim\Statement;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Reference;
 use Wikibase\DataModel\ReferenceList;
@@ -45,12 +45,15 @@ class ClaimInserterTest extends \PHPUnit_Framework_TestCase {
 			) )
 		);
 
+		// TODO: Statement will drop inheriting from Claim
 		$claims[] = new Statement(
-			new PropertyNoValueSnak( 1 ),
-			new SnakList( array(
-				new PropertyValueSnak( 2, new StringValue( 'NyanData' ) ),
-				new PropertyNoValueSnak( 3 )
-			) ),
+			new Claim(
+				new PropertyNoValueSnak( 1 ),
+				new SnakList( array(
+					new PropertyValueSnak( 2, new StringValue( 'NyanData' ) ),
+					new PropertyNoValueSnak( 3 )
+				) )
+			),
 			new ReferenceList( array(
 				new Reference( new SnakList( array(
 					new PropertyValueSnak( 3, new StringValue( 'NyanData' ) ),

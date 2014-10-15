@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\Entity;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\Property;
@@ -64,8 +65,7 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$property->setId( 1 );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
 
-		// TODO: re-enable with DataModel 1.1
-//		$property->addClaim( $this->newStatement( 42 ) );
+		$property->getStatements()->addStatement( $this->newStatement( 42 ) );
 
 		$argLists[] = array( $property );
 
@@ -82,7 +82,7 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function newStatement( $propertyNumber ) {
-		$claim = new Statement( new PropertyNoValueSnak( $propertyNumber ) );
+		$claim = new Statement( new Claim( new PropertyNoValueSnak( $propertyNumber ) ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;
 	}

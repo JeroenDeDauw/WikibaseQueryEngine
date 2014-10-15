@@ -73,8 +73,7 @@ class EntityUpdaterTest extends \PHPUnit_Framework_TestCase {
 		$property->setId( new PropertyId( 'P1' ) );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
 
-		// TODO: re-enable with DataModel 1.1
-		// $property->addClaim( $this->newStatement( 42 ) );
+		$property->getStatements()->addStatement( $this->newStatement( 42 ) );
 
 		$argLists[] = array( $property );
 
@@ -91,7 +90,7 @@ class EntityUpdaterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function newStatement( $propertyNumber ) {
-		$claim = new Statement( new PropertyNoValueSnak( $propertyNumber ) );
+		$claim = new Statement( new Claim( new PropertyNoValueSnak( $propertyNumber ) ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;
 	}

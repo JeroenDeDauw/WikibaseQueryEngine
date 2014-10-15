@@ -3,7 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\ClaimStore;
 
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Claim\Statement;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\EntityId;
 
 /**

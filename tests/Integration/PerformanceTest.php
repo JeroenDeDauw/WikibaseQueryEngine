@@ -3,7 +3,8 @@
 namespace Wikibase\QueryEngine\Tests\Integration;
 
 use DataValues\StringValue;
-use Wikibase\DataModel\Claim\Statement;
+use Wikibase\DataModel\Claim\Claim;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
@@ -154,7 +155,7 @@ class RandomItemBuilder {
 	}
 
 	private function addStatement( Item $item ) {
-		$statement = new Statement( $this->newSnak() );
+		$statement = new Statement( new Claim( $this->newSnak() ) );
 
 		$statement->setGuid( $item->getId()->getSerialization() . uniqid() );
 		$item->addClaim( $statement );
