@@ -19,6 +19,9 @@ use Wikibase\QueryEngine\SQLStore\Writer;
 class WriterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFacadeForwardsCalls() {
+		$connection = $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
+
 		$entityInserter = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter' )
 			->disableOriginalConstructor()->getMock();
 
@@ -28,7 +31,7 @@ class WriterTest extends \PHPUnit_Framework_TestCase {
 		$entityRemover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover' )
 			->disableOriginalConstructor()->getMock();
 
-		$writer = new Writer( $entityInserter, $entityUpdater, $entityRemover );
+		$writer = new Writer( $connection, $entityInserter, $entityUpdater, $entityRemover );
 
 		$entityRemover->expects( $this->exactly( 1 ) )->method( 'removeEntity' );
 		$entityUpdater->expects( $this->exactly( 2 ) )->method( 'updateEntity' );

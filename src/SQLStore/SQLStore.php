@@ -70,6 +70,7 @@ class SQLStore {
 	 */
 	public function newWriter( Connection $connection ) {
 		return new Writer(
+			$connection,
 			$this->newEntityInserter( $connection ),
 			$this->newEntityUpdater( $connection ),
 			$this->newEntityRemover( $connection )
@@ -101,8 +102,7 @@ class SQLStore {
 
 	private function newEntityInserter( Connection $connection ) {
 		return new EntityInserter(
-			$this->newClaimInserter( $connection ),
-			$connection
+			$this->newClaimInserter( $connection )
 		);
 	}
 

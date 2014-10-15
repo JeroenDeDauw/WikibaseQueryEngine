@@ -46,9 +46,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 			);
 		}
 
-		$connection = $this->getConnection();
-
-		$inserter = new EntityInserter( $claimInserter, $connection );
+		$inserter = new EntityInserter( $claimInserter );
 
 		$inserter->insertEntity( $entity );
 	}
@@ -130,18 +128,11 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 	private function assertClaimsAreInsertedForEntity( Entity $entity, array $claims ) {
 		$claimInserter = new SpyClaimInserter();
 
-		$inserter = new EntityInserter( $claimInserter, $this->getConnection() );
+		$inserter = new EntityInserter( $claimInserter );
 
 		$inserter->insertEntity( $entity );
 
 		$this->assertEquals( $claims, $claimInserter->getInsertedClaims() );
-	}
-
-	private function getConnection() {
-		$connection = $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
-			->disableOriginalConstructor()->getMock();
-
-		return $connection;
 	}
 
 }
