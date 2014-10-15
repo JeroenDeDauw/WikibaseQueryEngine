@@ -4,7 +4,7 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\ClaimStore;
 
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Claim\Statement;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
@@ -35,11 +35,13 @@ class ClaimRowBuilderTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$claims[] = new Statement(
-			new PropertyNoValueSnak( 1 ),
-			new SnakList( array(
-				new PropertyValueSnak( 2, new StringValue( 'NyanData' ) ),
-				new PropertyNoValueSnak( 3 )
-			) )
+			new Claim(
+				new PropertyNoValueSnak( 1 ),
+				new SnakList( array(
+					new PropertyValueSnak( 2, new StringValue( 'NyanData' ) ),
+					new PropertyNoValueSnak( 3 )
+				) )
+			)
 		);
 
 		$argLists = array();

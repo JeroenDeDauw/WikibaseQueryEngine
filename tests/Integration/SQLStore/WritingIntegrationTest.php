@@ -8,8 +8,9 @@ use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
 use DataValues\StringValue;
+use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Claim\Claims;
-use Wikibase\DataModel\Claim\Statement;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\Item;
@@ -56,7 +57,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q8888' ) );
 
-		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
 		$claim->setGuid( 'a claim' );
 		$item->addClaim( $claim );
 
@@ -99,13 +100,13 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q4444' ) );
 
-		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
 		$claim->setGuid( 'foo claim' );
 		$item->addClaim( $claim );
 
 		$this->store->newWriter()->insertEntity( $item );
 
-		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 9000 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 9000 ) ) ) );
 		$claim->setGuid( 'bar claim' );
 
 		$item->setClaims( new Claims( array(
@@ -149,7 +150,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function newStatement( $propertyId, $stringValue, $guid ) {
-		$statement = new Statement( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) );
+		$statement = new Statement( new Claim( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) ) );
 		$statement->setGuid( $guid );
 		return $statement;
 	}

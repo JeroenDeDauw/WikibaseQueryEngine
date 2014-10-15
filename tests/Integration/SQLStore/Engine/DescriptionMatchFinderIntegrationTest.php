@@ -6,7 +6,8 @@ use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
-use Wikibase\DataModel\Claim\Statement;
+use Wikibase\DataModel\Claim\Claim;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
@@ -50,7 +51,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1112' ) );
 
-		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
 		$claim->setGuid( 'claim0' );
 		$item->addClaim( $claim );
 
@@ -60,7 +61,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1113' ) );
 
-		$claim = new Statement( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) ) );
 		$claim->setGuid( 'claim1' );
 		$item->addClaim( $claim );
 
@@ -70,7 +71,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1114' ) );
 
-		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
 		$claim->setGuid( 'claim2' );
 		$item->addClaim( $claim );
 
@@ -80,11 +81,11 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1115' ) );
 
-		$claim = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
 		$claim->setGuid( 'claim3' );
 		$item->addClaim( $claim );
 
-		$claim = new Statement( new PropertyValueSnak( 43, new NumberValue( 1 ) ) );
+		$claim = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1 ) ) ) );
 		$claim->setGuid( 'claim4' );
 		$item->addClaim( $claim );
 

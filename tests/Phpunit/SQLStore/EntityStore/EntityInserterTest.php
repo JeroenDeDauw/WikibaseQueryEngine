@@ -41,7 +41,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 
 		if ( count( $entity->getClaims() ) > 0 ) {
 			$invocationMocker->with(
-				$this->isInstanceOf( 'Wikibase\Claim' ),
+				$this->isInstanceOf( 'Wikibase\DataModel\Claim\Claim' ),
 				$this->isInstanceOf( 'Wikibase\DataModel\Entity\EntityId' )
 			);
 		}
@@ -78,8 +78,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$property->setId( new PropertyId( 'P1' ) );
 		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
 
-		// TODO: re-enable with DataModel 1.1
-		//$property->addClaim( $this->newClaim( 42 ) );
+		$property->getStatements()->addStatement( $this->newNoValueStatement( 42 ) );
 
 		$argLists[] = array( $property );
 
@@ -97,7 +96,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function newNoValueStatement( $propertyNumber ) {
-		$claim = new Statement( new PropertyNoValueSnak( $propertyNumber ) );
+		$claim = new Statement( new Claim( new PropertyNoValueSnak( $propertyNumber ) ) );
 		$claim->setGuid( 'guid' . $propertyNumber );
 		return $claim;
 	}
@@ -122,7 +121,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function newStatement( $propertyId, $stringValue, $rank ) {
-		$statement = new Statement( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) );
+		$statement = new Statement( new Claim( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) ) );
 		$statement->setRank( $rank );
 		$statement->setGuid( sha1( $propertyId .  $stringValue ) );
 		return $statement;

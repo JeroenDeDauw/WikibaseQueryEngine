@@ -3,7 +3,7 @@
 ## Version 0.4 (dev)
 
 * The methods in QueryStoreWriter now accept `EntityDocument` rather than just `Entity`
-* Wikibase DataModel 1.1 or later is now required
+* Wikibase DataModel 2.x is now required
 
 ## Version 0.3.1 (2014-08-25)
 
