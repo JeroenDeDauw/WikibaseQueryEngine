@@ -21,28 +21,22 @@ use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 class EntityInserter {
 
 	private $claimInserter;
-	private $connection;
 
 	/**
 	 * @var Entity
 	 */
 	private $entity;
 
-	public function __construct( ClaimInserter $claimInserter, Connection $connection ) {
+	public function __construct( ClaimInserter $claimInserter ) {
 		$this->claimInserter = $claimInserter;
-		$this->connection = $connection;
 	}
 
 	public function insertEntity( Entity $entity ) {
 		// TODO: change to EntityDocument and delegate to strategies
 		$this->entity = $entity;
 
-		$this->connection->beginTransaction();
-
 		$this->insertStandardClaims();
 		$this->insertVirtualClaims();
-
-		$this->connection->commit();
 	}
 
 	private function insertStandardClaims() {

@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore;
 
+use Doctrine\DBAL\Connection;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
@@ -18,11 +19,13 @@ use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
  */
 class Writer implements QueryStoreWriter {
 
+	private $connection;
 	private $entityInserter;
 	private $entityUpdater;
 	private $entityRemover;
 
-	public function __construct( EntityInserter $inserter, EntityUpdater $updater, EntityRemover $remover ) {
+	public function __construct( Connection $connection, EntityInserter $inserter, EntityUpdater $updater, EntityRemover $remover ) {
+		$this->connection = $connection;
 		$this->entityInserter = $inserter;
 		$this->entityUpdater = $updater;
 		$this->entityRemover = $remover;
@@ -34,7 +37,9 @@ class Writer implements QueryStoreWriter {
 	 * @param EntityDocument $entity
 	 */
 	public function insertEntity( EntityDocument $entity ) {
+		$this->connection->beginTransaction();
 		$this->entityInserter->insertEntity( $entity );
+		$this->connection->commit();
 	}
 
 	/**
@@ -43,7 +48,9 @@ class Writer implements QueryStoreWriter {
 	 * @param EntityDocument $entity
 	 */
 	public function updateEntity( EntityDocument $entity ) {
+		$this->connection->beginTransaction();
 		$this->entityUpdater->updateEntity( $entity );
+		$this->connection->commit();
 	}
 
 	/**
@@ -52,7 +59,9 @@ class Writer implements QueryStoreWriter {
 	 * @param EntityDocument $entity
 	 */
 	public function deleteEntity( EntityDocument $entity ) {
+		$this->connection->beginTransaction();
 		$this->entityRemover->removeEntity( $entity );
+		$this->connection->commit();
 	}
 
 }
