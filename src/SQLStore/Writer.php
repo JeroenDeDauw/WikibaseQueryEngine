@@ -6,8 +6,11 @@ use Doctrine\DBAL\Connection;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInsertionStrategy;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemovalStrategy;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdatingStrategy;
 
 /**
  * Class responsible for writing information to the SQLStore.
@@ -24,7 +27,9 @@ class Writer implements QueryStoreWriter {
 	private $entityUpdater;
 	private $entityRemover;
 
-	public function __construct( Connection $connection, EntityInserter $inserter, EntityUpdater $updater, EntityRemover $remover ) {
+	public function __construct( Connection $connection, EntityInsertionStrategy $inserter,
+		EntityUpdatingStrategy $updater, EntityRemovalStrategy $remover ) {
+
 		$this->connection = $connection;
 		$this->entityInserter = $inserter;
 		$this->entityUpdater = $updater;

@@ -2,7 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
-use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityDocument;
 
 /**
  * Use case for updating entities in the store.
@@ -10,7 +10,7 @@ use Wikibase\DataModel\Entity\Entity;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class EntityUpdater {
+class EntityUpdater implements EntityUpdatingStrategy {
 
 	private $remover;
 	private $inserter;
@@ -20,7 +20,7 @@ class EntityUpdater {
 		$this->inserter = $inserter;
 	}
 
-	public function updateEntity( Entity $entity ) {
+	public function updateEntity( EntityDocument $entity ) {
 		$this->remover->removeEntity( $entity );
 		$this->inserter->insertEntity( $entity );
 	}
