@@ -2,16 +2,14 @@
 
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
-use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover;
 
 /**
- * Use case for removing entities from the store.
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class EntityRemover {
+class EntityRemover implements EntityRemovalStrategy {
 
 	private $snakRemover;
 
@@ -19,8 +17,18 @@ class EntityRemover {
 		$this->snakRemover = $snakRemover;
 	}
 
-	public function removeEntity( Entity $entity ) {
+	public function removeEntity( EntityDocument $entity ) {
 		$this->snakRemover->removeSnaksOfSubject( $entity->getId() );
+	}
+
+	/**
+	 * @param EntityDocument $entity
+	 *
+	 * @return boolean
+	 */
+	public function canRemove( EntityDocument $entity ) {
+		// TODO
+		return true;
 	}
 
 }
