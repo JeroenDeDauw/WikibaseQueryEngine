@@ -3,15 +3,12 @@
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
 use Traversable;
-use Wikibase\DataModel\Entity\Entity;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Statement\BestStatementsFinder;
 use Wikibase\DataModel\Statement\StatementList;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 
 /**
- * Use case for inserting entities into the store.
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
@@ -20,7 +17,7 @@ class EntityInserter implements EntityInsertionStrategy {
 	private $claimInserter;
 
 	/**
-	 * @var Entity
+	 * @var EntityDocument
 	 */
 	private $entity;
 
@@ -53,6 +50,16 @@ class EntityInserter implements EntityInsertionStrategy {
 				$this->entity->getId()
 			);
 		}
+	}
+
+	/**
+	 * @param EntityDocument $entity
+	 *
+	 * @return boolean
+	 */
+	public function canInsert( EntityDocument $entity ) {
+		// TODO
+		return true;
 	}
 
 }

@@ -5,8 +5,6 @@ namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 use Wikibase\DataModel\Entity\EntityDocument;
 
 /**
- * Use case for updating entities in the store.
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
@@ -23,6 +21,16 @@ class EntityUpdater implements EntityUpdatingStrategy {
 	public function updateEntity( EntityDocument $entity ) {
 		$this->remover->removeEntity( $entity );
 		$this->inserter->insertEntity( $entity );
+	}
+
+	/**
+	 * @param EntityDocument $entity
+	 *
+	 * @return boolean
+	 */
+	public function canUpdate( EntityDocument $entity ) {
+		// TODO
+		return true;
 	}
 
 }
