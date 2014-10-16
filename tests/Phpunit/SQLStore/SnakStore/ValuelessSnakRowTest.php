@@ -10,8 +10,6 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

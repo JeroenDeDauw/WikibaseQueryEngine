@@ -10,8 +10,6 @@ use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\DVHandler\TimeHandler
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

@@ -8,8 +8,6 @@ use Wikibase\QueryEngine\SQLStore\Writer;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\Writer
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

@@ -13,8 +13,6 @@ use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

@@ -20,8 +20,6 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *
