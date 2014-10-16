@@ -17,8 +17,6 @@ use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

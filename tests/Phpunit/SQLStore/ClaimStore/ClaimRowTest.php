@@ -8,8 +8,6 @@ use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRow;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRow
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

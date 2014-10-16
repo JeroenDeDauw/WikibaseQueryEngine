@@ -10,8 +10,6 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\StoreSchema
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

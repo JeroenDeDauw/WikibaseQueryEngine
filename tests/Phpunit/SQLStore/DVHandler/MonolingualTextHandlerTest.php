@@ -9,8 +9,6 @@ use Wikibase\QueryEngine\Tests\Phpunit\SQLStore\DataValueHandlerTest;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\DVHandler\MonolingualTextHandler
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

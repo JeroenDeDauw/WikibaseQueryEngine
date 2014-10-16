@@ -11,7 +11,6 @@ use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 /**
  * @covers Wikibase\QueryEngine\SQLStore\Engine\Engine
  *
- * @ingroup WikibaseQueryEngineTest
  * @group Wikibase
  * @group WikibaseQueryEngine
  *

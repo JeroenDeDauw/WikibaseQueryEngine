@@ -12,8 +12,6 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 /**
  * Unit tests for the Wikibase\QueryEngine\SQLStore\DataValueHandler implementing classes.
  *
- * @ingroup WikibaseQueryEngineTest
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  * @author Thiemo Mättig
