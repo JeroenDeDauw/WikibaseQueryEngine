@@ -23,17 +23,13 @@ class WriterTest extends \PHPUnit_Framework_TestCase {
 		$entityInserter = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter' )
 			->disableOriginalConstructor()->getMock();
 
-		$entityUpdater = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater' )
-			->disableOriginalConstructor()->getMock();
-
 		$entityRemover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover' )
 			->disableOriginalConstructor()->getMock();
 
-		$writer = new Writer( $connection, $entityInserter, $entityUpdater, $entityRemover );
+		$writer = new Writer( $connection, $entityInserter, $entityRemover );
 
-		$entityRemover->expects( $this->exactly( 1 ) )->method( 'removeEntity' );
-		$entityUpdater->expects( $this->exactly( 2 ) )->method( 'updateEntity' );
-		$entityInserter->expects( $this->exactly( 3 ) )->method( 'insertEntity' );
+		$entityRemover->expects( $this->exactly( 3 ) )->method( 'removeEntity' );
+		$entityInserter->expects( $this->exactly( 5 ) )->method( 'insertEntity' );
 
 		$writer->deleteEntity( Item::newEmpty() );
 

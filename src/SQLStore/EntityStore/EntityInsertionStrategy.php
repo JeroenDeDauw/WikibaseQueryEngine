@@ -12,6 +12,9 @@ use Wikibase\QueryEngine\QueryEngineException;
 interface EntityInsertionStrategy {
 
 	/**
+	 * The insertion strategy is not required to support all types of entities.
+	 * Hence the caller first needs to verify insertion can be done by calling canInsert.
+	 *
 	 * @param EntityDocument $entity
 	 *
 	 * @throws QueryEngineException

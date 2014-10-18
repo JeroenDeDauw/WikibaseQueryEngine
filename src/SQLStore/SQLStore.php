@@ -14,8 +14,11 @@ use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
+use Wikibase\QueryEngine\SQLStore\EntityStore\PropertyInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityRemover;
 use Wikibase\QueryEngine\SQLStore\Setup\Installer;
 use Wikibase\QueryEngine\SQLStore\Setup\Uninstaller;
 use Wikibase\QueryEngine\SQLStore\Setup\Updater;
@@ -71,9 +74,8 @@ class SQLStore {
 	public function newWriter( Connection $connection ) {
 		return new Writer(
 			$connection,
-			$this->newEntityInserter( $connection ),
-			$this->newEntityUpdater( $connection ),
-			$this->newEntityRemover( $connection )
+			new EntityInserter( $connection, $this->newEntityInserters( $connection ) ),
+			new EntityRemover( $connection, $this->newEntityRemovers( $connection ) )
 		);
 	}
 
@@ -100,22 +102,16 @@ class SQLStore {
 		);
 	}
 
-	private function newEntityInserter( Connection $connection ) {
-		return new EntityInserter(
-			$this->newClaimInserter( $connection )
+	private function newEntityInserters( Connection $connection ) {
+		return array(
+			new ItemInserter( $this->newClaimInserter( $connection ) ),
+			new PropertyInserter( $this->newClaimInserter( $connection ) )
 		);
 	}
 
-	private function newEntityUpdater( Connection $connection ) {
-		return new EntityUpdater(
-			$this->newEntityRemover( $connection ),
-			$this->newEntityInserter( $connection )
-		);
-	}
-
-	private function newEntityRemover( Connection $connection ) {
-		return new EntityRemover(
-			$this->newSnakRemover( $connection )
+	private function newEntityRemovers( Connection $connection ) {
+		return array(
+			new BasicEntityRemover( $this->newSnakRemover( $connection ) )
 		);
 	}
 

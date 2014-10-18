@@ -2,153 +2,86 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
-use DataValues\StringValue;
-use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Entity\Entity;
-use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\Item;
-use Wikibase\DataModel\Entity\ItemId;
-use Wikibase\DataModel\Entity\Property;
-use Wikibase\DataModel\Entity\PropertyId;
-use Wikibase\DataModel\Snak\PropertyNoValueSnak;
-use Wikibase\DataModel\Snak\PropertyValueSnak;
-use Wikibase\DataModel\Statement\Statement;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter
- *
- * @group Wikibase
- * @group WikibaseQueryEngine
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 
-	/**
-	 * @dataProvider entityProvider
-	 */
-	public function testInsertEntity( Entity $entity ) {
-		$claimInserter = $this
-			->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter' )
-			->disableOriginalConstructor()
-			->getMock();
-
-		$invocationMocker = $claimInserter->expects( $this->exactly( count( $entity->getClaims() ) ) )
-			->method( 'insertClaim' );
-
-		if ( count( $entity->getClaims() ) > 0 ) {
-			$invocationMocker->with(
-				$this->isInstanceOf( 'Wikibase\DataModel\Claim\Claim' ),
-				$this->isInstanceOf( 'Wikibase\DataModel\Entity\EntityId' )
-			);
-		}
-
-		$inserter = new EntityInserter( $claimInserter );
-
-		$inserter->insertEntity( $entity );
+	private function getConnection() {
+		return $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
 	}
 
-	public function entityProvider() {
-		$argLists = array();
-
-		$item = Item::newEmpty();
-		$item->setId( new ItemId( 'Q42' ) );
-
-		$argLists[] = array( $item );
-
-
-		$item = Item::newEmpty();
-		$item->setId( new ItemId( 'Q31337' ) );
-
-		$argLists[] = array( $item );
-
-
-		$property = Property::newFromType( 'string' );
-		$property->setId( new PropertyId( 'P9001' ) );
-
-		$argLists[] = array( $property );
-
-
-		$property = Property::newFromType( 'string' );
-		$property->setId( new PropertyId( 'P1' ) );
-		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
-
-		$property->getStatements()->addStatement( $this->newNoValueStatement( 42 ) );
-
-		$argLists[] = array( $property );
-
-
-		$item = Item::newEmpty();
-		$item->setId( new ItemId( 'Q2' ) );
-
-		$item->getStatements()->addStatement( $this->newNoValueStatement( 42 ) );
-		$item->getStatements()->addStatement( $this->newNoValueStatement( 43 ) );
-		$item->getStatements()->addStatement( $this->newNoValueStatement( 44 ) );
-
-		$argLists[] = array( $item );
-
-		return $argLists;
+	private function getInsertionStrategyMock() {
+		return $this->getMock( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityInsertionStrategy' );
 	}
 
-	private function newNoValueStatement( $propertyNumber ) {
-		$claim = new Statement( new Claim( new PropertyNoValueSnak( $propertyNumber ) ) );
-		$claim->setGuid( 'guid' . $propertyNumber );
-		return $claim;
+	public function testWhenInsertingWithNoStrategies_exceptionIsThrown() {
+		$inserter = new EntityInserter( $this->getConnection(), array() );
+
+		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
+		$inserter->insertEntity( Item::newEmpty() );
 	}
 
-	public function testOnlyBestClaimsGetInserted() {
-		$item = Item::newEmpty();
-		$item->setId( 42 );
+	public function testWhenInsertingWithNoMatchingStrategies_exceptionIsThrown() {
+		$insertionStrategy = $this->getInsertionStrategyMock();
 
-		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', Claim::RANK_DEPRECATED ) );
-		$item->getStatements()->addStatement( $this->newStatement( 1, 'bar', Claim::RANK_PREFERRED ) );
-		$item->getStatements()->addStatement( $this->newStatement( 1, 'baz', Claim::RANK_NORMAL ) );
-		$item->getStatements()->addStatement( $this->newStatement( 2, 'bah', Claim::RANK_NORMAL ) );
-		$item->getStatements()->addStatement( $this->newStatement( 3, 'blah', Claim::RANK_DEPRECATED ) );
+		$insertionStrategy->expects( $this->once() )
+			->method( 'canInsert' )
+			->will( $this->returnValue( false ) );
 
-		$this->assertClaimsAreInsertedForEntity(
-			$item,
-			array(
-				$this->newStatement( 1, 'bar', Claim::RANK_PREFERRED ),
-				$this->newStatement( 2, 'bah', Claim::RANK_NORMAL )
-			)
-		);
+		$inserter = new EntityInserter( $this->getConnection(), array( $insertionStrategy ) );
+
+		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
+		$inserter->insertEntity( Item::newEmpty() );
 	}
 
-	private function newStatement( $propertyId, $stringValue, $rank ) {
-		$statement = new Statement( new Claim( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) ) );
-		$statement->setRank( $rank );
-		$statement->setGuid( sha1( $propertyId .  $stringValue ) );
-		return $statement;
+	public function testWhenInsertingMatchingStrategy_strategyIsCalled() {
+		$insertionStrategy = $this->getInsertionStrategyMock();
+
+		$insertionStrategy->expects( $this->once() )
+			->method( 'canInsert' )
+			->will( $this->returnValue( true ) );
+
+		$insertionStrategy->expects( $this->once() )
+			->method( 'insertEntity' )
+			->with( $this->equalTo( Item::newEmpty() ) );
+
+		$inserter = new EntityInserter( $this->getConnection(), array( $insertionStrategy ) );
+
+		$inserter->insertEntity( Item::newEmpty() );
 	}
 
-	private function assertClaimsAreInsertedForEntity( Entity $entity, array $claims ) {
-		$claimInserter = new SpyClaimInserter();
+	public function testWhenInsertFails_transactionIsRolledBack() {
+		$insertionStrategy = $this->getInsertionStrategyMock();
 
-		$inserter = new EntityInserter( $claimInserter );
+		$insertionStrategy->expects( $this->once() )
+			->method( 'canInsert' )
+			->will( $this->returnValue( true ) );
 
-		$inserter->insertEntity( $entity );
+		$insertionStrategy->expects( $this->once() )
+			->method( 'insertEntity' )
+			->will( $this->throwException( new QueryEngineException() ) );
 
-		$this->assertEquals( $claims, $claimInserter->getInsertedClaims() );
+		$connection = $this->getConnection();
+
+		$connection->expects( $this->once() )->method( 'beginTransaction' );
+		$connection->expects( $this->once() )->method( 'rollBack' );
+		$connection->expects( $this->never() )->method( 'commit' );
+
+		$inserter = new EntityInserter( $connection, array( $insertionStrategy ) );
+
+		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
+		$inserter->insertEntity( Item::newEmpty() );
 	}
 
-}
 
-class SpyClaimInserter extends ClaimInserter {
-
-	private $insertedClaims = array();
-
-	public function __construct() {}
-
-	public function insertClaim( Claim $claim, EntityId $subjectId ) {
-		$this->insertedClaims[] = $claim;
-	}
-
-	public function getInsertedClaims() {
-		return $this->insertedClaims;
-	}
 
 }

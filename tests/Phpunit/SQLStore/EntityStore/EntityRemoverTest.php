@@ -2,87 +2,86 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
-use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Entity\Entity;
 use Wikibase\DataModel\Entity\Item;
-use Wikibase\DataModel\Entity\Property;
-use Wikibase\DataModel\Snak\PropertyNoValueSnak;
-use Wikibase\DataModel\Statement\Statement;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
 
 /**
  * @covers Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover
- *
- * @group Wikibase
- * @group WikibaseQueryEngine
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 
-	/**
-	 * @dataProvider entityProvider
-	 */
-	public function testRemoveEntity( Entity $entity ) {
-		$snakRemover = $this->getMockBuilder( 'Wikibase\QueryEngine\SQLStore\SnakStore\SnakRemover' )
-			->disableOriginalConstructor()
-			->getMock();
-
-		$snakRemover->expects( $this->once() )
-			->method( 'removeSnaksOfSubject' )
-			->with( $this->equalTo( $entity->getId() ) );
-
-		$remover = new EntityRemover( $snakRemover );
-
-		$remover->removeEntity( $entity );
+	private function getConnection() {
+		return $this->getMockBuilder( 'Doctrine\DBAL\Connection' )
+			->disableOriginalConstructor()->getMock();
 	}
 
-	public function entityProvider() {
-		$argLists = array();
-
-		$item = Item::newEmpty();
-		$item->setId( 42 );
-
-		$argLists[] = array( $item );
-
-
-		$item = Item::newEmpty();
-		$item->setId( 31337 );
-
-		$argLists[] = array( $item );
-
-
-		$property = Property::newFromType( 'string' );
-		$property->setId( 9001 );
-
-		$argLists[] = array( $property );
-
-
-		$property = Property::newFromType( 'string' );
-		$property->setId( 1 );
-		$property->addAliases( 'en', array( 'foo', 'bar', 'baz' ) );
-
-		$property->getStatements()->addStatement( $this->newStatement( 42 ) );
-
-		$argLists[] = array( $property );
-
-
-		$item = Item::newEmpty();
-		$item->setId( 2 );
-		$item->getStatements()->addStatement( $this->newStatement( 42 ) );
-		$item->getStatements()->addStatement( $this->newStatement( 43 ) );
-		$item->getStatements()->addStatement( $this->newStatement( 44 ) );
-
-		$argLists[] = array( $item );
-
-		return $argLists;
+	private function getRemovalStrategyMock() {
+		return $this->getMock( 'Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemovalStrategy' );
 	}
 
-	private function newStatement( $propertyNumber ) {
-		$claim = new Statement( new Claim( new PropertyNoValueSnak( $propertyNumber ) ) );
-		$claim->setGuid( 'guid' . $propertyNumber );
-		return $claim;
+	public function testWhenRemovingWithNoStrategies_exceptionIsThrown() {
+		$remover = new EntityRemover( $this->getConnection(), array() );
+
+		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
+		$remover->removeEntity( Item::newEmpty() );
 	}
+
+	public function testWhenRemovingWithNoMatchingStrategies_exceptionIsThrown() {
+		$removalStrategy = $this->getRemovalStrategyMock();
+
+		$removalStrategy->expects( $this->once() )
+			->method( 'canRemove' )
+			->will( $this->returnValue( false ) );
+
+		$remover = new EntityRemover( $this->getConnection(), array( $removalStrategy ) );
+
+		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
+		$remover->removeEntity( Item::newEmpty() );
+	}
+
+	public function testWhenRemovingMatchingStrategy_strategyIsCalled() {
+		$removalStrategy = $this->getRemovalStrategyMock();
+
+		$removalStrategy->expects( $this->once() )
+			->method( 'canRemove' )
+			->will( $this->returnValue( true ) );
+
+		$removalStrategy->expects( $this->once() )
+			->method( 'removeEntity' )
+			->with( $this->equalTo( Item::newEmpty() ) );
+
+		$remover = new EntityRemover( $this->getConnection(), array( $removalStrategy ) );
+
+		$remover->removeEntity( Item::newEmpty() );
+	}
+
+	public function testWhenRemoveFails_transactionIsRolledBack() {
+		$removalStrategy = $this->getRemovalStrategyMock();
+
+		$removalStrategy->expects( $this->once() )
+			->method( 'canRemove' )
+			->will( $this->returnValue( true ) );
+
+		$removalStrategy->expects( $this->once() )
+			->method( 'removeEntity' )
+			->will( $this->throwException( new QueryEngineException() ) );
+
+		$connection = $this->getConnection();
+
+		$connection->expects( $this->once() )->method( 'beginTransaction' );
+		$connection->expects( $this->once() )->method( 'rollBack' );
+		$connection->expects( $this->never() )->method( 'commit' );
+
+		$remover = new EntityRemover( $connection, array( $removalStrategy ) );
+
+		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
+		$remover->removeEntity( Item::newEmpty() );
+	}
+
+
 
 }
