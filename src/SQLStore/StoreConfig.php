@@ -34,16 +34,4 @@ class StoreConfig {
 		return $this->storeName;
 	}
 
-	/**
-	 * Returns a map that maps entity type (string) to internal id postfix digit (int, unique).
-	 *
-	 * @return int[]
-	 */
-	public function getEntityTypeMap() {
-		return array(
-			'item' => 0,
-			'property' => 1,
-		);
-	}
-
 }
