@@ -3,9 +3,12 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use Doctrine\DBAL\Connection;
+use Exception;
 use Wikibase\DataModel\Entity\EntityDocument;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInsertionStrategy;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemovalStrategy;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
@@ -24,15 +27,16 @@ class Writer implements QueryStoreWriter {
 
 	private $connection;
 	private $entityInserter;
-	private $entityUpdater;
 	private $entityRemover;
 
-	public function __construct( Connection $connection, EntityInsertionStrategy $inserter,
-		EntityUpdatingStrategy $updater, EntityRemovalStrategy $remover ) {
-
+	/**
+	 * @param Connection $connection
+	 * @param EntityInserter $inserter
+	 * @param EntityRemover $remover
+	 */
+	public function __construct( Connection $connection, EntityInserter $inserter, EntityRemover $remover ) {
 		$this->connection = $connection;
 		$this->entityInserter = $inserter;
-		$this->entityUpdater = $updater;
 		$this->entityRemover = $remover;
 	}
 
@@ -42,9 +46,7 @@ class Writer implements QueryStoreWriter {
 	 * @param EntityDocument $entity
 	 */
 	public function insertEntity( EntityDocument $entity ) {
-		$this->connection->beginTransaction();
 		$this->entityInserter->insertEntity( $entity );
-		$this->connection->commit();
 	}
 
 	/**
@@ -54,7 +56,16 @@ class Writer implements QueryStoreWriter {
 	 */
 	public function updateEntity( EntityDocument $entity ) {
 		$this->connection->beginTransaction();
-		$this->entityUpdater->updateEntity( $entity );
+
+		try {
+			$this->entityRemover->removeEntity( $entity );
+			$this->entityInserter->insertEntity( $entity );
+		}
+		catch ( QueryEngineException $ex ) {
+			$this->connection->rollBack();
+			throw $ex;
+		}
+
 		$this->connection->commit();
 	}
 
@@ -64,9 +75,7 @@ class Writer implements QueryStoreWriter {
 	 * @param EntityDocument $entity
 	 */
 	public function deleteEntity( EntityDocument $entity ) {
-		$this->connection->beginTransaction();
 		$this->entityRemover->removeEntity( $entity );
-		$this->connection->commit();
 	}
 
 }

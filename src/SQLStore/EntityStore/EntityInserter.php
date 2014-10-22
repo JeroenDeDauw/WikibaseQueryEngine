@@ -2,64 +2,56 @@
 
 namespace Wikibase\QueryEngine\SQLStore\EntityStore;
 
-use Traversable;
+use Doctrine\DBAL\Connection;
 use Wikibase\DataModel\Entity\EntityDocument;
-use Wikibase\DataModel\Statement\BestStatementsFinder;
-use Wikibase\DataModel\Statement\StatementList;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
+use Wikibase\QueryEngine\QueryEngineException;
 
 /**
- * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class EntityInserter implements EntityInsertionStrategy {
+class EntityInserter {
 
-	private $claimInserter;
+	private $connection;
+	private $entityInserters;
 
 	/**
-	 * @var EntityDocument
+	 * @param Connection $connection
+	 * @param EntityInsertionStrategy[] $entityInserters
 	 */
-	private $entity;
-
-	public function __construct( ClaimInserter $claimInserter ) {
-		$this->claimInserter = $claimInserter;
+	public function __construct( Connection $connection, array $entityInserters ) {
+		$this->connection = $connection;
+		$this->entityInserters = $entityInserters;
 	}
 
 	public function insertEntity( EntityDocument $entity ) {
-		$this->entity = $entity;
+		$inserter = $this->getEntityInserterFor( $entity );
 
-		$this->insertStandardClaims();
-		$this->insertVirtualClaims();
-	}
+		$this->connection->beginTransaction();
 
-	private function insertStandardClaims() {
-		$bestStatementsFinder = new BestStatementsFinder( $this->entity->getClaims() );
-		$statements = new StatementList( $bestStatementsFinder->getBestStatementsPerProperty() );
-
-		$this->insertClaims( $statements->getWithUniqueMainSnaks() );
-	}
-
-	private function insertVirtualClaims() {
-		// TODO: obtain and insert virtual claims
-	}
-
-	private function insertClaims( Traversable $claims ) {
-		foreach ( $claims as $claim ) {
-			$this->claimInserter->insertClaim(
-				$claim,
-				$this->entity->getId()
-			);
+		try {
+			$inserter->insertEntity( $entity );
 		}
+		catch ( QueryEngineException $ex ) {
+			$this->connection->rollBack();
+			throw $ex;
+		}
+
+		$this->connection->commit();
 	}
 
 	/**
 	 * @param EntityDocument $entity
-	 *
-	 * @return boolean
+	 * @return EntityInsertionStrategy
+	 * @throws QueryEngineException
 	 */
-	public function canInsert( EntityDocument $entity ) {
-		// TODO
-		return true;
+	private function getEntityInserterFor( EntityDocument $entity ) {
+		foreach ( $this->entityInserters as $entityInserter ) {
+			if ( $entityInserter->canInsert( $entity ) ) {
+				return $entityInserter;
+			}
+		}
+
+		throw new QueryEngineException( 'There is no insertion strategy for ' . $entity->getId() );
 	}
 
 }

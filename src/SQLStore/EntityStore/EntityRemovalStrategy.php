@@ -12,6 +12,9 @@ use Wikibase\QueryEngine\QueryEngineException;
 interface EntityRemovalStrategy {
 
 	/**
+	 * The removal strategy is not required to support all types of entities.
+	 * Hence the caller first needs to verify removal can be done by calling canRemove.
+	 *
 	 * @param EntityDocument $entity
 	 *
 	 * @throws QueryEngineException
