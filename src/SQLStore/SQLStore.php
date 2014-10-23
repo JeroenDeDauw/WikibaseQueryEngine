@@ -13,12 +13,11 @@ use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
-use Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
-use Wikibase\QueryEngine\SQLStore\EntityStore\PropertyInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityRemover;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
+use Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\PropertyInserter;
 use Wikibase\QueryEngine\SQLStore\Setup\Installer;
 use Wikibase\QueryEngine\SQLStore\Setup\Uninstaller;
 use Wikibase\QueryEngine\SQLStore\Setup\Updater;
@@ -58,9 +57,11 @@ class SQLStore {
 	 *
 	 * @return QueryEngine
 	 */
-	public function newQueryEngine( Connection $connection, PropertyDataValueTypeLookup $lookup,
-		EntityIdParser $idParser ) {
-
+	public function newQueryEngine(
+		Connection $connection,
+		PropertyDataValueTypeLookup $lookup,
+		EntityIdParser $idParser
+	) {
 		return new Engine(
 			$this->newDescriptionMatchFinder( $connection, $lookup, $idParser )
 		);

@@ -2,6 +2,8 @@
 
 namespace Wikibase\QueryEngine;
 
+use RuntimeException;
+
 /**
  * Exception originating from the Wikibase QueryEngine component.
  *
@@ -10,6 +12,6 @@ namespace Wikibase\QueryEngine;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class QueryEngineException extends \RuntimeException {
+class QueryEngineException extends RuntimeException {
 
 }

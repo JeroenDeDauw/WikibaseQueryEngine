@@ -4,11 +4,11 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\ClaimStore;
 
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\SnakList;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
 
 /**

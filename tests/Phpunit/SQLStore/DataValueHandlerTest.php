@@ -206,7 +206,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function getQueryBuilderMock() {
-		$builder = $this->getMockBuilder( '\Doctrine\DBAL\Query\QueryBuilder' )
+		$builder = $this->getMockBuilder( 'Doctrine\DBAL\Query\QueryBuilder' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -216,7 +216,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider instanceProvider
 	 * @param DataValueHandler $dvHandler
-	 * @expectedException \InvalidArgumentException
+	 * @expectedException InvalidArgumentException
 	 */
 	public function testAddMatchConditions_invalidDataValue( DataValueHandler $dvHandler ) {
 		$value = new UnknownValue( null );

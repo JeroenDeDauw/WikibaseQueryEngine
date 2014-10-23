@@ -2,8 +2,8 @@
 
 namespace Wikibase\QueryEngine\Importer;
 
+use Exception;
 use Iterator;
-use RuntimeException;
 use Wikibase\DataModel\Entity\Entity;
 use Wikibase\QueryEngine\QueryStoreWriter;
 
@@ -59,7 +59,7 @@ class EntitiesImporter {
 			$this->storeWriter->updateEntity( $entity );
 			$wasSuccessful = true;
 		}
-		catch ( \Exception $ex ) {
+		catch ( Exception $ex ) {
 			$this->reporter->onEntityInsertFailed( $entity, $ex );
 		}
 

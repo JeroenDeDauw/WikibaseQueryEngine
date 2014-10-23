@@ -82,6 +82,4 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$remover->removeEntity( Item::newEmpty() );
 	}
 
-
-
 }

@@ -58,7 +58,6 @@ class SnakRowBuilderTest extends \PHPUnit_Framework_TestCase {
 		$snakRow = $builder->newSnakRow( $snak, $snakRole, new ItemId( 'Q1337' ), Statement::RANK_NORMAL );
 
 		$this->assertInstanceOf( 'Wikibase\QueryEngine\SQLStore\SnakStore\SnakRow', $snakRow );
-
 	}
 
 }

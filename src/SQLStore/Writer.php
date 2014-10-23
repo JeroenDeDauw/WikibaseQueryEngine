@@ -3,17 +3,11 @@
 namespace Wikibase\QueryEngine\SQLStore;
 
 use Doctrine\DBAL\Connection;
-use Exception;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreWriter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
-use Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInsertionStrategy;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemovalStrategy;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdater;
-use Wikibase\QueryEngine\SQLStore\EntityStore\EntityUpdatingStrategy;
 
 /**
  * Class responsible for writing information to the SQLStore.

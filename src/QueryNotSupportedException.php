@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine;
 
 use Ask\Language\Description\Description;
+use Exception;
 
 /**
  * @since 0.1
@@ -17,7 +18,7 @@ class QueryNotSupportedException extends QueryEngineException {
 
 	private $queryDescription;
 
-	public function __construct( Description $queryDescription, $message = '', \Exception $previous = null ) {
+	public function __construct( Description $queryDescription, $message = '', Exception $previous = null ) {
 		$this->queryDescription = $queryDescription;
 
 		parent::__construct( $message, 0, $previous );
