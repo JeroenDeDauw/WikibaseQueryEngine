@@ -5,9 +5,9 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 use DataValues\DataValue;
 use DataValues\MonolingualTextValue;
 use DataValues\StringValue;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 
 /**
@@ -29,7 +29,7 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 			'P2',
 			SnakRole::QUALIFIER,
 			new ItemId( 'Q4' ),
-			Claim::RANK_PREFERRED
+			Statement::RANK_PREFERRED
 		);
 
 		$argLists[] = array(
@@ -37,7 +37,7 @@ class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 			'P9001',
 			SnakRole::QUALIFIER,
 			new ItemId( 'Q9003' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		);
 
 		return $argLists;

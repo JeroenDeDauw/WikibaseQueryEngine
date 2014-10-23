@@ -9,14 +9,14 @@ use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
 use DataValues\StringValue;
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Claim\Claims;
-use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Statement\Statement;
+use Wikibase\DataModel\Statement\StatementList;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
@@ -57,9 +57,9 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q8888' ) );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
-		$claim->setGuid( 'a claim' );
-		$item->addClaim( $claim );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
+		$statement->setGuid( 'a claim' );
+		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
 
@@ -100,17 +100,17 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q4444' ) );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
-		$claim->setGuid( 'foo claim' );
-		$item->addClaim( $claim );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
+		$statement->setGuid( 'foo claim' );
+		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 9000 ) ) ) );
-		$claim->setGuid( 'bar claim' );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 9000 ) ) ) );
+		$statement->setGuid( 'bar claim' );
 
-		$item->setClaims( new Claims( array(
-			$claim
+		$item->setStatements( new StatementList( array(
+			$statement
 		) ) );
 
 		$this->store->newWriter()->updateEntity( $item );
@@ -140,9 +140,9 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1234' ) );
 
-		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd1' ) );
-		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd2' ) );
-		$item->addClaim( $this->newStatement( 2, 'foo', 'abcd3' ) );
+		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', 'abcd1' ) );
+		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', 'abcd2' ) );
+		$item->getStatements()->addStatement( $this->newStatement( 2, 'foo', 'abcd3' ) );
 
 		$this->store->newWriter()->insertEntity( $item );
 
@@ -159,12 +159,12 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1234' ) );
 
-		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd1' ) );
-		$item->addClaim( $this->newStatement( 2, 'foo', 'abcd2' ) );
+		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', 'abcd1' ) );
+		$item->getStatements()->addStatement( $this->newStatement( 2, 'foo', 'abcd2' ) );
 
 		$this->store->newWriter()->insertEntity( $item );
 
-		$item->addClaim( $this->newStatement( 1, 'foo', 'abcd3' ) );
+		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', 'abcd3' ) );
 
 		$this->store->newWriter()->updateEntity( $item );
 

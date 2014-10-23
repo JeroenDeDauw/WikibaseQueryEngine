@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\Integration;
 use Doctrine\DBAL\DriverManager;
 use PHPUnit_Framework_TestCase;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
+use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlersBuilder;
 use Wikibase\QueryEngine\SQLStore\SQLStore;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
@@ -20,6 +21,11 @@ class IntegrationStoreBuilder {
 	const DB_NAME = 'qengine_tests';
 
 	/**
+	 * @var PHPUnit_Framework_TestCase
+	 */
+	private $testCase;
+
+	/**
 	 * @param PHPUnit_Framework_TestCase $testCase
 	 *
 	 * @return SQLStoreWithDependencies
@@ -28,8 +34,6 @@ class IntegrationStoreBuilder {
 		$builder = new self( $testCase );
 		return $builder->buildStore();
 	}
-
-	private $testCase;
 
 	private function __construct( PHPUnit_Framework_TestCase $testCase ) {
 		$this->testCase = $testCase;
@@ -47,12 +51,15 @@ class IntegrationStoreBuilder {
 				new StoreConfig( 'QueryEngine integration test store' )
 			),
 			$this->newConnection(),
-			$this->newDataValueTypeLookupStub(),
+			$this->getPropertyDataValueTypeLookup(),
 			new BasicEntityIdParser()
 		);
 	}
 
-	private function newDataValueTypeLookupStub() {
+	/**
+	 * @return PropertyDataValueTypeLookup
+	 */
+	private function getPropertyDataValueTypeLookup() {
 		$propertyDvTypeLookup = $this->testCase->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' );
 
 		$propertyDvTypeLookup->expects( $this->testCase->any() )

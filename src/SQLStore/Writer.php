@@ -53,6 +53,8 @@ class Writer implements QueryStoreWriter {
 	 * @see QueryStoreUpdater::updateEntity
 	 *
 	 * @param EntityDocument $entity
+	 *
+	 * @throws QueryEngineException
 	 */
 	public function updateEntity( EntityDocument $entity ) {
 		$this->connection->beginTransaction();
