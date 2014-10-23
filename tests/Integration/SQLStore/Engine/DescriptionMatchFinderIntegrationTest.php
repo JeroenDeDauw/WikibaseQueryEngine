@@ -51,9 +51,9 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1112' ) );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
-		$claim->setGuid( 'claim0' );
-		$item->addClaim( $claim );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
+		$statement->setGuid( 'claim0' );
+		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
 
@@ -61,9 +61,9 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1113' ) );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) ) );
-		$claim->setGuid( 'claim1' );
-		$item->addClaim( $claim );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) ) );
+		$statement->setGuid( 'claim1' );
+		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
 
@@ -71,9 +71,9 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1114' ) );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
-		$claim->setGuid( 'claim2' );
-		$item->addClaim( $claim );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
+		$statement->setGuid( 'claim2' );
+		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
 
@@ -81,13 +81,13 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1115' ) );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
-		$claim->setGuid( 'claim3' );
-		$item->addClaim( $claim );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
+		$statement->setGuid( 'claim3' );
+		$item->getStatements()->addStatement( $statement );
 
-		$claim = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1 ) ) ) );
-		$claim->setGuid( 'claim4' );
-		$item->addClaim( $claim );
+		$statement = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1 ) ) ) );
+		$statement->setGuid( 'claim4' );
+		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
 	}

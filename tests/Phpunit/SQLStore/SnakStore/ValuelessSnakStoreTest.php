@@ -4,9 +4,9 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
 use Doctrine\DBAL\Connection;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakStore;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
@@ -47,7 +47,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			'P1',
 			SnakRole::QUALIFIER,
 			new ItemId( 'Q1' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
@@ -55,7 +55,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			'P1',
 			SnakRole::MAIN_SNAK,
 			new ItemId( 'Q1' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
@@ -63,7 +63,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			'P1',
 			SnakRole::QUALIFIER,
 			new ItemId( 'Q1' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValuelessSnakRow(
@@ -71,7 +71,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			'P1',
 			SnakRole::MAIN_SNAK,
 			new ItemId( 'Q1' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		) );
 
 		return $argLists;
@@ -85,7 +85,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			'P1',
 			SnakRole::QUALIFIER,
 			new ItemId( 'Q100' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		) );
 
 		$argLists[] = array( new ValueSnakRow(
@@ -93,7 +93,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 			'P1',
 			SnakRole::MAIN_SNAK,
 			new ItemId( 'Q100' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		) );
 
 		return $argLists;

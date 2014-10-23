@@ -4,13 +4,13 @@ namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
 use DataValues\StringValue;
 use Doctrine\DBAL\Connection;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
@@ -56,7 +56,7 @@ class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$snakInserter = $this->newInstance( $connection );
 
-		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ), Claim::RANK_NORMAL );
+		$snakInserter->insertSnak( $snak, SnakRole::MAIN_SNAK, new ItemId( 'Q123' ), Statement::RANK_NORMAL );
 	}
 
 	private function newInstance( Connection $connection ) {

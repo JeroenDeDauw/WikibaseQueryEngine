@@ -158,7 +158,7 @@ class RandomItemBuilder {
 		$statement = new Statement( new Claim( $this->newSnak() ) );
 
 		$statement->setGuid( $item->getId()->getSerialization() . uniqid() );
-		$item->addClaim( $statement );
+		$item->getStatements()->addStatement( $statement );
 	}
 
 	private function newSnak() {

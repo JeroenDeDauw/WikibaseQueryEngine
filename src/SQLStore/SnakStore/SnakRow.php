@@ -16,7 +16,6 @@ abstract class SnakRow {
 	private $propertyId;
 	private $snakRole;
 	private $subjectId;
-	private $entityType;
 	private $statementRank;
 
 	/**

@@ -3,13 +3,13 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\PropertyNoValueSnak;
 use Wikibase\DataModel\Snak\PropertySomeValueSnak;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 
 /**
@@ -55,7 +55,7 @@ class SnakRowBuilderTest extends \PHPUnit_Framework_TestCase {
 	public function testNewSnakRow( Snak $snak, $snakRole ) {
 		$builder = new SnakRowBuilder();
 
-		$snakRow = $builder->newSnakRow( $snak, $snakRole, new ItemId( 'Q1337' ), Claim::RANK_NORMAL );
+		$snakRow = $builder->newSnakRow( $snak, $snakRole, new ItemId( 'Q1337' ), Statement::RANK_NORMAL );
 
 		$this->assertInstanceOf( 'Wikibase\QueryEngine\SQLStore\SnakStore\SnakRow', $snakRow );
 

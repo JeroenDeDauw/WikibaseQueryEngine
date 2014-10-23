@@ -2,9 +2,9 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 
 /**
@@ -26,7 +26,7 @@ class ValuelessSnakRowTest extends \PHPUnit_Framework_TestCase {
 			'P9001',
 			SnakRole::MAIN_SNAK,
 			new ItemId( 'Q321' ),
-			Claim::RANK_PREFERRED
+			Statement::RANK_PREFERRED
 		);
 
 		$argLists[] = array(
@@ -34,7 +34,7 @@ class ValuelessSnakRowTest extends \PHPUnit_Framework_TestCase {
 			'P9002',
 			SnakRole::QUALIFIER,
 			new ItemId( 'Q123' ),
-			Claim::RANK_NORMAL
+			Statement::RANK_NORMAL
 		);
 
 		return $argLists;

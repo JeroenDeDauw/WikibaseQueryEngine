@@ -101,6 +101,8 @@ class DescriptionMatchFinder {
 
 	/**
 	 * @param SomeProperty $description
+	 *
+	 * @throws InvalidArgumentException
 	 * @return PropertyId
 	 */
 	private function getPropertyIdFrom( SomeProperty $description ) {
@@ -133,10 +135,10 @@ class DescriptionMatchFinder {
 		$dvHandler->addMatchConditions( $this->queryBuilder, $description );
 	}
 
-	private function getDataValueHandlerFor( $propertyId ) {
-		return $this->schema->getDataValueHandlers()->getMainSnakHandler(
-			$this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId )
-		);
+	private function getDataValueHandlerFor( PropertyId $propertyId ) {
+		$dataTypeId = $this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId );
+
+		return $this->schema->getDataValueHandlers()->getMainSnakHandler( $dataTypeId );
 	}
 
 	private function addFieldsToSelect( QueryBuilder $builder, array $fieldNames, DataValueHandler $dvHandler ) {
