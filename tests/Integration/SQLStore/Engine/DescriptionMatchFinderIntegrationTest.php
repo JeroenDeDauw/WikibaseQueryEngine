@@ -7,12 +7,12 @@ use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
@@ -57,7 +57,6 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 		$this->store->newWriter()->insertEntity( $item );
 
-
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1113' ) );
 
@@ -67,7 +66,6 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 
 		$this->store->newWriter()->insertEntity( $item );
 
-
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1114' ) );
 
@@ -76,7 +74,6 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
-
 
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1115' ) );

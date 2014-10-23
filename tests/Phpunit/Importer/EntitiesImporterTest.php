@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\Importer;
 
+use ArrayIterator;
 use Wikibase\QueryEngine\Importer\EntitiesImporter;
 use Wikibase\QueryEngine\Tests\Fixtures\FakeEntityIterator;
 
@@ -19,7 +20,7 @@ class EntitiesImporterTest extends \PHPUnit_Framework_TestCase {
 	public function testWhenReporterIsNotSet_importStillRuns() {
 		$importer = new EntitiesImporter(
 			$this->getMock( 'Wikibase\QueryEngine\QueryStoreWriter' ),
-			new \ArrayIterator()
+			new ArrayIterator()
 		);
 
 		$importer->run();

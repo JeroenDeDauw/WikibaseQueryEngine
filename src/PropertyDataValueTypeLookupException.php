@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine;
 
+use Exception;
 use Wikibase\DataModel\Entity\PropertyId;
 
 /**
@@ -14,7 +15,7 @@ class PropertyDataValueTypeLookupException extends QueryEngineException {
 
 	private $propertyId;
 
-	public function __construct( PropertyId $propertyId, $message = null, \Exception $previous = null ) {
+	public function __construct( PropertyId $propertyId, $message = null, Exception $previous = null ) {
 		$this->propertyId = $propertyId;
 
 		if ( $message === null ) {

@@ -82,6 +82,4 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$inserter->insertEntity( Item::newEmpty() );
 	}
 
-
-
 }

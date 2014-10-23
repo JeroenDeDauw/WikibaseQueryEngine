@@ -56,7 +56,6 @@ class ValueSnakStoreTest extends SnakStoreTest {
 			Statement::RANK_NORMAL
 		) );
 
-
 		return $argLists;
 	}
 

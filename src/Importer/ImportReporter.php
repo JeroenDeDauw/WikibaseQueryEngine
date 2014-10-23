@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine\Importer;
 
+use Exception;
 use Wikibase\DataModel\Entity\Entity;
 
 /**
@@ -29,7 +30,7 @@ interface ImportReporter {
 	/**
 	 * Gets called when the importer failed to import an entity.
 	 */
-	public function onEntityInsertFailed( Entity $entity, \Exception $ex );
+	public function onEntityInsertFailed( Entity $entity, Exception $ex );
 
 	/**
 	 * Gets called when the import successfully completed by running out of things to import.

@@ -3,12 +3,13 @@
 namespace Wikibase\QueryEngine\Tests\Integration;
 
 use DataValues\StringValue;
+use Iterator;
 use Wikibase\DataModel\Claim\Claim;
-use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
+use Wikibase\DataModel\Statement\Statement;
 use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 
@@ -63,7 +64,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase {
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class RandomItemIterator implements \Iterator {
+class RandomItemIterator implements Iterator {
 
 	private $itemBuilder;
 	private $maxElements;
@@ -169,14 +170,7 @@ class RandomItemBuilder {
 	}
 
 	private function newDataValue() {
-//		switch ( mt_rand( 0, 1 ) ) {
-//			case 0:
-				return new StringValue( str_repeat( uniqid(), 5 ) );
-//			case 1:
-//				return new NumberValue( mt_rand( -31337, 31337 ) );
-//		}
-
-//		throw new \LogicException();
+		return new StringValue( str_repeat( uniqid(), 5 ) );
 	}
 
 }

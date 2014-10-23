@@ -2,13 +2,14 @@
 
 namespace Wikibase\QueryEngine\Tests\Fixtures;
 
+use ArrayIterator;
 use Wikibase\DataModel\Entity\Item;
 
 /**
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class FakeEntityIterator extends \ArrayIterator {
+class FakeEntityIterator extends ArrayIterator {
 
 	private $delayInMilliseconds = 0;
 

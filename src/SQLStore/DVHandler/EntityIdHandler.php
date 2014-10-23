@@ -2,9 +2,7 @@
 
 namespace Wikibase\QueryEngine\SQLStore\DVHandler;
 
-use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;

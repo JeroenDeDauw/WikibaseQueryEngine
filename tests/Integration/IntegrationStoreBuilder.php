@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\Tests\Integration;
 
 use Doctrine\DBAL\DriverManager;
+use PDO;
 use PHPUnit_Framework_TestCase;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
@@ -108,7 +109,7 @@ class IntegrationStoreBuilder {
 	}
 
 	private function recreatePostgresDatabase( $dbName ) {
-		$pdo = new \PDO(
+		$pdo = new PDO(
 			'pgsql:host=' . $GLOBALS['db_host']
 			. ';port=' . $GLOBALS['db_port']
 			. ';user=' . $GLOBALS['db_username']
