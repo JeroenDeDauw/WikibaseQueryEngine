@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Tests\Integration;
 use Doctrine\DBAL\DriverManager;
 use PDO;
 use PHPUnit_Framework_TestCase;
+use Psr\Log\NullLogger;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlersBuilder;
@@ -49,7 +50,8 @@ class IntegrationStoreBuilder {
 					'qr_',
 					$handlersBuilder->withSimpleHandlers()->getHandlers()
 				),
-				new StoreConfig( 'QueryEngine integration test store' )
+				new StoreConfig( 'QueryEngine integration test store' ),
+				new NullLogger()
 			),
 			$this->newConnection(),
 			$this->getPropertyDataValueTypeLookup(),

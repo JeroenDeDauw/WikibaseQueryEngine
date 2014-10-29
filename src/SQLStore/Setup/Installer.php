@@ -4,9 +4,10 @@ namespace Wikibase\QueryEngine\SQLStore\Setup;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Table;
+use Psr\Log\LoggerInterface;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreInstaller;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
@@ -15,12 +16,12 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  */
 class Installer implements QueryStoreInstaller {
 
-	private $config;
+	private $logger;
 	private $schemaManager;
 	private $storeSchema;
 
-	public function __construct( StoreConfig $storeConfig, StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
-		$this->config = $storeConfig;
+	public function __construct( LoggerInterface $logger, StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
+		$this->logger = $logger;
 		$this->storeSchema = $storeSchema;
 		$this->schemaManager = $schemaManager;
 	}
@@ -31,26 +32,22 @@ class Installer implements QueryStoreInstaller {
 	 * @throws QueryEngineException
 	 */
 	public function install() {
-		try {
-			$this->setupTables();
-		}
-		catch ( DBALException $ex ) {
-			throw new QueryEngineException(
-				'SQLStore installation failed: ' . $ex->getMessage(),
-				0,
-				$ex
-			);
+		foreach ( $this->storeSchema->getTables() as $table ) {
+			$this->setupTable( $table );
 		}
 	}
 
 	/**
 	 * Sets up the tables of the store.
 	 *
-	 * @throws DBALException
+	 * @param Table $table
 	 */
-	private function setupTables() {
-		foreach ( $this->storeSchema->getTables() as $table ) {
+	private function setupTable( Table $table ) {
+		try {
 			$this->schemaManager->createTable( $table );
+		}
+		catch ( DBALException $ex ) {
+			$this->logger->alert( $ex->getMessage(), array( 'exception' => $ex ) );
 		}
 	}
 

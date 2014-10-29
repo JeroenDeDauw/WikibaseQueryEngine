@@ -6,6 +6,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
+use Psr\Log\LoggerInterface;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreUpdater;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
@@ -16,10 +17,12 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  */
 class Updater implements QueryStoreUpdater {
 
+	private $logger;
 	private $storeSchema;
 	private $schemaManager;
 
-	public function __construct( StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
+	public function __construct( LoggerInterface $logger, StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
+		$this->logger = $logger;
 		$this->storeSchema = $storeSchema;
 		$this->schemaManager = $schemaManager;
 	}
@@ -35,11 +38,7 @@ class Updater implements QueryStoreUpdater {
 				$this->handleTable( $table );
 			}
 			catch ( DBALException $ex ) {
-				throw new QueryEngineException(
-					'SQLStore uninstallation failed: ' . $ex->getMessage(),
-					0,
-					$ex
-				);
+				$this->logger->alert( $ex->getMessage(), array( 'exception' => $ex ) );
 			}
 		}
 	}
