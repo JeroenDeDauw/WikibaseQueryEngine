@@ -5,6 +5,7 @@ namespace Wikibase\QueryEngine\Importer;
 use Exception;
 use Iterator;
 use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\QueryStoreWriter;
 
 /**
@@ -51,7 +52,7 @@ class EntitiesImporter {
 		$this->reporter->onImportCompleted();
 	}
 
-	private function importEntity( Entity $entity ) {
+	private function importEntity( EntityDocument $entity ) {
 		$this->reporter->onEntityInsertStarted( $entity );
 		$wasSuccessful = false;
 

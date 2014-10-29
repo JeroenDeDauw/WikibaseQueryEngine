@@ -4,7 +4,7 @@ namespace Wikibase\QueryEngine\Console\Import;
 
 use Exception;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\Importer\ImportReporter;
 
 /**
@@ -24,15 +24,15 @@ class CliImportReporter implements ImportReporter {
 		$this->output->writeln( '<info>Started import</info>' );
 	}
 
-	public function onEntityInsertStarted( Entity $entity ) {
+	public function onEntityInsertStarted( EntityDocument $entity ) {
 		$this->output->write( '<info>Importing ' . $entity->getId()->getSerialization() . '... </info>' );
 	}
 
-	public function onEntityInsertSucceeded( Entity $entity ) {
+	public function onEntityInsertSucceeded( EntityDocument $entity ) {
 		$this->output->writeln( '<info>done.</info>' );
 	}
 
-	public function onEntityInsertFailed( Entity $entity, Exception $ex ) {
+	public function onEntityInsertFailed( EntityDocument $entity, Exception $ex ) {
 		$this->output->writeln( '<info>failed!</info>' );
 		$this->output->writeln( '<error>' . $ex->getMessage() . '</error>' );
 	}

@@ -3,7 +3,7 @@
 namespace Wikibase\QueryEngine\Importer;
 
 use Exception;
-use Wikibase\DataModel\Entity\Entity;
+use Wikibase\DataModel\Entity\EntityDocument;
 
 /**
  * @since 0.3
@@ -13,9 +13,9 @@ use Wikibase\DataModel\Entity\Entity;
 class NullImportReporter implements ImportReporter {
 
 	public function onImportStarted() {}
-	public function onEntityInsertStarted( Entity $entity ) {}
-	public function onEntityInsertSucceeded( Entity $entity ) {}
-	public function onEntityInsertFailed( Entity $entity, Exception $ex ) {}
+	public function onEntityInsertStarted( EntityDocument $entity ) {}
+	public function onEntityInsertSucceeded( EntityDocument $entity ) {}
+	public function onEntityInsertFailed( EntityDocument $entity, Exception $ex ) {}
 	public function onImportCompleted() {}
 	public function onImportAborted() {}
 
