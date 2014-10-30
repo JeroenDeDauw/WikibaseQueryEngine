@@ -2,10 +2,10 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\Setup;
 
+use Psr\Log\NullLogger;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\Setup\Uninstaller;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
@@ -32,7 +32,7 @@ class UninstallerTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( true ) );
 
 		$storeSetup = new Uninstaller(
-			new StoreConfig( 'store name' ),
+			new NullLogger(),
 			new StoreSchema( 'prefix_', $handlers ),
 			$schemaManager
 		);

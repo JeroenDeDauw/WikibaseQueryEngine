@@ -4,6 +4,8 @@ namespace Wikibase\QueryEngine\SQLStore;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
@@ -44,10 +46,12 @@ class SQLStore {
 
 	private $config;
 	private $schema;
+	private $logger;
 
-	public function __construct( StoreSchema $schema, StoreConfig $config ) {
+	public function __construct( StoreSchema $schema, StoreConfig $config, LoggerInterface $logger = null ) {
 		$this->schema = $schema;
 		$this->config = $config;
+		$this->logger = $logger === null ? new NullLogger() : $logger;
 	}
 
 	/**
@@ -82,7 +86,7 @@ class SQLStore {
 
 	public function newInstaller( AbstractSchemaManager $schemaManager ) {
 		return new Installer(
-			$this->config,
+			$this->logger,
 			$this->schema,
 			$schemaManager
 		);
@@ -90,7 +94,7 @@ class SQLStore {
 
 	public function newUninstaller( AbstractSchemaManager $schemaManager ) {
 		return new Uninstaller(
-			$this->config,
+			$this->logger,
 			$this->schema,
 			$schemaManager
 		);
@@ -98,6 +102,7 @@ class SQLStore {
 
 	public function newUpdater( AbstractSchemaManager $schemaManager ) {
 		return new Updater(
+			$this->logger,
 			$this->schema,
 			$schemaManager
 		);

@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore;
 
+use Psr\Log\NullLogger;
 use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
 use Wikibase\QueryEngine\SQLStore\DVHandler\StringHandler;
 use Wikibase\QueryEngine\SQLStore\SQLStore;
@@ -26,7 +27,7 @@ class SQLStoreTest extends \PHPUnit_Framework_TestCase {
 		$storeSchema = new StoreSchema( 'prefix_', $handlers );
 		$storeConfig = new StoreConfig( 'store name' );
 
-		return new SQLStore( $storeSchema, $storeConfig );
+		return new SQLStore( $storeSchema, $storeConfig, new NullLogger() );
 	}
 
 	public function testGetUpdaterReturnType() {

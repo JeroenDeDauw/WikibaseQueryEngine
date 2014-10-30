@@ -4,6 +4,8 @@ namespace Wikibase\QueryEngine\SQLStore\Setup;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Table;
+use Psr\Log\LoggerInterface;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreUninstaller;
 use Wikibase\QueryEngine\SQLStore\StoreConfig;
@@ -15,12 +17,12 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  */
 class Uninstaller implements QueryStoreUninstaller {
 
-	private $config;
+	private $logger;
 	private $schemaManager;
 	private $storeSchema;
 
-	public function __construct( StoreConfig $storeConfig, StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
-		$this->config = $storeConfig;
+	public function __construct( LoggerInterface $logger, StoreSchema $storeSchema, AbstractSchemaManager $schemaManager ) {
+		$this->logger = $logger;
 		$this->storeSchema = $storeSchema;
 		$this->schemaManager = $schemaManager;
 	}
@@ -31,25 +33,22 @@ class Uninstaller implements QueryStoreUninstaller {
 	 * @throws QueryEngineException
 	 */
 	public function uninstall() {
-		try {
-			$this->dropTables();
-		}
-		catch ( DBALException $ex ) {
-			throw new QueryEngineException(
-				'SQLStore uninstallation failed: ' . $ex->getMessage(),
-				0,
-				$ex
-			);
+		foreach ( $this->storeSchema->getTables() as $table ) {
+			$this->dropTable( $table );
 		}
 	}
 
 	/**
 	 * Removes the tables belonging to the store.
-	 * @throws DBALException
+	 *
+	 * @param Table $table
 	 */
-	private function dropTables() {
-		foreach ( $this->storeSchema->getTables() as $table ) {
+	private function dropTable( Table $table ) {
+		try {
 			$this->schemaManager->dropTable( $table->getName() );
+		}
+		catch ( DBALException $ex ) {
+			$this->logger->alert( $ex->getMessage(), array( 'exception' => $ex ) );
 		}
 	}
 
