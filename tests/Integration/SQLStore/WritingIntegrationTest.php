@@ -46,7 +46,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->store = IntegrationStoreBuilder::newStore( $this );
 
 		try {
-			$this->store->newUninstaller( new NullMessageReporter() )->uninstall();
+			$this->store->newUninstaller()->uninstall();
 		}
 		catch ( QueryEngineException $ex ) {}
 
