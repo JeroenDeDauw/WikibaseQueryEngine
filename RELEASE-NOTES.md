@@ -3,6 +3,7 @@
 ## Version 0.4 (dev)
 
 * The methods in QueryStoreWriter now accept `EntityDocument` rather than just `Entity`
+* The `SQLStore` now accepts an optional `LoggerInterface` in its constructor
 * Wikibase DataModel 2.x is now required
 
 ## Version 0.3.1 (2014-08-25)
