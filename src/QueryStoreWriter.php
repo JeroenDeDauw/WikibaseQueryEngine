@@ -17,7 +17,11 @@ use Wikibase\DataModel\Entity\EntityDocument;
 interface QueryStoreWriter {
 
 	/**
-	 * @see QueryStoreUpdater::insertEntity
+	 * Inserts an entity into the store.
+	 * Only use this when it is known the entity is not already in the store.
+	 * No checks will be made if it is already, so if it is, data might get
+	 * inserted twice and unique key constrain violation errors might occur.
+	 * In such cases the @see updateEntity method should be used.
 	 *
 	 * @since 0.1
 	 *
@@ -26,7 +30,9 @@ interface QueryStoreWriter {
 	public function insertEntity( EntityDocument $entity );
 
 	/**
-	 * @see QueryStoreUpdater::updateEntity
+	 * Updates the store to reflect the state of the provided entity.
+	 * If the entity already existed in the store, the old values
+	 * will be updated or deleted as appropriate.
 	 *
 	 * @since 0.1
 	 *
@@ -35,7 +41,7 @@ interface QueryStoreWriter {
 	public function updateEntity( EntityDocument $entity );
 
 	/**
-	 * @see QueryStoreUpdater::deleteEntity
+	 * Removes an entity from the store if it is present.
 	 *
 	 * @since 0.1
 	 *
