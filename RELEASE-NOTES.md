@@ -4,6 +4,8 @@
 
 * The methods in QueryStoreWriter now accept `EntityDocument` rather than just `Entity`
 * The `SQLStore` now accepts an optional `LoggerInterface` in its constructor
+* Errors during installation or removal of the SQLStore are now logged and no longer abort execution
+* Errors during transcations will now cause the transactions to be rolled back
 * Wikibase DataModel 2.x is now required
 
 ## Version 0.3.1 (2014-08-25)
