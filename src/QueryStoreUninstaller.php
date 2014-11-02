@@ -11,6 +11,10 @@ namespace Wikibase\QueryEngine;
 interface QueryStoreUninstaller {
 
 	/**
+	 * Removes the things set up by the @see QueryStoreInstaller.
+	 * This might for instance be removal of database tables.
+	 * Caution: this is a destructive action!
+	 *
 	 * @throws QueryEngineException
 	 */
 	public function uninstall();

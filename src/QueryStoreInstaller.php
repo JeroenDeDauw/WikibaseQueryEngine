@@ -11,6 +11,9 @@ namespace Wikibase\QueryEngine;
 interface QueryStoreInstaller {
 
 	/**
+	 * Does the tasks needed before the store can be used,
+	 * such as for instance creating the required database tables.
+	 *
 	 * @throws QueryEngineException
 	 */
 	public function install();
