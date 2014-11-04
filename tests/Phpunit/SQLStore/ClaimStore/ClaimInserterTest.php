@@ -82,9 +82,7 @@ class ClaimInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$snakInserter->expects( $this->exactly( $this->countClaimSnaks( $claim ) ) )->method( 'insertSnak' );
 
-		$claimRowBuilder = new ClaimRowBuilder();
-
-		$claimInserter = new ClaimInserter( $snakInserter, $claimRowBuilder );
+		$claimInserter = new ClaimInserter( $snakInserter );
 
 		$claimInserter->insertClaim( $claim, new ItemId( 'Q1' ) );
 	}

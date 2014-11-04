@@ -17,11 +17,9 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
 class ClaimInserter {
 
 	private $snakInserter;
-	private $claimRowBuilder;
 
-	public function __construct( SnakInserter $snakInserter, ClaimRowBuilder $claimRowBuilder ) {
+	public function __construct( SnakInserter $snakInserter ) {
 		$this->snakInserter = $snakInserter;
-		$this->claimRowBuilder = $claimRowBuilder;
 	}
 
 	public function insertClaim( Claim $claim, EntityId $subjectId ) {

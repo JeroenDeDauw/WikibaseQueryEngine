@@ -127,8 +127,7 @@ class SQLStore {
 
 	private function newClaimInserter( Connection $connection ) {
 		return new ClaimInserter(
-			$this->newSnakInserter( $connection ),
-			new ClaimRowBuilder()
+			$this->newSnakInserter( $connection )
 		);
 	}
 
