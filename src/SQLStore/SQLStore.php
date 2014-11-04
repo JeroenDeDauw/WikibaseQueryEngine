@@ -11,15 +11,12 @@ use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryEngine;
 use Wikibase\QueryEngine\QueryStoreWriter;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimInserter;
-use Wikibase\QueryEngine\SQLStore\ClaimStore\ClaimRowBuilder;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;
+use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityRemover;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\EntityRemover;
-use Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter;
-use Wikibase\QueryEngine\SQLStore\EntityStore\PropertyInserter;
 use Wikibase\QueryEngine\SQLStore\Setup\Installer;
 use Wikibase\QueryEngine\SQLStore\Setup\Uninstaller;
 use Wikibase\QueryEngine\SQLStore\Setup\Updater;
@@ -110,8 +107,7 @@ class SQLStore {
 
 	private function newEntityInserters( Connection $connection ) {
 		return array(
-			new ItemInserter( $this->newClaimInserter( $connection ) ),
-			new PropertyInserter( $this->newClaimInserter( $connection ) )
+			new BasicEntityInserter( $this->newSnakInserter( $connection ) ),
 		);
 	}
 
@@ -123,12 +119,6 @@ class SQLStore {
 
 	private function newSnakRemover( Connection $connection ) {
 		return new SnakRemover( $this->getSnakStores( $connection ) );
-	}
-
-	private function newClaimInserter( Connection $connection ) {
-		return new ClaimInserter(
-			$this->newSnakInserter( $connection )
-		);
 	}
 
 	private function newSnakInserter( Connection $connection ) {
