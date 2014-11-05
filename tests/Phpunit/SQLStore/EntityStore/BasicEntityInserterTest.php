@@ -7,18 +7,18 @@ use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;
-use Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter;
-use Wikibase\QueryEngine\Tests\Fixtures\SpyClaimInserter;
+use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityInserter;
+use Wikibase\QueryEngine\Tests\Fixtures\SpySnakInserter;
 
 /**
- * @covers Wikibase\QueryEngine\SQLStore\EntityStore\ItemInserter
+ * @covers Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityInserter
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class ItemInserterTest extends \PHPUnit_Framework_TestCase {
 
-	public function testOnlyBestClaimsGetInserted() {
+	public function testOnlyBestStatementsGetInserted() {
 		$item = Item::newEmpty();
 		$item->setId( 42 );
 
@@ -31,8 +31,8 @@ class ItemInserterTest extends \PHPUnit_Framework_TestCase {
 		$this->assertStatementsAreInsertedForItem(
 			$item,
 			array(
-				$this->newStatement( 1, 'bar', Statement::RANK_PREFERRED ),
-				$this->newStatement( 2, 'bah', Statement::RANK_NORMAL )
+				new PropertyValueSnak( 1, new StringValue( 'bar' ) ),
+				new PropertyValueSnak( 2, new StringValue( 'bah' ) )
 			)
 		);
 	}
@@ -44,14 +44,15 @@ class ItemInserterTest extends \PHPUnit_Framework_TestCase {
 		return $statement;
 	}
 
-	private function assertStatementsAreInsertedForItem( Item $item, array $statements ) {
-		$claimInserter = new SpyClaimInserter();
+	private function assertStatementsAreInsertedForItem( Item $item, array $expectedSnaks ) {
+		$snakInserter = new SpySnakInserter();
 
-		$inserter = new ItemInserter( $claimInserter );
+		$inserter = new BasicEntityInserter( $snakInserter );
 
 		$inserter->insertEntity( $item );
 
-		$this->assertEquals( $statements, $claimInserter->getInsertedClaims() );
+		$this->assertEquals( $expectedSnaks, $snakInserter->getInsertedSnaks() );
 	}
 
 }
+
