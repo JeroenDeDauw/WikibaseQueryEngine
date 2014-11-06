@@ -20,6 +20,7 @@ use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
  * @group Wikibase
  * @group WikibaseQueryEngine
  * @group WikibaseQueryEngineIntegration
+ * @group StoreSchema
  *
  * @group medium
  *

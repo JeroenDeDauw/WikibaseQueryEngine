@@ -103,6 +103,8 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @group StoreSchema
+	 *
 	 * @dataProvider instanceProvider
 	 */
 	public function testConstructTableReturnType( DataValueHandler $dvHandler ) {
