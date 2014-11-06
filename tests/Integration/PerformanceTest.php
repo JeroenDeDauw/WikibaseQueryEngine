@@ -16,6 +16,7 @@ use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 /**
  * @group large
  * @group performance
+ * @group StoreSchema
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
