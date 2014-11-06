@@ -35,7 +35,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase {
 
 	public function tearDown() {
 		if ( isset( $this->store ) ) {
-			$this->store->newUninstaller( new NullMessageReporter() )->uninstall();
+			$this->store->newUninstaller()->uninstall();
 		}
 	}
 
