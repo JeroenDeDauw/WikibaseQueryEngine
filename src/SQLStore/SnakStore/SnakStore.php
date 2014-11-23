@@ -3,6 +3,7 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\QueryEngine\QueryEngineException;
 
 /**
  * @licence GNU GPL v2+
@@ -24,7 +25,7 @@ abstract class SnakStore {
 	 *
 	 * @param SnakRow $snakRow
 	 *
-	 * TODO: exception
+	 * @throws QueryEngineException
 	 */
 	public abstract function storeSnakRow( SnakRow $snakRow );
 
@@ -33,7 +34,7 @@ abstract class SnakStore {
 	 *
 	 * @param EntityId $subjectId
 	 *
-	 * TODO: exception
+	 * @throws QueryEngineException
 	 */
 	public abstract function removeSnaksOfSubject( EntityId $subjectId );
 

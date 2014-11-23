@@ -3,9 +3,11 @@
 namespace Wikibase\QueryEngine\SQLStore\SnakStore;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use InvalidArgumentException;
 use OutOfBoundsException;
 use Wikibase\DataModel\Entity\EntityId;
+use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
@@ -67,10 +69,19 @@ class ValueSnakStore extends SnakStore {
 
 		$tableName = $dataValueHandler->getTableName();
 
-		$this->connection->insert(
+		$this->doInsert(
 			$tableName,
 			$this->getInsertValues( $snakRow, $dataValueHandler )
 		);
+	}
+
+	private function doInsert( $tableName, array $values ) {
+		try {
+			$this->connection->insert( $tableName, $values );
+		}
+		catch ( DBALException $ex ) {
+			throw new QueryEngineException( $ex->getMessage(), 0, $ex );
+		}
 	}
 
 	private function getInsertValues( ValueSnakRow $snakRow, DataValueHandler $dataValueHandler ) {
@@ -87,10 +98,19 @@ class ValueSnakStore extends SnakStore {
 
 	public function removeSnaksOfSubject( EntityId $subjectId ) {
 		foreach ( $this->dataValueHandlers as $dvHandler ) {
+			$this->doDelete( $dvHandler->getTableName(), $subjectId->getSerialization() );
+		}
+	}
+
+	private function doDelete( $tableName, $subjectIdSerialization ) {
+		try {
 			$this->connection->delete(
-				$dvHandler->getTableName(),
-				array( 'subject_id' => $subjectId->getSerialization() )
+				$tableName,
+				array( 'subject_id' => $subjectIdSerialization )
 			);
+		}
+		catch ( DBALException $ex ) {
+			throw new QueryEngineException( $ex->getMessage(), 0, $ex );
 		}
 	}
 
