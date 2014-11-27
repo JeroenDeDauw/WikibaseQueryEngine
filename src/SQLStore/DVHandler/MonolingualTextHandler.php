@@ -11,7 +11,7 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\StringHasher;
 
 /**
- * Represents the mapping between DataValues\MonolingualTextValue and
+ * Represents the mapping between MonolingualTextValue and
  * the corresponding table in the store.
  *
  * @since 0.1

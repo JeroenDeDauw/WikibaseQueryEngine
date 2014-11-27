@@ -11,7 +11,7 @@ use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 use Wikibase\QueryEngine\StringHasher;
 
 /**
- * Represents the mapping between DataValues\IriValue and
+ * Represents the mapping between IriValue and
  * the corresponding table in the store.
  *
  * @since 0.1
