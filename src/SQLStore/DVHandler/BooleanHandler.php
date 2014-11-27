@@ -52,8 +52,8 @@ class BooleanHandler extends DataValueHandler {
 	 *
 	 * @param DataValue $value
 	 *
-	 * @return array
 	 * @throws InvalidArgumentException
+	 * @return array
 	 */
 	public function getInsertValues( DataValue $value ) {
 		if ( !( $value instanceof BooleanValue ) ) {
@@ -61,7 +61,7 @@ class BooleanHandler extends DataValueHandler {
 		}
 
 		$values = array(
-			'value' => $value->getValue(),
+			'value' => $value->getValue() ? 1 : 0,
 		);
 
 		return $values;
@@ -72,15 +72,15 @@ class BooleanHandler extends DataValueHandler {
 	 *
 	 * @param DataValue $value
 	 *
-	 * @return string
 	 * @throws InvalidArgumentException
+	 * @return int
 	 */
 	public function getEqualityFieldValue( DataValue $value ) {
 		if ( !( $value instanceof BooleanValue ) ) {
 			throw new InvalidArgumentException( 'Value is not a BooleanValue.' );
 		}
 
-		return $value->getValue();
+		return $value->getValue() ? 1 : 0;
 	}
 
 }
