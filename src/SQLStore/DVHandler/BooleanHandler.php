@@ -10,7 +10,7 @@ use InvalidArgumentException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
- * Represents the mapping between Wikibase\BooleanValue and
+ * Represents the mapping between BooleanValue and
  * the corresponding table in the store.
  *
  * @since 0.1

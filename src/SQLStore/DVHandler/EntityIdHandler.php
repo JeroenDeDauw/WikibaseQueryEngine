@@ -10,7 +10,7 @@ use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
- * Represents the mapping between Wikibase\EntityId and
+ * Represents the mapping between EntityIdValue and
  * the corresponding table in the store.
  *
  * @since 0.1

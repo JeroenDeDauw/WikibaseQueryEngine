@@ -14,7 +14,7 @@ use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
 
 /**
- * Represents the mapping between DataValues\LatLongValue and
+ * Represents the mapping between LatLongValue and
  * the corresponding table in the store.
  *
  * @since 0.1
