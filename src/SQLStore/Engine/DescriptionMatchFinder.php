@@ -129,7 +129,7 @@ class DescriptionMatchFinder {
 			$dvHandler
 		);
 
-		$this->queryBuilder->andWhere( $dvHandler->getTableName() . '.property_id = :property_id' );
+		$this->queryBuilder->andWhere( 'property_id = :property_id' );
 		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
 
 		$dvHandler->addMatchConditions( $this->queryBuilder, $description );
@@ -143,10 +143,10 @@ class DescriptionMatchFinder {
 
 	private function addFieldsToSelect( QueryBuilder $builder, array $fieldNames, DataValueHandler $dvHandler ) {
 		foreach ( $fieldNames as $fieldName ) {
-			$builder->select( $dvHandler->getTableName() . '.' . $fieldName );
+			$builder->select( $fieldName );
 		}
 
-		$builder->from( $dvHandler->getTableName(), $dvHandler->getTableName() );
+		$builder->from( $dvHandler->getTableName() );
 	}
 
 	private function getResultFromQueryBuilder() {

@@ -138,16 +138,16 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		$epsilon = abs( $value->getPrecision() );
 
 		if ( $globe === null ) {
-			$builder->andWhere( $this->getTableName() . '.value_globe IS NULL' );
+			$builder->andWhere( 'value_globe IS NULL' );
 		} else {
-			$builder->andWhere( $this->getTableName() . '.value_globe = :globe' );
+			$builder->andWhere( 'value_globe = :globe' );
 			$builder->setParameter( ':globe', $globe );
 		}
 
-		$builder->andWhere( $this->getTableName() . '.value_lat >= :min_lat' );
-		$builder->andWhere( $this->getTableName() . '.value_lat <= :max_lat' );
-		$builder->andWhere( $this->getTableName() . '.value_lon >= :min_lon' );
-		$builder->andWhere( $this->getTableName() . '.value_lon <= :max_lon' );
+		$builder->andWhere( 'value_lat >= :min_lat' );
+		$builder->andWhere( 'value_lat <= :max_lat' );
+		$builder->andWhere( 'value_lon >= :min_lon' );
+		$builder->andWhere( 'value_lon <= :max_lon' );
 
 		$builder->setParameter( ':min_lat', $lat - $epsilon );
 		$builder->setParameter( ':max_lat', $lat + $epsilon );

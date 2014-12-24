@@ -124,8 +124,8 @@ class TimeHandler extends DataValueHandler {
 		$after = max( 1, abs( $value->getAfter() ) );
 
 		// When searching for 1900 (precision year) we do not want to find 1901-01-01T00:00:00.
-		$builder->andWhere( $this->getTableName() . '.value_timestamp >= :min_timestamp' );
-		$builder->andWhere( $this->getTableName() . '.value_timestamp < :max_timestamp' );
+		$builder->andWhere( 'value_timestamp >= :min_timestamp' );
+		$builder->andWhere( 'value_timestamp < :max_timestamp' );
 
 		$builder->setParameter( ':min_timestamp', $timestamp - $before * $precisionInSeconds );
 		$builder->setParameter( ':max_timestamp', $timestamp + $after * $precisionInSeconds );

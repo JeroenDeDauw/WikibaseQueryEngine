@@ -115,7 +115,7 @@ class QuantityHandler extends DataValueHandler {
 	 * @param DecimalValue $value
 	 */
 	private function addSameValueConditions( QueryBuilder $builder, DecimalValue $value ) {
-		$builder->andWhere( $this->getTableName() . '.value_actual = :actual' );
+		$builder->andWhere( 'value_actual = :actual' );
 
 		$builder->setParameter( ':actual', $value->getValue() );
 	}
@@ -132,8 +132,8 @@ class QuantityHandler extends DataValueHandler {
 	 * @param QuantityValue $value
 	 */
 	private function addInRangeConditions( QueryBuilder $builder, QuantityValue $value ) {
-		$builder->andWhere( $this->getTableName() . '.value_actual > :lower_bound' );
-		$builder->andWhere( $this->getTableName() . '.value_actual < :upper_bound' );
+		$builder->andWhere( 'value_actual > :lower_bound' );
+		$builder->andWhere( 'value_actual < :upper_bound' );
 
 		$builder->setParameter( ':lower_bound', $value->getLowerBound()->getValue() );
 		$builder->setParameter( ':upper_bound', $value->getUpperBound()->getValue() );
