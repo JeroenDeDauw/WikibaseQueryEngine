@@ -44,8 +44,8 @@ class SQLStoreTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetQueryEngineReturnType() {
 		$this->assertInstanceOf(
-			'Wikibase\QueryEngine\QueryEngine',
-			$this->newInstance()->newQueryEngine(
+			'Wikibase\QueryEngine\DescriptionMatchFinder',
+			$this->newInstance()->newDescriptionMatchFinder(
 				$this->newMockConnection(),
 				$this->getMock( 'Wikibase\QueryEngine\PropertyDataValueTypeLookup' ),
 				$this->getMock( 'Wikibase\DataModel\Entity\EntityIdParser' )

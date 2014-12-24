@@ -21,7 +21,7 @@ interface QueryStoreWithDependencies {
 	 *
 	 * @since 0.1
 	 *
-	 * @return QueryEngine
+	 * @return DescriptionMatchFinder
 	 */
 	public function newQueryEngine();
 

@@ -27,7 +27,7 @@ use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
+class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var SQLStoreWithDependencies

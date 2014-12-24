@@ -7,14 +7,12 @@ use Ask\Language\Option\QueryOptions;
 use Wikibase\DataModel\Entity\EntityId;
 
 /**
- * Interface for objects that can act as a query engine.
- *
  * @since 0.1
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-interface QueryEngine {
+interface DescriptionMatchFinder {
 
 	/**
 	 * @since 0.1

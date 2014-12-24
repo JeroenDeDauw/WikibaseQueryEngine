@@ -16,6 +16,7 @@ use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdParsingException;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\QueryEngine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
@@ -30,7 +31,7 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class DescriptionMatchFinder {
+class SQLStoreMatchFinder implements DescriptionMatchFinder {
 
 	private $connection;
 	private $schema;
@@ -64,7 +65,7 @@ class DescriptionMatchFinder {
 	 * @return EntityId[]
 	 * @throws QueryNotSupportedException
 	 */
-	public function findMatchingEntities( Description $description, QueryOptions $options ) {
+	public function getMatchingEntities( Description $description, QueryOptions $options ) {
 		$this->queryBuilder = new QueryBuilder( $this->connection );
 
 		if ( $description instanceof SomeProperty ) {

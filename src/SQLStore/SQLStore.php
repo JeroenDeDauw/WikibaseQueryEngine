@@ -9,9 +9,9 @@ use Psr\Log\NullLogger;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
-use Wikibase\QueryEngine\QueryEngine;
+use Wikibase\QueryEngine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\QueryStoreWriter;
-use Wikibase\QueryEngine\SQLStore\Engine\DescriptionMatchFinder;
+use Wikibase\QueryEngine\SQLStore\Engine\SQLStoreMatchFinder;
 use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityRemover;
@@ -56,15 +56,18 @@ class SQLStore {
 	 * @param PropertyDataValueTypeLookup $lookup
 	 * @param EntityIdParser $idParser
 	 *
-	 * @return QueryEngine
+	 * @return DescriptionMatchFinder
 	 */
-	public function newQueryEngine(
+	public function newDescriptionMatchFinder(
 		Connection $connection,
 		PropertyDataValueTypeLookup $lookup,
 		EntityIdParser $idParser
 	) {
-		return new Engine(
-			$this->newDescriptionMatchFinder( $connection, $lookup, $idParser )
+		return new SQLStoreMatchFinder(
+			$connection,
+			$this->schema,
+			$lookup,
+			$idParser
 		);
 	}
 
@@ -149,17 +152,6 @@ class SQLStore {
 				$connection,
 				$this->schema->getValuelessSnaksTable()->getName()
 			)
-		);
-	}
-
-	private function newDescriptionMatchFinder( Connection $connection,
-		PropertyDataValueTypeLookup $lookup, EntityIdParser $idParser ) {
-
-		return new DescriptionMatchFinder(
-			$connection,
-			$this->schema,
-			$lookup,
-			$idParser
 		);
 	}
 
