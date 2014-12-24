@@ -159,7 +159,7 @@ abstract class DataValueHandler {
 	 */
 	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$builder->andWhere( $this->getTableName() . '.' . $this->getEqualityFieldName() . '= :equality' );
+			$builder->andWhere( $this->getEqualityFieldName() . '= :equality' );
 			$builder->setParameter( ':equality', $this->getEqualityFieldValue( $description->getValue() ) );
 		}
 		else {

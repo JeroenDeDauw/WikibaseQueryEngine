@@ -139,10 +139,10 @@ class LatLongHandler extends DataValueHandler {
 		$lat = $value->getLatitude();
 		$lon = $value->getLongitude();
 
-		$builder->andWhere( $this->getTableName() . '.value_lat >= :min_lat' );
-		$builder->andWhere( $this->getTableName() . '.value_lat <= :max_lat' );
-		$builder->andWhere( $this->getTableName() . '.value_lon >= :min_lon' );
-		$builder->andWhere( $this->getTableName() . '.value_lon <= :max_lon' );
+		$builder->andWhere( 'value_lat >= :min_lat' );
+		$builder->andWhere( 'value_lat <= :max_lat' );
+		$builder->andWhere( 'value_lon >= :min_lon' );
+		$builder->andWhere( 'value_lon <= :max_lon' );
 
 		$builder->setParameter( ':min_lat', $lat - $epsilon );
 		$builder->setParameter( ':max_lat', $lat + $epsilon );
