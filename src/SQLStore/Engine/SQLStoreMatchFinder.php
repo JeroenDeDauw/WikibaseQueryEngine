@@ -68,22 +68,28 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 	public function getMatchingEntities( Description $description, QueryOptions $options ) {
 		$this->queryBuilder = new QueryBuilder( $this->connection );
 
+		$this->addOptions( $options );
+
 		if ( $description instanceof SomeProperty ) {
-			return $this->findMatchingSomeProperty( $description, $options );
+			return $this->findMatchingSomeProperty( $description );
 		}
 
 		throw new QueryNotSupportedException( $description );
 	}
 
+	private function addOptions( QueryOptions $options ) {
+		$this->queryBuilder->setMaxResults( $options->getLimit() );
+		$this->queryBuilder->setFirstResult( $options->getOffset() );
+	}
+
 	/**
 	 * @param SomeProperty $description
-	 * @param QueryOptions $options
 	 *
 	 * @return EntityId[]
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	private function findMatchingSomeProperty( SomeProperty $description, QueryOptions $options ) {
+	private function findMatchingSomeProperty( SomeProperty $description ) {
 		$subDescription = $description->getSubDescription();
 
 		if ( !( $subDescription instanceof ValueDescription ) ) {
@@ -94,8 +100,6 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 			$this->getPropertyIdFrom( $description ),
 			$subDescription
 		);
-
-		$this->addOptions( $options );
 
 		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder() );
 	}
@@ -116,19 +120,12 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 		return $propertyId->getEntityId();
 	}
 
-	private function addOptions( QueryOptions $options ) {
-		$this->queryBuilder->setMaxResults( $options->getLimit() );
-		$this->queryBuilder->setFirstResult( $options->getOffset() );
-	}
-
 	private function addPropertyAndValueDescription( PropertyId $propertyId, ValueDescription $description ) {
 		$dvHandler = $this->getDataValueHandlerFor( $propertyId );
 
-		$this->addFieldsToSelect(
-			$this->queryBuilder,
-			array( 'subject_id' ),
-			$dvHandler
-		);
+		$this->queryBuilder->select( 'subject_id' )
+			->from( $dvHandler->getTableName() )
+			->orderBy( 'subject_id', 'ASC' );
 
 		$this->queryBuilder->andWhere( 'property_id = :property_id' );
 		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
@@ -140,14 +137,6 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 		$dataTypeId = $this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId );
 
 		return $this->schema->getDataValueHandlers()->getMainSnakHandler( $dataTypeId );
-	}
-
-	private function addFieldsToSelect( QueryBuilder $builder, array $fieldNames, DataValueHandler $dvHandler ) {
-		foreach ( $fieldNames as $fieldName ) {
-			$builder->select( $fieldName );
-		}
-
-		$builder->from( $dvHandler->getTableName() );
 	}
 
 	private function getResultFromQueryBuilder() {

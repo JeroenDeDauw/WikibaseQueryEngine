@@ -49,6 +49,13 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function insertEntities() {
+		$this->insertQ1112();
+		$this->insertQ1113();
+		$this->insertQ1114();
+		$this->insertQ1115();
+	}
+
+	private function insertQ1112() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1112' ) );
 
@@ -57,7 +64,9 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
+	}
 
+	private function insertQ1113() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1113' ) );
 
@@ -66,7 +75,9 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
+	}
 
+	private function insertQ1114() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1114' ) );
 
@@ -75,7 +86,9 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
+	}
 
+	private function insertQ1115() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1115' ) );
 
