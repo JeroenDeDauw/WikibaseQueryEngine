@@ -87,7 +87,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	 * @return EntityId[]
 	 */
 	private function getMatchingEntities( Description $description ) {
-		$matchFinder = $this->store->newQueryEngine();
+		$matchFinder = $this->store->newDescriptionMatchFinder();
 
 		$queryOptions = new QueryOptions(
 			100,

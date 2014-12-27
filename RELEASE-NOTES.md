@@ -9,6 +9,7 @@
 * Errors during transcations will now cause the transactions to be rolled back
 * Renamed `QueryEngine` to `DescriptionMatchFinder`
 * Renamed `SQLStore::newQueryEngine` to `SQLStore::newDescriptionMatchFinder`
+* Renamed `QueryStoreWithDependencies::newQueryEngine` to `QueryStoreWithDependencies::newDescriptionMatchFinder`
 
 ## Version 0.3.1 (2014-08-25)
 

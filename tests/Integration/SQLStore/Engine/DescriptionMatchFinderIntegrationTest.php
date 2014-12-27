@@ -107,7 +107,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider somePropertyProvider
 	 */
 	public function testFindMatchingEntitiesWithSomeProperty( SomeProperty $description, array $expectedIds ) {
-		$matchFinder = $this->store->newQueryEngine();
+		$matchFinder = $this->store->newDescriptionMatchFinder();
 
 		$queryOptions = new QueryOptions(
 			100,

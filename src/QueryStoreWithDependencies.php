@@ -23,7 +23,7 @@ interface QueryStoreWithDependencies {
 	 *
 	 * @return DescriptionMatchFinder
 	 */
-	public function newQueryEngine();
+	public function newDescriptionMatchFinder();
 
 	/**
 	 * Returns the writer for this store.
