@@ -27,7 +27,7 @@ use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
+class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var SQLStoreWithDependencies
@@ -49,6 +49,13 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 	}
 
 	private function insertEntities() {
+		$this->insertQ1112();
+		$this->insertQ1113();
+		$this->insertQ1114();
+		$this->insertQ1115();
+	}
+
+	private function insertQ1112() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1112' ) );
 
@@ -57,7 +64,9 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
+	}
 
+	private function insertQ1113() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1113' ) );
 
@@ -66,7 +75,9 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
+	}
 
+	private function insertQ1114() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1114' ) );
 
@@ -75,7 +86,9 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
+	}
 
+	private function insertQ1115() {
 		$item = Item::newEmpty();
 		$item->setId( new ItemId( 'Q1115' ) );
 
@@ -94,7 +107,7 @@ class DescriptionMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase 
 	 * @dataProvider somePropertyProvider
 	 */
 	public function testFindMatchingEntitiesWithSomeProperty( SomeProperty $description, array $expectedIds ) {
-		$matchFinder = $this->store->newQueryEngine();
+		$matchFinder = $this->store->newDescriptionMatchFinder();
 
 		$queryOptions = new QueryOptions(
 			100,

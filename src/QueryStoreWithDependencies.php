@@ -19,11 +19,11 @@ interface QueryStoreWithDependencies {
 	 * Returns the query engine for this store.
 	 * The query engine allows running queries against the store.
 	 *
-	 * @since 0.1
+	 * @since 0.4
 	 *
-	 * @return QueryEngine
+	 * @return DescriptionMatchFinder
 	 */
-	public function newQueryEngine();
+	public function newDescriptionMatchFinder();
 
 	/**
 	 * Returns the writer for this store.

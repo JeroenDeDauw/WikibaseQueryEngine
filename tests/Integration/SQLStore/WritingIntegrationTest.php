@@ -71,14 +71,14 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			array( new ItemId( 'Q8888' ) ),
-			$this->findMatchingEntities( $propertyDescription )
+			$this->getMatchingEntities( $propertyDescription )
 		);
 
 		$this->store->newWriter()->deleteEntity( $item );
 
 		$this->assertEquals(
 			array(),
-			$this->findMatchingEntities( $propertyDescription )
+			$this->getMatchingEntities( $propertyDescription )
 		);
 	}
 
@@ -86,8 +86,8 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	 * @param Description $description
 	 * @return EntityId[]
 	 */
-	private function findMatchingEntities( Description $description ) {
-		$matchFinder = $this->store->newQueryEngine();
+	private function getMatchingEntities( Description $description ) {
+		$matchFinder = $this->store->newDescriptionMatchFinder();
 
 		$queryOptions = new QueryOptions(
 			100,
@@ -123,7 +123,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			array( new ItemId( 'Q4444' ) ),
-			$this->findMatchingEntities( $propertyDescription )
+			$this->getMatchingEntities( $propertyDescription )
 		);
 
 		$propertyDescription = new SomeProperty(
@@ -133,7 +133,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(
 			array(),
-			$this->findMatchingEntities( $propertyDescription )
+			$this->getMatchingEntities( $propertyDescription )
 		);
 	}
 

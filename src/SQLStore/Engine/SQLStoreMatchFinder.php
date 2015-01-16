@@ -16,6 +16,7 @@ use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdParsingException;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\PropertyId;
+use Wikibase\QueryEngine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
@@ -30,7 +31,7 @@ use Wikibase\QueryEngine\SQLStore\StoreSchema;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class DescriptionMatchFinder {
+class SQLStoreMatchFinder implements DescriptionMatchFinder {
 
 	private $connection;
 	private $schema;
@@ -64,25 +65,31 @@ class DescriptionMatchFinder {
 	 * @return EntityId[]
 	 * @throws QueryNotSupportedException
 	 */
-	public function findMatchingEntities( Description $description, QueryOptions $options ) {
+	public function getMatchingEntities( Description $description, QueryOptions $options ) {
 		$this->queryBuilder = new QueryBuilder( $this->connection );
 
+		$this->addOptions( $options );
+
 		if ( $description instanceof SomeProperty ) {
-			return $this->findMatchingSomeProperty( $description, $options );
+			return $this->findMatchingSomeProperty( $description );
 		}
 
 		throw new QueryNotSupportedException( $description );
 	}
 
+	private function addOptions( QueryOptions $options ) {
+		$this->queryBuilder->setMaxResults( $options->getLimit() );
+		$this->queryBuilder->setFirstResult( $options->getOffset() );
+	}
+
 	/**
 	 * @param SomeProperty $description
-	 * @param QueryOptions $options
 	 *
 	 * @return EntityId[]
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	private function findMatchingSomeProperty( SomeProperty $description, QueryOptions $options ) {
+	private function findMatchingSomeProperty( SomeProperty $description ) {
 		$subDescription = $description->getSubDescription();
 
 		if ( !( $subDescription instanceof ValueDescription ) ) {
@@ -93,8 +100,6 @@ class DescriptionMatchFinder {
 			$this->getPropertyIdFrom( $description ),
 			$subDescription
 		);
-
-		$this->addOptions( $options );
 
 		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder() );
 	}
@@ -115,19 +120,12 @@ class DescriptionMatchFinder {
 		return $propertyId->getEntityId();
 	}
 
-	private function addOptions( QueryOptions $options ) {
-		$this->queryBuilder->setMaxResults( $options->getLimit() );
-		$this->queryBuilder->setFirstResult( $options->getOffset() );
-	}
-
 	private function addPropertyAndValueDescription( PropertyId $propertyId, ValueDescription $description ) {
 		$dvHandler = $this->getDataValueHandlerFor( $propertyId );
 
-		$this->addFieldsToSelect(
-			$this->queryBuilder,
-			array( 'subject_id' ),
-			$dvHandler
-		);
+		$this->queryBuilder->select( 'subject_id' )
+			->from( $dvHandler->getTableName() )
+			->orderBy( 'subject_id', 'ASC' );
 
 		$this->queryBuilder->andWhere( 'property_id = :property_id' );
 		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
@@ -139,14 +137,6 @@ class DescriptionMatchFinder {
 		$dataTypeId = $this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId );
 
 		return $this->schema->getDataValueHandlers()->getMainSnakHandler( $dataTypeId );
-	}
-
-	private function addFieldsToSelect( QueryBuilder $builder, array $fieldNames, DataValueHandler $dvHandler ) {
-		foreach ( $fieldNames as $fieldName ) {
-			$builder->select( $fieldName );
-		}
-
-		$builder->from( $dvHandler->getTableName() );
 	}
 
 	private function getResultFromQueryBuilder() {

@@ -23,8 +23,8 @@ class SQLStoreWithDependencies implements QueryStoreWithDependencies {
 		$this->idParser = $idParser;
 	}
 
-	public function newQueryEngine() {
-		return $this->factory->newQueryEngine( $this->connection, $this->lookup, $this->idParser );
+	public function newDescriptionMatchFinder() {
+		return $this->factory->newDescriptionMatchFinder( $this->connection, $this->lookup, $this->idParser );
 	}
 
 	public function newWriter() {
