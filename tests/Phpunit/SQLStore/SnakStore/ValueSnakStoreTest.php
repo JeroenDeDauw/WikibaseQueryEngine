@@ -3,7 +3,6 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\SnakStore;
 
 use DataValues\StringValue;
-use PHPUnit_Framework_Constraint_IsTrue;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\DataModel\Statement\Statement;

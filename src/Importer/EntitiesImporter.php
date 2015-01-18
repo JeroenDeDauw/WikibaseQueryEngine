@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Importer;
 
 use Exception;
 use Iterator;
-use Wikibase\DataModel\Entity\Entity;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\QueryEngine\QueryStoreWriter;
 

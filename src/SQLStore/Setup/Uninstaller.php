@@ -8,7 +8,6 @@ use Doctrine\DBAL\Schema\Table;
 use Psr\Log\LoggerInterface;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryStoreUninstaller;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
