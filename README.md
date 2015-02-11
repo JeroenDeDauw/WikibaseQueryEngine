@@ -1,6 +1,6 @@
 # Wikibase QueryEngine
 
-[![Build Status](https://secure.travis-ci.org/wmde/WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/wmde/WikibaseQueryEngine)
+[![Build Status](https://secure.travis-ci.org/JeroenDeDauw/WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/JeroenDeDauw/WikibaseQueryEngine)
 [![Code Coverage](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/badges/quality-score.png?s=69cb7a4272badafeea876275cd6dba1032fa2d46)](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/)
 [![Dependency Status](https://www.versioneye.com/php/wikibase:query-engine/dev-master/badge.svg)](https://www.versioneye.com/php/wikibase:query-engine/dev-master)
@@ -142,14 +142,11 @@ Wikibase QueryEngine has been written by the Wikidata team for the [Wikidata pro
 
 * [Wikibase QueryEngine on Packagist](https://packagist.org/packages/wikibase/query-engine)
 * [Wikibase QueryEngine on Ohloh](https://www.ohloh.net/p/wikibasequeryengine/)
-* [Wikibase QueryEngine on GitHub](https://github.com/wmde/WikibaseQueryEngine)
-* [TravisCI build status](https://travis-ci.org/wmde/WikibaseQueryEngine)
+* [Wikibase QueryEngine on GitHub](https://github.com/JeroenDeDauw/WikibaseQueryEngine)
+* [TravisCI build status](https://travis-ci.org/JeroenDeDauw/WikibaseQueryEngine)
 
 ## Related projects
 
 * [Wikibase](http://wikiba.se)
 * [Semantic MediaWiki](https://semantic-mediawiki.org/)
 
-# Bugs on Phabricator
-
-https://phabricator.wikimedia.org/project/view/115/
