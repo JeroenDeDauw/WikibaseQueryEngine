@@ -3,29 +3,27 @@
 namespace Wikibase\QueryEngine\SQLStore\Engine;
 
 use Ask\Language\Description\Description;
-use Ask\Language\Description\SomeProperty;
-use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
-use InvalidArgumentException;
 use Iterator;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Entity\EntityIdParsingException;
-use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\QueryEngine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
+use Wikibase\QueryEngine\SQLStore\Engine\Interpreter\ConjunctionInterpreter;
+use Wikibase\QueryEngine\SQLStore\Engine\Interpreter\SomePropertyInterpreter;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
 /**
  * Simple query engine that works on top of the SQLStore.
  *
- * @since 0.1
+ * @private
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
@@ -36,6 +34,11 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 	private $schema;
 	private $propertyDataValueTypeLookup;
 	private $idParser;
+
+	/**
+	 * @var DescriptionInterpreter[]
+	 */
+	private $descriptionInterpreters;
 
 	/**
 	 * @var QueryBuilder
@@ -67,10 +70,29 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 	public function getMatchingEntities( Description $description, QueryOptions $options ) {
 		$this->queryBuilder = new QueryBuilder( $this->connection );
 
+		$dataValueHandlerFetcher = function( PropertyId $propertyId ) {
+			$dataTypeId = $this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId );
+
+			return $this->schema->getDataValueHandlers()->getMainSnakHandler( $dataTypeId );
+		};
+
+		$this->descriptionInterpreters = [
+			new SomePropertyInterpreter( $this->queryBuilder, $dataValueHandlerFetcher ),
+			new ConjunctionInterpreter()
+		];
+
 		$this->addOptions( $options );
 
-		if ( $description instanceof SomeProperty ) {
-			return $this->findMatchingSomeProperty( $description );
+		$this->getDescriptionInterpreter( $description )->interpretDescription( $description );
+
+		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder() );
+	}
+
+	private function getDescriptionInterpreter( Description $description ) {
+		foreach ( $this->descriptionInterpreters as $interpreter ) {
+			if ( $interpreter->canInterpretDescription( $description ) ) {
+				return $interpreter;
+			}
 		}
 
 		throw new QueryNotSupportedException( $description );
@@ -79,63 +101,6 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 	private function addOptions( QueryOptions $options ) {
 		$this->queryBuilder->setMaxResults( $options->getLimit() );
 		$this->queryBuilder->setFirstResult( $options->getOffset() );
-	}
-
-	/**
-	 * @param SomeProperty $description
-	 *
-	 * @return EntityId[]
-	 * @throws InvalidArgumentException
-	 * @throws QueryNotSupportedException
-	 */
-	private function findMatchingSomeProperty( SomeProperty $description ) {
-		$subDescription = $description->getSubDescription();
-
-		if ( !( $subDescription instanceof ValueDescription ) ) {
-			throw new QueryNotSupportedException( $description );
-		}
-
-		$this->addPropertyAndValueDescription(
-			$this->getPropertyIdFrom( $description ),
-			$subDescription
-		);
-
-		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder() );
-	}
-
-	/**
-	 * @param SomeProperty $description
-	 *
-	 * @throws InvalidArgumentException
-	 * @return PropertyId
-	 */
-	private function getPropertyIdFrom( SomeProperty $description ) {
-		$propertyId = $description->getPropertyId();
-
-		if ( !( $propertyId instanceof EntityIdValue ) ) {
-			throw new InvalidArgumentException( 'All property ids provided to the SQLStore should be EntityIdValue objects' );
-		}
-
-		return $propertyId->getEntityId();
-	}
-
-	private function addPropertyAndValueDescription( PropertyId $propertyId, ValueDescription $description ) {
-		$dvHandler = $this->getDataValueHandlerFor( $propertyId );
-
-		$this->queryBuilder->select( 'subject_id' )
-			->from( $dvHandler->getTableName() )
-			->orderBy( 'subject_id', 'ASC' );
-
-		$this->queryBuilder->andWhere( 'property_id = :property_id' );
-		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
-
-		$dvHandler->addMatchConditions( $this->queryBuilder, $description );
-	}
-
-	private function getDataValueHandlerFor( PropertyId $propertyId ) {
-		$dataTypeId = $this->propertyDataValueTypeLookup->getDataValueTypeForProperty( $propertyId );
-
-		return $this->schema->getDataValueHandlers()->getMainSnakHandler( $dataTypeId );
 	}
 
 	private function getResultFromQueryBuilder() {
@@ -160,7 +125,7 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 				$entityIds[] = $this->idParser->parse( $resultRow['subject_id'] );
 			}
 			catch ( EntityIdParsingException $ex ) {
-				// Reporting invalid IDs would not be helpful at this point, just skip them.
+				// TODO: log
 			}
 		}
 
