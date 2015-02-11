@@ -38,8 +38,6 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->store = IntegrationStoreBuilder::newStore( $this );
 
 		$this->store->newInstaller()->install();
-
-		$this->insertEntities();
 	}
 
 	public function tearDown() {
@@ -48,7 +46,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	private function insertEntities() {
+	private function insertManuallyConstructedItems() {
 		$this->insertQ1112();
 		$this->insertQ1113();
 		$this->insertQ1114();
@@ -120,6 +118,8 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testBothPropertyValueMatchesAreFound() {
+		$this->insertManuallyConstructedItems();
+
 		$description = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P42' ) ),
 			new ValueDescription( new NumberValue( 1337 ) )
@@ -131,6 +131,8 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testWhenPropertyMismatches_valueMatchesAreNotReturned() {
+		$this->insertManuallyConstructedItems();
+
 		$description = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P1' ) ),
 			new ValueDescription( new NumberValue( 1337 ) )
@@ -142,6 +144,8 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testWhenValueMismatches_propertyMatchesAreNotReturned() {
+		$this->insertManuallyConstructedItems();
+
 		$description = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P43' ) ),
 			new ValueDescription( new NumberValue( 1337 ) )
@@ -153,6 +157,8 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testWhenValueMismatches_propertyMatchesAreNotReturned2() {
+		$this->insertManuallyConstructedItems();
+
 		$description = new SomeProperty(
 			new EntityIdValue( new PropertyId( 'P42' ) ),
 			new ValueDescription( new NumberValue( 72010 ) )

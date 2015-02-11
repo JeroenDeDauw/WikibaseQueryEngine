@@ -11,7 +11,6 @@ use Wikibase\DataModel\Snak\SnakRole;
 use Wikibase\QueryEngine\DescriptionMatchFinder;
 use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryStoreWriter;
-use Wikibase\QueryEngine\SQLStore\Engine\Engine;
 use Wikibase\QueryEngine\SQLStore\Engine\SQLStoreMatchFinder;
 use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityInserter;
 use Wikibase\QueryEngine\SQLStore\EntityStore\BasicEntityRemover;

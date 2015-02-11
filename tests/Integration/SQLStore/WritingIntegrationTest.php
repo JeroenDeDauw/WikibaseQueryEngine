@@ -17,7 +17,6 @@ use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
-use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;

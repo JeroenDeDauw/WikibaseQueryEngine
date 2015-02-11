@@ -10,7 +10,6 @@ use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;
-use Wikibase\QueryEngine\NullMessageReporter;
 use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
 
 /**
