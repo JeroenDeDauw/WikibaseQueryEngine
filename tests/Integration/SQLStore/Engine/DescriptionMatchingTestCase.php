@@ -27,7 +27,7 @@ use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
+abstract class DescriptionMatchingTestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var SQLStoreWithDependencies
@@ -46,7 +46,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	private function insertManuallyConstructedItems() {
+	protected final function insertManuallyConstructedItems() {
 		$this->insertQ1112();
 		$this->insertQ1113();
 		$this->insertQ1114();
@@ -101,7 +101,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->store->newWriter()->insertEntity( $item );
 	}
 
-	private function assertDescriptionResultsInMatches( SomeProperty $description, array $expectedIds ) {
+	protected final function assertDescriptionResultsInMatches( SomeProperty $description, array $expectedIds ) {
 		$matchFinder = $this->store->newDescriptionMatchFinder();
 
 		$queryOptions = new QueryOptions(
@@ -115,58 +115,6 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertContainsOnlyInstancesOf( 'Wikibase\DataModel\Entity\EntityId', $matchingEntityIds );
 
 		$this->assertEquals( $expectedIds, $matchingEntityIds );
-	}
-
-	public function testBothPropertyValueMatchesAreFound() {
-		$this->insertManuallyConstructedItems();
-
-		$description = new SomeProperty(
-			new EntityIdValue( new PropertyId( 'P42' ) ),
-			new ValueDescription( new NumberValue( 1337 ) )
-		);
-
-		$expectedIds = array( new ItemId( 'Q1112' ), new ItemId( 'Q1115' ) );
-
-		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
-	}
-
-	public function testWhenPropertyMismatches_valueMatchesAreNotReturned() {
-		$this->insertManuallyConstructedItems();
-
-		$description = new SomeProperty(
-			new EntityIdValue( new PropertyId( 'P1' ) ),
-			new ValueDescription( new NumberValue( 1337 ) )
-		);
-
-		$expectedIds = [];
-
-		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
-	}
-
-	public function testWhenValueMismatches_propertyMatchesAreNotReturned() {
-		$this->insertManuallyConstructedItems();
-
-		$description = new SomeProperty(
-			new EntityIdValue( new PropertyId( 'P43' ) ),
-			new ValueDescription( new NumberValue( 1337 ) )
-		);
-
-		$expectedIds = array( new ItemId( 'Q1113' ) );
-
-		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
-	}
-
-	public function testWhenValueMismatches_propertyMatchesAreNotReturned2() {
-		$this->insertManuallyConstructedItems();
-
-		$description = new SomeProperty(
-			new EntityIdValue( new PropertyId( 'P42' ) ),
-			new ValueDescription( new NumberValue( 72010 ) )
-		);
-
-		$expectedIds = array( new ItemId( 'Q1114' ) );
-
-		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
 	}
 
 }
