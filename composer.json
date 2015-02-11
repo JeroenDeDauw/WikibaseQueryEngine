@@ -32,7 +32,8 @@
 		"ask/ask": "~1.0",
 		"wikibase/data-model": "~2.0",
 		"psr/log": "~1.0",
-		"doctrine/dbal": "~2.5"
+		"doctrine/dbal": "~2.5",
+		"jeroen/wikibase-data-fixtures": "@stable"
 	},
 	"require-dev": {
 		"ext-sqlite3": "*",

@@ -103,10 +103,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->store->newWriter()->insertEntity( $item );
 	}
 
-	/**
-	 * @dataProvider somePropertyProvider
-	 */
-	public function testFindMatchingEntitiesWithSomeProperty( SomeProperty $description, array $expectedIds ) {
+	private function assertDescriptionResultsInMatches( SomeProperty $description, array $expectedIds ) {
 		$matchFinder = $this->store->newDescriptionMatchFinder();
 
 		$queryOptions = new QueryOptions(
@@ -122,42 +119,48 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $expectedIds, $matchingEntityIds );
 	}
 
-	public function somePropertyProvider() {
-		$argLists = array();
-
-		$argLists[] = array(
-			new SomeProperty(
-				new EntityIdValue( new PropertyId( 'P42' ) ),
-				new ValueDescription( new NumberValue( 1337 ) )
-			),
-			array( new ItemId( 'Q1112' ), new ItemId( 'Q1115' ) )
+	public function testBothPropertyValueMatchesAreFound() {
+		$description = new SomeProperty(
+			new EntityIdValue( new PropertyId( 'P42' ) ),
+			new ValueDescription( new NumberValue( 1337 ) )
 		);
 
-		$argLists[] = array(
-			new SomeProperty(
-				new EntityIdValue( new PropertyId( 'P1' ) ),
-				new ValueDescription( new NumberValue( 1337 ) )
-			),
-			array()
+		$expectedIds = array( new ItemId( 'Q1112' ), new ItemId( 'Q1115' ) );
+
+		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
+	}
+
+	public function testWhenPropertyMismatches_valueMatchesAreNotReturned() {
+		$description = new SomeProperty(
+			new EntityIdValue( new PropertyId( 'P1' ) ),
+			new ValueDescription( new NumberValue( 1337 ) )
 		);
 
-		$argLists[] = array(
-			new SomeProperty(
-				new EntityIdValue( new PropertyId( 'P43' ) ),
-				new ValueDescription( new NumberValue( 1337 ) )
-			),
-			array( new ItemId( 'Q1113' ) )
+		$expectedIds = array();
+
+		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
+	}
+
+	public function testWhenValueMismatches_propertyMatchesAreNotReturned() {
+		$description = new SomeProperty(
+			new EntityIdValue( new PropertyId( 'P43' ) ),
+			new ValueDescription( new NumberValue( 1337 ) )
 		);
 
-		$argLists[] = array(
-			new SomeProperty(
-				new EntityIdValue( new PropertyId( 'P42' ) ),
-				new ValueDescription( new NumberValue( 72010 ) )
-			),
-			array( new ItemId( 'Q1114' ) )
+		$expectedIds = array( new ItemId( 'Q1113' ) );
+
+		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
+	}
+
+	public function testWhenValueMismatches_propertyMatchesAreNotReturned2() {
+		$description = new SomeProperty(
+			new EntityIdValue( new PropertyId( 'P42' ) ),
+			new ValueDescription( new NumberValue( 72010 ) )
 		);
 
-		return $argLists;
+		$expectedIds = array( new ItemId( 'Q1114' ) );
+
+		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
 	}
 
 }
