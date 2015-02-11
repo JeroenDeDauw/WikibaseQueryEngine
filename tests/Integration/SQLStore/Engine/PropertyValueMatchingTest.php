@@ -29,6 +29,17 @@ use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
  */
 class PropertyValueMatchingTest extends DescriptionMatchingTestCase {
 
+	public function testWhenNothingInStore_noMatchesAreFound() {
+		$description = new SomeProperty(
+			new EntityIdValue( new PropertyId( 'P1' ) ),
+			new ValueDescription( new NumberValue( 1 ) )
+		);
+
+		$expectedIds = [];
+
+		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
+	}
+
 	public function testBothPropertyValueMatchesAreFound() {
 		$this->insertManuallyConstructedItems();
 
