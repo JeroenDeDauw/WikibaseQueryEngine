@@ -149,4 +149,3 @@ Wikibase QueryEngine has been written by the Wikidata team for the [Wikidata pro
 
 * [Wikibase](http://wikiba.se)
 * [Semantic MediaWiki](https://semantic-mediawiki.org/)
-
