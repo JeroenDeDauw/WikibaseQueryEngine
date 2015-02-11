@@ -153,7 +153,7 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 	 * @return EntityId[]
 	 */
 	private function getEntityIdsFromResult( $resultRows ) {
-		$entityIds = array();
+		$entityIds = [];
 
 		foreach ( $resultRows as $resultRow ) {
 			try {

@@ -76,7 +76,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$this->store->newWriter()->deleteEntity( $item );
 
 		$this->assertEquals(
-			array(),
+			[],
 			$this->getMatchingEntities( $propertyDescription )
 		);
 	}
@@ -131,7 +131,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertEquals(
-			array(),
+			[],
 			$this->getMatchingEntities( $propertyDescription )
 		);
 	}

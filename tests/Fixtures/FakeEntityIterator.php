@@ -14,7 +14,7 @@ class FakeEntityIterator extends ArrayIterator {
 	private $delayInMilliseconds = 0;
 
 	public function __construct() {
-		parent::__construct( array() );
+		parent::__construct( [] );
 
 		foreach ( range( 1337, 1347 ) as $number ) {
 			$item = new Item();

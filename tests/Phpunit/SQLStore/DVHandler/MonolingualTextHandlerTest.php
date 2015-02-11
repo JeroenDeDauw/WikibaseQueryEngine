@@ -24,7 +24,7 @@ class MonolingualTextHandlerTest extends DataValueHandlerTest {
 	 * @return MonolingualTextHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new MonolingualTextHandler();
 
@@ -37,7 +37,7 @@ class MonolingualTextHandlerTest extends DataValueHandlerTest {
 	 * @return MonolingualTextValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		$values[] = new MonolingualTextValue( 'en', 'foo bar baz' );
 		$values[] = new MonolingualTextValue( 'en', ' foo bar baz bah!' );

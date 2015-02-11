@@ -25,7 +25,7 @@ class TimeHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new TimeHandler();
 

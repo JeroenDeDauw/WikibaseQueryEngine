@@ -24,7 +24,7 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testWhenRemovingWithNoStrategies_exceptionIsThrown() {
-		$remover = new EntityRemover( $this->getConnection(), array() );
+		$remover = new EntityRemover( $this->getConnection(), [] );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
 		$remover->removeEntity( Item::newEmpty() );

@@ -138,7 +138,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 			new ValueDescription( new NumberValue( 1337 ) )
 		);
 
-		$expectedIds = array();
+		$expectedIds = [];
 
 		$this->assertDescriptionResultsInMatches( $description, $expectedIds );
 	}

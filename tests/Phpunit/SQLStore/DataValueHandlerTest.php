@@ -36,7 +36,7 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 * @return DataValueHandler[][]
 	 */
 	public function instanceProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		foreach ( $this->getInstances() as $handler ) {
 			$handler->setTablePrefix( '' );

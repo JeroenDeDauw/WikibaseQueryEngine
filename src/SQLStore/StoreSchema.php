@@ -60,7 +60,7 @@ class StoreSchema {
 	 * @return Table[]
 	 */
 	private function getDvTables() {
-		$tables = array();
+		$tables = [];
 
 		foreach ( $this->dvHandlers->getMainSnakHandlers() as $dvHandler ) {
 			$tables[] = $this->getTableFromDvHandler( $dvHandler );

@@ -15,8 +15,8 @@ class DataValueHandlersBuilderTest extends \PHPUnit_Framework_TestCase {
 	public function testCallingGetHandlersAfterConstructionGivesNoHandlers() {
 		$builder = new DataValueHandlersBuilder();
 
-		$this->assertSame( array(), $builder->getHandlers()->getMainSnakHandlers() );
-		$this->assertSame( array(), $builder->getHandlers()->getQualifierHandlers() );
+		$this->assertSame( [], $builder->getHandlers()->getMainSnakHandlers() );
+		$this->assertSame( [], $builder->getHandlers()->getQualifierHandlers() );
 	}
 
 	public function testCallingWithSimpleHandlersAddsStringHandler() {

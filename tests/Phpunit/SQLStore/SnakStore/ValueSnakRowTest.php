@@ -22,7 +22,7 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakRow;
 class ValueSnakRowTest extends \PHPUnit_Framework_TestCase {
 
 	public function constructorProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array(
 			new StringValue( 'foobar baz' ),

@@ -25,7 +25,7 @@ class GlobeCoordinateHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new GlobeCoordinateHandler();
 
@@ -38,7 +38,7 @@ class GlobeCoordinateHandlerTest extends DataValueHandlerTest {
 	 * @return GlobeCoordinateValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		foreach ( array( 0, -1/3, 2/3, 99 ) as $latitude ) {
 			foreach ( array( 0, -1/3, 2/3, 99 ) as $longitude ) {

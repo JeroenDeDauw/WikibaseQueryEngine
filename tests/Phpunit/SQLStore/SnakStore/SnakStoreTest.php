@@ -29,7 +29,7 @@ abstract class SnakStoreTest extends \PHPUnit_Framework_TestCase {
 	protected abstract function cannotStoreProvider();
 
 	public function differentSnaksProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,

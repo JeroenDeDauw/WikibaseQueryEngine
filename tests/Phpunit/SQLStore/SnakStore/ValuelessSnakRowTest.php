@@ -19,7 +19,7 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValuelessSnakRow;
 class ValuelessSnakRowTest extends \PHPUnit_Framework_TestCase {
 
 	public function constructorProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array(
 			ValuelessSnakRow::TYPE_NO_VALUE,

@@ -24,7 +24,7 @@ class IriHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new IriHandler();
 
@@ -37,7 +37,7 @@ class IriHandlerTest extends DataValueHandlerTest {
 	 * @return IriValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		$values[] = new IriValue( 'ohi', 'foo', 'bar', 'baz' );
 		$values[] = new IriValue( 'http', '//www.wikidata.org/w/index.php', 'title=Special:Version', 'sv-credits-datavalues' );

@@ -15,12 +15,12 @@ class DataValueHandlers {
 	/**
 	 * @var DataValueHandler[]
 	 */
-	private $mainSnakHandlers = array();
+	private $mainSnakHandlers = [];
 
 	/**
 	 * @var DataValueHandler[]
 	 */
-	private $qualifierHandlers = array();
+	private $qualifierHandlers = [];
 
 	public function addMainSnakHandler( $dataTypeId, DataValueHandler $handler ) {
 		$this->mainSnakHandlers[$dataTypeId] = $handler;

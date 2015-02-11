@@ -19,8 +19,8 @@ class DataValueHandlersTest extends \PHPUnit_Framework_TestCase {
 	public function testNewDataValueHandlersIsEmpty() {
 		$handlers = new DataValueHandlers();
 
-		$this->assertEquals( array(), $handlers->getMainSnakHandlers() );
-		$this->assertEquals( array(), $handlers->getQualifierHandlers() );
+		$this->assertEquals( [], $handlers->getMainSnakHandlers() );
+		$this->assertEquals( [], $handlers->getQualifierHandlers() );
 	}
 
 	public function testAddingMainSnakHandlers() {

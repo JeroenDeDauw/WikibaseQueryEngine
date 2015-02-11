@@ -24,7 +24,7 @@ class BooleanHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new BooleanHandler();
 
@@ -37,7 +37,7 @@ class BooleanHandlerTest extends DataValueHandlerTest {
 	 * @return BooleanValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		$values[] = new BooleanValue( true );
 		$values[] = new BooleanValue( false );

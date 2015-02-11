@@ -40,7 +40,7 @@ class SnakRemoverTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function subjectIdProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array( new ItemId( 'Q1' ) );
 		$argLists[] = array( new ItemId( 'Q10' ) );

@@ -23,7 +23,7 @@
 		"irc": "irc://irc.freenode.net/wikidata"
 	},
 	"require": {
-		"php": ">=5.3.0",
+		"php": ">=5.4.0",
 		"data-values/data-values": "~1.0|~0.1",
 		"data-values/iri": "~0.1",
 		"data-values/number": "~0.1",

@@ -25,7 +25,7 @@ class LatLongHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new LatLongHandler();
 
@@ -38,7 +38,7 @@ class LatLongHandlerTest extends DataValueHandlerTest {
 	 * @return LatLongValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		$values[] = new LatLongValue( 0, 0 );
 		$values[] = new LatLongValue( 23, 42 );

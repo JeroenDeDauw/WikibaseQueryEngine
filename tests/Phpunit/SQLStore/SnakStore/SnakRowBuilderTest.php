@@ -24,7 +24,7 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\SnakRowBuilder;
 class SnakRowBuilderTest extends \PHPUnit_Framework_TestCase {
 
 	public function newSnakRowProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array(
 			new PropertyNoValueSnak( 1 ),

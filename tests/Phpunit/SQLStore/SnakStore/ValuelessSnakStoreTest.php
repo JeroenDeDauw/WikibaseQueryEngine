@@ -40,7 +40,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 	}
 
 	public function canStoreProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array( new ValuelessSnakRow(
 			ValuelessSnakRow::TYPE_NO_VALUE,
@@ -78,7 +78,7 @@ class ValuelessSnakStoreTest extends SnakStoreTest {
 	}
 
 	public function cannotStoreProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array( new ValueSnakRow(
 			new StringValue( 'nyan' ),

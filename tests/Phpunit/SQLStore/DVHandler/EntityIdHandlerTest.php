@@ -27,7 +27,7 @@ class EntityIdHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new EntityIdHandler();
 
@@ -40,7 +40,7 @@ class EntityIdHandlerTest extends DataValueHandlerTest {
 	 * @return EntityId[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		$values[] = new EntityIdValue( new ItemId( 'Q42' ) );
 		$values[] = new EntityIdValue( new ItemId( 'Q9001' ) );

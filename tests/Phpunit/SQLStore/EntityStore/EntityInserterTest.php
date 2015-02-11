@@ -24,7 +24,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testWhenInsertingWithNoStrategies_exceptionIsThrown() {
-		$inserter = new EntityInserter( $this->getConnection(), array() );
+		$inserter = new EntityInserter( $this->getConnection(), [] );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
 		$inserter->insertEntity( Item::newEmpty() );

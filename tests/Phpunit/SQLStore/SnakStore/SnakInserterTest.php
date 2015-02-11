@@ -29,7 +29,7 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\ValueSnakStore;
 class SnakInserterTest extends \PHPUnit_Framework_TestCase {
 
 	public function snakProvider() {
-		$argLists = array();
+		$argLists = [];
 
 		$argLists[] = array( new PropertyNoValueSnak( 1 ) );
 

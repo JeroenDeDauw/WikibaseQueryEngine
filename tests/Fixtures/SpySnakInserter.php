@@ -12,7 +12,7 @@ use Wikibase\QueryEngine\SQLStore\SnakStore\SnakInserter;
  */
 class SpySnakInserter extends SnakInserter {
 
-	private $insertedSnaks = array();
+	private $insertedSnaks = [];
 
 	public function __construct() {}
 

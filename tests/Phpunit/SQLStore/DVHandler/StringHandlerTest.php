@@ -24,7 +24,7 @@ class StringHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new StringHandler();
 
@@ -37,7 +37,7 @@ class StringHandlerTest extends DataValueHandlerTest {
 	 * @return StringValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		$values[] = new StringValue( 'foo' );
 		$values[] = new StringValue( '' );

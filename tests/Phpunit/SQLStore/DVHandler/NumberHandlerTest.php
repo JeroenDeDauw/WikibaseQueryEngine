@@ -25,7 +25,7 @@ class NumberHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new NumberHandler();
 
@@ -38,7 +38,7 @@ class NumberHandlerTest extends DataValueHandlerTest {
 	 * @return NumberValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		$values[] = new NumberValue( 0 );
 		$values[] = new NumberValue( 1 );

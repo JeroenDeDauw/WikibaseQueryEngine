@@ -26,7 +26,7 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 	 * @return DataValueHandler[]
 	 */
 	protected function getInstances() {
-		$instances = array();
+		$instances = [];
 
 		$instances[] = new QuantityHandler();
 
@@ -39,7 +39,7 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 	 * @return QuantityValue[]
 	 */
 	protected function getValues() {
-		$values = array();
+		$values = [];
 
 		foreach ( array( 0, -1/3, 2/3, 99 ) as $amount ) {
 			foreach ( array( 0, 1/7, 7 ) as $upperDelta ) {
