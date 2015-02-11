@@ -17,7 +17,7 @@ class FakeEntityIterator extends ArrayIterator {
 		parent::__construct( array() );
 
 		foreach ( range( 1337, 1347 ) as $number ) {
-			$item = Item::newEmpty();
+			$item = new Item();
 			$item->setId( $number );
 			$this->append( $item );
 		}

@@ -55,7 +55,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testInsertAndRemoveItem() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q8888' ) );
 
 		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
@@ -98,7 +98,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testUpdateItem() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q4444' ) );
 
 		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
@@ -138,7 +138,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testCanInsertClaimsWithTheSameMainSnak() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q1234' ) );
 
 		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', 'abcd1' ) );
@@ -157,7 +157,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testCanAddSameSnaksToAlreadyInsertedEntity() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q1234' ) );
 
 		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', 'abcd1' ) );

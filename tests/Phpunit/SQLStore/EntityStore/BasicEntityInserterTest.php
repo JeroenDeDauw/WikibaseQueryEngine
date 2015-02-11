@@ -19,7 +19,7 @@ use Wikibase\QueryEngine\Tests\Fixtures\SpySnakInserter;
 class ItemInserterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testOnlyBestStatementsGetInserted() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( 42 );
 
 		$item->getStatements()->addStatement( $this->newStatement( 1, 'foo', Statement::RANK_DEPRECATED ) );

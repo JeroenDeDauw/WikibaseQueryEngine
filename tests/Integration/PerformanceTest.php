@@ -140,7 +140,7 @@ class RandomItemIterator implements Iterator {
 class RandomItemBuilder {
 
 	public function newItem( ItemId $id = null ) {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( $id );
 
 		$this->addStatements( $item );

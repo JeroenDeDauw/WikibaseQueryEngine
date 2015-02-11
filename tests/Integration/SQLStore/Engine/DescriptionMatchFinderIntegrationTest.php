@@ -56,7 +56,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function insertQ1112() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q1112' ) );
 
 		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
@@ -67,7 +67,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function insertQ1113() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q1113' ) );
 
 		$statement = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) ) );
@@ -78,7 +78,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function insertQ1114() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q1114' ) );
 
 		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
@@ -89,7 +89,7 @@ class SQLStoreMatchFinderIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function insertQ1115() {
-		$item = Item::newEmpty();
+		$item = new Item();
 		$item->setId( new ItemId( 'Q1115' ) );
 
 		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
