@@ -128,5 +128,9 @@ new Disjunction( [
 ```
 
 ```sql
-
+SELECT subject_id FROM qe_mainsnak_string WHERE property_id = "P1"
+UNION
+SELECT qe_mainsnak_string.subject_id FROM qe_mainsnak_string
+INNER JOIN qe_mainsnak_number ON qe_mainsnak_string.subject_id = qe_mainsnak_number.subject_id
+WHERE qe_mainsnak_string.property_id = "P42" AND qe_mainsnak_number.property_id = "P23";
 ```
