@@ -99,9 +99,9 @@ new Conjunction( [
 
 ```sql
 SELECT mainsnak_string.subject_id FROM mainsnak_string
-INNER JOIN mainsnak_number ON mainsnak_string.subject_id = mainsnak_number.subject_id
-WHERE mainsnak_string.property_id = "P42" AND mainsnak_string.hash = "kittens"
-AND mainsnak_number.property_id = "P23" AND mainsnak_number.value = 1337;
+	INNER JOIN mainsnak_number ON mainsnak_string.subject_id = mainsnak_number.subject_id
+	WHERE mainsnak_string.property_id = "P42" AND mainsnak_string.hash = "kittens"
+	AND mainsnak_number.property_id = "P23" AND mainsnak_number.value = 1337;
 ```
 
 ### Disjunction with nested Conjunction
@@ -128,9 +128,9 @@ new Disjunction( [
 ```
 
 ```sql
-SELECT subject_id FROM qe_mainsnak_string WHERE property_id = "P1"
+SELECT subject_id FROM mainsnak_string WHERE property_id = "P1"
 UNION
-SELECT qe_mainsnak_string.subject_id FROM qe_mainsnak_string
-INNER JOIN qe_mainsnak_number ON qe_mainsnak_string.subject_id = qe_mainsnak_number.subject_id
-WHERE qe_mainsnak_string.property_id = "P42" AND qe_mainsnak_number.property_id = "P23";
+SELECT mainsnak_string.subject_id FROM mainsnak_string
+	INNER JOIN mainsnak_number ON mainsnak_string.subject_id = mainsnak_number.subject_id
+	WHERE mainsnak_string.property_id = "P42" AND mainsnak_number.property_id = "P23";
 ```
