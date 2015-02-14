@@ -1,3 +1,12 @@
+### AnyValue
+
+
+```php
+new AnyValue()
+```
+
+Not supported, since we do not have a table with all subject ids.
+
 ### SomeProperty with AnyValue
 
 
@@ -49,15 +58,15 @@ WHERE property_id = "P42" AND ( hash = "kittens" OR hash = "bunnies" );
 
 ```php
 new Disjunction( [
-		new SomeProperty(
-        	new PropertyValue( 'p42' ),
-        	new ValueDescription( new StringValue( 'kittens' ) )
-        ),
-        new SomeProperty(
-			new PropertyValue( 'p23' ),
-			new ValueDescription( new NumberValue( 1337 ) )
-		),
-	] )
+	new SomeProperty(
+		new PropertyValue( 'p42' ),
+		new ValueDescription( new StringValue( 'kittens' ) )
+	),
+	new SomeProperty(
+		new PropertyValue( 'p23' ),
+		new ValueDescription( new NumberValue( 1337 ) )
+	),
+] )
 ```
 
 ```sql
@@ -71,15 +80,15 @@ SELECT subject_id FROM maisnak_number WHERE property_id = "P23" AND value = 1337
 
 ```php
 new Conjunction( [
-		new SomeProperty(
-        	new PropertyValue( 'p42' ),
-        	new ValueDescription( new StringValue( 'kittens' ) )
-        ),
-        new SomeProperty(
-			new PropertyValue( 'p23' ),
-			new ValueDescription( new NumberValue( 1337 ) )
-		),
-	] )
+	new SomeProperty(
+		new PropertyValue( 'p42' ),
+		new ValueDescription( new StringValue( 'kittens' ) )
+	),
+	new SomeProperty(
+		new PropertyValue( 'p23' ),
+		new ValueDescription( new NumberValue( 1337 ) )
+	),
+] )
 ```
 
 ```sql
