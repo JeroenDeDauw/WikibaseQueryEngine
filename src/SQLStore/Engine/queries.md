@@ -40,7 +40,8 @@ new SomeProperty(
 ```
 
 ```sql
-SELECT subject_id FROM maisnak_string WHERE property_id = "P42" AND ( hash = "kittens" OR hash = "bunnies" );
+SELECT subject_id FROM maisnak_string
+WHERE property_id = "P42" AND ( hash = "kittens" OR hash = "bunnies" );
 ```
 
 ### Disjunction with two SomeProperty
