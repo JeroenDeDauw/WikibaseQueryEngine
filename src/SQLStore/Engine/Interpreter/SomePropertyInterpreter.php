@@ -56,10 +56,21 @@ class SomePropertyInterpreter implements DescriptionInterpreter {
 			throw new QueryNotSupportedException( $description );
 		}
 
-		$this->addPropertyAndValueDescription(
-			$this->getPropertyIdFrom( $description ),
-			$subDescription
-		);
+		$propertyId = $this->getPropertyIdFrom( $description );
+
+		/**
+		 * @var DataValueHandler $dvHandler
+		 */
+		$dvHandler = call_user_func( $this->dvHandlerFetcher, $propertyId );
+
+		$this->queryBuilder->select( 'subject_id' )
+			->from( $dvHandler->getTableName() )
+			->orderBy( 'subject_id', 'ASC' );
+
+		$this->queryBuilder->andWhere( 'property_id = :property_id' );
+		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
+
+		$dvHandler->addMatchConditions( $this->queryBuilder, $subDescription );
 
 		return new SqlQueryPart(); // TODO
 	}
@@ -79,25 +90,5 @@ class SomePropertyInterpreter implements DescriptionInterpreter {
 
 		return $propertyId->getEntityId();
 	}
-
-	private function addPropertyAndValueDescription( PropertyId $propertyId, ValueDescription $description ) {
-		/**
-		 * @var DataValueHandler $dvHandler
-		 */
-		$dvHandler = call_user_func( $this->dvHandlerFetcher, $propertyId );
-
-		$this->queryBuilder->select( 'subject_id' )
-			->from( $dvHandler->getTableName() )
-			->orderBy( 'subject_id', 'ASC' );
-
-		$this->queryBuilder->andWhere( 'property_id = :property_id' );
-		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
-
-		$dvHandler->addMatchConditions( $this->queryBuilder, $description );
-	}
-
-
-
-
 
 }
