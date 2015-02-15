@@ -17,6 +17,7 @@ use Wikibase\QueryEngine\PropertyDataValueTypeLookup;
 use Wikibase\QueryEngine\QueryEngineException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\Engine\Interpreter\ConjunctionInterpreter;
+use Wikibase\QueryEngine\SQLStore\Engine\Interpreter\DispatchingInterpreter;
 use Wikibase\QueryEngine\SQLStore\Engine\Interpreter\SomePropertyInterpreter;
 use Wikibase\QueryEngine\SQLStore\StoreSchema;
 
@@ -36,9 +37,9 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 	private $idParser;
 
 	/**
-	 * @var DescriptionInterpreter[]
+	 * @var DescriptionInterpreter
 	 */
-	private $descriptionInterpreters;
+	private $descriptionInterpreter;
 
 	/**
 	 * @var QueryBuilder
@@ -76,26 +77,16 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 			return $this->schema->getDataValueHandlers()->getMainSnakHandler( $dataTypeId );
 		};
 
-		$this->descriptionInterpreters = [
-			new SomePropertyInterpreter( $this->queryBuilder, $dataValueHandlerFetcher ),
-			new ConjunctionInterpreter()
-		];
+		$this->descriptionInterpreter = new DispatchingInterpreter();
+		$this->descriptionInterpreter->addInterpreter( new SomePropertyInterpreter( $this->queryBuilder, $dataValueHandlerFetcher ) );
+		$this->descriptionInterpreter->addInterpreter( new ConjunctionInterpreter() );
 
 		$this->addOptions( $options );
 
-		$this->getDescriptionInterpreter( $description )->interpretDescription( $description );
+		// TODO: use SqlQueryPart
+		$this->descriptionInterpreter->interpretDescription( $description );
 
 		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder() );
-	}
-
-	private function getDescriptionInterpreter( Description $description ) {
-		foreach ( $this->descriptionInterpreters as $interpreter ) {
-			if ( $interpreter->canInterpretDescription( $description ) ) {
-				return $interpreter;
-			}
-		}
-
-		throw new QueryNotSupportedException( $description );
 	}
 
 	private function addOptions( QueryOptions $options ) {
