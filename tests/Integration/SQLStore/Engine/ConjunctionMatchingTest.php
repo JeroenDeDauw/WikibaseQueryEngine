@@ -23,7 +23,8 @@ use Wikibase\DataModel\Entity\PropertyId;
 class ConjunctionMatchingTest extends DescriptionMatchingTestCase {
 
 	public function testWhenNothingInStore_noMatchesAreFound() {
-		$this->assertEquals(1,1);
+		$this->assertTrue(true);
+
 //		$description = new Conjunction( [
 //				new SomeProperty(
 //					new EntityIdValue( new PropertyId( 'P1' ) ),

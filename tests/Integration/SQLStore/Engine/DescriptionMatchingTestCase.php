@@ -2,6 +2,7 @@
 
 namespace Wikibase\QueryEngine\Tests\Integration\SQLStore\Engine;
 
+use Ask\Language\Description\Description;
 use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
@@ -101,7 +102,7 @@ abstract class DescriptionMatchingTestCase extends \PHPUnit_Framework_TestCase {
 		$this->store->newWriter()->insertEntity( $item );
 	}
 
-	protected final function assertDescriptionResultsInMatches( SomeProperty $description, array $expectedIds ) {
+	protected final function assertDescriptionResultsInMatches( Description $description, array $expectedIds ) {
 		$matchFinder = $this->store->newDescriptionMatchFinder();
 
 		$queryOptions = new QueryOptions(

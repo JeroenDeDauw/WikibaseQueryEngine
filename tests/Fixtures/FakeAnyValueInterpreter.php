@@ -1,24 +1,18 @@
 <?php
 
-namespace Wikibase\QueryEngine\SQLStore\Engine\Interpreter;
+namespace Wikibase\QueryEngine\Tests\Fixtures;
 
-use Ask\Language\Description\Conjunction;
+use Ask\Language\Description\AnyValue;
 use Ask\Language\Description\Description;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\SQLStore\Engine\DescriptionInterpreter;
 use Wikibase\QueryEngine\SQLStore\Engine\SqlQueryPart;
 
 /**
- * @private
- *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class ConjunctionInterpreter implements DescriptionInterpreter {
-
-	public function __construct(  ) {
-
-	}
+class FakeAnyValueInterpreter implements DescriptionInterpreter {
 
 	/**
 	 * @param Description $description
@@ -26,7 +20,7 @@ class ConjunctionInterpreter implements DescriptionInterpreter {
 	 * @return boolean
 	 */
 	public function canInterpretDescription( Description $description ) {
-		return $description instanceof Conjunction;
+		return $description instanceof AnyValue;
 	}
 
 	/**
@@ -36,11 +30,7 @@ class ConjunctionInterpreter implements DescriptionInterpreter {
 	 * @throws InvalidArgumentException
 	 */
 	public function interpretDescription( Description $description ) {
-		if ( !( $description instanceof Conjunction ) ) {
-			throw new InvalidArgumentException( 'Can only interpret conjunctions' );
-		}
-
-		return new SqlQueryPart(); // TODO
+		return new SqlQueryPart();
 	}
 
 }
