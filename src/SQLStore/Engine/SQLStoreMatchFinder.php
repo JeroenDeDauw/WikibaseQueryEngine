@@ -79,7 +79,7 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 
 		$this->descriptionInterpreter = new DispatchingInterpreter();
 		$this->descriptionInterpreter->addInterpreter( new SomePropertyInterpreter( $this->queryBuilder, $dataValueHandlerFetcher ) );
-		$this->descriptionInterpreter->addInterpreter( new ConjunctionInterpreter() );
+		$this->descriptionInterpreter->addInterpreter( new ConjunctionInterpreter( $this->descriptionInterpreter ) );
 
 		$this->addOptions( $options );
 

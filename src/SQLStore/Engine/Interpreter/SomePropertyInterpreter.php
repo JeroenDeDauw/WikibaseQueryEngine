@@ -63,6 +63,19 @@ class SomePropertyInterpreter implements DescriptionInterpreter {
 		 */
 		$dvHandler = call_user_func( $this->dvHandlerFetcher, $propertyId );
 
+
+
+
+
+		$queryPart = new SqlQueryPart();
+		$queryPart->setTableName( $dvHandler->getTableName() );
+		$queryPart->setSelectParts( [ 'subject_id' ] );
+		$queryPart->setSortFields( [ 'subject_id' => 'ASC' ] );
+
+		$queryPart->andWhere( 'property_id = :property_id' );
+		$queryPart->setParameter( ':property_id', $propertyId->getSerialization() );
+
+		
 		$this->queryBuilder->select( 'subject_id' )
 			->from( $dvHandler->getTableName() )
 			->orderBy( 'subject_id', 'ASC' );
@@ -72,7 +85,8 @@ class SomePropertyInterpreter implements DescriptionInterpreter {
 
 		$dvHandler->addMatchConditions( $this->queryBuilder, $subDescription );
 
-		return new SqlQueryPart(); // TODO
+
+		return $queryPart; // TODO
 	}
 
 	/**

@@ -16,8 +16,13 @@ use Wikibase\QueryEngine\SQLStore\Engine\SqlQueryPart;
  */
 class ConjunctionInterpreter implements DescriptionInterpreter {
 
-	public function __construct(  ) {
+	/**
+	 * @var DescriptionInterpreter
+	 */
+	private $subInterpreter;
 
+	public function __construct( DescriptionInterpreter $subInterpreter ) {
+		$this->subInterpreter = $subInterpreter;
 	}
 
 	/**
