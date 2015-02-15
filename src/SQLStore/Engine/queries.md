@@ -145,3 +145,47 @@ SELECT mainsnak_string.subject_id FROM mainsnak_string
 	INNER JOIN mainsnak_number ON mainsnak_string.subject_id = mainsnak_number.subject_id
 	WHERE mainsnak_string.property_id = "P42" AND mainsnak_number.property_id = "P23";
 ```
+
+### Disjunction with nested Disjunction
+
+Human query: entities with kittens or bunnies as value for p1, or 100 or 200 as value for p2
+
+Note: this could be expressed as a single disjunction
+
+```php
+new Disjunction( [
+	new Disjunction( [
+		new SomeProperty(
+			new PropertyValue( 'p1' ),
+			new ValueDescription( new StringValue( 'kittens' ) )
+		),
+		new SomeProperty(
+			new PropertyValue( 'p1' ),
+			new ValueDescription( new StringValue( 'bunnies' ) )
+		)
+	] ),
+	new Disjunction( [
+		new SomeProperty(
+			new PropertyValue( 'p2' ),
+			new ValueDescription( new NumberValue( 100 ) )
+		),
+		new SomeProperty(
+			new PropertyValue( 'p2' ),
+			new ValueDescription( new NumberValue( 200 ) )
+		)
+	] )
+] )
+```
+
+```sql
+SELECT subject_id FROM qe_mainsnak_string WHERE property_id = "P1" AND hash = "kittens"
+UNION
+SELECT subject_id FROM qe_mainsnak_string WHERE property_id = "P1" AND hash = "bunnies"
+UNION
+SELECT subject_id FROM qe_mainsnak_number WHERE property_id = "P2" AND value = 100
+UNION
+SELECT subject_id FROM qe_mainsnak_number WHERE property_id = "P2" AND value = 200
+```
+
+This works, though is not grouped, so presumably hard to generate without query optimization first.
+SMW appears to do the optimization, create a temp table, and do 4 insert selects into it.
