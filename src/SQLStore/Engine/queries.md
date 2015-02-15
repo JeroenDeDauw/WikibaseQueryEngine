@@ -8,6 +8,17 @@ new AnyValue()
 
 Not supported, since we do not have a table with all subject ids.
 
+### Subject identifiers
+
+Human query: entity Q1
+
+```php
+new ValueDescription( new EntityIdValue( 'Q1' ) )
+```
+
+Not supported for now. Same goes for these things nested in disjunctions. Later we can easily
+add support by simply stuffing the ids in the result set.
+
 ### SomeProperty with AnyValue
 
 Human query: entities that have a value for p42
