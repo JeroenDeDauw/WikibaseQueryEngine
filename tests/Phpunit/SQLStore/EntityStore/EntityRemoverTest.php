@@ -27,7 +27,7 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$remover = new EntityRemover( $this->getConnection(), [] );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
-		$remover->removeEntity( Item::newEmpty() );
+		$remover->removeEntity( new Item() );
 	}
 
 	public function testWhenRemovingWithNoMatchingStrategies_exceptionIsThrown() {
@@ -40,7 +40,7 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$remover = new EntityRemover( $this->getConnection(), array( $removalStrategy ) );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
-		$remover->removeEntity( Item::newEmpty() );
+		$remover->removeEntity( new Item() );
 	}
 
 	public function testWhenRemovingMatchingStrategy_strategyIsCalled() {
@@ -52,11 +52,11 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 
 		$removalStrategy->expects( $this->once() )
 			->method( 'removeEntity' )
-			->with( $this->equalTo( Item::newEmpty() ) );
+			->with( $this->equalTo( new Item() ) );
 
 		$remover = new EntityRemover( $this->getConnection(), array( $removalStrategy ) );
 
-		$remover->removeEntity( Item::newEmpty() );
+		$remover->removeEntity( new Item() );
 	}
 
 	public function testWhenRemoveFails_transactionIsRolledBack() {
@@ -79,7 +79,7 @@ class EntityRemoverTest extends \PHPUnit_Framework_TestCase {
 		$remover = new EntityRemover( $connection, array( $removalStrategy ) );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
-		$remover->removeEntity( Item::newEmpty() );
+		$remover->removeEntity( new Item() );
 	}
 
 }

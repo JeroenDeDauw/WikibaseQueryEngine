@@ -31,14 +31,14 @@ class WriterTest extends \PHPUnit_Framework_TestCase {
 		$entityRemover->expects( $this->exactly( 3 ) )->method( 'removeEntity' );
 		$entityInserter->expects( $this->exactly( 5 ) )->method( 'insertEntity' );
 
-		$writer->deleteEntity( Item::newEmpty() );
+		$writer->deleteEntity( new Item() );
 
-		$writer->updateEntity( Item::newEmpty() );
-		$writer->updateEntity( Item::newEmpty() );
+		$writer->updateEntity( new Item() );
+		$writer->updateEntity( new Item() );
 
-		$writer->insertEntity( Item::newEmpty() );
-		$writer->insertEntity( Item::newEmpty() );
-		$writer->insertEntity( Item::newEmpty() );
+		$writer->insertEntity( new Item() );
+		$writer->insertEntity( new Item() );
+		$writer->insertEntity( new Item() );
 	}
 
 }

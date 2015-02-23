@@ -27,7 +27,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$inserter = new EntityInserter( $this->getConnection(), [] );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
-		$inserter->insertEntity( Item::newEmpty() );
+		$inserter->insertEntity( new Item() );
 	}
 
 	public function testWhenInsertingWithNoMatchingStrategies_exceptionIsThrown() {
@@ -40,7 +40,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$inserter = new EntityInserter( $this->getConnection(), array( $insertionStrategy ) );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
-		$inserter->insertEntity( Item::newEmpty() );
+		$inserter->insertEntity( new Item() );
 	}
 
 	public function testWhenInsertingMatchingStrategy_strategyIsCalled() {
@@ -52,11 +52,11 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 
 		$insertionStrategy->expects( $this->once() )
 			->method( 'insertEntity' )
-			->with( $this->equalTo( Item::newEmpty() ) );
+			->with( $this->equalTo( new Item() ) );
 
 		$inserter = new EntityInserter( $this->getConnection(), array( $insertionStrategy ) );
 
-		$inserter->insertEntity( Item::newEmpty() );
+		$inserter->insertEntity( new Item() );
 	}
 
 	public function testWhenInsertFails_transactionIsRolledBack() {
@@ -79,7 +79,7 @@ class EntityInserterTest extends \PHPUnit_Framework_TestCase {
 		$inserter = new EntityInserter( $connection, array( $insertionStrategy ) );
 
 		$this->setExpectedException( 'Wikibase\QueryEngine\QueryEngineException' );
-		$inserter->insertEntity( Item::newEmpty() );
+		$inserter->insertEntity( new Item() );
 	}
 
 }
