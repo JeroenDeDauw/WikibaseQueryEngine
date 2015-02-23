@@ -12,6 +12,7 @@ use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\WhereConditions;
 
 /**
  * Represents the mapping between LatLongValue and
@@ -105,15 +106,15 @@ class LatLongHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::addMatchConditions
+	 * @see DataValueHandler::getWhereConditions
 	 *
-	 * @param QueryBuilder $builder
 	 * @param ValueDescription $description
 	 *
+	 * @return WhereConditions
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+	public function getWhereConditions( ValueDescription $description ) {
 		$value = $description->getValue();
 
 		if ( $value instanceof LatLongValue ) {
@@ -124,30 +125,34 @@ class LatLongHandler extends DataValueHandler {
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$this->addInRangeConditions( $builder, $value, $epsilon );
-		} else {
-			parent::addMatchConditions( $builder, $description );
+			return $this->getInRangeConditions( $value, $epsilon );
 		}
+
+		return parent::getWhereConditions( $description );
 	}
 
 	/**
-	 * @param QueryBuilder $builder
 	 * @param LatLongValue $value
 	 * @param float|int $epsilon
+	 * @return WhereConditions
 	 */
-	private function addInRangeConditions( QueryBuilder $builder, LatLongValue $value, $epsilon ) {
+	private function getInRangeConditions( LatLongValue $value, $epsilon ) {
+		$conditions = new WhereConditions();
+
 		$lat = $value->getLatitude();
 		$lon = $value->getLongitude();
 
-		$builder->andWhere( 'value_lat >= :min_lat' );
-		$builder->andWhere( 'value_lat <= :max_lat' );
-		$builder->andWhere( 'value_lon >= :min_lon' );
-		$builder->andWhere( 'value_lon <= :max_lon' );
+		$conditions->addCondition( 'value_lat >= :min_lat' );
+		$conditions->addCondition( 'value_lat <= :max_lat' );
+		$conditions->addCondition( 'value_lon >= :min_lon' );
+		$conditions->addCondition( 'value_lon <= :max_lon' );
 
-		$builder->setParameter( ':min_lat', $lat - $epsilon );
-		$builder->setParameter( ':max_lat', $lat + $epsilon );
-		$builder->setParameter( ':min_lon', $lon - $epsilon );
-		$builder->setParameter( ':max_lon', $lon + $epsilon );
+		$conditions->setParameter( ':min_lat', $lat - $epsilon );
+		$conditions->setParameter( ':max_lat', $lat + $epsilon );
+		$conditions->setParameter( ':min_lon', $lon - $epsilon );
+		$conditions->setParameter( ':max_lon', $lon + $epsilon );
+
+		return $conditions;
 	}
 
 }

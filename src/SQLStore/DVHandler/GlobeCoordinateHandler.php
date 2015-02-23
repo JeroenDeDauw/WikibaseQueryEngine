@@ -12,6 +12,7 @@ use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\WhereConditions;
 
 /**
  * @since 0.3
@@ -104,15 +105,15 @@ class GlobeCoordinateHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::addMatchConditions
+	 * @see DataValueHandler::getWhereConditions
 	 *
-	 * @param QueryBuilder $builder
 	 * @param ValueDescription $description
 	 *
+	 * @return WhereConditions
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+	public function getWhereConditions( ValueDescription $description ) {
 		$value = $description->getValue();
 
 		if ( !( $value instanceof GlobeCoordinateValue ) ) {
@@ -120,17 +121,15 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$this->addInRangeConditions( $builder, $value );
-		} else {
-			parent::addMatchConditions( $builder, $description );
+			return $this->getInRangeConditions( $value );
 		}
+
+		return parent::getWhereConditions( $description );
 	}
 
-	/**
-	 * @param QueryBuilder $builder
-	 * @param GlobeCoordinateValue $value
-	 */
-	private function addInRangeConditions( QueryBuilder $builder, GlobeCoordinateValue $value ) {
+	private function getInRangeConditions( GlobeCoordinateValue $value ) {
+		$conditions = new WhereConditions();
+
 		$value = $this->math->normalizeGlobeCoordinate( $value );
 		$globe = $this->normalizeGlobe( $value->getGlobe() );
 		$lat = $value->getLatitude();
@@ -138,21 +137,22 @@ class GlobeCoordinateHandler extends DataValueHandler {
 		$epsilon = abs( $value->getPrecision() );
 
 		if ( $globe === null ) {
-			$builder->andWhere( 'value_globe IS NULL' );
+			$conditions->addCondition( 'value_globe IS NULL' );
 		} else {
-			$builder->andWhere( 'value_globe = :globe' );
-			$builder->setParameter( ':globe', $globe );
+			$conditions->setEquality( 'value_globe', $globe );
 		}
 
-		$builder->andWhere( 'value_lat >= :min_lat' );
-		$builder->andWhere( 'value_lat <= :max_lat' );
-		$builder->andWhere( 'value_lon >= :min_lon' );
-		$builder->andWhere( 'value_lon <= :max_lon' );
+		$conditions->addCondition( 'value_lat >= :min_lat' );
+		$conditions->addCondition( 'value_lat <= :max_lat' );
+		$conditions->addCondition( 'value_lon >= :min_lon' );
+		$conditions->addCondition( 'value_lon <= :max_lon' );
 
-		$builder->setParameter( ':min_lat', $lat - $epsilon );
-		$builder->setParameter( ':max_lat', $lat + $epsilon );
-		$builder->setParameter( ':min_lon', $lon - $epsilon );
-		$builder->setParameter( ':max_lon', $lon + $epsilon );
+		$conditions->setParameter( ':min_lat', $lat - $epsilon );
+		$conditions->setParameter( ':max_lat', $lat + $epsilon );
+		$conditions->setParameter( ':min_lon', $lon - $epsilon );
+		$conditions->setParameter( ':max_lon', $lon + $epsilon );
+
+		return $conditions;
 	}
 
 	/**

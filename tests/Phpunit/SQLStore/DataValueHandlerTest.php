@@ -207,24 +207,16 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	private function getQueryBuilderMock() {
-		$builder = $this->getMockBuilder( 'Doctrine\DBAL\Query\QueryBuilder' )
-			->disableOriginalConstructor()
-			->getMock();
-
-		return $builder;
-	}
-
 	/**
 	 * @dataProvider instanceProvider
 	 * @param DataValueHandler $dvHandler
 	 * @expectedException InvalidArgumentException
 	 */
-	public function testAddMatchConditions_invalidDataValue( DataValueHandler $dvHandler ) {
+	public function testGivenInvalidDataValue_getWhereConditionsThrowsException( DataValueHandler $dvHandler ) {
 		$value = new UnknownValue( null );
 
 		$description = new ValueDescription( $value );
-		$dvHandler->addMatchConditions( $this->getQueryBuilderMock(), $description );
+		$dvHandler->getWhereConditions( $description );
 	}
 
 	/**
@@ -232,27 +224,26 @@ abstract class DataValueHandlerTest extends \PHPUnit_Framework_TestCase {
 	 * @param DataValue $value
 	 * @expectedException \Wikibase\QueryEngine\QueryNotSupportedException
 	 */
-	public function testAddMatchConditions_notSupportedOperator( DataValue $value ) {
+	public function testGivenNonSupportedOperator_getWhereConditionsThrowsException( DataValue $value ) {
 		$dvHandler = $this->newInstance();
-		$builder = $this->getQueryBuilderMock();
 
 		$description = new ValueDescription( $value, ValueDescription::COMP_GREATER );
-		$dvHandler->addMatchConditions( $builder, $description );
+		$dvHandler->getWhereConditions( $description );
 	}
 
 	/**
 	 * @dataProvider valueProvider
 	 * @param DataValue $value
 	 */
-	public function testAddMatchConditions_addsAtLeastOneWhereCondition( DataValue $value ) {
+	public function testGetWhereConditionsReturnsAtLeastCondition( DataValue $value ) {
 		$dvHandler = $this->newInstance();
 		$dvHandler->setTablePrefix( '' );
-		$builder = $this->getQueryBuilderMock();
-		$builder->expects( $this->atLeastOnce() )
-			->method( 'andWhere' );
 
 		$description = new ValueDescription( $value, ValueDescription::COMP_EQUAL );
-		$dvHandler->addMatchConditions( $builder, $description );
+		$whereConditions = $dvHandler->getWhereConditions( $description );
+
+		$this->assertInstanceOf( 'Wikibase\QueryEngine\SQLStore\WhereConditions', $whereConditions );
+		$this->assertGreaterThanOrEqual( 1, count( $whereConditions->getConditions() ) );
 	}
 
 }

@@ -12,6 +12,7 @@ use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\WhereConditions;
 
 /**
  * @since 0.1
@@ -88,15 +89,15 @@ class TimeHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::addMatchConditions
+	 * @see DataValueHandler::getWhereConditions
 	 *
-	 * @param QueryBuilder $builder
 	 * @param ValueDescription $description
 	 *
+	 * @return WhereConditions
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+	public function getWhereConditions( ValueDescription $description ) {
 		$value = $description->getValue();
 
 		if ( !( $value instanceof TimeValue ) ) {
@@ -104,17 +105,13 @@ class TimeHandler extends DataValueHandler {
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$this->addInRangeConditions( $builder, $value );
-		} else {
-			parent::addMatchConditions( $builder, $description);
+			return $this->getInRangeConditions( $value );
 		}
+
+		return parent::getWhereConditions( $description );
 	}
 
-	/**
-	 * @param QueryBuilder $builder
-	 * @param TimeValue $value
-	 */
-	private function addInRangeConditions( QueryBuilder $builder, TimeValue $value ) {
+	private function getInRangeConditions( TimeValue $value ) {
 		$calculator = new TimeValueCalculator();
 		$timestamp = $calculator->getTimestamp( $value );
 		$precisionInSeconds = $calculator->getSecondsForPrecision( $value->getPrecision() );
@@ -123,12 +120,16 @@ class TimeHandler extends DataValueHandler {
 		// The range from before to after must be at least one unit long
 		$after = max( 1, abs( $value->getAfter() ) );
 
-		// When searching for 1900 (precision year) we do not want to find 1901-01-01T00:00:00.
-		$builder->andWhere( 'value_timestamp >= :min_timestamp' );
-		$builder->andWhere( 'value_timestamp < :max_timestamp' );
+		$conditions = new WhereConditions();
 
-		$builder->setParameter( ':min_timestamp', $timestamp - $before * $precisionInSeconds );
-		$builder->setParameter( ':max_timestamp', $timestamp + $after * $precisionInSeconds );
+		// When searching for 1900 (precision year) we do not want to find 1901-01-01T00:00:00.
+		$conditions->addCondition( 'value_timestamp >= :min_timestamp' );
+		$conditions->addCondition( 'value_timestamp < :max_timestamp' );
+
+		$conditions->setParameter( ':min_timestamp', $timestamp - $before * $precisionInSeconds );
+		$conditions->setParameter( ':max_timestamp', $timestamp + $after * $precisionInSeconds );
+
+		return $conditions;
 	}
 
 }

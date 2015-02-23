@@ -83,7 +83,15 @@ class SomePropertyInterpreter implements DescriptionInterpreter {
 		$this->queryBuilder->andWhere( 'property_id = :property_id' );
 		$this->queryBuilder->setParameter( ':property_id', $propertyId->getSerialization() );
 
-		$dvHandler->addMatchConditions( $this->queryBuilder, $subDescription );
+		$whereConditions = $dvHandler->getWhereConditions( $subDescription );
+
+		foreach ( $whereConditions->getConditions() as $condition ) {
+			$this->queryBuilder->andWhere( $condition );
+		}
+
+		foreach ( $whereConditions->getParameters() as $name => $value ) {
+			$this->queryBuilder->setParameter( $name, $value );
+		}
 
 
 		return $queryPart; // TODO

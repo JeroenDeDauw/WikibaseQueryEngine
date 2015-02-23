@@ -84,7 +84,7 @@ class SQLStoreMatchFinder implements DescriptionMatchFinder {
 		$this->addOptions( $options );
 
 		// TODO: use SqlQueryPart
-		$this->descriptionInterpreter->interpretDescription( $description );
+		$sqlQueryPart = $this->descriptionInterpreter->interpretDescription( $description );
 
 		return $this->getEntityIdsFromResult( $this->getResultFromQueryBuilder() );
 	}

@@ -149,22 +149,30 @@ abstract class DataValueHandler {
 	}
 
 	/**
-	 * @since 0.2
+	 * Returns an array of fields => values that make up the WHERE (SQL)
+	 * part in selecting the provided ValueDescription.
 	 *
-	 * @param QueryBuilder $builder
+	 * @since 0.4
+	 *
 	 * @param ValueDescription $description
 	 *
+	 * @return WhereConditions
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+	public function getWhereConditions( ValueDescription $description ) {
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$builder->andWhere( $this->getEqualityFieldName() . '= :equality' );
-			$builder->setParameter( ':equality', $this->getEqualityFieldValue( $description->getValue() ) );
+			$conditions = new WhereConditions();
+
+			$conditions->setEquality(
+				$this->getEqualityFieldName(),
+				$this->getEqualityFieldValue( $description->getValue() )
+			);
+
+			return $conditions;
 		}
-		else {
-			throw new QueryNotSupportedException( $description, 'Only equality is supported' );
-		}
+
+		throw new QueryNotSupportedException( $description, 'Only equality is supported' );
 	}
 
 }

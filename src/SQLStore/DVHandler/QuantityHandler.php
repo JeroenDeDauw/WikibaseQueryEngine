@@ -12,6 +12,7 @@ use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use Wikibase\QueryEngine\QueryNotSupportedException;
 use Wikibase\QueryEngine\SQLStore\DataValueHandler;
+use Wikibase\QueryEngine\SQLStore\WhereConditions;
 
 /**
  * @since 0.3
@@ -73,51 +74,46 @@ class QuantityHandler extends DataValueHandler {
 	}
 
 	/**
-	 * @see DataValueHandler::addMatchConditions
+	 * @see DataValueHandler::getWhereConditions
 	 *
-	 * @param QueryBuilder $builder
 	 * @param ValueDescription $description
 	 *
+	 * @return WhereConditions
 	 * @throws InvalidArgumentException
 	 * @throws QueryNotSupportedException
 	 */
-	public function addMatchConditions( QueryBuilder $builder, ValueDescription $description ) {
+	public function getWhereConditions( ValueDescription $description ) {
 		$value = $description->getValue();
 
 		if ( !( $value instanceof QuantityValue ) ) {
 			throw new InvalidArgumentException( 'Value is not a QuantityValue.' );
 		} elseif ( $value->getUnit() !== '1' ) {
-			throw new InvalidArgumentException( 'Units other than "1" are not yet supported.' );
+			throw new QueryNotSupportedException( $description, 'Units other than "1" are not yet supported.' );
 		}
 
 		if ( $description->getComparator() === ValueDescription::COMP_EQUAL ) {
-			$this->addByQuantityConditions( $builder, $value );
-		} else {
-			parent::addMatchConditions( $builder, $description );
+			return $this->getByQuantityConditions( $value );
 		}
+
+		return parent::getWhereConditions( $description );
 	}
 
-	/**
-	 * @param QueryBuilder $builder
-	 * @param QuantityValue $value
-	 */
-	private function addByQuantityConditions( QueryBuilder $builder, QuantityValue $value ) {
+	private function getByQuantityConditions( QuantityValue $value ) {
 		// Exact search if search range is zero.
 		if ( $value->getLowerBound()->getValueFloat() >= $value->getUpperBound()->getValueFloat() ) {
-			$this->addSameValueConditions( $builder, $value->getAmount() );
+			return $this->getSameValueConditions( $value->getAmount() );
 		} else {
-			$this->addInRangeConditions( $builder, $value );
+			return $this->getInRangeConditions( $value );
 		}
 	}
 
-	/**
-	 * @param QueryBuilder $builder
-	 * @param DecimalValue $value
-	 */
-	private function addSameValueConditions( QueryBuilder $builder, DecimalValue $value ) {
-		$builder->andWhere( 'value_actual = :actual' );
+	private function getSameValueConditions( DecimalValue $value ) {
+		$conditions = new WhereConditions();
 
-		$builder->setParameter( ':actual', $value->getValue() );
+		$conditions->addCondition( 'value_actual = :actual' );
+		$conditions->setParameter( ':actual', $value->getValue() );
+
+		return $conditions;
 	}
 
 	/**
@@ -127,16 +123,17 @@ class QuantityHandler extends DataValueHandler {
 	 * If searching for 1500 m (with default precision +/-1) we don't want to find 1501 m,
 	 * but want to find 1500.99 m (no matter what the precision is).
 	 * So the range is ]-precision,+precision[ (exclusive).
-	 *
-	 * @param QueryBuilder $builder
-	 * @param QuantityValue $value
 	 */
-	private function addInRangeConditions( QueryBuilder $builder, QuantityValue $value ) {
-		$builder->andWhere( 'value_actual > :lower_bound' );
-		$builder->andWhere( 'value_actual < :upper_bound' );
+	private function getInRangeConditions( QuantityValue $value ) {
+		$conditions = new WhereConditions();
 
-		$builder->setParameter( ':lower_bound', $value->getLowerBound()->getValue() );
-		$builder->setParameter( ':upper_bound', $value->getUpperBound()->getValue() );
+		$conditions->addCondition( 'value_actual > :lower_bound' );
+		$conditions->addCondition( 'value_actual < :upper_bound' );
+
+		$conditions->setParameter( ':lower_bound', $value->getLowerBound()->getValue() );
+		$conditions->setParameter( ':upper_bound', $value->getUpperBound()->getValue() );
+
+		return $conditions;
 	}
 
 	/**
