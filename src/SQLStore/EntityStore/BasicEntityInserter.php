@@ -8,7 +8,6 @@ use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\Property;
 use Wikibase\DataModel\Snak\Snak;
 use Wikibase\DataModel\Snak\SnakRole;
-use Wikibase\DataModel\Statement\BestStatementsFinder;
 use Wikibase\DataModel\Statement\Statement;
 use Wikibase\DataModel\Statement\StatementList;
 use Wikibase\QueryEngine\QueryEngineException;
