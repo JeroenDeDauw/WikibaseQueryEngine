@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\SQLStore;
 
 use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use InvalidArgumentException;
 use RuntimeException;

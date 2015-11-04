@@ -4,17 +4,10 @@ namespace Wikibase\QueryEngine\Tests\Integration\SQLStore\Engine;
 
 use Ask\Language\Description\SomeProperty;
 use Ask\Language\Description\ValueDescription;
-use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\EntityIdValue;
-use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;
-use Wikibase\DataModel\Snak\PropertyValueSnak;
-use Wikibase\DataModel\Statement\Statement;
-use Wikibase\QueryEngine\SQLStore\SQLStoreWithDependencies;
-use Wikibase\QueryEngine\Tests\Integration\IntegrationStoreBuilder;
 
 /**
  * @group Wikibase

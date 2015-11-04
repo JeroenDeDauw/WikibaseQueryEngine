@@ -4,7 +4,6 @@ namespace Wikibase\QueryEngine\Tests\Integration;
 
 use DataValues\StringValue;
 use Iterator;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Entity\ItemId;
 use Wikibase\DataModel\Entity\PropertyId;

@@ -6,7 +6,6 @@ use Ask\Language\Description\ValueDescription;
 use DataValues\DataValue;
 use DataValues\DecimalValue;
 use DataValues\QuantityValue;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;

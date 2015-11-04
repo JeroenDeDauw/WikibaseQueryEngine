@@ -3,7 +3,6 @@
 namespace Wikibase\QueryEngine\Tests\Phpunit\SQLStore\EntityStore;
 
 use DataValues\StringValue;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\Item;
 use Wikibase\DataModel\Snak\PropertyValueSnak;
 use Wikibase\DataModel\Statement\Statement;

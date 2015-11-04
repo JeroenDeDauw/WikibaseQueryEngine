@@ -2,13 +2,6 @@
 
 namespace Wikibase\QueryEngine\Tests\Integration\SQLStore\Engine;
 
-use Ask\Language\Description\Conjunction;
-use Ask\Language\Description\SomeProperty;
-use Ask\Language\Description\ValueDescription;
-use DataValues\NumberValue;
-use Wikibase\DataModel\Entity\EntityIdValue;
-use Wikibase\DataModel\Entity\PropertyId;
-
 /**
  * @group Wikibase
  * @group WikibaseQueryEngine

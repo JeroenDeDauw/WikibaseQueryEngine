@@ -8,7 +8,6 @@ use Ask\Language\Description\ValueDescription;
 use Ask\Language\Option\QueryOptions;
 use DataValues\NumberValue;
 use DataValues\StringValue;
-use Wikibase\DataModel\Claim\Claim;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\DataModel\Entity\EntityIdValue;
 use Wikibase\DataModel\Entity\Item;
