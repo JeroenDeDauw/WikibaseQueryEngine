@@ -54,7 +54,7 @@ class TimeHandlerTest extends DataValueHandlerTest {
 			new TimeValue(
 				'+1000000000000000-00-00T00:00:00Z',
 				0, 0, 0,
-				TimeValue::PRECISION_Ga,
+				TimeValue::PRECISION_YEAR1G,
 				'http://www.wikidata.org/entity/Q1985727'
 			),
 			new TimeValue(
@@ -66,7 +66,7 @@ class TimeHandlerTest extends DataValueHandlerTest {
 			new TimeValue(
 				'-0000000000000110-00-00T00:00:00Z',
 				0, 0, 0,
-				TimeValue::PRECISION_10a,
+				TimeValue::PRECISION_YEAR10,
 				'http://www.wikidata.org/entity/Q1985727'
 			),
 		);
