@@ -57,7 +57,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = new Item();
 		$item->setId( new ItemId( 'Q8888' ) );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
 		$statement->setGuid( 'a claim' );
 		$item->getStatements()->addStatement( $statement );
 
@@ -100,13 +100,13 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 		$item = new Item();
 		$item->setId( new ItemId( 'Q4444' ) );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
 		$statement->setGuid( 'foo claim' );
 		$item->getStatements()->addStatement( $statement );
 
 		$this->store->newWriter()->insertEntity( $item );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 9000 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 42, new NumberValue( 9000 ) ) );
 		$statement->setGuid( 'bar claim' );
 
 		$item->setStatements( new StatementList( array(
@@ -150,7 +150,7 @@ class WritingIntegrationTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function newStatement( $propertyId, $stringValue, $guid ) {
-		$statement = new Statement( new Claim( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) );
 		$statement->setGuid( $guid );
 		return $statement;
 	}

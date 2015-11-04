@@ -38,7 +38,7 @@ class ItemInserterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function newStatement( $propertyId, $stringValue, $rank ) {
-		$statement = new Statement( new Claim( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( $propertyId, new StringValue( $stringValue ) ) );
 		$statement->setRank( $rank );
 		$statement->setGuid( sha1( $propertyId .  $stringValue ) );
 		return $statement;

@@ -58,7 +58,7 @@ abstract class DescriptionMatchingTestCase extends \PHPUnit_Framework_TestCase {
 		$item = new Item();
 		$item->setId( new ItemId( 'Q1112' ) );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
 		$statement->setGuid( 'claim0' );
 		$item->getStatements()->addStatement( $statement );
 
@@ -69,7 +69,7 @@ abstract class DescriptionMatchingTestCase extends \PHPUnit_Framework_TestCase {
 		$item = new Item();
 		$item->setId( new ItemId( 'Q1113' ) );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 43, new NumberValue( 1337 ) ) );
 		$statement->setGuid( 'claim1' );
 		$item->getStatements()->addStatement( $statement );
 
@@ -80,7 +80,7 @@ abstract class DescriptionMatchingTestCase extends \PHPUnit_Framework_TestCase {
 		$item = new Item();
 		$item->setId( new ItemId( 'Q1114' ) );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 42, new NumberValue( 72010 ) ) );
 		$statement->setGuid( 'claim2' );
 		$item->getStatements()->addStatement( $statement );
 
@@ -91,11 +91,11 @@ abstract class DescriptionMatchingTestCase extends \PHPUnit_Framework_TestCase {
 		$item = new Item();
 		$item->setId( new ItemId( 'Q1115' ) );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 42, new NumberValue( 1337 ) ) );
 		$statement->setGuid( 'claim3' );
 		$item->getStatements()->addStatement( $statement );
 
-		$statement = new Statement( new Claim( new PropertyValueSnak( 43, new NumberValue( 1 ) ) ) );
+		$statement = new Statement( new PropertyValueSnak( 43, new NumberValue( 1 ) ) );
 		$statement->setGuid( 'claim4' );
 		$item->getStatements()->addStatement( $statement );
 

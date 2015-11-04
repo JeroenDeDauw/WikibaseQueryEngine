@@ -34,10 +34,20 @@ class BasicEntityInserter implements EntityInsertionStrategy {
 		/**
 		 * @var Item|Property $entity
 		 */
-		$bestStatementsFinder = new BestStatementsFinder( $entity->getStatements() );
-		$statements = new StatementList( $bestStatementsFinder->getBestStatementsPerProperty() );
-
+		$statements = $this->getBestStatementsPerProperty( $entity->getStatements() );
 		$this->insertStatements( $statements->getWithUniqueMainSnaks(), $entity->getId() );
+	}
+
+	private function getBestStatementsPerProperty( StatementList $statements ) {
+		$bestStatements = new StatementList();
+
+		foreach ( $statements->getPropertyIds() as $propertyId ) {
+			foreach ( $statements->getByPropertyId( $propertyId )->getBestStatements() as $statement ) {
+				$bestStatements->addStatement( $statement );
+			}
+		}
+
+		return $bestStatements;
 	}
 
 	private function insertStatements( StatementList $statements, EntityId $subjectId ) {

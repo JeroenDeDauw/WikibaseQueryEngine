@@ -33,7 +33,7 @@
 
 		"ask/ask": "~1.0",
 
-		"wikibase/data-model": "~2.5",
+		"wikibase/data-model": "~4.0",
 
 		"jeroen/wikibase-data-fixtures": "@stable"
 	},
