@@ -19,6 +19,8 @@ matrix:
       php: 5.6
   exclude:
     - env: THENEEDFORTHIS=FAIL
+  allow_failures:
+    - env: DB=pgsql
 
 before_script:
   - travis_retry composer install --prefer-source
