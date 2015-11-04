@@ -1,21 +1,21 @@
 # Wikibase QueryEngine
 
 [![Build Status](https://secure.travis-ci.org/JeroenDeDauw/WikibaseQueryEngine.png?branch=master)](http://travis-ci.org/JeroenDeDauw/WikibaseQueryEngine)
-[![Code Coverage](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/badges/quality-score.png?s=69cb7a4272badafeea876275cd6dba1032fa2d46)](https://scrutinizer-ci.com/g/wmde/WikibaseQueryEngine/)
-[![Dependency Status](https://www.versioneye.com/php/wikibase:query-engine/dev-master/badge.svg)](https://www.versioneye.com/php/wikibase:query-engine/dev-master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JeroenDeDauw/WikibaseQueryEngine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JeroenDeDauw/WikibaseQueryEngine/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/JeroenDeDauw/WikibaseQueryEngine/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/JeroenDeDauw/WikibaseQueryEngine/?branch=master)
+[![Dependency Status](https://www.versioneye.com/php/jeroen:query-engine/dev-master/badge.svg)](https://www.versioneye.com/php/jeroen:query-engine/dev-master)
 
-On [Packagist](https://packagist.org/packages/wikibase/query-engine):
-[![Latest Stable Version](https://poser.pugx.org/wikibase/query-engine/version.png)](https://packagist.org/packages/wikibase/query-engine)
-[![Download count](https://poser.pugx.org/wikibase/query-engine/d/total.png)](https://packagist.org/packages/wikibase/query-engine)
+On [Packagist](https://packagist.org/packages/jeroen/query-engine):
+[![Latest Stable Version](https://poser.pugx.org/jeroen/query-engine/version.png)](https://packagist.org/packages/jeroen/query-engine)
+[![Download count](https://poser.pugx.org/jeroen/query-engine/d/total.png)](https://packagist.org/packages/jeroen/query-engine)
 
-**Wikibase QueryEngine** is a component that supports running [Ask](https://github.com/wmde/Ask)
+**Wikibase QueryEngine** is a library that supports running [Ask](https://github.com/JeroenDeDauw/Ask)
 queries against a collection of [Wikibase](http://wikiba.se) entities.
 
-It is primarily used by the Wikibase MediaWiki extensions, though
-has no dependencies whatsoever on these or on MediaWiki itself.
-
 Recent changes can be found in the [release notes](RELEASE-NOTES.md).
+
+Note that this is a fork of the original Wikibase Query engine, which has the `wikibase/query-engine`
+package name. This version is ahead of the original, which is no longer actively developed.
 
 ## Installation
 
@@ -26,14 +26,14 @@ the git repository and take care of loading yourself.
 ### Composer
 
 To add this package as a local, per-project dependency to your project, simply add a
-dependency on `wikibase/query-engine` to your project's `composer.json` file.
+dependency on `jeroen/query-engine` to your project's `composer.json` file.
 Here is a minimal example of a `composer.json` file that just defines a dependency on
 Wikibase QueryEngine 1.0:
 
 ```js
     {
         "require": {
-            "wikibase/query-engine": "1.0.*"
+            "jeroen/query-engine": "1.0.*"
         }
     }
 ```
@@ -136,11 +136,12 @@ Additional fields:
 
 ## Authors
 
-Wikibase QueryEngine has been written by the Wikidata team for the [Wikidata project](https://wikidata.org/).
+Wikibase QueryEngine has been written by Jeroen De Dauw, and by the Wikidata team for the
+[Wikidata project](https://wikidata.org/).
 
 ## Links
 
-* [Wikibase QueryEngine on Packagist](https://packagist.org/packages/wikibase/query-engine)
+* [Wikibase QueryEngine on Packagist](https://packagist.org/packages/jeroen/query-engine)
 * [Wikibase QueryEngine on Ohloh](https://www.ohloh.net/p/wikibasequeryengine/)
 * [Wikibase QueryEngine on GitHub](https://github.com/JeroenDeDauw/WikibaseQueryEngine)
 * [TravisCI build status](https://travis-ci.org/JeroenDeDauw/WikibaseQueryEngine)

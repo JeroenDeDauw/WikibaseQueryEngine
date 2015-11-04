@@ -1,5 +1,5 @@
 {
-	"name": "wikibase/query-engine",
+	"name": "jeroen/query-engine",
 	"type": "library",
 	"description": "Answers Ask queries against a collection of Wikibase entities",
 	"keywords": [
@@ -7,7 +7,7 @@
 		"QueryEngine",
 		"Wikidata"
 	],
-	"homepage": "https://github.com/wmde/WikibaseQueryEngine",
+	"homepage": "https://github.com/JeroenDeDauw/WikibaseQueryEngine",
 	"license": "GPL-2.0+",
 	"authors": [
 		{
@@ -18,10 +18,7 @@
 		{
 			"name": "Thiemo Mättig"
 		}
-	],
-	"support": {
-		"irc": "irc://irc.freenode.net/wikidata"
-	},
+	]
 	"require": {
 		"php": ">=5.4.0",
 		"data-values/data-values": "~1.0|~0.1",
@@ -56,7 +53,7 @@
 	],
 	"extra": {
 		"branch-alias": {
-			"dev-master": "0.4.x-dev"
+			"dev-master": "0.5.x-dev"
 		}
 	}
 }
