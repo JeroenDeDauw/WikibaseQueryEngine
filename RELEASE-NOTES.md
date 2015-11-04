@@ -1,6 +1,6 @@
 # Wikibase QueryEngine release notes
 
-## Version 0.5 (dev)
+## Version 0.5 (2015-11-04)
 
 * Wikibase DataModel 4.x is now required
 * Dropped PHP 5.3 and PHP 5.4 support
