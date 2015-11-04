@@ -1,8 +1,8 @@
 # Wikibase QueryEngine release notes
 
-## Version 0.4 (dev)
+## Version 0.5 (dev)
 
-* Wikibase DataModel 2.x is now required
+* Wikibase DataModel 4.x is now required
 * The methods in QueryStoreWriter now accept `EntityDocument` rather than just `Entity`
 * The `SQLStore` now accepts an optional `LoggerInterface` in its constructor
 * Errors during installation or removal of the SQLStore are now logged and no longer abort execution
