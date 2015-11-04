@@ -22,14 +22,17 @@ matrix:
   allow_failures:
     - env: DB=pgsql
 
-before_script:
-  - travis_retry composer install --prefer-source
-  - sh tests/travis/before_script.sh
+install: travis_retry composer install
 
-script:
-  - phpunit -c tests/travis/$DB.travis.xml
+before_script: sh tests/travis/before_script.sh
+
+script: phpunit -c tests/travis/$DB.travis.xml
 
 notifications:
   email:
     on_success: change
     on_failure: always
+
+cache:
+  directories:
+    - $HOME/.composer/cache
