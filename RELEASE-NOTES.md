@@ -3,6 +3,7 @@
 ## Version 0.5 (dev)
 
 * Wikibase DataModel 4.x is now required
+* Dropped PHP 5.3 and PHP 5.4 support
 * The methods in QueryStoreWriter now accept `EntityDocument` rather than just `Entity`
 * The `SQLStore` now accepts an optional `LoggerInterface` in its constructor
 * Errors during installation or removal of the SQLStore are now logged and no longer abort execution

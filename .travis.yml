@@ -10,17 +10,18 @@ matrix:
     - env: DB=sqlite
       php: 5.6
     - env: DB=mysqli
-      php: 5.6
+      php: 7
     - env: DB=sqlite
       php: hhvm
     - env: DB=pgsql POSTGRESQL_VERSION=9.1
-      php: 5.4
+      php: 5.5
     - env: DB=pgsql POSTGRESQL_VERSION=9.3
       php: 5.6
   exclude:
     - env: THENEEDFORTHIS=FAIL
   allow_failures:
-    - env: DB=pgsql
+    - env: DB=pgsql POSTGRESQL_VERSION=9.1
+    - env: DB=pgsql POSTGRESQL_VERSION=9.3
 
 install: travis_retry composer install
 
