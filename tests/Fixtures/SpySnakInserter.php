@@ -14,6 +14,7 @@ class SpySnakInserter extends SnakInserter {
 
 	private $insertedSnaks = [];
 
+	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct() {}
 
 	public function insertSnak( Snak $snak, $snakRole, EntityId $subjectId, $statementRank ) {
