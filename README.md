@@ -14,8 +14,9 @@ queries against a collection of [Wikibase](http://wikiba.se) entities.
 
 Recent changes can be found in the [release notes](RELEASE-NOTES.md).
 
-Note that this is a fork of the original Wikibase Query engine, which has the `wikibase/query-engine`
-package name. This version is ahead of the original, which is no longer actively developed.
+Note that this is a fork of the original Wikibase Query Engine, which has the `wikibase/query-engine`
+package name. This version is ahead of the original, which is no longer actively developed by its
+original maintainer: Wikimedia Deutchland.
 
 ## Installation
 
