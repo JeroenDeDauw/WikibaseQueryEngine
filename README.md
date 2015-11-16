@@ -45,15 +45,19 @@ You can find a list of the dependencies in the "require" section of the composer
 Load all dependencies and the load the Wikibase QueryEngine library by including its entry point:
 WikibaseQueryEngine.php.
 
-## Tests
+## Running the tests
 
-This library comes with a set up PHPUnit tests that cover all non-trivial code. You can run these
-tests using the PHPUnit configuration file found in the root directory. The tests can also be run
-via TravisCI, as a TravisCI configuration file is also provided in the root directory.
+For tests only
 
-Running the tests
+    composer test
 
-    phpunit
+For style checks only
+
+	composer cs
+
+For a full CI run
+
+	composer ci
 
 ## Usage
 
