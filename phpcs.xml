@@ -108,4 +108,10 @@
     </rule>
 
     <rule ref="Zend.Files.ClosingTag" />
+
+    <!-- For some reason PHPCS on TravisCI is not excluding PHP files
+     https://travis-ci.org/JeroenDeDauw/WikibaseQueryEngine/jobs/91467184 -->
+    <rule ref="Internal.NoCodeFound">
+        <severity>0</severity>
+    </rule>
 </ruleset>
