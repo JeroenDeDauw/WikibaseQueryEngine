@@ -45,14 +45,14 @@ class GlobeCoordinateHandler extends DataValueHandler {
 	 * @param Table $table
 	 */
 	protected function completeTable( Table $table ) {
-		$table->addColumn( 'value_globe',   Type::STRING, array( 'length' => 255, 'notnull' => false ) );
-		$table->addColumn( 'value_lat',     Type::FLOAT );
-		$table->addColumn( 'value_lon',     Type::FLOAT );
+		$table->addColumn( 'value_globe', Type::STRING, array( 'length' => 255, 'notnull' => false ) );
+		$table->addColumn( 'value_lat', Type::FLOAT );
+		$table->addColumn( 'value_lon', Type::FLOAT );
 		$table->addColumn( 'value_min_lat', Type::FLOAT );
 		$table->addColumn( 'value_max_lat', Type::FLOAT );
 		$table->addColumn( 'value_min_lon', Type::FLOAT );
 		$table->addColumn( 'value_max_lon', Type::FLOAT );
-		$table->addColumn( 'hash',          Type::STRING, array( 'length' => 32 ) );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => 32 ) );
 
 		// TODO: We still need to find out if combined indexes are better or not.
 		$table->addIndex( array( 'value_lon', 'value_lat' ) );

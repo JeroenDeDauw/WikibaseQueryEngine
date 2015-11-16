@@ -42,11 +42,11 @@ class IriHandler extends DataValueHandler {
 	 */
 	protected function completeTable( Table $table ) {
 		// TODO: figure out what the max field lengths should be
-		$table->addColumn( 'value_scheme',       Type::STRING, array( 'length' => 255 ) );
+		$table->addColumn( 'value_scheme', Type::STRING, array( 'length' => 255 ) );
 		$table->addColumn( 'value_hierarchical', Type::STRING, array( 'length' => 255 ) );
-		$table->addColumn( 'value_query',        Type::STRING, array( 'length' => 255 ) );
-		$table->addColumn( 'value_fragment',     Type::STRING, array( 'length' => 255 ) );
-		$table->addColumn( 'hash',               Type::STRING, array( 'length' => StringHasher::LENGTH ) );
+		$table->addColumn( 'value_query', Type::STRING, array( 'length' => 255 ) );
+		$table->addColumn( 'value_fragment', Type::STRING, array( 'length' => 255 ) );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => StringHasher::LENGTH ) );
 
 		// TODO: Is an index on the first 255 bytes/chars of each BLOB/CLOB column possible?
 		$table->addIndex( array( 'hash' ) );

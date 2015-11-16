@@ -41,9 +41,9 @@ class QuantityHandlerTest extends DataValueHandlerTest {
 	protected function getValues() {
 		$values = [];
 
-		foreach ( array( 0, -1/3, 2/3, 99 ) as $amount ) {
-			foreach ( array( 0, 1/7, 7 ) as $upperDelta ) {
-				foreach ( array( 0, -1/9, -9 ) as $lowerDelta ) {
+		foreach ( array( 0, -1 / 3, 2 / 3, 99 ) as $amount ) {
+			foreach ( array( 0, 1 / 7, 7 ) as $upperDelta ) {
+				foreach ( array( 0, -1 / 9, -9 ) as $lowerDelta ) {
 					$values[] = new QuantityValue(
 						new DecimalValue( $amount ),
 						'1',

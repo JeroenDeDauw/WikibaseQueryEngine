@@ -40,9 +40,9 @@ class GlobeCoordinateHandlerTest extends DataValueHandlerTest {
 	protected function getValues() {
 		$values = [];
 
-		foreach ( array( 0, -1/3, 2/3, 99 ) as $latitude ) {
-			foreach ( array( 0, -1/3, 2/3, 99 ) as $longitude ) {
-				foreach ( array( null, 0, 0.01/3, -1 ) as $precision ) {
+		foreach ( array( 0, -1 / 3, 2 / 3, 99 ) as $latitude ) {
+			foreach ( array( 0, -1 / 3, 2 / 3, 99 ) as $longitude ) {
+				foreach ( array( null, 0, 0.01 / 3, -1 ) as $precision ) {
 					foreach ( array( GlobeCoordinateValue::GLOBE_EARTH, 'Vulcan' ) as $globe ) {
 						$values[] = new GlobeCoordinateValue(
 							new LatLongValue( $latitude, $longitude ),

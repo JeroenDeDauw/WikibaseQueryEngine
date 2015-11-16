@@ -36,10 +36,10 @@ class TimeHandler extends DataValueHandler {
 	 */
 	protected function completeTable( Table $table ) {
 		// TODO: Do we need to store the precision, before, after, timezone and calendar model?
-		$table->addColumn( 'value_timestamp',     Type::BIGINT );
+		$table->addColumn( 'value_timestamp', Type::BIGINT );
 		$table->addColumn( 'value_min_timestamp', Type::BIGINT );
 		$table->addColumn( 'value_max_timestamp', Type::BIGINT );
-		$table->addColumn( 'hash',                Type::STRING, array( 'length' => 32 ) );
+		$table->addColumn( 'hash', Type::STRING, array( 'length' => 32 ) );
 
 		$table->addIndex( array( 'value_timestamp' ) );
 		$table->addIndex( array( 'value_min_timestamp' ) );

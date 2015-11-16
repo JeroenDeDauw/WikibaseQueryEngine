@@ -75,7 +75,7 @@ class SomePropertyInterpreter implements DescriptionInterpreter {
 		$queryPart->andWhere( 'property_id = :property_id' );
 		$queryPart->setParameter( ':property_id', $propertyId->getSerialization() );
 
-		
+
 		$this->queryBuilder->select( 'subject_id' )
 			->from( $dvHandler->getTableName() )
 			->orderBy( 'subject_id', 'ASC' );
