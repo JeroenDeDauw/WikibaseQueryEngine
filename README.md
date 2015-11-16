@@ -57,45 +57,6 @@ Running the tests
 
 ## Usage
 
-The public interfaces in this component are everything directly in the Wikibase\QueryEngine.
-Other classes and interfaces are typically package private, and should not be used or known
-about outside of the package. Each store implementation has its own list of additional public
-classes.
-
-### SQLStore
-
-Public classes of the SQLStore:
-
-Needed for construction:
-
-* SQLStore\SQLStore
-    * SQLStore\StoreSchema
-        * SQLStore\DataValueHandlers
-    * SQLStore\StoreConfig
-
-Needed for extension:
-
-* SQLStore\DataValueHandler
-
-Constructing an SQLStore:
-
-```php
-use Wikibase\QueryEngine\SQLStore\SQLStore;
-use Wikibase\QueryEngine\SQLStore\StoreSchema;
-use Wikibase\QueryEngine\SQLStore\StoreConfig;
-use Wikibase\QueryEngine\SQLStore\DataValueHandlers;
-use Wikibase\QueryEngine\SQLStore\DVHandler\NumberHandler;
-
-$dvHandlers = new DataValueHandlers();
-
-$dvHandlers->addMainSnakHandler( 'number', new NumberHandler() );
-
-$store = new Store(
-    new StoreSchema( 'table_prefix_', $dvHandlers ),
-    new StoreConfig( 'store name' )
-);
-```
-
 ## CLI
 
 To get a list of available CLI commands, execute this in the root directory:
