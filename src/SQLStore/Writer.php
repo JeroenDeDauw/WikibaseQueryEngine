@@ -56,13 +56,12 @@ class Writer implements QueryStoreWriter {
 		try {
 			$this->entityRemover->removeEntity( $entity );
 			$this->entityInserter->insertEntity( $entity );
+			$this->connection->commit();
 		}
-		catch ( QueryEngineException $ex ) {
+		catch ( \Exception $ex ) {
 			$this->connection->rollBack();
 			throw $ex;
 		}
-
-		$this->connection->commit();
 	}
 
 	/**

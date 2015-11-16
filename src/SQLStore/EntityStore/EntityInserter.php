@@ -30,13 +30,12 @@ class EntityInserter {
 
 		try {
 			$inserter->insertEntity( $entity );
+			$this->connection->commit();
 		}
-		catch ( QueryEngineException $ex ) {
+		catch ( \Exception $ex ) {
 			$this->connection->rollBack();
 			throw $ex;
 		}
-
-		$this->connection->commit();
 	}
 
 	/**
